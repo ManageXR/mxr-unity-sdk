@@ -1,0 +1,51 @@
+{
+    "appStatuses": {
+        "com.mightyimmersion.customlauncher.pico": {
+            "currentVersion": 20604,
+            "currentVersionName": "2.6.4",
+            "errorCode": 997,
+            "id": "lOsnQ7MrvMfPt7ccrSMl",
+            "message": "Unable to downgrade to an app with a lower Version Code.",
+            "nextVersion": 20603,
+            "nextVersionName": "2.6.3",
+            "packageName": "com.mightyimmersion.customlauncher.pico",
+            "progress": 0,
+            "status": "ERROR",
+            "timestamp": {
+                "nanoseconds": 406000000,
+                "seconds": 1655173182
+            },
+            "totalBytesDownloaded": 0,
+            "totalDownloadSize": 0
+        }
+    },
+    "currentForegroundApp": {
+        "className": "com.pvr.powercontrol.PxrPowerControlActivity",
+        "packageName": "com.pvr"
+    },
+    "deviceSystemVersionStatus": {
+        "currentVersion": "4.5.30",
+        "errorCode": 0,
+        "progress": 0,
+        "status": "UP_TO_DATE",
+        "totalBytesDownloaded": 0,
+        "totalDownloadSize": 0
+    },
+    "fileStatuses": {},
+    "lastCheckIn": {
+        "nanoseconds": 388000000,
+        "seconds": 1655173182
+    },
+    "lastUpdate": {
+        "nanoseconds": 785000000,
+        "seconds": 1655173202
+    },
+    "picoCvControllerUpdateAvailable": false,
+    "picoGuardianHasBeenOpened": true,
+    "previousForegroundApp": {
+        "className": "com.pvr.home.RecActivity",
+        "packageName": "com.pvr.home"
+    },
+    "serial": "PA7H10DGF4140021W",
+    "videoStatuses": {}
+}
