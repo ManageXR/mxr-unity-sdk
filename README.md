@@ -3,7 +3,7 @@ This repository contains the ManageXR Unity SDK that can be used to make custom 
 
 ## Installation  
 ### Via  Package Manager window  
-Go to `Window/Package Manager/` click the plus button in the top left corner and click on `Add package from git URL` and paste this `https://github.com/manageXR/mxr-unity-sdk#upm`
+Go to `Window/Package Manager/` click the plus button in the top left corner and click on `Add package from git URL` and paste this `https://github.com/manageXR/mxr-unity-sdk.git#upm`
   
 ### Via manifest.json  
 Go to your Unity project path/Packages/manifest.json  
