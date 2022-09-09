@@ -13,7 +13,7 @@ namespace MXR.SDK {
         public static string ExternalStorageDirectory {
             get {
                 if (Application.isEditor)
-                    return Application.dataPath.Replace("Assets", "Files");
+                    return "file://" + Application.dataPath.Replace("Assets", "Files");
                 else {
                     var path = new AndroidJavaClass("android.os.Environment")
                         .CallStatic<AndroidJavaObject>("getExternalStorageDirectory")

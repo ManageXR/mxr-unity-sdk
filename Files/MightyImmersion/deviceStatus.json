@@ -1,22 +1,22 @@
 {
     "appStatuses": {
-        "com.mightyimmersion.customlauncher.pico": {
-            "currentVersion": 20604,
-            "currentVersionName": "2.6.4",
-            "errorCode": 997,
-            "id": "lOsnQ7MrvMfPt7ccrSMl",
-            "message": "Unable to downgrade to an app with a lower Version Code.",
-            "nextVersion": 20603,
-            "nextVersionName": "2.6.3",
-            "packageName": "com.mightyimmersion.customlauncher.pico",
-            "progress": 0,
-            "status": "ERROR",
+        "com.mightyimmersion.demovr.1": {
+            "currentVersion": 0,
+            "currentVersionName": null,
+            "errorCode": 0,
+            "id": "VthKByCvCC",
+            "message": "",
+            "nextVersion": 100,
+            "nextVersionName": "1.0.0",
+            "packageName": "com.mightyimmersion.demovr.1",
+            "progress": 72,
+            "status": "DOWNLOADING",
             "timestamp": {
                 "nanoseconds": 406000000,
                 "seconds": 1655173182
             },
-            "totalBytesDownloaded": 0,
-            "totalDownloadSize": 0
+            "totalBytesDownloaded": 720000,
+            "totalDownloadSize": 1000000
         }
     },
     "currentForegroundApp": {
@@ -47,5 +47,21 @@
         "packageName": "com.pvr.home"
     },
     "serial": "PA7H10DGF4140021W",
-    "videoStatuses": {}
+    "videoStatuses": {
+        "eHtnJ48lW8yJPajsQdwi": {
+            "currentVersion": 0,
+            "currentVersionName": null,
+            "errorCode": 0,
+            "id": "eHtnJ48lW8yJPajsQdwi",
+            "message": "",
+            "progress": 22,
+            "status": "DOWNLOADING",
+            "timestamp": {
+                "nanoseconds": 406000000,
+                "seconds": 1655173182
+            },
+            "totalBytesDownloaded": 220000,
+            "totalDownloadSize": 1000000
+        }
+    }
 }
