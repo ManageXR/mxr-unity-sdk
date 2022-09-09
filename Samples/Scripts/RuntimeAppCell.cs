@@ -22,12 +22,12 @@ namespace MXR.SDK.Samples {
             // video.iconUrl to download the icon from a server.
             ImageDownloader.New().Download(MXRStorage.GetFullPath(app.iconPath),
                 x => {
+                    icon.enabled = true;
                     if (x == null) {
                         icon.sprite = defaultIcon;
                         return;
                     }
 
-                    icon.enabled = true;
                     icon.sprite = Sprite.Create(x, new Rect(0, 0, x.width, x.height), Vector2.one / 2);
                     icon.preserveAspect = true;
                 }

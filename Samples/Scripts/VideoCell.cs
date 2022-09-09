@@ -20,12 +20,12 @@ namespace MXR.SDK.Samples {
             // video.iconUrl to download the icon from a server.
             ImageDownloader.New().Download(MXRStorage.GetFullPath(video.iconPath),
                 x => {
+                    icon.enabled = true;
                     if (x == null) {
                         icon.sprite = defaultIcon;
                         return;
                     }
 
-                    icon.enabled = true;
                     icon.sprite = Sprite.Create(x, new Rect(0, 0, x.width, x.height), Vector2.one / 2);
                     icon.preserveAspect = true;
                 }
@@ -63,7 +63,7 @@ namespace MXR.SDK.Samples {
         }
 
         public void OnClick() {
-            Debug.Log($"Play Video titles {video.title} from {MXRStorage.GetFullPath(video.videoPath)}");
+            Debug.Log($"Play Video titled {video.title} from {MXRStorage.GetFullPath(video.videoPath)}");
         }
     }
 }

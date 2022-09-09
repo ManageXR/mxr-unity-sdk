@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657815, g: 0.49641192, b: 0.57481617, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2095,7 +2095,7 @@ GameObject:
   - component: {fileID: 567251393}
   - component: {fileID: 567251392}
   m_Layer: 0
-  m_Name: Type (2)
+  m_Name: Type
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2173,7 +2173,7 @@ GameObject:
   - component: {fileID: 568575343}
   - component: {fileID: 568575342}
   m_Layer: 0
-  m_Name: Title (2)
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3027,7 +3027,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.005645752, y: 0}
+  m_AnchoredPosition: {x: 0.0056152344, y: 0}
   m_SizeDelta: {x: -0.0010986328, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &742140688
@@ -3538,7 +3538,7 @@ GameObject:
   - component: {fileID: 912482495}
   - component: {fileID: 912482494}
   m_Layer: 0
-  m_Name: Type (2)
+  m_Name: Type
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3850,7 +3850,7 @@ GameObject:
   - component: {fileID: 950600777}
   - component: {fileID: 950600776}
   m_Layer: 0
-  m_Name: Type (2)
+  m_Name: Type
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3928,7 +3928,7 @@ GameObject:
   - component: {fileID: 1023430579}
   - component: {fileID: 1023430578}
   m_Layer: 0
-  m_Name: Title (2)
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4196,7 +4196,7 @@ GameObject:
   - component: {fileID: 1129012335}
   - component: {fileID: 1129012334}
   m_Layer: 0
-  m_Name: Status (2)
+  m_Name: Status
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4244,10 +4244,10 @@ MonoBehaviour:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 20
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 2
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -4274,7 +4274,7 @@ GameObject:
   - component: {fileID: 1131223402}
   - component: {fileID: 1131223401}
   m_Layer: 0
-  m_Name: Title (2)
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7625,7 +7625,7 @@ GameObject:
   - component: {fileID: 2068191637}
   - component: {fileID: 2068191636}
   m_Layer: 0
-  m_Name: Status (2)
+  m_Name: Status
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7673,10 +7673,10 @@ MonoBehaviour:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 20
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 2
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -9376,7 +9376,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7165364413399122219}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.000015495}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7165364412513615341}
@@ -9385,10 +9385,10 @@ RectTransform:
   m_Father: {fileID: 715976987}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0025482, y: -0.00006485}
-  m_SizeDelta: {x: 836.0051, y: 469.99988}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -0.000015258789, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7165364413399122219
 GameObject:
