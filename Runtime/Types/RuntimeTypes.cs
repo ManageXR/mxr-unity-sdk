@@ -11,7 +11,7 @@ namespace MXR.SDK {
     [Serializable]
     public class RuntimeSettingsSummary {
         /// <summary>
-        /// Settings ID
+        /// Device ID
         /// </summary>
         public string id;
 
