@@ -10,7 +10,7 @@ namespace MXR.SDK {
         /// <summary>
         /// The device's serial number
         /// </summary>
-        public string serial;
+        public string serial = "";
 
         /// <summary>
         /// The <see cref="AppInstallStatus"/> for applications for this device
@@ -35,7 +35,6 @@ namespace MXR.SDK {
         public Dictionary<string, FileInstallStatus> fileStatuses = new Dictionary<string, FileInstallStatus>();
         public Timestamp lastCheckIn = new Timestamp();
         public Timestamp lastUpdate = new Timestamp();
-        public string serial = "";
         
         /// <summary>
         /// Returns the <see cref="FileInstallStatus"/> for a <see cref="Video"/>
