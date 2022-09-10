@@ -180,7 +180,7 @@ namespace MXR.SDK {
         }
 
         string GetFilePath(string fileName) {
-            return Path.Combine(Application.dataPath.Replace("Assets", "Files/MightyImmersion"), fileName);
+            return Path.Combine("Assets", "MXR.SDK", "Runtime", "Editor", "Files", "MightyImmersion", fileName);
         }
     }
 }

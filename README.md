@@ -11,8 +11,6 @@ Go to `Window/Package Manager/` click the plus button in the top left corner and
 Go to your Unity project path/Packages/manifest.json  
 Add `"com.mxr.unity.sdk" : https://github.com/managexr/mxr-unity-sdk.git#upm` under the `dependencies` object
   
-Next, Copy the `Files/MightyImmersion` folder in your Unity project. The `Files` directory should be next to the `Assets` like in this repository with the `MightyImmersion` directory inside. This will allow you to test the SDK in the editor.
-  
 ## Usage  
 The SDK uses `IMXRSystem` to communicate with the system layer. It provides methods, events, properties to observe, query and invoke operations in the ManageXR Admin/System.
 
@@ -22,11 +20,11 @@ The `MXRSystem` relays information to your app through a few different value cla
 
 - `MXRSystem.RuntimeSettingsSummary` contains all information about the device and its current configuration. This will include information about all of the apps, files, and settings that are deployed to this device. 
    - See `Assets/MXR.SDK/Runtime/Types/RuntimeTypes.cs` for full code documentation of this type and the data included in it. 
-   - See `Files/MightyImmersion/runtimeSettingsSummary.json` for an example of this data in json format. (Note: You can edit this json file and its data will be reflected in the Sample Scene in realtime when run in the editor)
+   - See `Assets/MXR.SDK/Runtime/Editor/Files/MightyImmersion/runtimeSettingsSummary.json` for an example of this data in json format. (Note: You can edit this json file and its data will be reflected in the Sample Scene in realtime when run in the editor)
    - You may subscribe to realtime changes of this data with `MXRManager.System.OnRuntimeSettingsSummaryChange += OnRuntimeSettingsSummaryChange;`
 - `MXRSystem.DeviceStatus` contains all information about the device's current status. This includes the device's serial number and statuses of apps/files that are currently being downloaded (including download progress). 
    - See `Assets/MXR.SDK/Runtime/Types/StatusTypes.cs` for full code documentation of this type and the data included in it. 
-   - See `Files/MightyImmersion/deviceStatus.json` for an example of this data in json format. (Note: You can edit this json file and its data will be reflected in the Sample Scene in realtime when run in the editor)
+   - See `Assets/MXR.SDK/Runtime/Editor/Files/MightyImmersion/deviceStatus.json` for an example of this data in json format. (Note: You can edit this json file and its data will be reflected in the Sample Scene in realtime when run in the editor)
    - You may subscribe to realtime  changes of this data with `MXRManager.System.OnDeviceStatusChange += OnDeviceStatusChange;`
   
 See `Assets/MXR.SDK/Samples/Scripts/LibraryPanel.cs` as an example of how to initialize the MXRSystem and subscribe to changes.
