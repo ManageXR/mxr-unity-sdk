@@ -1,7 +1,7 @@
 > ⚠️ This SDK is in alpha testing. We appreciate your patience while we continue to improve this SDK. Please report any issues via GitHub.
 
 # ManageXR Unity SDK
-This repository contains the ManageXR Unity SDK that can be used to make custom homescreens in Unity for Android based VR headsets.
+This repository contains the ManageXR Unity SDK that enables your app to communicate with the ManageXR Admin App running on your device. With the data that you can query from the SDK/Admin App, you'll be able to get details about your device, its ManageXR configuration, current status of app downloads, and much more. This SDK drives the ManageXR Home Screen, meaning you can use this to make your own custom homescreens from the ground up!
 
 ## Installation  
 First, install the SDK package in your Unity project. The suggested methods are:
