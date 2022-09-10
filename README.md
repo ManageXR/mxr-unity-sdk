@@ -1,7 +1,20 @@
 > ⚠️ This SDK is in alpha testing. We appreciate your patience while we continue to improve this SDK. Please report any issues via GitHub.
 
 # ManageXR Unity SDK
-This repository contains the ManageXR Unity SDK that enables your app to communicate with the ManageXR Admin App running on your device. With the data that you can query from the SDK/Admin App, you'll be able to get details about your device, its ManageXR configuration, current status of app downloads, and much more. This SDK drives the ManageXR Home Screen, meaning you can use this to make your own custom homescreens from the ground up!
+
+The ManageXR Unity SDK enables developers to query device status information from the ManageXR Admin App running on your device, including:
+- Device Serial Number
+- Device Name, Configuration, Tags, etc.
+- VR Content library details
+- VR Content update download/install status
+
+This SDK drives the ManageXR Home Screen, meaning you can use this to make your own custom home screen from the ground up!
+
+Example usages of this SDK:
+
+- Create your own Home Screen
+- Update users in-headset when an update for you app is downloading/available
+- Use device serial / details to augment your app's analytics reporting
 
 ## Installation  
 First, install the SDK package in your Unity project. The suggested methods are:
