@@ -12,7 +12,7 @@ namespace MXR.SDK {
     /// Allows testing the application/integration in the editor.
     /// </summary>
     public class MXREditorSystem : MonoBehaviour, IMXRSystem {
-        public float frequency = 1;
+        public float syncFrequency = 1;
 
         public ScannedWifiNetwork CurrentNetwork { get; private set; }
 
@@ -175,7 +175,7 @@ namespace MXR.SDK {
         IEnumerator ManualUpdate() {
             while(true) {
                 Sync();
-                yield return new WaitForSeconds(frequency);
+                yield return new WaitForSeconds(syncFrequency);
             }
         }
 
