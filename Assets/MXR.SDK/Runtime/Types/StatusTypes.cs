@@ -8,8 +8,13 @@ namespace MXR.SDK {
     [System.Serializable]
     public class DeviceStatus {
         /// <summary>
+        /// The device's serial number
+        /// </summary>
+        public string serial;
+
+        /// <summary>
         /// The <see cref="AppInstallStatus"/> for applications for this device
-        /// The key(string) is the <see cref="Content.id"/> of <see cref="RuntimeApp"/>
+        /// The key(string) is the <see cref="RuntimeApp.packageName"/> of <see cref="RuntimeApp"/>
         /// </summary>
         public Dictionary<string, AppInstallStatus> appStatuses = new Dictionary<string, AppInstallStatus>();
 
