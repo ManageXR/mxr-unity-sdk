@@ -1,0 +1,1 @@
+Branding images such as top logo, bottom logo and background 360 images

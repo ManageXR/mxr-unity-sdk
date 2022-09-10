@@ -1,0 +1,176 @@
+{
+  "androidDeviceGlobalSettings": {},
+  "androidDeviceSecureSettings": {},
+  "androidDeviceSystemSettings": {},
+  "androidUserRestrictions": {},
+  "apps": {
+    "com.mightyimmersion.demovr.1": {
+      "autoGrantPermissions": true,
+      "categories": [],
+      "forceInstall": false,
+      "hidden": false,
+      "iconUrl": "https://firebasestorage.googleapis.com/v0/b/mighty-platform-prod.appspot.com/o/public%2FdefaultIcon.png?alt\u003dmedia\u0026token\u003d6d588e59-0ec4-4ffc-bf16-0764cd70f89a",
+      "id": "VthKByCvCC",
+      "launchParams": {},
+      "organizationId": "testOrg",
+      "sortOrder": 1,
+      "sortPriority": 0,
+      "title": "Demo App 1",
+      "versionCode": 100,
+      "versionName": "1.0",
+      "packageName": "com.mightyimmersion.demovr.1",
+      "iconPath": "/MightyImmersion/icons/com.mightyimmersion.demovr.1"
+    },
+    "com.mightyimmersion.demovr.2": {
+      "autoGrantPermissions": true,
+      "categories": [],
+      "forceInstall": false,
+      "hidden": false,
+      "iconUrl": "https://firebasestorage.googleapis.com/v0/b/mighty-platform-prod.appspot.com/o/public%2FdefaultIcon.png?alt\u003dmedia\u0026token\u003d6d588e59-0ec4-4ffc-bf16-0764cd70f89a",
+      "id": "VthKByCvBB",
+      "launchParams": {},
+      "organizationId": "testOrg",
+      "sortOrder": 1,
+      "sortPriority": 0,
+      "title": "Demo App 2",
+      "versionCode": 100,
+      "versionName": "1.0",
+      "packageName": "com.mightyimmersion.demovr.2",
+      "iconPath": "/MightyImmersion/icons/com.mightyimmersion.demovr.2"
+    },
+    "com.mightyimmersion.demovr.3": {
+      "autoGrantPermissions": true,
+      "categories": [],
+      "forceInstall": false,
+      "hidden": false,
+      "iconUrl": "https://firebasestorage.googleapis.com/v0/b/mighty-platform-prod.appspot.com/o/public%2FdefaultIcon.png?alt\u003dmedia\u0026token\u003d6d588e59-0ec4-4ffc-bf16-0764cd70f89a",
+      "id": "VthKByCvAA",
+      "launchParams": {},
+      "organizationId": "testOrg",
+      "sortOrder": 1,
+      "sortPriority": 0,
+      "title": "Demo App 3",
+      "versionCode": 100,
+      "versionName": "1.0",
+      "packageName": "com.mightyimmersion.demovr.3",
+      "iconPath": "/MightyImmersion/icons/com.mightyimmersion.demovr.3"
+    }
+  },
+  "blocklistApps": [],
+  "certificates": {},
+  "configuration": {
+    "id": "VthKByCvED",
+    "name": "Demo Configuration"
+  },
+  "customLauncherSettings": {
+    "adminPin": "5112",
+    "backgroundFile": {
+      "id": "ynFFjtR8dAWVA2pmHuYj8/r8cLq326oLWxu3C4aHY0A",
+      "name": "Custom Launcher Background Image",
+      "path": "/MightyImmersion/branding/background",
+      "type": "BRANDING"
+    },
+    "bottomLogoFile": {
+      "id": "QdPU6fcVBHMwYeV3CEvYqK0OK5x88cEgAczz+UaU7ts",
+      "name": "Custom Launcher Bottom Logo Image",
+      "path": "/MightyImmersion/branding/bottomLogo",
+      "type": "BRANDING"
+    },
+    "colors": {
+      "input": "#D8DAFF",
+      "buttonPrimary": "#D188E1",
+      "alert": "#FF746B",
+      "success": "#9FEC7C",
+      "buttonPrimaryText": "#ffffff",
+      "menuBackground": "#8081A7",
+      "inputText": "#404053",
+      "buttonSecondary": "#79BFE0",
+      "buttonSecondaryText": "#FFFFFF",
+      "menuText": "#F9F9FF"
+    },
+    "hiddenSettings": {},
+    "topLogoFile": {
+      "id": "At6Hus5l4qlAjA5hbtkNgbFEs+9D8ZEo02xh7JoCnIo",
+      "name": "Custom Launcher Top Logo Image",
+      "path": "/MightyImmersion/branding/topLogo",
+      "type": "BRANDING"
+    }
+  },
+  "deviceName": "Demo Device",
+  "featureFlags": [],
+  "files": {},
+  "firstTimeUseFilePaths": [],
+  "firstTimeUseModeEnabled": false,
+  "id": "VthKByCvDD",
+  "kioskApp": {
+    "autoGrantPermissions": true,
+    "categories": [],
+    "forceInstall": false,
+    "hidden": false,
+    "iconUrl": "https://firebasestorage.googleapis.com/v0/b/mighty-platform-prod.appspot.com/o/public%2FdefaultIcon.png?alt\u003dmedia\u0026token\u003d6d588e59-0ec4-4ffc-bf16-0764cd70f89a",
+    "id": "VthKByCvAA",
+    "launchParams": {},
+    "organizationId": "testOrg",
+    "sortOrder": 1,
+    "sortPriority": 0,
+    "title": "Demo App 1",
+    "versionCode": 100,
+    "versionName": "1.0",
+    "packageName": "com.mightyimmersion.demovr.3",
+    "iconPath": "/MightyImmersion/icons/com.mightyimmersion.demovr.3"
+  },
+  "kioskModeEnabled": true,
+  "organization": {
+    "id": "testOrg",
+    "name": "Test Org"
+  },
+  "systemProperties": {},
+  "systemUpdateType": "USER_INITIATED",
+  "videos": {
+    "eHtnJ48lW8yJPajsQdwi": {
+      "display": "MONO",
+      "mapping": "EQUIRECTANGULAR",
+      "packing": "NONE",
+      "type": "_360",
+      "categories": ["video"],
+      "hidden": false,
+      "iconUrl": "https://firebasestorage.googleapis.com/v0/b/mighty-platform-prod.appspot.com/o/public%2FdefaultIcon.png?alt\u003dmedia\u0026token\u003d6d588e59-0ec4-4ffc-bf16-0764cd70f89a",
+      "id": "eHtnJ48lW8yJPajsQdwi",
+      "organizationId": "testOrg",
+      "sortOrder": 10,
+      "title": "360 Video",
+      "videoPath": "/MightyImmersion/videos/eHtnJ48lW8yJPajsQdwi",
+      "iconPath": "/MightyImmersion/icons/video_eHtnJ48lW8yJPajsQdwi"
+    },
+    "N6BBymnU5ttZoe2BPVo3": {
+      "display": "MONO",
+      "mapping": "EQUIRECTANGULAR",
+      "packing": "NONE",
+      "type": "_180",
+      "categories": [],
+      "hidden": false,
+      "iconUrl": "https://firebasestorage.googleapis.com/v0/b/mighty-platform-prod.appspot.com/o/public%2FdefaultIcon.png?alt\u003dmedia\u0026token\u003d6d588e59-0ec4-4ffc-bf16-0764cd70f89a",
+      "id": "N6BBymnU5ttZoe2BPVo3",
+      "organizationId": "testOrg",
+      "sortOrder": 8,
+      "title": "180 Video",
+      "videoPath": "/MightyImmersion/videos/N6BBymnU5ttZoe2BPVo3",
+      "iconPath": "/MightyImmersion/icons/video_N6BBymnU5ttZoe2BPVo3"
+    }
+  },
+  "webXRApps": {
+    "c7cNAkgJaWXvUCsOv3rr": {
+      "url": "https://brushworkvr.com/paint",
+      "categories": [],
+      "description": "A web XR App for testing",
+      "hidden": false,
+      "iconUrl": "https://firebasestorage.googleapis.com/v0/b/mighty-platform-prod.appspot.com/o/public%2FdefaultIcon.png?alt\u003dmedia\u0026token\u003d6d588e59-0ec4-4ffc-bf16-0764cd70f89a",
+      "id": "c7cNAkgJaWXvUCsOv3rr",
+      "organizationId": "testOrg",
+      "sortOrder": 99999,
+      "title": "Web XR App",
+      "iconPath": "/MightyImmersion/icons/webxrapp_c7cNAkgJaWXvUCsOv3rr"
+    }
+  },
+  "wifiNetworks": {}
+}
