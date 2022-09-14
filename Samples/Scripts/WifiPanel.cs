@@ -50,6 +50,10 @@ namespace MXR.SDK.Samples {
             text.text = value.ToString();
         }
 
+        void Awake() {
+            MXRManager.Init();
+        }
+
         void Start() {
             wifiSsidTemplate.gameObject.SetActive(false);
             MXRManager.Init();
