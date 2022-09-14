@@ -2,7 +2,7 @@
 
 namespace MXR.SDK {
     [System.Serializable]
-    public abstract class Content {
+    public class Content {
         public string id;
         public string title;
         public List<string> categories = new List<string>();

@@ -1,5 +1,5 @@
 {
-  "wifiIsEnabled": false,
+  "wifiIsEnabled": true,
   "ssid": "Network 3",
   "state": 0,
   "hasInternetAccess": false,

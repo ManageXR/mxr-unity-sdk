@@ -14,14 +14,16 @@ namespace MXR.SDK.Samples {
         List<VideoCell> videoCells = new List<VideoCell>();
         List<RuntimeAppCell> appCells = new List<RuntimeAppCell>();
 
+        void Awake() {
+            MXRManager.Init();
+        }
+
         void Start() {
             // Disable the cell template gameobjects
             appCellTemplate.gameObject.SetActive(false);
             webXRAppCellTemplate.gameObject.SetActive(false);
             videoCellTemplate.gameObject.SetActive(false);
 
-            // Initialize the MXRManager
-            MXRManager.Init();
             DestroyContentCells();
             InstantiateContentCells();
 
