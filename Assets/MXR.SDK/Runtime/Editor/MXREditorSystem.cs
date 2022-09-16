@@ -61,7 +61,7 @@ namespace MXR.SDK {
                 return null;
             }
             private set {
-                if(value == null) {
+                if (value == null) {
                     WifiConnectionStatus.ssid = string.Empty;
                     WriteWifiConnectionStatus();
                     return;
@@ -79,7 +79,7 @@ namespace MXR.SDK {
         public RuntimeSettingsSummary RuntimeSettingsSummary { get; private set; }
         public WifiConnectionStatus WifiConnectionStatus { get; private set; }
         public List<ScannedWifiNetwork> WifiNetworks { get; private set; }
-        
+
         // INTERFACE EVENTS
         public event Action<DeviceStatus> OnDeviceStatusChange;
         public event Action<RuntimeSettingsSummary> OnRuntimeSettingsSummaryChange;
@@ -135,33 +135,61 @@ namespace MXR.SDK {
 
         string lastRuntimeSettingsSummaryJson = string.Empty;
         public void RefreshRuntimeSettings() {
-            if (TryRefresh("runtimeSettingsSummary.json", ref lastRuntimeSettingsSummaryJson, out RuntimeSettingsSummary summary)) {
-                RuntimeSettingsSummary = summary;
-                OnRuntimeSettingsSummaryChange?.Invoke(summary);
+            try {
+                if (TryRefresh("runtimeSettingsSummary.json", ref lastRuntimeSettingsSummaryJson, out RuntimeSettingsSummary summary)) {
+                    RuntimeSettingsSummary = summary;
+                    OnRuntimeSettingsSummaryChange?.Invoke(summary);
+                }
+            }
+            catch {
+                if (RuntimeSettingsSummary != null)
+                    OnWifiNetworksChange?.Invoke(null);
+                RuntimeSettingsSummary = null;
             }
         }
 
         string lastDeviceStatus = string.Empty;
         public void RefreshDeviceStatus() {
-            if (TryRefresh("deviceStatus.json", ref lastDeviceStatus, out DeviceStatus status)) {
-                DeviceStatus = status;
-                OnDeviceStatusChange?.Invoke(status);
+            try {
+                if (TryRefresh("deviceStatus.json", ref lastDeviceStatus, out DeviceStatus status)) {
+                    DeviceStatus = status;
+                    OnDeviceStatusChange?.Invoke(status);
+                }
+            }
+            catch {
+                if (DeviceStatus != null)
+                    OnDeviceStatusChange?.Invoke(null);
+                DeviceStatus = null;
             }
         }
 
         string lastWifiNetworksJson = string.Empty;
         public void RefreshWifiNetworks() {
-            if (TryRefresh("wifiNetworks.json", ref lastWifiNetworksJson, out List<ScannedWifiNetwork> networks)) {
-                WifiNetworks = networks;
-                OnWifiNetworksChange?.Invoke(networks);
+            try {
+                if (TryRefresh("wifiNetworks.json", ref lastWifiNetworksJson, out List<ScannedWifiNetwork> networks)) {
+                    WifiNetworks = networks;
+                    OnWifiNetworksChange?.Invoke(networks);
+                }
+            }
+            catch {
+                if (WifiNetworks != null)
+                    OnWifiNetworksChange?.Invoke(null);
+                WifiNetworks = null;
             }
         }
 
         string lastWifiConnectionStatusJson = string.Empty;
         public void RefreshWifiConnectionStatus() {
-            if(TryRefresh("wifiConnectionStatus.json", ref lastWifiConnectionStatusJson, out WifiConnectionStatus status)) {
-                WifiConnectionStatus = status;
-                OnWifiConnectionStatusChange?.Invoke(status);
+            try {
+                if (TryRefresh("wifiConnectionStatus.json", ref lastWifiConnectionStatusJson, out WifiConnectionStatus status)) {
+                    WifiConnectionStatus = status;
+                    OnWifiConnectionStatusChange?.Invoke(status);
+                }
+            }
+            catch {
+                if (WifiConnectionStatus != null)
+                    OnWifiConnectionStatusChange?.Invoke(null);
+                WifiConnectionStatus = null;
             }
         }
 
@@ -191,8 +219,7 @@ namespace MXR.SDK {
             }
             catch (JsonReaderException e) {
                 Debug.Log($"Error reading json {e}. Skipping...");
-                serialized = default;
-                return false;
+                throw new Exception($"Error reading json {e}. Skipping...");
             }
         }
 
@@ -201,9 +228,9 @@ namespace MXR.SDK {
             var json = JsonConvert.SerializeObject(RuntimeSettingsSummary);
             File.WriteAllText(path, json);
         }
-        
+
         void WriteWifiConnectionStatus() {
-            string path = GetFilePath("wifiConnectionStatus.json"); 
+            string path = GetFilePath("wifiConnectionStatus.json");
             var json = JsonConvert.SerializeObject(WifiConnectionStatus);
             File.WriteAllText(path, json);
         }
@@ -211,10 +238,10 @@ namespace MXR.SDK {
         string GetFilePath(string fileName) {
             var filesPath = Path.Combine(Application.dataPath.Replace("Assets", "Files"));
             if (!Directory.Exists(filesPath))
-                throw new DirectoryNotFoundException(filesPath);
+                throw new DirectoryNotFoundException("Ensure Files/ directory inside Unity project");
             var mightyDir = Path.Combine(filesPath, "MightyImmersion");
             if (!Directory.Exists(mightyDir))
-                throw new DirectoryNotFoundException(mightyDir);
+                throw new DirectoryNotFoundException("Ensure Files/MightyImmersion directory inside Unity project");
             return Path.Combine(mightyDir, fileName);
         }
         #endregion

@@ -22,6 +22,8 @@ namespace MXR.SDK.Samples {
             // video.iconUrl to download the icon from a server.
             ImageDownloader.New().Download(MXRStorage.GetFullPath(app.iconPath),
                 x => {
+                    if (isBeingDestroyed) return;
+
                     icon.enabled = true;
                     if (x == null) {
                         icon.sprite = defaultIcon;
@@ -85,6 +87,11 @@ namespace MXR.SDK.Samples {
             Debug.Log("Open App " + app.title);
             if (Application.platform == RuntimePlatform.Android)
                 MXRAndroidUtils.LaunchRuntimeApp(app);
+        }
+
+        bool isBeingDestroyed = false;
+        void OnDestroy() {
+            isBeingDestroyed = true;
         }
     }
 }

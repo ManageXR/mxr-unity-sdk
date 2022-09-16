@@ -34,6 +34,8 @@ namespace MXR.SDK.Samples {
         public Text capabilities;
         public Text networkSecurityType;
         public Text captivePortalUrl;
+        public GameObject errPanel;
+        public Text errLabel;
 
         public void ToggleWifi() {
             if (MXRManager.System.WifiConnectionStatus.wifiIsEnabled)
@@ -66,7 +68,7 @@ namespace MXR.SDK.Samples {
         }
 
         List<Text> wifiSsidInstances = new List<Text>();
-        private void OnWifiNetworksChange(List<ScannedWifiNetwork> obj) {
+        void OnWifiNetworksChange(List<ScannedWifiNetwork> obj) {
             foreach (var instance in wifiSsidInstances)
                 Destroy(instance.gameObject);
             wifiSsidInstances.Clear();
