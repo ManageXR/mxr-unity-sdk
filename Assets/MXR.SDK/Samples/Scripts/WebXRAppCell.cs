@@ -16,6 +16,8 @@ namespace MXR.SDK.Samples {
             // video.iconUrl to download the icon from a server.
             ImageDownloader.New().Download(MXRStorage.GetFullPath(site.iconPath),
                 x => {
+                    if (isBeingDestroyed) return;
+
                     if (x == null) {
                         icon.sprite = defaultIcon;
                         return;
@@ -33,6 +35,11 @@ namespace MXR.SDK.Samples {
                 Debug.Log("Open URL " + site.url);
                 Application.OpenURL(site.url);
             }
+        }
+
+        bool isBeingDestroyed = false;
+        void OnDestroy() {
+            isBeingDestroyed = true;
         }
     }
 }
