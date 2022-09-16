@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace MXR.SDK.Samples {
     public class LibraryPanel : MonoBehaviour {
@@ -9,6 +10,8 @@ namespace MXR.SDK.Samples {
         [SerializeField] RuntimeAppCell appCellTemplate;
         [SerializeField] WebXRAppCell webXRAppCellTemplate;
         [SerializeField] VideoCell videoCellTemplate;
+        [SerializeField] GameObject errPanel;
+        [SerializeField] Text errLabel;
 
         List<WebXRAppCell> webXRAppCells = new List<WebXRAppCell>();
         List<VideoCell> videoCells = new List<VideoCell>();
@@ -24,8 +27,8 @@ namespace MXR.SDK.Samples {
             webXRAppCellTemplate.gameObject.SetActive(false);
             videoCellTemplate.gameObject.SetActive(false);
 
-            DestroyContentCells();
-            InstantiateContentCells();
+            OnRuntimeSettingsSummaryChange(MXRManager.System.RuntimeSettingsSummary);
+            OnDeviceStatusChange(MXRManager.System.DeviceStatus);
 
             MXRManager.System.OnRuntimeSettingsSummaryChange += OnRuntimeSettingsSummaryChange;
             MXRManager.System.OnDeviceStatusChange += OnDeviceStatusChange;
@@ -36,12 +39,12 @@ namespace MXR.SDK.Samples {
             MXRManager.System.OnDeviceStatusChange -= OnDeviceStatusChange;
         }
 
-        void OnRuntimeSettingsSummaryChange(RuntimeSettingsSummary runtime) {
+        void OnRuntimeSettingsSummaryChange(RuntimeSettingsSummary obj) {
             DestroyContentCells();
             InstantiateContentCells();
         }
 
-        void OnDeviceStatusChange(DeviceStatus device) {
+        void OnDeviceStatusChange(DeviceStatus obj) {
             DestroyContentCells();
             InstantiateContentCells();
         }
