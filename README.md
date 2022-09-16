@@ -17,14 +17,26 @@ Example usages of this SDK:
 - Use device serial / details to augment your app's analytics reporting
 
 ## Installation  
-First, install the SDK package in your Unity project. The suggested methods are:
+1. Install the SDK package in your Unity project. The suggested methods are:
   
-### Via  Package Manager window  
-Go to `Window/Package Manager/` click the plus button in the top left corner and click on `Add package from git URL` and paste this `https://github.com/manageXR/mxr-unity-sdk.git#upm`
+   ### _Via  Package Manager window_  
+   Go to `Window/Package Manager/` click the plus button in the top left corner and click on `Add package from git URL` and paste this `https://github.com/manageXR/mxr-unity-sdk.git#upm`
   
-### Via manifest.json  
-Go to your Unity project path/Packages/manifest.json  
-Add `"com.mxr.unity.sdk" : https://github.com/managexr/mxr-unity-sdk.git#upm` under the `dependencies` object
+   ### _Via manifest.json_  
+   Go to your Unity project path/Packages/manifest.json  
+   Add `"com.mxr.unity.sdk" : "https://github.com/managexr/mxr-unity-sdk.git#upm"` under the `dependencies` object
+
+1. Setup MXR files for Unity Editor testing.  
+   - Go to `Library/PackageCache/com.mxr.unity.sdk@x.x.x/` directory in your Unity project.    
+   - Extract the `Files/` directory at the root of your Unity project. Your project structure should then look like this:  
+```
+      <Unity Project Directory>  
+      └── Assets
+      └── Files  
+            └── MightyImmersion  
+      └── Library  
+      └── ...
+```
   
 ## Usage  
 The SDK uses `IMXRSystem` to communicate with the system layer. It provides methods, events, properties to observe, query and invoke operations in the ManageXR Admin/System.
