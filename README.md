@@ -27,8 +27,7 @@ Example usages of this SDK:
    Add `"com.mxr.unity.sdk" : "https://github.com/managexr/mxr-unity-sdk.git#upm"` under the `dependencies` object
 
 1. Setup MXR files for Unity Editor testing.  
-   - Go to `Library/PackageCache/com.mxr.unity.sdk@x.x.x/` directory in your Unity project.    
-   - Extract the `Files/` directory at the root of your Unity project. Your project structure should then look like this:  
+   - Go to `Library/PackageCache/com.mxr.unity.sdk@x.x.x/` directory in your Unity project and extract `Files.zip` to the root of your Unity project. Your project structure should then look like this:  
 ```
       <Unity Project Directory>  
       └── Assets
