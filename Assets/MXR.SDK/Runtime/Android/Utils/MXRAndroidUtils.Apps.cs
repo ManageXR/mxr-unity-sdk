@@ -34,15 +34,13 @@ namespace MXR.SDK {
         }
 
         public static void LaunchAppWithPackageName(string packageName) {
-            if (Plugin != null) {
+            if (Plugin != null) 
                 Plugin.Call<bool>("launchApp", packageName);
-            }
         }
 
         public static void LaunchAppWithPackageAndClassNames(string packageName, string className) {
-            if (Plugin != null) {
+            if (Plugin != null) 
                 Plugin.Call<bool>("launchAppWithClass", packageName, className);
-            }
         }
 
         public static void LaunchAppWithIntentAction(string intentAction) {

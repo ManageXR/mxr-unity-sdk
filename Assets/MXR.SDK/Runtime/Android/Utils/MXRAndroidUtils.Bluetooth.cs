@@ -1,4 +1,6 @@
-﻿namespace MXR.SDK {
+﻿using UnityEngine;
+
+namespace MXR.SDK {
     public static partial class MXRAndroidUtils {
         /// <summary>
         /// Open Android Bluetooth settings

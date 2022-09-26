@@ -5,13 +5,10 @@ namespace MXR.SDK {
         static AndroidJavaObject currentActivity;
         public static AndroidJavaObject CurrentActivity {
             get {
-                if (Application.platform == RuntimePlatform.Android) {
-                    if (currentActivity != null) return plugin;
-                    AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-                    currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-                    return currentActivity;
-                }
-                return null;
+                if (currentActivity != null) return currentActivity;
+                AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+                currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+                return currentActivity;
             }
         }
 

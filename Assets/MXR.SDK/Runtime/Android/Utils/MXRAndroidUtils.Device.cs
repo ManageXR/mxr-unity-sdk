@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace MXR.SDK {
     public static partial class MXRAndroidUtils {
-        static readonly List<string> picoG2Models = new List<string> { "Pico G2", "Pico G2 4K" };
         public static AndroidJavaClass AndroidOSBuild =>
             new AndroidJavaClass("android.os.Build");
 
@@ -33,7 +32,7 @@ namespace MXR.SDK {
             Application.isEditor ? false : DeviceModel.Equals("Vive Flow");
 
         public static bool IsPicoG2 =>
-            Application.isEditor ? false : picoG2Models.Contains(DeviceModel);
+            Application.isEditor ? false : DeviceModel.Equals("Pico G2") || DeviceModel.Equals("Pico G2 4K");
 
         public static bool IsPicoNeo2 =>
             Application.isEditor ? false : DeviceModel.Equals("Pico Neo 2");
