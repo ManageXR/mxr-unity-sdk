@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 using UnityEngine;
 
@@ -41,6 +42,13 @@ namespace MXR.SDK {
 
         public MXRAndroidSystem() {
             messenger = new AdminAppMessengerManager();
+
+            RuntimeSettingsSummary = DeserializeMXRJsonFile<RuntimeSettingsSummary>(MXRStorage.GetFullPath("MightyImmersion/runtimeSettingsSummary.json"));
+            OnRuntimeSettingsSummaryChange?.Invoke(RuntimeSettingsSummary);
+
+            DeviceStatus = DeserializeMXRJsonFile<DeviceStatus>(MXRStorage.GetFullPath("MightyImmersion/deviceStatus.json"));
+            OnDeviceStatusChange?.Invoke(DeviceStatus);
+
             int WIFI_NETWORKS = 1000;
             int WIFI_CONNECTION_STATUS = 3000;
             int RUNTIME_SETTINGS = 4000;
@@ -91,6 +99,17 @@ namespace MXR.SDK {
                     }
                 }
             };
+        }
+
+        T DeserializeMXRJsonFile<T>(string path) {
+            try {
+                var contents = File.ReadAllText(path);
+                return JsonConvert.DeserializeObject<T>(contents);
+            }
+            catch (Exception e) {
+                Debug.LogError(e);
+                throw;
+            }
         }
 
         public void ConnectToWifiNetwork(string ssid, string password) {

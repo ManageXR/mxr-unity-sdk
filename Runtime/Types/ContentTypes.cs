@@ -12,6 +12,18 @@ namespace MXR.SDK {
         public string iconUrl;
         public int sortOrder;
         public string organizationId;
+
+        public bool blockLaunchWhileUpdating = false;
+        
+        public string internetRequired = string.Empty;
+        public bool InternetMandatory => internetRequired.ToLower().Equals("mandatory");
+        public bool InternetOptional => internetRequired.ToLower().Equals("optional");
+        public bool InternetUndefined => string.IsNullOrEmpty(internetRequired);
+        
+        public string controllersRequired = string.Empty;
+        public bool ControllersMandatory => controllersRequired.ToLower().Equals("mandatory");
+        public bool ControllersOptional => controllersRequired.ToLower().Equals("optional");
+        public bool ControllersUndefined => string.IsNullOrEmpty(controllersRequired);
     }
 
     [System.Serializable]

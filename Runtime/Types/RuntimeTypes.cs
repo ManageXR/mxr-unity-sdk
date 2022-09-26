@@ -46,6 +46,11 @@ namespace MXR.SDK {
         public bool kioskModeEnabled = true;
 
         /// <summary>
+        /// A list of features enabled for this deployment
+        /// </summary>
+        public List<string> featureFlags = new List<string>();
+
+        /// <summary>
         /// Helper property for whether the guardian settings are hidden
         /// </summary>
         public bool IsGaurdianHidden => TryGet(x => x.customLauncherSettings.hiddenSettings.guardian, false);
