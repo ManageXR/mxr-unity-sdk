@@ -52,6 +52,8 @@ namespace MXR.SDK {
         // ================================================
 
         // INTERFACE PROPERTIES
+        public bool IsAvailable => Directory.Exists(MXRStorage.MXRRootDirectory);
+
         public ScannedWifiNetwork CurrentNetwork {
             get {
                 foreach (var network in WifiNetworks) {
@@ -70,6 +72,15 @@ namespace MXR.SDK {
                 foreach (var network in WifiNetworks) {
                     if (network.ssid.Equals(value.ssid)) {
                         WifiConnectionStatus.ssid = value.ssid;
+                        WifiConnectionStatus.capabilities = value.capabilities;
+                        WifiConnectionStatus.signalStrength = value.signalStrength;
+                        WifiConnectionStatus.networkSecurityType = value.networkSecurityType;
+                        
+                        // TODO: Provide tooling to simulate these too
+                        WifiConnectionStatus.state = WifiConnectionStatus.State.CONNECTED;
+                        WifiConnectionStatus.hasInternetAccess = true;
+                        WifiConnectionStatus.requiresCaptivePortal = false;
+
                         WriteWifiConnectionStatus();
                     }
                 }
@@ -111,16 +122,31 @@ namespace MXR.SDK {
         }
 
         public void ConnectToWifiNetwork(string ssid, string password) {
+            // Escape JSON string. Ref: https://stackoverflow.com/a/26152046
+            // Then get rid of the encosing double quotes (") using substring
+            ssid = JsonConvert.ToString(ssid);
+            ssid = ssid.Substring(1, ssid.Length - 2);
+
             // If a network with the given SSID is available
             // just set it as the current network
             foreach (var network in WifiNetworks) {
-                if (network.ssid.Equals(ssid))
+                if (network.ssid.Equals(ssid)) 
                     CurrentNetwork = network;
             }
         }
 
+        /// <summary>
+        /// Currently, in editor, we can only forget the current network.
+        /// TODO: Add savedWifiNetworks.json to simulate this function better.
+        /// </summary>
+        /// <param name="ssid">The SSID to forget</param>
         public void ForgetWifiNetwork(string ssid) {
-            if (CurrentNetwork.ssid.Equals(ssid))
+            // Escape JSON string. Ref: https://stackoverflow.com/a/26152046
+            // Then get rid of the encosing double quotes (") using substring
+            ssid = JsonConvert.ToString(ssid);
+            ssid = ssid.Substring(1, ssid.Length - 2);
+
+            if (CurrentNetwork != null && CurrentNetwork.ssid.Equals(ssid))
                 CurrentNetwork = null;
         }
 
