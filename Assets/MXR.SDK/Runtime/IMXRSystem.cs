@@ -8,6 +8,14 @@ namespace MXR.SDK {
     /// </summary>
     public interface IMXRSystem {
         /// <summary>
+        /// Whether the system is available/bound/online
+        /// for use. Depending on the implementation, 
+        /// availability of <see cref="IMXRSystem"/> 
+        /// may change.
+        /// </summary>
+        bool IsAvailable { get; }
+
+        /// <summary>
         /// The current status of the device
         /// </summary>
         DeviceStatus DeviceStatus { get; }

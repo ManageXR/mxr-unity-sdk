@@ -24,6 +24,8 @@ namespace MXR.SDK {
             }
         }
 
+        public bool IsAvailable => messenger.IsBoundToService;
+
         public List<ScannedWifiNetwork> WifiNetworks { get; private set; }
             = new List<ScannedWifiNetwork>();
         public event Action<List<ScannedWifiNetwork>> OnWifiNetworksChange;
@@ -40,24 +42,21 @@ namespace MXR.SDK {
             = new DeviceStatus();
         public event Action<DeviceStatus> OnDeviceStatusChange;
 
+        string lastWifiNetworksJSON = string.Empty;
+        string lastWifiConnectionStatusJSON = string.Empty;
+        string lastRuntimeSettingsSummaryJSON = string.Empty;
+        string lastDeviceStatusJSON = string.Empty;
+
         public MXRAndroidSystem() {
             messenger = new AdminAppMessengerManager();
 
-            RuntimeSettingsSummary = DeserializeMXRJsonFile<RuntimeSettingsSummary>(MXRStorage.GetFullPath("MightyImmersion/runtimeSettingsSummary.json"));
-            OnRuntimeSettingsSummaryChange?.Invoke(RuntimeSettingsSummary);
-
-            DeviceStatus = DeserializeMXRJsonFile<DeviceStatus>(MXRStorage.GetFullPath("MightyImmersion/deviceStatus.json"));
-            OnDeviceStatusChange?.Invoke(DeviceStatus);
+            RefreshRuntimeSettings();
+            RefreshDeviceStatus();
 
             int WIFI_NETWORKS = 1000;
             int WIFI_CONNECTION_STATUS = 3000;
             int RUNTIME_SETTINGS = 4000;
             int DEVICE_STATUS = 5000;
-
-            string lastWifiNetworksJSON = string.Empty;
-            string lastWifiConnectionStatusJSON = string.Empty;
-            string lastRuntimeSettingsSummaryJSON = string.Empty;
-            string lastDeviceStatusJSON = string.Empty;
 
             messenger.OnMessageFromAdminApp += (what, json) => {
                 if (what == WIFI_NETWORKS) {
@@ -79,7 +78,6 @@ namespace MXR.SDK {
                     }
                 }
                 else if (what == RUNTIME_SETTINGS) {
-                    // TODO: Test if this works
                     if (json.Equals(lastRuntimeSettingsSummaryJSON)) return;
 
                     RuntimeSettingsSummary summary = JsonConvert.DeserializeObject<RuntimeSettingsSummary>(json);
@@ -89,7 +87,6 @@ namespace MXR.SDK {
                     }
                 }
                 else if (what == DEVICE_STATUS) {
-                    // TODO: Test if this works
                     if (json.Equals(lastDeviceStatusJSON)) return;
 
                     DeviceStatus status = JsonConvert.DeserializeObject<DeviceStatus>(json);
@@ -101,18 +98,14 @@ namespace MXR.SDK {
             };
         }
 
-        T DeserializeMXRJsonFile<T>(string path) {
-            try {
-                var contents = File.ReadAllText(path);
-                return JsonConvert.DeserializeObject<T>(contents);
-            }
-            catch (Exception e) {
-                Debug.LogError(e);
-                throw;
-            }
-        }
-
         public void ConnectToWifiNetwork(string ssid, string password) {
+            // Escape JSON string. Ref: https://stackoverflow.com/a/26152046
+            // Then get rid of the encosing double quotes (") using substring
+            ssid = JsonConvert.ToString(ssid);
+            ssid = ssid.Substring(1, ssid.Length - 2);
+            password = JsonConvert.ToString(password);
+            password = password.Substring(1, password.Length - 2);
+
             if (messenger.IsBoundToService)
                 messenger.Native?.Call<bool>("connectToWifiNetworkAsync", ssid, password);
         }
@@ -128,6 +121,11 @@ namespace MXR.SDK {
         }
 
         public void ForgetWifiNetwork(string ssid) {
+            // Escape JSON string. Ref: https://stackoverflow.com/a/26152046
+            // Then get rid of the encosing double quotes (") using substring
+            ssid = JsonConvert.ToString(ssid);
+            ssid = ssid.Substring(1, ssid.Length - 2);
+
             if (messenger.IsBoundToService)
                 messenger.Native?.Call<bool>("forgetWifiNetworkAsync", ssid);
         }
@@ -143,13 +141,29 @@ namespace MXR.SDK {
         }
 
         public void RefreshRuntimeSettings() {
-            if (messenger.IsBoundToService)
-                messenger.Native?.Call<bool>("getRuntimeSettingsAsync");
+            // NOTE: Removing plugin refresh temporarily
+            // if(IsAvailable)
+            // messenger.Native?.Call<bool>("getRuntimeSettingsAsync");
+
+            var path = MXRStorage.GetFullPath("MightyImmersion/runtimeSettingsSummary.json");
+            var contents = File.ReadAllText(path);
+            if (!contents.Equals(lastRuntimeSettingsSummaryJSON)) {
+                RuntimeSettingsSummary = JsonConvert.DeserializeObject<RuntimeSettingsSummary>(contents);
+                OnRuntimeSettingsSummaryChange?.Invoke(RuntimeSettingsSummary);
+            }
         }
 
         public void RefreshDeviceStatus() {
-            if (messenger.IsBoundToService)
-                messenger.Native?.Call<bool>("getDeviceStatusAsync");
+            // NOTE: Removing plugin refresh temporarily
+            // if(IsAvailable)
+            // messenger.Native?.Call<bool>("getDeviceStatusAsync");
+
+            var path = MXRStorage.GetFullPath("MightyImmersion/deviceStatus.json");
+            var contents = File.ReadAllText(path);
+            if(!contents.Equals(lastDeviceStatusJSON)) {
+                DeviceStatus = JsonConvert.DeserializeObject<DeviceStatus>(contents);
+                OnDeviceStatusChange?.Invoke(DeviceStatus);
+            }
         }
 
         public void EnableKioskMode() {
@@ -170,6 +184,17 @@ namespace MXR.SDK {
         public void Sync() {
             if (messenger.IsBoundToService)
                 messenger.Native?.Call<bool>("checkDbAsync");
+        }
+
+        T DeserializeMXRJsonFile<T>(string path) {
+            try {
+                var contents = File.ReadAllText(path);
+                return JsonConvert.DeserializeObject<T>(contents);
+            }
+            catch (Exception e) {
+                Debug.LogError(e);
+                throw;
+            }
         }
     }
 }

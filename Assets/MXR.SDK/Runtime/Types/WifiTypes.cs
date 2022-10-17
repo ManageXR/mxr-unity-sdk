@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace MXR.SDK {
     /// <summary>
@@ -277,6 +278,7 @@ namespace MXR.SDK {
         /// Whether the network is an enterprise network.
         /// Enterprise networks require more complex authentication methods (typically a username + password or a certificate)
         /// </summary>
+        [JsonIgnore]
         public bool IsEnterpriseNetwork =>
             networkSecurityType == NetworkType.WPA_ENTERPRISE || networkSecurityType == NetworkType.WPA2_ENTERPRISE ||
             networkSecurityType == NetworkType.WPA3_ENTERPRISE;
@@ -284,6 +286,7 @@ namespace MXR.SDK {
         /// <summary>
         /// Whether the network requires a password to connect 
         /// </summary>
+        [JsonIgnore]
         public bool IsOpen => networkSecurityType == NetworkType.OPEN;
     }
 }

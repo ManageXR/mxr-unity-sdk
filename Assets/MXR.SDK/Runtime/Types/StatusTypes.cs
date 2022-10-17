@@ -43,9 +43,10 @@ namespace MXR.SDK {
         /// <returns></returns>
         public FileInstallStatus FileInstallStatusForVideo(Video video) {
             if (video == null) return null;
-            videoStatuses.TryGetValue(video.id, out FileInstallStatus status);
-            if (status == default) return null;
-            return status;
+            if (videoStatuses.TryGetValue(video.id, out FileInstallStatus status))
+                return status;
+            else
+                return null;
         }
 
         /// <summary>
@@ -54,10 +55,11 @@ namespace MXR.SDK {
         /// <param name="runtimeApp"></param>
         /// <returns></returns>
         public AppInstallStatus AppInstallStatusForRuntimeApp(RuntimeApp runtimeApp) {
-            if (runtimeApp == null) return new AppInstallStatus();
-            appStatuses.TryGetValue(runtimeApp.packageName, out AppInstallStatus result);
-            if (result == default) return null;
-            return result;
+            if (runtimeApp == null) return null;
+            if (appStatuses.TryGetValue(runtimeApp.packageName, out AppInstallStatus result))
+                return result;
+            else
+                return null;
         }
     }
 
@@ -76,7 +78,7 @@ namespace MXR.SDK {
             FILE, ICON, BRANDING, VIDEO
         }
 
-        public Status status = Status.ERROR;
+        public Status status;
         public string id;
         public string path;
         public string name;
