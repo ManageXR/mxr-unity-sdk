@@ -21,6 +21,18 @@ namespace MXR.SDK {
         public string deviceName;
 
         /// <summary>
+        /// The kiosk app to run IF <see cref="deviceExperienceMode"/> is set to
+        /// <see cref="DeviceExperienceMode.KIOSK"/>. 
+        /// </summary>
+        public RuntimeApp kioskApp = null;
+
+        /// <summary>
+        /// The current "mode" set as the device experience. Refer to managexr.com
+        /// for what these different product offerings mean.
+        /// </summary>
+        public DeviceExperienceMode deviceExperienceMode = DeviceExperienceMode.DEFAULT;
+
+        /// <summary>
         /// The apps deployed to the device
         /// </summary>
         public Dictionary<string, RuntimeApp> apps = new Dictionary<string, RuntimeApp>();
@@ -41,9 +53,17 @@ namespace MXR.SDK {
         public CustomLauncherSettings customLauncherSettings = new CustomLauncherSettings();
 
         /// <summary>
-        /// Whether the kiosk mode is enabled
+        /// Whether the kiosk mode is currently enabled.
         /// </summary>
         public bool kioskModeEnabled = true;
+
+        /// <summary>
+        /// Use when <see cref="deviceExperienceMode"/> is set to <see cref="DeviceExperienceMode.KIOSK"/>,
+        /// in this scenario, the homescreen is launched on pressing the home (or equivalent) button 
+        /// on the controller.
+        /// This field describes if the shortcut menu is to be shown when the homescreen opens.
+        /// </summary>
+        public bool enableKioskShortcutMenu = false;
 
         /// <summary>
         /// A list of features enabled for this deployment
@@ -108,6 +128,13 @@ namespace MXR.SDK {
         /// The admin PIN to access the admin settings. 
         /// </summary>
         public string adminPin = "5112";
+
+        /// <summary>
+        /// Whether the shortcut menu should NOT be shown when the user comes back to the
+        /// homescreen app when <see cref="RuntimeSettingsSummary.deviceExperienceMode"/>
+        /// is set to <see cref="DeviceExperienceMode.HOME_SCREEN"/>
+        /// </summary>
+        public bool disableShortcutMenu = false;
 
         /// <summary>
         /// The settings that are not to be made editable in the launcher
@@ -179,6 +206,13 @@ namespace MXR.SDK {
         public bool controller;
         public bool guardian;
         public bool wifi;
+    }
+
+    [Serializable]
+    public enum DeviceExperienceMode {
+        DEFAULT,
+        KIOSK,
+        HOME_SCREEN
     }
 
     /// <summary>
