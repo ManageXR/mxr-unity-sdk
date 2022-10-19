@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+
+using System;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -53,25 +55,30 @@ namespace MXR.SDK {
         /// <summary>
         /// Helper property for whether the guardian settings are hidden
         /// </summary>
+        [JsonIgnore]
         public bool IsGaurdianHidden => TryGet(x => x.customLauncherSettings.hiddenSettings.guardian, false);
 
         /// <summary>
         /// Helper property for whether the cast settings are hidden
         /// </summary>
+        [JsonIgnore]
         public bool IsCastHidden => TryGet(x => x.customLauncherSettings.hiddenSettings.cast, false);
 
         /// <summary>
         /// Helper property for whether the bluetooth settings are hidden
+        [JsonIgnore]
         public bool IsBluetoothHidden => TryGet(x => x.customLauncherSettings.hiddenSettings.bluetooth, false);
 
         /// <summary>
         /// Helper property for whether the wifi settings are hidden
         /// </summary>
+        [JsonIgnore]
         public bool IsWifiHidden => TryGet(x => x.customLauncherSettings.hiddenSettings.wifi, false);
 
         /// <summary>
         /// Helper property for whether the controller settings are hidden
         /// </summary>
+        [JsonIgnore]
         public bool AreControllerSettingsHidden => TryGet(x => x.customLauncherSettings.hiddenSettings.controller, false);
 
         /// <summary>
