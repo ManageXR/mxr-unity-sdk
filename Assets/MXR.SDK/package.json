@@ -1,6 +1,6 @@
 {
 	"name": "com.mxr.unity.sdk",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"displayName": "ManageXR Unity SDK",
 	"description": "ManageXR Android and Editor System and Utilities",
 	"unity": "2019.4",
