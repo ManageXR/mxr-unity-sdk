@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 using UnityEngine;
 
@@ -59,6 +59,14 @@ namespace MXR.SDK {
             int DEVICE_STATUS = 5000;
 
             messenger.OnMessageFromAdminApp += (what, json) => {
+                // Unescape json if it is escaped 
+                // Ref: https://stackoverflow.com/a/26406504
+                if (json.StartsWith("\"")) {
+                    JToken token = JToken.Parse(json);
+                    JObject obj = JObject.Parse((string)token);
+                    json = obj.ToString();
+                }
+
                 if (what == WIFI_NETWORKS) {
                     if (json.Equals(lastWifiNetworksJSON)) return;
 
@@ -141,29 +149,13 @@ namespace MXR.SDK {
         }
 
         public void RefreshRuntimeSettings() {
-            // NOTE: Removing plugin refresh temporarily
-            // if(IsAvailable)
-            // messenger.Native?.Call<bool>("getRuntimeSettingsAsync");
-
-            var path = MXRStorage.GetFullPath("MightyImmersion/runtimeSettingsSummary.json");
-            var contents = File.ReadAllText(path);
-            if (!contents.Equals(lastRuntimeSettingsSummaryJSON)) {
-                RuntimeSettingsSummary = JsonConvert.DeserializeObject<RuntimeSettingsSummary>(contents);
-                OnRuntimeSettingsSummaryChange?.Invoke(RuntimeSettingsSummary);
-            }
+            if (IsAvailable)
+                messenger.Native?.Call<bool>("getRuntimeSettingsAsync");
         }
 
         public void RefreshDeviceStatus() {
-            // NOTE: Removing plugin refresh temporarily
-            // if(IsAvailable)
-            // messenger.Native?.Call<bool>("getDeviceStatusAsync");
-
-            var path = MXRStorage.GetFullPath("MightyImmersion/deviceStatus.json");
-            var contents = File.ReadAllText(path);
-            if(!contents.Equals(lastDeviceStatusJSON)) {
-                DeviceStatus = JsonConvert.DeserializeObject<DeviceStatus>(contents);
-                OnDeviceStatusChange?.Invoke(DeviceStatus);
-            }
+            if (IsAvailable)
+                messenger.Native?.Call<bool>("getDeviceStatusAsync");
         }
 
         public void EnableKioskMode() {
@@ -184,17 +176,6 @@ namespace MXR.SDK {
         public void Sync() {
             if (messenger.IsBoundToService)
                 messenger.Native?.Call<bool>("checkDbAsync");
-        }
-
-        T DeserializeMXRJsonFile<T>(string path) {
-            try {
-                var contents = File.ReadAllText(path);
-                return JsonConvert.DeserializeObject<T>(contents);
-            }
-            catch (Exception e) {
-                Debug.LogError(e);
-                throw;
-            }
         }
     }
 }

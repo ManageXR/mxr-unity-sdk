@@ -5,6 +5,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace MXR.SDK.Samples {
+    // NOTE: A simple library example that instantiates cells for content types.
+    // Every time the Device Status of the Runtime Settings Summary changes,
+    // this script destroys the previously instantiated cells and instantiates 
+    // them again. Not efficient, we know!. But this is just a demo.
     public class LibraryPanel : MonoBehaviour {
         [SerializeField] Transform cellContainer;
         [SerializeField] RuntimeAppCell appCellTemplate;
@@ -40,11 +44,13 @@ namespace MXR.SDK.Samples {
         }
 
         void OnRuntimeSettingsSummaryChange(RuntimeSettingsSummary obj) {
+            Debug.Log("Runtime Settings Summary changed, destroy and instantiate cells");
             DestroyContentCells();
             InstantiateContentCells();
         }
 
         void OnDeviceStatusChange(DeviceStatus obj) {
+            Debug.Log("Device Status changed, destroy and instantiate cells");
             DestroyContentCells();
             InstantiateContentCells();
         }
@@ -76,7 +82,7 @@ namespace MXR.SDK.Samples {
                 .ForEach(x => {
                     var instance = Instantiate(webXRAppCellTemplate, cellContainer);
                     instance.gameObject.SetActive(true);
-                    instance.site = x;
+                    instance.webXRApp = x;
                     instance.Refresh();
                     webXRAppCells.Add(instance);
                 });
@@ -99,7 +105,7 @@ namespace MXR.SDK.Samples {
                 .ForEach(x => {
                     var instance = Instantiate(appCellTemplate, cellContainer);
                     instance.gameObject.SetActive(true);
-                    instance.app = x;
+                    instance.runtimeApp = x;
                     instance.status = MXRManager.System.DeviceStatus.AppInstallStatusForRuntimeApp(x);
                     instance.Refresh();
                     appCells.Add(instance);

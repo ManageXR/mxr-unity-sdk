@@ -47,9 +47,9 @@ namespace MXR.SDK {
         }
 
         public enum VideoMapping {
-            None,
-            Equirectangular,
-            Cubemap,
+            NONE,
+            EQUIRECTANGULAR,
+            CUBEMAP,
         }
 
         public enum VideoDisplay {
