@@ -3,18 +3,18 @@ using UnityEngine.UI;
 
 namespace MXR.SDK.Samples {
     public class WebXRAppCell : MonoBehaviour {
-        public WebXRApp site;
+        public WebXRApp webXRApp;
         [SerializeField] Text title;
         [SerializeField] Image icon;
         [SerializeField] Sprite defaultIcon;
 
         [ContextMenu("Refresh")]
         public void Refresh() {
-            title.text = site.title;
+            title.text = webXRApp.title;
 
             // Instead of MXRStorage.GetFullPath(video.iconPath) you can also use
             // video.iconUrl to download the icon from a server.
-            ImageDownloader.New().Download(MXRStorage.GetFullPath(site.iconPath),
+            ImageDownloader.New().Download(MXRStorage.GetFullPath(webXRApp.iconPath),
                 x => {
                     if (isBeingDestroyed) return;
 
@@ -23,7 +23,6 @@ namespace MXR.SDK.Samples {
                         return;
                     }
 
-                    icon.enabled = true;
                     icon.sprite = Sprite.Create(x, new Rect(0, 0, x.width, x.height), Vector2.one / 2);
                     icon.preserveAspect = true;
                 }
@@ -31,9 +30,9 @@ namespace MXR.SDK.Samples {
         }
 
         public void OnClick() {
-            if (!string.IsNullOrEmpty(site.url)) {
-                Debug.Log("Open URL " + site.url);
-                Application.OpenURL(site.url);
+            if (!string.IsNullOrEmpty(webXRApp.url)) {
+                Debug.Log("Open URL " + webXRApp.url);
+                Application.OpenURL(webXRApp.url);
             }
         }
 

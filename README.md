@@ -16,18 +16,22 @@ Example usages of this SDK:
 - Update users in-headset when an update for you app is downloading/available
 - Use device serial / details to augment your app's analytics reporting
 
-## Installation  
-1. Install the SDK package in your Unity project. The suggested methods are:
-  
-   ### _Via  Package Manager window_  
-   Go to `Window/Package Manager/` click the plus button in the top left corner and click on `Add package from git URL` and paste this `https://github.com/manageXR/mxr-unity-sdk.git#upm`
+## Installation & Setup  
+1. Install the SDK package in your Unity project. There are multiple methods:
+
+   ### _Via  Package Manager window (Recommended)_  
+   The UPM package is [available on OpenUPM](https://openupm.com/packages/com.mxr.unity.sdk). To install, follow these instructions:  
+   - Add the OpenUPM registry with the ManageXR Unity SDK as a `scope`. To do this, go to `Edit/Project Settings/Package Manager`, add the OpenUPM scope registry with the URL `https://package.openupm.com` and add `com.mxr.unity.sdk` as a scope.
+
+   - Install the package from OpenUPM registry. To do this, go to `Window/Package Manager/`. Select in the `My Registries` view (located at the top left, the default selection is `Unity Registry`), locate `ManageXR Unity SDK` and click install. After installation, the package will show up in the `In Project` view as well.
   
    ### _Via manifest.json_  
-   Go to your Unity project path/Packages/manifest.json  
-   Add `"com.mxr.unity.sdk" : "https://github.com/managexr/mxr-unity-sdk.git#upm"` under the `dependencies` object
-
-1. Setup MXR files for Unity Editor testing.  
-   - Go to `Library/PackageCache/com.mxr.unity.sdk@x.x.x/` directory in your Unity project and extract `Files.zip` to the root of your Unity project. Your project structure should then look like this:  
+   - Go to `Packages/manifest.json` inside your Unity project  
+   - Add `"com.mxr.unity.sdk" : "https://github.com/managexr/mxr-unity-sdk.git#upm@latest"` under the `dependencies` object  
+   - __Note:__ This method is NOT recommended, as this causes Unity to always fetch the latest version of UPM package from the Github URL into your project. If a new version introduces breaking or unexpected changes in the SDK, your project might not work as expected. With the Package Manager Window method described above, you can lock your project to a specific version of the package and up/downgrade when you want.  
+  
+1. Setup MXR files for Unity Editor testing. This allows you to simulate SDK operations in the editor.  
+   - After installation, go to `Library/PackageCache/com.mxr.unity.sdk@x.x.x/` directory in your Unity project and extract `Files.zip` to the root of your Unity project. Your project structure should then look like this:  
 ```
       <Unity Project Directory>  
       └── Assets
@@ -35,7 +39,12 @@ Example usages of this SDK:
             └── MightyImmersion  
       └── Library  
       └── ...
-```
+```  
+
+   - It is recommended that you extract Files.zip in required location this every time you upgrade or downgrade the package version so the files inside remain relevant to the SDK version.  
+
+1. _Optional: Import SDK samples_  
+ There are two scenes included. One shows a  Library UI and the other is a Wifi status and connection interface.
   
 ## Usage  
 The SDK uses `IMXRSystem` to communicate with the system layer. It provides methods, events, properties to observe, query and invoke operations in the ManageXR Admin/System.
@@ -61,4 +70,7 @@ Please open a Github Issue or contact support@managexr.com for additional suppor
   
 ## Samples  
 The repository includes samples that demonstrate basic integration with the Content API, Status API, and Wifi API.  
-Please refer to `Samples/README.md` for further information about running samples in the Unity editor.
+
+To install, select the ManageXR Unity SDK in the Package Manager window after you've imported it successfully and click on `Import Into Project`. The samples will be imported under `Assets/Samples` in your Unity project.
+
+Please refer to `README.txt` inside the samples directory for further information about running samples in the Unity editor.

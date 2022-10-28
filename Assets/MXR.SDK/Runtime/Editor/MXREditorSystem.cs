@@ -115,6 +115,8 @@ namespace MXR.SDK {
         }
 
         public void DisableWifi() {
+            lastWifiConnectionStatusJson = string.Empty;
+            lastWifiNetworksJson = string.Empty;
             WifiNetworks.Clear();
             CurrentNetwork = null;
             WifiConnectionStatus.wifiIsEnabled = false;
@@ -244,7 +246,7 @@ namespace MXR.SDK {
                 return false;
             }
             catch (JsonReaderException e) {
-                Debug.Log($"Error reading json {e}. Skipping...");
+                Debug.LogError($"Error reading json {e}. Skipping...");
                 throw new Exception($"Error reading json {e}. Skipping...");
             }
         }

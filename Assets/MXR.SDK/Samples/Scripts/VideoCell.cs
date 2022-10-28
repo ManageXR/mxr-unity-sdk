@@ -22,7 +22,6 @@ namespace MXR.SDK.Samples {
                 x => {
                     if (isBeingDestroyed) return;
 
-                    icon.enabled = true;
                     if (x == null) {
                         icon.sprite = defaultIcon;
                         return;

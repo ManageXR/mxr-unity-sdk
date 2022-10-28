@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace MXR.SDK.Samples {
     public class RuntimeAppCell : MonoBehaviour {
-        public RuntimeApp app;
+        public RuntimeApp runtimeApp;
         public AppInstallStatus status;
 
         [SerializeField] Text title;
@@ -16,15 +16,14 @@ namespace MXR.SDK.Samples {
 
         [ContextMenu("Refresh")]
         public void Refresh() {
-            title.text = app.title;
+            title.text = runtimeApp.title;
 
             // Instead of MXRStorage.GetFullPath(video.iconPath) you can also use
             // video.iconUrl to download the icon from a server.
-            ImageDownloader.New().Download(MXRStorage.GetFullPath(app.iconPath),
+            ImageDownloader.New().Download(MXRStorage.GetFullPath(runtimeApp.iconPath),
                 x => {
                     if (isBeingDestroyed) return;
 
-                    icon.enabled = true;
                     if (x == null) {
                         icon.sprite = defaultIcon;
                         return;
@@ -84,9 +83,9 @@ namespace MXR.SDK.Samples {
         }
 
         public void OnClick() {
-            Debug.Log("Open App " + app.title);
+            Debug.Log("Open App " + runtimeApp.title);
             if (Application.platform == RuntimePlatform.Android)
-                MXRAndroidUtils.LaunchRuntimeApp(app);
+                MXRAndroidUtils.LaunchRuntimeApp(runtimeApp);
         }
 
         bool isBeingDestroyed = false;
