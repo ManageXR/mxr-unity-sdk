@@ -13,6 +13,17 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Semantic Release
+      id: semantic
+      uses: cycjimmy/semantic-release-action@v3
+      with:
+        extra_plugins: |
+          @semantic-release/changelog
+          @semantic-release/git
+        branch: master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Create/Update upm@latest branch
       run: |
         git branch -d upm@latest &> /dev/null || echo upm@latest branch not found
@@ -28,16 +39,3 @@ jobs:
         git push -f -u origin upm@latest
       env:
         PKG_ROOT: "Assets/MXR.SDK"
-
-    - name: Semantic Release
-      id: semantic
-      uses: cycjimmy/semantic-release-action@v3
-      with:
-        extra_plugins: |
-          @semantic-release/changelog
-          @semantic-release/git
-          @semantic-release/npm
-        branch: master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}        

@@ -23,6 +23,16 @@ namespace MXR.SDK {
         public string deviceName;
 
         /// <summary>
+        /// The ManageXR organization this device is under
+        /// </summary>
+        public Organization organization = new Organization();
+
+        /// <summary>
+        /// The ManageXR configuration this device is currently assigned 
+        /// </summary>
+        public Configuration configuration = new Configuration();
+
+        /// <summary>
         /// The kiosk app to run IF <see cref="deviceExperienceMode"/> is set to
         /// <see cref="DeviceExperienceMode.KIOSK"/>. 
         /// </summary>
@@ -233,6 +243,37 @@ namespace MXR.SDK {
         public string bottomColorHex;
         public string topColorHex;
         public float imageScale;
+    }
+
+    /// <summary>
+    /// Represents a configuration created on ManageXR
+    /// </summary>
+    [Serializable]
+    public class Configuration {
+        /// <summary>
+        /// The ID of the configuration
+        /// </summary>
+        public string id;
+
+        /// <summary>
+        /// Name of the organization
+        /// </summary>
+        public string name;
+    }
+
+    /// <summary>
+    /// Represents an orgnization created on ManageXR
+    /// </summary>
+    public class Organization {
+        /// <summary>
+        /// The ID of the organization
+        /// </summary>
+        public string id;
+
+        /// <summary>
+        /// The name of the organization
+        /// </summary>
+        public string name;
     }
 
     /// <summary>

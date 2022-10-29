@@ -7,10 +7,6 @@
       "preset": "angular",
       "changelogFile":"Assets/MXR.SDK/CHANGELOG.md"
     }],
-    ["@semantic-release/npm", { 
-      "npmPublish": false,
-      "pkgRoot":"Assets/MXR.SDK/"
-    }],
     ["@semantic-release/git", {
       "assets": ["Assets/MXR.SDK/CHANGELOG.md", "Assets/MXR.SDK/package.json"],
       "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
