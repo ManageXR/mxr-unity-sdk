@@ -13,16 +13,16 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Semantic Release
-      id: semantic
-      uses: cycjimmy/semantic-release-action@v3
-      with:
-        extra_plugins: |
-          @semantic-release/changelog
-          @semantic-release/git
-        branch: master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # - name: Semantic Release
+    #   id: semantic
+    #   uses: cycjimmy/semantic-release-action@v3
+    #   with:
+    #     extra_plugins: |
+    #       @semantic-release/changelog
+    #       @semantic-release/git
+    #     branch: master
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Create/Update upm@latest branch
       run: |
