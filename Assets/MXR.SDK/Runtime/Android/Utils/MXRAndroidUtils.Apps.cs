@@ -52,9 +52,9 @@ namespace MXR.SDK {
                 Plugin.Call("killApp", packageName);
         }
 
-        public static void RestartApp(string packageName) {
-            KillApp(packageName);
-            LaunchAppWithPackageName(packageName);
+        public static void SendBroadcastAction(string action) {
+            if (Plugin != null)
+                Plugin.Call("sendBroadcastAction", action);
         }
     }
 }

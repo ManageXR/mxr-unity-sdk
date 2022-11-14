@@ -107,8 +107,11 @@ public class NativeUtils {
 
     public void killApp(String packageName) {
         try {
+            Log.v("NativeUtils", "Killing " + packageName);
             mActivityManager.killBackgroundProcesses(packageName);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            Log.e("NativeUtils", e.toString());
+        }
     }
 
     public class PInfo
@@ -129,7 +132,7 @@ public class NativeUtils {
             Drawable drawable = pInfo.applicationInfo.loadIcon(mContext.getPackageManager());
             return drawableToByte(drawable);
         }catch (PackageManager.NameNotFoundException e){
-            Log.e("NativeAndroidLauncher", e.toString());
+            Log.e("NativeUtils", e.toString());
             return null;
         }
     }
