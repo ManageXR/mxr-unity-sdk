@@ -41,8 +41,9 @@ namespace MXR.SDK {
         /// <summary>
         /// The current "mode" set as the device experience. Refer to managexr.com
         /// for what these different product offerings mean.
+        /// Defaults to HOME_SCREEN for legacy reasons.
         /// </summary>
-        public DeviceExperienceMode deviceExperienceMode = DeviceExperienceMode.DEFAULT;
+        public DeviceExperienceMode deviceExperienceMode = DeviceExperienceMode.HOME_SCREEN;
 
         /// <summary>
         /// The apps deployed to the device
