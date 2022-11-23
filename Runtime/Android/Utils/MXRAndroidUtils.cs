@@ -24,5 +24,10 @@ namespace MXR.SDK {
                 return null;
             }
         }
+
+        public static void SendBroadcastAction(string action) {
+            if (Plugin != null)
+                Plugin.Call("sendBroadcastAction", action);
+        }
     }
 }

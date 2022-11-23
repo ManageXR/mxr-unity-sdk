@@ -26,17 +26,23 @@ namespace MXR.SDK {
 
         public bool IsAvailable => messenger.IsBoundToService;
 
+        public event Action<List<ScannedWifiNetwork>> OnWifiNetworksChange;
         public List<ScannedWifiNetwork> WifiNetworks { get; private set; }
             = new List<ScannedWifiNetwork>();
-        public event Action<List<ScannedWifiNetwork>> OnWifiNetworksChange;
 
+        public event Action<WifiConnectionStatus> OnWifiConnectionStatusChange;
         public WifiConnectionStatus WifiConnectionStatus { get; private set; }
             = new WifiConnectionStatus();
-        public event Action<WifiConnectionStatus> OnWifiConnectionStatusChange;
 
+        public event Action<RuntimeSettingsSummary> OnRuntimeSettingsSummaryChange;
         public RuntimeSettingsSummary RuntimeSettingsSummary { get; private set; }
             = new RuntimeSettingsSummary();
-        public event Action<RuntimeSettingsSummary> OnRuntimeSettingsSummaryChange;
+
+        public event Action<PlayVideoCommandData> OnPlayVideoCommand;
+
+        public event Action<PauseVideoCommandData> OnPauseVideoCommand;
+
+        public event Action OnHomeScreenStateRequest;
 
         public DeviceStatus DeviceStatus { get; private set; }
             = new DeviceStatus();
@@ -57,6 +63,8 @@ namespace MXR.SDK {
             int WIFI_CONNECTION_STATUS = 3000;
             int RUNTIME_SETTINGS = 4000;
             int DEVICE_STATUS = 5000;
+            int HANDLE_COMMAND = 6000;
+            int GET_HOME_SCREEN_STATE = 15000;
 
             messenger.OnMessageFromAdminApp += (what, json) => {
                 // Unescape json if it is escaped 
@@ -102,6 +110,26 @@ namespace MXR.SDK {
                         DeviceStatus = status;
                         OnDeviceStatusChange?.Invoke(status);
                     }
+                }
+                else if (what == HANDLE_COMMAND) {
+                    var command = JsonUtility.FromJson<Command>(json);
+                    if (command != null) {
+                        switch (command.action) {
+                            case CommandAction.PLAY_VIDEO:
+                                var playVideoCommandData = JsonUtility.FromJson<PlayVideoCommandData>(command.data);
+                                if (playVideoCommandData != null)
+                                    OnPlayVideoCommand?.Invoke(playVideoCommandData);
+                                break;
+                            case CommandAction.PAUSE_VIDEO:
+                                var pauseVideoCommandData = JsonUtility.FromJson<PauseVideoCommandData>(command.data);
+                                if (pauseVideoCommandData != null)
+                                    OnPauseVideoCommand?.Invoke(pauseVideoCommandData);
+                                break;
+                        }
+                    }
+                }
+                else if(what == GET_HOME_SCREEN_STATE) {
+                    OnHomeScreenStateRequest?.Invoke();
                 }
             };
         }
@@ -168,14 +196,23 @@ namespace MXR.SDK {
                 messenger.Native?.Call<bool>("disableKioskModeAsync");
         }
 
+        public void Sync() {
+            if (messenger.IsBoundToService)
+                messenger.Native?.Call<bool>("checkDbAsync");
+        }
+
+        public void SendHomeScreenState(HomeScreenState state) {
+            throw new NotImplementedException();
+
+            // TODO: This might look something like this
+            if (messenger.IsBoundToService) 
+                messenger.Native?.Call<bool>("sendHomeScreenState", "state json");
+        }
+
         public void ExitLauncher() {
             if (messenger.IsBoundToService)
                 messenger.Native?.Call<bool>("exitLauncherAsync");
         }
 
-        public void Sync() {
-            if (messenger.IsBoundToService)
-                messenger.Native?.Call<bool>("checkDbAsync");
-        }
     }
 }

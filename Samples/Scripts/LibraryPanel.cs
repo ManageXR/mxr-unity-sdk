@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -21,11 +21,8 @@ namespace MXR.SDK.Samples {
         List<VideoCell> videoCells = new List<VideoCell>();
         List<RuntimeAppCell> appCells = new List<RuntimeAppCell>();
 
-        void Awake() {
-            MXRManager.Init();
-        }
-
         void Start() {
+            MXRManager.Init();
             // Disable the cell template gameobjects
             appCellTemplate.gameObject.SetActive(false);
             webXRAppCellTemplate.gameObject.SetActive(false);
@@ -44,12 +41,14 @@ namespace MXR.SDK.Samples {
         }
 
         void OnRuntimeSettingsSummaryChange(RuntimeSettingsSummary obj) {
+            if (obj == null) return;
             Debug.Log("Runtime Settings Summary changed, destroy and instantiate cells");
             DestroyContentCells();
             InstantiateContentCells();
         }
 
         void OnDeviceStatusChange(DeviceStatus obj) {
+            if (obj == null) return;
             Debug.Log("Device Status changed, destroy and instantiate cells");
             DestroyContentCells();
             InstantiateContentCells();
