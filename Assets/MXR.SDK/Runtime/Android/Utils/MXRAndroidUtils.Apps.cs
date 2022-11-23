@@ -51,10 +51,5 @@ namespace MXR.SDK {
             if (Plugin != null)
                 Plugin.Call("killApp", packageName);
         }
-
-        public static void SendBroadcastAction(string action) {
-            if (Plugin != null)
-                Plugin.Call("sendBroadcastAction", action);
-        }
     }
 }
