@@ -1,9 +1,5 @@
 ﻿using System;
 
-#if UNITY_EDITOR
-using MXR.SDK.Editor;
-#endif
-
 namespace MXR.SDK {
     /// <summary>
     /// A helper for MXR SDK integration. This class initializes and 
@@ -54,7 +50,6 @@ namespace MXR.SDK {
             if (system == null) {
 #if UNITY_EDITOR
                 System = MXREditorSystem.New();
-                MXRCommandSimulator.SetSystem(System);
 #elif UNITY_ANDROID
                 System = new MXRAndroidSystem();
 #endif

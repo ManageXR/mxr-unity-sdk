@@ -1,10 +1,16 @@
 ﻿using UnityEngine;
+#if UNITY_EDITOR
+using MXR.SDK.Editor;
+#endif
 
 namespace MXR.SDK.Samples {
     public class CommandSubscriberExample : MonoBehaviour {
         void Start() {
             Debug.Log("<color=\"yellow\">Open the command simulator window using Tools/MXR</color>");
             MXRManager.Init();
+#if UNITY_EDITOR
+            MXRCommandSimulator.SetSystem(MXRManager.System);
+#endif
             MXRManager.System.OnPlayVideoCommand += System_OnPlayVideoCommandReceived;
             MXRManager.System.OnPauseVideoCommand += System_OnPauseVideoCommandReceived;
         }
