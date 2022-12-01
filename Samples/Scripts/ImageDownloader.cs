@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 
 using UnityEngine;
 
@@ -19,6 +18,7 @@ namespace MXR.SDK.Samples {
         public void Download(string url, Action<Texture2D> callback) =>
             StartCoroutine(DownloadInternal(url, callback));
 
+        #pragma warning disable 0618
         IEnumerator DownloadInternal(string url, Action<Texture2D> callback) {
             if (string.IsNullOrEmpty(url)) {
                 callback?.Invoke(null);
@@ -48,5 +48,6 @@ namespace MXR.SDK.Samples {
 
             Destroy(gameObject);
         }
+        #pragma warning restore 0618
     }
 }

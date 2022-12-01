@@ -47,6 +47,21 @@ namespace MXR.SDK.Editor {
         }
         #endregion
 
+        public void ExecuteCommand(Command command) {
+            switch (command.action) {
+                case CommandAction.PLAY_VIDEO:
+                    var playVideoCommandData = JsonUtility.FromJson<PlayVideoCommandData>(command.data);
+                    if (playVideoCommandData != null)
+                        OnPlayVideoCommand?.Invoke(playVideoCommandData);
+                    break;
+                case CommandAction.PAUSE_VIDEO:
+                    var pauseVideoCommandData = JsonUtility.FromJson<PauseVideoCommandData>(command.data);
+                    if (pauseVideoCommandData != null)
+                        OnPauseVideoCommand?.Invoke(pauseVideoCommandData);
+                    break;
+            }
+        }
+
         // ================================================
         #region INTERFACE IMPLEMENTATION
         // ================================================
@@ -123,19 +138,6 @@ namespace MXR.SDK.Editor {
             CurrentNetwork = null;
             WifiConnectionStatus.wifiIsEnabled = false;
             WriteWifiConnectionStatus();
-        }
-
-        public void InvokeCommand(Command command) {
-            switch (command.action) {
-                case CommandAction.PLAY_VIDEO:
-                    var playVideoData = JsonUtility.FromJson<PlayVideoCommandData>(command.data);
-                    OnPlayVideoCommand?.Invoke(playVideoData);
-                    break;
-                case CommandAction.PAUSE_VIDEO:
-                    var pauseVideoData = JsonUtility.FromJson<PauseVideoCommandData>(command.data);
-                    OnPauseVideoCommand?.Invoke(pauseVideoData);
-                    break;
-            }
         }
 
         public void RequestHomeScreenState() {

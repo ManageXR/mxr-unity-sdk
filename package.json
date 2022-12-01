@@ -11,8 +11,8 @@
 	},
 	"samples": [
 		{
-			"displayName": "Sample Library and Wifi UI",
-			"description": "Sample Library and Wifi UI",
+			"displayName": "Samples",
+			"description": "Samples",
 			"path": "Samples~"
 		}
 	],
