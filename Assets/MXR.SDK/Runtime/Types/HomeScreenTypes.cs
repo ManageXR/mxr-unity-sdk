@@ -21,7 +21,7 @@ namespace MXR.SDK {
     }
 
     /// <summary>
-    /// The different view types recognised by  the SDK. 
+    /// The different view types recognised by the SDK. 
     /// </summary>
     [Serializable]
     public enum HomeScreenView {
@@ -70,7 +70,14 @@ namespace MXR.SDK {
     /// </summary>
     [Serializable]
     public enum HomeScreenVideoState {
+        /// <summary>
+        /// Whether a video is currently playing
+        /// </summary>
         PLAYING,
+
+        /// <summary>
+        /// Whether a video is currently paused
+        /// </summary>
         PAUSED
     }
 }

@@ -15,6 +15,7 @@ namespace MXR.SDK {
 
         /// <summary>
         /// Data associated with this command
+        /// represented in JSON format
         /// </summary>
         public string data;
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UNITY_ANDROID
+using System;
 using System.Collections.Generic;
 
 using Newtonsoft.Json;
@@ -66,6 +67,21 @@ namespace MXR.SDK {
             int HANDLE_COMMAND = 6000;
             int GET_HOME_SCREEN_STATE = 15000;
 
+            // Subscribe to application focus change event and 
+            // execute any command passed in extra strings
+            Dispatcher.OnPlayerFocusChange += x => {
+                if(x) {
+                    var intent = MXRAndroidUtils.CurrentActivity.Call<AndroidJavaObject>("getIntent");
+                    var commandJson = intent.Call<string>("getStringExtra", "command");
+
+                    // TODO: Will this cause the same command to be executed
+                    // everytime? Should the same consecutive command be ignored by the SDK
+                    // or will the admin app clear extra strings itself?
+                    if (!string.IsNullOrEmpty(commandJson))
+                        ProcessCommandJson(commandJson);
+                }
+            };
+
             messenger.OnMessageFromAdminApp += (what, json) => {
                 // Unescape json if it is escaped 
                 // Ref: https://stackoverflow.com/a/26406504
@@ -112,26 +128,37 @@ namespace MXR.SDK {
                     }
                 }
                 else if (what == HANDLE_COMMAND) {
-                    var command = JsonUtility.FromJson<Command>(json);
-                    if (command != null) {
-                        switch (command.action) {
-                            case CommandAction.PLAY_VIDEO:
-                                var playVideoCommandData = JsonUtility.FromJson<PlayVideoCommandData>(command.data);
-                                if (playVideoCommandData != null)
-                                    OnPlayVideoCommand?.Invoke(playVideoCommandData);
-                                break;
-                            case CommandAction.PAUSE_VIDEO:
-                                var pauseVideoCommandData = JsonUtility.FromJson<PauseVideoCommandData>(command.data);
-                                if (pauseVideoCommandData != null)
-                                    OnPauseVideoCommand?.Invoke(pauseVideoCommandData);
-                                break;
-                        }
-                    }
+                    ProcessCommandJson(json);
                 }
-                else if(what == GET_HOME_SCREEN_STATE) {
+                else if (what == GET_HOME_SCREEN_STATE) {
                     OnHomeScreenStateRequest?.Invoke();
                 }
             };
+        }
+
+        void ProcessCommandJson(string json) {
+            try {
+                var command = JsonUtility.FromJson<Command>(json);
+                if (command == null)
+                    Debug.LogError("Could not deserialize command json " + json);
+                else {
+                    switch (command.action) {
+                        case CommandAction.PLAY_VIDEO:
+                            var playVideoCommandData = JsonUtility.FromJson<PlayVideoCommandData>(command.data);
+                            if (playVideoCommandData != null)
+                                OnPlayVideoCommand?.Invoke(playVideoCommandData);
+                            break;
+                        case CommandAction.PAUSE_VIDEO:
+                            var pauseVideoCommandData = JsonUtility.FromJson<PauseVideoCommandData>(command.data);
+                            if (pauseVideoCommandData != null)
+                                OnPauseVideoCommand?.Invoke(pauseVideoCommandData);
+                            break;
+                    }
+                }
+            }
+            catch (Exception e) {
+                Debug.LogError("Could not deserialize command json " + e);
+            }
         }
 
         public void ConnectToWifiNetwork(string ssid, string password) {
@@ -202,17 +229,17 @@ namespace MXR.SDK {
         }
 
         public void SendHomeScreenState(HomeScreenState state) {
-            throw new NotImplementedException();
-
-            // TODO: This might look something like this
-            if (messenger.IsBoundToService) 
-                messenger.Native?.Call<bool>("sendHomeScreenState", "state json");
+            if (messenger.IsBoundToService) {
+                Debug.Log("SendHomeScreenState called.");
+                // TODO: This might look something like this
+                //messenger.Native?.Call<bool>("sendHomeScreenState", "state json");
+            }
         }
 
         public void ExitLauncher() {
             if (messenger.IsBoundToService)
                 messenger.Native?.Call<bool>("exitLauncherAsync");
         }
-
     }
 }
+#endif
