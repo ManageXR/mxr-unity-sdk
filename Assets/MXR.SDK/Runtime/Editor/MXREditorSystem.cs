@@ -7,7 +7,7 @@ using UnityEngine;
 
 using Newtonsoft.Json;
 
-namespace MXR.SDK.Editor {
+namespace MXR.SDK {
     /// <summary>
     /// Simulates MXR system on editor using locally available json files.
     /// Allows testing the application/integration in the editor.
