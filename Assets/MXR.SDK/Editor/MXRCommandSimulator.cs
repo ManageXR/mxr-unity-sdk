@@ -1,4 +1,3 @@
-﻿using System.Collections.Generic;
 using System.Linq;
 
 using UnityEditor;
@@ -54,9 +53,7 @@ namespace MXR.SDK.Editor {
             else if (System == null) {
                 EditorGUILayout.BeginVertical();
                 {
-                    GUILayout.Label("No IMXRSystem object found!");
-                    GUILayout.Label($"If you're not using MXR.SDK.MXRManager.Initialize() " +
-                        $"Invoke {nameof(MXRCommandSimulator)}.SetSystem for this window to work");
+                    GUILayout.Label("IMXRSystem not set! Invoke MXRCommandSimulator.SetSystem for this window to work");
                 }
                 EditorGUILayout.EndVertical();
                 return;
