@@ -6,13 +6,14 @@ using UnityEngine;
 
 namespace MXR.SDK.Editor {
     public class MXRCommandSimulator : EditorWindow {
-        static EditorWindow window => GetWindow<MXRCommandSimulator>();
+        static MXRCommandSimulator window;
 
         [MenuItem("Tools/MXR/Launch MXR SDK Command Simulator")]
         public static void ShowWindow() {
+            window = GetWindow<MXRCommandSimulator>();
             window.titleContent = new GUIContent("MXR SDK Command Simulator");
             window.minSize = new Vector2(610, 600);
-            (window as MXRCommandSimulator).selectedCommandType = 0;
+            window.selectedCommandType = 0;
         }
 
         static IMXRSystem System;
