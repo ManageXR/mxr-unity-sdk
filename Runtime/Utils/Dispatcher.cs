@@ -3,6 +3,18 @@ using System.Collections.Generic;
 using System;
 
 namespace MXR.SDK {
+    /// <summary>
+    /// A utility class that provides some common helpers 
+    /// for Unity Player/Runtime. These include:
+    /// - Player Focus events and properties. OnApplicationFocus
+    /// may be invoked by Unity several times in the same
+    /// frame. This class provides a single reliable event for
+    /// player focus change.
+    /// - MainThreadExecution. Dispatch an action to execute the next
+    /// frame on the main/UI thread. Use this with threading to 
+    /// execute UI or gameplay code that uses the Unity APIs that are
+    /// not thread-safe.
+    /// </summary>
     internal class Dispatcher : MonoBehaviour {
         // ================================================
         // Instance
@@ -24,7 +36,10 @@ namespace MXR.SDK {
 
         void Update() {
             UpdateActionQueue();
-            UpdateFocus();
+        }
+
+        void LateUpdate() {
+            LateUpdateFocus();
         }
 
         void OnDestroy() {
@@ -34,38 +49,39 @@ namespace MXR.SDK {
         // ================================================
         // FOCUS
         // ================================================
+        /// <summary>
+        /// Event fired when the player focus changes. The bool
+        /// is true when the player is in focus and vice-versa.
+        /// </summary>
         static public event Action<bool> OnPlayerFocusChange;
-        public static bool FirstFocus => FocusCount == 0;
-        static public int FocusCount { get; private set; } = 0;
+
+        /// <summary>
+        /// The number of times the application has gained focus.
+        /// Default: 0 
+        /// </summary>
+        static public int FocusCount { get; private set; } = 1;
 
         void StartFocus() {
             OnPlayerFocusChange?.Invoke(true);
         }
 
-        bool thisFrame = false;
+        // OnApplicationFocus can get invoked multiple times
+        // in the same frame. A nullable boolean helps us know
+        // if the focus was gained or lost (true/false) and
+        // whether it was handled or not this frame (null/notnull)
+        bool? focus = null;
+
         void OnApplicationFocus(bool hasFocus) {
-            if (!thisFrame) {
-                if (hasFocus) {
-                    FocusCount++;
-                    thisFrame = true;
-                }
-                OnPlayerFocusChange?.Invoke(hasFocus);
-            }
+            focus = hasFocus;
         }
 
-        void OnApplicationPause(bool pauseStatus) {
-            if (!thisFrame) {
-                if (!pauseStatus) {
+        void LateUpdateFocus() {
+            if (focus != null) {
+                if (focus.Value)
                     FocusCount++;
-                    thisFrame = true;
-                }
-                OnPlayerFocusChange?.Invoke(!pauseStatus);
+                OnPlayerFocusChange?.Invoke(focus.Value);
+                focus = null;
             }
-        }
-
-        void UpdateFocus() {
-            if (thisFrame)
-                thisFrame = false;
         }
 
         // ================================================
@@ -85,7 +101,10 @@ namespace MXR.SDK {
         /// </summary>
         /// <param name="action">Action that will be executed from the main thread.</param>
         public static void RunOnMainThread(Action action) {
-            Init();
+            if (instance == null)
+                Debug.LogWarning("Dispatcher not initialized, actions will not be executed until initialization. " +
+                "The action has been added to the queue. To run them, call Dispatcher.Init()");
+
             lock (actionQueue) {
                 actionQueue.Enqueue(action);
             }
