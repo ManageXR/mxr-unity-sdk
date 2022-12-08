@@ -45,14 +45,14 @@ namespace MXR.SDK {
         public string videoId;
 
         /// <summary>
-        /// Where in the video is the viewer (in seconds)
+        /// Where in the video is the viewer (in milliseconds)
         /// </summary>
-        public int videoLocation;
+        public long videoLocation;
 
         /// <summary>
-        /// The duration of the video currently being played (in seconds)
+        /// The duration of the video currently being played (in milliseconds)
         /// </summary>
-        public int videoDuration;
+        public long videoDuration;
 
         /// <summary>
         /// The title of the video currently being played
