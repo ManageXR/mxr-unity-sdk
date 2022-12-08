@@ -6,11 +6,9 @@ using UnityEngine;
 
 namespace MXR.SDK.Editor {
     public class MXRCommandSimulator : EditorWindow {
-        static MXRCommandSimulator window;
-
         [MenuItem("Tools/MXR/Launch MXR SDK Command Simulator")]
         public static void ShowWindow() {
-            window = GetWindow<MXRCommandSimulator>();
+            var window = GetWindow<MXRCommandSimulator>();
             window.titleContent = new GUIContent("MXR SDK Command Simulator");
             window.minSize = new Vector2(610, 600);
             window.selectedCommandType = 0;
@@ -60,7 +58,7 @@ namespace MXR.SDK.Editor {
                 return;
             }
             else {
-                float width = Mathf.Min(300, window.position.width);
+                float width = Mathf.Min(300, GetWindow<MXRCommandSimulator>().position.width);
 
                 if (System is MXREditorSystem) {
                     GUILayout.BeginVertical();
