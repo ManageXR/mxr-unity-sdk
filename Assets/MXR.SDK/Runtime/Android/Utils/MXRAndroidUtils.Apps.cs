@@ -58,5 +58,11 @@ namespace MXR.SDK {
             KillApp(packageName);
             LaunchAppWithPackageName(packageName);
         }
+
+        public static string GetAdminAppPackageName() {
+            if (Plugin != null)
+                return Plugin.Call<string>("getInstalledAdminAppPackageName");
+            return null;
+        }
     }
 }
