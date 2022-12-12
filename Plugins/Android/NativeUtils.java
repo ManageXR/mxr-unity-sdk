@@ -175,4 +175,17 @@ public class NativeUtils {
             mContext.sendBroadcast(i);
         } catch (Exception e) {}
     }
+
+    public String getInstalledAdminAppPackageName() {
+        PackageManager pm = context.getPackageManager();
+        List<PackageInfo> packages = pm.getInstalledPackages(0);
+
+        for (PackageInfo packageInfo : packages) {
+            if (packageInfo.packageName.startsWith("com.mightyimmersion.mightyplatform.adminapp") && !packageInfo.packageName.contains("preload")) {
+                return packageInfo.packageName;
+            }
+        }
+        return null;
+    }
+
 }
