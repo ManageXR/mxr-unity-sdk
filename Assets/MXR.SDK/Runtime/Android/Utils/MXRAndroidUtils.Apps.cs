@@ -56,5 +56,11 @@ namespace MXR.SDK {
             if (Plugin != null)
                 Plugin.Call("sendBroadcastAction", action);
         }
+
+        public static string GetAdminAppPackageName() {
+            if (Plugin != null)
+                return Plugin.Call<string>("getInstalledAdminAppPackageName");
+            return null;
+        }
     }
 }
