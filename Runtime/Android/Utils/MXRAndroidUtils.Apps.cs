@@ -51,5 +51,11 @@ namespace MXR.SDK {
             if (Plugin != null)
                 Plugin.Call("killApp", packageName);
         }
+
+        public static string GetAdminAppPackageName() {
+            if (Plugin != null)
+                return Plugin.Call<string>("getInstalledAdminAppPackageName");
+            return null;
+        }
     }
 }
