@@ -8,6 +8,26 @@ namespace MXR.SDK {
     [System.Serializable]
     public class Content {
         /// <summary>
+        /// Represents a requirement for the content
+        /// </summary>
+        public enum Requirement {
+            /// <summary>
+            /// Represents a requirement that is undefined
+            /// </summary>
+            UNDEFINED,
+
+            /// <summary>
+            /// Represents a requirement that is optional (or suggested)
+            /// </summary>
+            OPTIONAL,
+
+            /// <summary>
+            /// Represents a requirement that is mandatory
+            /// </summary>
+            MANDATORY
+        }
+
+        /// <summary>
         /// Unique identifier of the content
         /// </summary>
         public string id;
@@ -69,44 +89,44 @@ namespace MXR.SDK {
         /// Values: "mandatory", "optional". May be null or empty.
         /// Use this to show appropriate notice to the user when content is launched
         /// </summary>
-        public string internetRequired = string.Empty;
+        public Requirement internetRequired = Requirement.UNDEFINED;
 
         /// <summary>
         /// Helper property to check if <see cref="internetRequired"/> is "mandatory"
         /// </summary>
-        [JsonIgnore] public bool InternetMandatory => internetRequired.ToLower().Equals("mandatory");
+        [JsonIgnore] public bool InternetMandatory => internetRequired == Requirement.MANDATORY;
 
         /// <summary>
         /// Helper property to check if <see cref="internetRequired"/> is "optional"
         /// </summary>
-        [JsonIgnore] public bool InternetOptional => internetRequired.ToLower().Equals("optional");
+        [JsonIgnore] public bool InternetOptional => internetRequired == Requirement.OPTIONAL;
 
         /// <summary>
         /// Helper property to check if <see cref="internetRequired"/> is null or empty
         /// </summary>
-        [JsonIgnore] public bool InternetUndefined => string.IsNullOrEmpty(internetRequired);
+        [JsonIgnore] public bool InternetUndefined => internetRequired == Requirement.UNDEFINED;
 
         /// <summary>
         /// Controller requirements for this content.
         /// Values: "mandatory", "optional". May be null or empty.
         /// Use this to show appropriate notice to the user when content is launched
         /// </summary>
-        public string controllersRequired = string.Empty;
+        public Requirement controllersRequired = Requirement.UNDEFINED;
 
         /// <summary>
         /// Helper property to check if <see cref="controllersRequired"/> is "mandatory"
         /// </summary>
-        [JsonIgnore] public bool ControllersMandatory => controllersRequired.ToLower().Equals("mandatory");
+        [JsonIgnore] public bool ControllersMandatory => controllersRequired == Requirement.MANDATORY;
 
         /// <summary>
         /// Helper property to check if <see cref="controllersRequired"/> is "optional"
         /// </summary>
-        [JsonIgnore] public bool ControllersOptional => controllersRequired.ToLower().Equals("optional");
+        [JsonIgnore] public bool ControllersOptional => controllersRequired == Requirement.OPTIONAL;
 
         /// <summary>
         /// Helper property to check if <see cref="controllersRequired"/> is null or empty
         /// </summary>
-        [JsonIgnore] public bool ControllersUndefined => string.IsNullOrEmpty(controllersRequired);
+        [JsonIgnore] public bool ControllersUndefined => controllersRequired == Requirement.UNDEFINED;
     }
 
     /// <summary>
