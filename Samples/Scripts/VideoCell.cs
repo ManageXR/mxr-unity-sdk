@@ -11,10 +11,15 @@ namespace MXR.SDK.Samples {
         [SerializeField] Image readyIndicator;
         [SerializeField] Text statusLabel;
         [SerializeField] Sprite defaultIcon;
+        [SerializeField] Image internetRequirement;
+        [SerializeField] Image controllerRequirement;
 
         [ContextMenu("Refresh")]
         public void Refresh() {
             title.text = video.title;
+
+            SetRequirementIcon(controllerRequirement, video.controllersRequired);
+            SetRequirementIcon(internetRequirement, video.internetRequired);
 
             // Instead of MXRStorage.GetFullPath(video.iconPath) you can also use
             // video.iconUrl to download the icon from a server.
@@ -50,6 +55,22 @@ namespace MXR.SDK.Samples {
             } else {
                 readyIndicator.enabled = false;
                 updateIndicator.enabled = false;
+            }
+        }
+
+        void SetRequirementIcon(Image icon, Content.Requirement requirement) {
+            switch (requirement) {
+                case Content.Requirement.UNDEFINED:
+                    icon.transform.parent.gameObject.SetActive(false);
+                    break;
+                case Content.Requirement.OPTIONAL:
+                    icon.transform.parent.gameObject.SetActive(true);
+                    icon.color = Color.yellow;
+                    break;
+                case Content.Requirement.MANDATORY:
+                    icon.transform.parent.gameObject.SetActive(true);
+                    icon.color = Color.green;
+                    break;
             }
         }
 
