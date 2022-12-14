@@ -25,6 +25,11 @@ namespace MXR.SDK {
             }
         }
 
+        public static string GetExtraString(string key) {
+            var intent = CurrentActivity.Call<AndroidJavaObject>("getIntent");
+            return intent.Call<string>("getStringExtra", key);
+        }
+
         public static void SendBroadcastAction(string action) {
             if (Plugin != null)
                 Plugin.Call("sendBroadcastAction", action);

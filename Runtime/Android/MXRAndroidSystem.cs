@@ -65,15 +65,8 @@ namespace MXR.SDK {
             // execute any command passed in extra strings
             Dispatcher.OnPlayerFocusChange += x => {
                 if (!x) return;
-                
-                var intent = MXRAndroidUtils.CurrentActivity.Call<AndroidJavaObject>("getIntent");
-                var commandJson = intent.Call<string>("getStringExtra", "command");
 
-                // TODO: Will this cause the same command to be executed
-                // everytime? Should the same consecutive command be ignored by the SDK
-                // or will the admin app clear extra strings itself?
-                if (!string.IsNullOrEmpty(commandJson))
-                    ProcessCommandJson(commandJson);
+                TryExecuteIntentCommands();
             };
 
             messenger.OnMessageFromAdminApp += (what, json) => {
@@ -128,6 +121,22 @@ namespace MXR.SDK {
                     OnHomeScreenStateRequest?.Invoke();
                 }
             };
+        }
+
+        HashSet<string> executedIntentIds = new HashSet<string>();
+        void TryExecuteIntentCommands() {
+            var intentId = MXRAndroidUtils.GetExtraString("intentId");
+
+            // If we've already executed the command with this intent id, we ignore it.
+            if (executedIntentIds.Contains(intentId))
+                return;
+
+            var commandJson = MXRAndroidUtils.GetExtraString("command");
+
+            if (!string.IsNullOrEmpty(commandJson)) {
+                ProcessCommandJson(commandJson);
+                executedIntentIds.Add(intentId);
+            }
         }
 
         void ProcessCommandJson(string json) {
