@@ -177,7 +177,7 @@ public class NativeUtils {
     }
 
     public String getInstalledAdminAppPackageName() {
-        PackageManager pm = context.getPackageManager();
+        PackageManager pm = mContext.getPackageManager();
         List<PackageInfo> packages = pm.getInstalledPackages(0);
 
         for (PackageInfo packageInfo : packages) {
