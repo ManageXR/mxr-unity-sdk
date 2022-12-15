@@ -59,7 +59,7 @@ namespace MXR.SDK.Editor {
                 return;
             }
             else {
-                float width = 600;
+                float width = 300;
 
                 if (System is MXREditorSystem) {
                     GUILayout.BeginVertical();
