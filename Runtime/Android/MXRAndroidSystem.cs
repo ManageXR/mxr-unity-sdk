@@ -234,7 +234,6 @@ namespace MXR.SDK {
 
         public void SendHomeScreenState(HomeScreenState state) {
             if (messenger.IsBoundToService) {
-                Debug.Log("SendHomeScreenState called.");
                 // TODO: This might look something like this
                 //messenger.Native?.Call<bool>("sendHomeScreenState", "state json");
             }
