@@ -10,7 +10,8 @@ namespace MXR.SDK.Editor {
         public static void ShowWindow() {
             var window = GetWindow<MXRCommandSimulator>();
             window.titleContent = new GUIContent("MXR SDK Command Simulator");
-            window.minSize = new Vector2(610, 600);
+            window.minSize = new Vector2(600, 600);
+            window.maxSize = new Vector2(600, 600);
             window.selectedCommandType = 0;
         }
 
@@ -58,7 +59,7 @@ namespace MXR.SDK.Editor {
                 return;
             }
             else {
-                float width = Mathf.Min(300, GetWindow<MXRCommandSimulator>().position.width);
+                float width = 600;
 
                 if (System is MXREditorSystem) {
                     GUILayout.BeginVertical();
