@@ -47,6 +47,21 @@ namespace MXR.SDK {
         }
         #endregion
 
+        public void ExecuteCommand(Command command) {
+            switch (command.action) {
+                case CommandAction.PLAY_VIDEO:
+                    var playVideoCommandData = JsonUtility.FromJson<PlayVideoCommandData>(command.data);
+                    if (playVideoCommandData != null)
+                        OnPlayVideoCommand?.Invoke(playVideoCommandData);
+                    break;
+                case CommandAction.PAUSE_VIDEO:
+                    var pauseVideoCommandData = JsonUtility.FromJson<PauseVideoCommandData>(command.data);
+                    if (pauseVideoCommandData != null)
+                        OnPauseVideoCommand?.Invoke(pauseVideoCommandData);
+                    break;
+            }
+        }
+
         // ================================================
         #region INTERFACE IMPLEMENTATION
         // ================================================
@@ -75,7 +90,7 @@ namespace MXR.SDK {
                         WifiConnectionStatus.capabilities = value.capabilities;
                         WifiConnectionStatus.signalStrength = value.signalStrength;
                         WifiConnectionStatus.networkSecurityType = value.networkSecurityType;
-                        
+
                         // TODO: Provide tooling to simulate these too
                         WifiConnectionStatus.state = WifiConnectionStatus.State.CONNECTED;
                         WifiConnectionStatus.hasInternetAccess = true;
@@ -96,7 +111,9 @@ namespace MXR.SDK {
         public event Action<RuntimeSettingsSummary> OnRuntimeSettingsSummaryChange;
         public event Action<WifiConnectionStatus> OnWifiConnectionStatusChange;
         public event Action<List<ScannedWifiNetwork>> OnWifiNetworksChange;
-
+        public event Action<PlayVideoCommandData> OnPlayVideoCommand;
+        public event Action<PauseVideoCommandData> OnPauseVideoCommand;
+        public event Action OnHomeScreenStateRequest;
 
         // INTERFACE METHODS
         public void DisableKioskMode() {
@@ -123,6 +140,10 @@ namespace MXR.SDK {
             WriteWifiConnectionStatus();
         }
 
+        public void RequestHomeScreenState() {
+            OnHomeScreenStateRequest?.Invoke();
+        }
+
         public void ConnectToWifiNetwork(string ssid, string password) {
             // Escape JSON string. Ref: https://stackoverflow.com/a/26152046
             // Then get rid of the encosing double quotes (") using substring
@@ -132,7 +153,7 @@ namespace MXR.SDK {
             // If a network with the given SSID is available
             // just set it as the current network
             foreach (var network in WifiNetworks) {
-                if (network.ssid.Equals(ssid)) 
+                if (network.ssid.Equals(ssid))
                     CurrentNetwork = network;
             }
         }
@@ -221,8 +242,13 @@ namespace MXR.SDK {
             }
         }
 
+        public void SendHomeScreenState(HomeScreenState state) {
+            Debug.Log("SendHomeScreenState " + JsonUtility.ToJson(state) + 
+            "\nEditor mode doesn't send HomeScreenState anywhere, only prints it to console.");
+        }
+
         public void ExitLauncher() {
-            // No quit in the editor
+            Debug.Log("Editor mode doesn't support ExitLauncher(). Safely ignored...");
         }
         #endregion
 

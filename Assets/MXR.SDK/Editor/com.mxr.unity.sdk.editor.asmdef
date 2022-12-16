@@ -1,0 +1,17 @@
+{
+    "name": "com.mxr.unity.sdk.editor",
+    "references": [
+        "GUID:025bdc31ab610724ebbf99d7edf59bb8"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

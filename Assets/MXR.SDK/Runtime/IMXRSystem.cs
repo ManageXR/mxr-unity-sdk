@@ -61,6 +61,22 @@ namespace MXR.SDK {
         event Action<List<ScannedWifiNetwork>> OnWifiNetworksChange;
 
         /// <summary>
+        /// Event fired when a Play Video command is received
+        /// </summary>
+        event Action<PlayVideoCommandData> OnPlayVideoCommand;
+
+        /// <summary>
+        /// Event fired when a Pause Video command is received
+        /// </summary>
+        event Action<PauseVideoCommandData> OnPauseVideoCommand;
+
+        /// <summary>
+        /// Event fired when the admin app requests for 
+        /// <see cref="HomeScreenState"/> 
+        /// </summary>
+        event Action OnHomeScreenStateRequest;
+
+        /// <summary>
         /// Disable Kiosk mode on the device
         /// </summary>
         void DisableKioskMode();
@@ -130,6 +146,12 @@ namespace MXR.SDK {
         /// The SSID of the network to forget
         /// </param>
         void ForgetWifiNetwork(string ssid);
+
+        /// <summary>
+        /// Sends the <see cref="HomeScreenState"/> to the system.
+        /// </summary>
+        /// <param name="state">The state to be sent</param>
+        void SendHomeScreenState(HomeScreenState state);
 
         /// <summary>
         /// Exit the launcher

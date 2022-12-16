@@ -1,7 +1,8 @@
 {
     "name": "com.mxr.unity.sdk.samples",
     "references": [
-        "GUID:025bdc31ab610724ebbf99d7edf59bb8"
+        "GUID:025bdc31ab610724ebbf99d7edf59bb8",
+        "GUID:4766656410e7f4d4ba1898ffdf96db5b"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -215,7 +215,7 @@ namespace MXR.SDK {
     }
 
     /// <summary>
-    /// Settings configured to be hidden in the homescreen
+    /// Settings configured to be hidden in the homescreen.
     /// </summary>
     [Serializable]
     public class HiddenSettings {
@@ -226,10 +226,26 @@ namespace MXR.SDK {
         public bool wifi;
     }
 
+    /// <summary>
+    /// Represents the mode the device/homescreen app is in.
+    /// </summary>
     [Serializable]
     public enum DeviceExperienceMode {
+        /// <summary>
+        /// When the home screen has been disabled via the ManageXR web dashboard.
+        /// </summary>
         DEFAULT,
+
+        /// <summary>
+        /// When a content has been configured to be the only running content
+        /// on this device. The homescreen doesn't show the library in this mode
+        /// </summary>
         KIOSK,
+
+        /// <summary>
+        /// Mode when the ManageXR library is visible along with settings/options
+        /// in the homescreen.
+        /// </summary>
         HOME_SCREEN
     }
 
@@ -238,7 +254,7 @@ namespace MXR.SDK {
     /// Future feature. Currently not supported.
     /// </summary>
     [Serializable]
-    [Obsolete("Splash settings are currently not supported.")]
+    [Obsolete("Splash settings are currently not available for configuration on the MXR dashboard")]
     public class SplashSettings {
         public float duration;
         public string bottomColorHex;
@@ -283,8 +299,19 @@ namespace MXR.SDK {
     /// </summary>
     [System.Serializable]
     public class CustomLauncherImage {
+        /// <summary>
+        /// Unique identifier of the image
+        /// </summary>
         public string id = string.Empty;
+
+        /// <summary>
+        /// Name of the image
+        /// </summary>
         public string name = string.Empty;
+
+        /// <summary>
+        /// Local path to the image 
+        /// </summary>
         public string path = string.Empty;
 
         public bool IsValid() {

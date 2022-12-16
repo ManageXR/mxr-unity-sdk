@@ -1,5 +1,7 @@
-﻿using System;
+#if UNITY_ANDROID
+using System;
 using System.Collections.Generic;
+using System.IO;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -26,21 +28,18 @@ namespace MXR.SDK {
 
         public bool IsAvailable => messenger.IsBoundToService;
 
-        public List<ScannedWifiNetwork> WifiNetworks { get; private set; }
-            = new List<ScannedWifiNetwork>();
-        public event Action<List<ScannedWifiNetwork>> OnWifiNetworksChange;
-
-        public WifiConnectionStatus WifiConnectionStatus { get; private set; }
-            = new WifiConnectionStatus();
-        public event Action<WifiConnectionStatus> OnWifiConnectionStatusChange;
-
-        public RuntimeSettingsSummary RuntimeSettingsSummary { get; private set; }
-            = new RuntimeSettingsSummary();
-        public event Action<RuntimeSettingsSummary> OnRuntimeSettingsSummaryChange;
-
         public DeviceStatus DeviceStatus { get; private set; }
-            = new DeviceStatus();
+        public RuntimeSettingsSummary RuntimeSettingsSummary { get; private set; }
+        public List<ScannedWifiNetwork> WifiNetworks { get; private set; }
+        public WifiConnectionStatus WifiConnectionStatus { get; private set; }
+
+        public event Action<RuntimeSettingsSummary> OnRuntimeSettingsSummaryChange;
         public event Action<DeviceStatus> OnDeviceStatusChange;
+        public event Action<List<ScannedWifiNetwork>> OnWifiNetworksChange;
+        public event Action<WifiConnectionStatus> OnWifiConnectionStatusChange;
+        public event Action<PlayVideoCommandData> OnPlayVideoCommand;
+        public event Action<PauseVideoCommandData> OnPauseVideoCommand;
+        public event Action OnHomeScreenStateRequest;
 
         string lastWifiNetworksJSON = string.Empty;
         string lastWifiConnectionStatusJSON = string.Empty;
@@ -50,13 +49,25 @@ namespace MXR.SDK {
         public MXRAndroidSystem() {
             messenger = new AdminAppMessengerManager();
 
-            RefreshRuntimeSettings();
-            RefreshDeviceStatus();
+            InitializeRuntimeSettingsSummary();
+            InitializeDeviceStatus();
+            RefreshWifiConnectionStatus();
+            RefreshWifiNetworks();
 
             int WIFI_NETWORKS = 1000;
             int WIFI_CONNECTION_STATUS = 3000;
             int RUNTIME_SETTINGS = 4000;
             int DEVICE_STATUS = 5000;
+            int HANDLE_COMMAND = 6000;
+            int GET_HOME_SCREEN_STATE = 15000;
+
+            // Subscribe to application focus change event and 
+            // execute any command passed in extra strings
+            Dispatcher.OnPlayerFocusChange += x => {
+                if (!x) return;
+
+                TryExecuteIntentCommands();
+            };
 
             messenger.OnMessageFromAdminApp += (what, json) => {
                 // Unescape json if it is escaped 
@@ -103,7 +114,55 @@ namespace MXR.SDK {
                         OnDeviceStatusChange?.Invoke(status);
                     }
                 }
+                else if (what == HANDLE_COMMAND) {
+                    ProcessCommandJson(json);
+                }
+                else if (what == GET_HOME_SCREEN_STATE) {
+                    OnHomeScreenStateRequest?.Invoke();
+                }
             };
+        }
+
+        HashSet<string> executedIntentIds = new HashSet<string>();
+        void TryExecuteIntentCommands() {
+            var intentId = MXRAndroidUtils.GetExtraString("intentId");
+            if (string.IsNullOrEmpty(intentId)) return;
+
+            // If we've already executed the command with this intent id, we ignore it.
+            if (executedIntentIds.Contains(intentId))
+                return;
+
+            var commandJson = MXRAndroidUtils.GetExtraString("command");
+            if (string.IsNullOrEmpty(commandJson)) return;
+
+            ProcessCommandJson(commandJson);
+            executedIntentIds.Add(intentId);
+        }
+
+        void ProcessCommandJson(string json) {
+            try {
+                var command = JsonUtility.FromJson<Command>(json);
+                if (command == null) {
+                    Debug.LogError("Could not deserialize command json " + json);
+                    return;
+                }
+
+                switch (command.action) {
+                    case CommandAction.PLAY_VIDEO:
+                        var playVideoCommandData = JsonUtility.FromJson<PlayVideoCommandData>(command.data);
+                        if (playVideoCommandData != null)
+                            OnPlayVideoCommand?.Invoke(playVideoCommandData);
+                        break;
+                    case CommandAction.PAUSE_VIDEO:
+                        var pauseVideoCommandData = JsonUtility.FromJson<PauseVideoCommandData>(command.data);
+                        if (pauseVideoCommandData != null)
+                            OnPauseVideoCommand?.Invoke(pauseVideoCommandData);
+                        break;
+                }
+            }
+            catch (Exception e) {
+                Debug.LogError("Could not deserialize command json " + e);
+            }
         }
 
         public void ConnectToWifiNetwork(string ssid, string password) {
@@ -168,14 +227,67 @@ namespace MXR.SDK {
                 messenger.Native?.Call<bool>("disableKioskModeAsync");
         }
 
+        public void Sync() {
+            if (messenger.IsBoundToService)
+                messenger.Native?.Call<bool>("checkDbAsync");
+        }
+
+        public void SendHomeScreenState(HomeScreenState state) {
+            if (messenger.IsBoundToService) {
+                // TODO: This might look something like this
+                //messenger.Native?.Call<bool>("sendHomeScreenState", "state json");
+            }
+        }
+
         public void ExitLauncher() {
             if (messenger.IsBoundToService)
                 messenger.Native?.Call<bool>("exitLauncherAsync");
         }
 
-        public void Sync() {
-            if (messenger.IsBoundToService)
-                messenger.Native?.Call<bool>("checkDbAsync");
+        #region INITIALIZATION 
+        void InitializeRuntimeSettingsSummary() {
+            var subPath = "MightyImmersion/runtimeSettingsSummary.json";
+            if (DeserializeFromFile(subPath, out string contents, out RuntimeSettingsSummary runtimeSettingsSummary)) {
+                lastRuntimeSettingsSummaryJSON = contents;
+                RuntimeSettingsSummary = runtimeSettingsSummary;
+                OnRuntimeSettingsSummaryChange?.Invoke(RuntimeSettingsSummary);
+            }
+            else {
+                Debug.LogWarning("Could not deserialize RuntimeSettingsSummary from " + subPath +
+                    "Invoking RefreshRuntimeSettingsSummary to request from AdminAppMessengerManager");
+                RefreshRuntimeSettings();
+            }
         }
+
+        void InitializeDeviceStatus() {
+            var subPath = "MightyImmersion/deviceStatus.json";
+            if (DeserializeFromFile(subPath, out string contents, out DeviceStatus deviceStatus)) {
+                lastDeviceStatusJSON = contents;
+                DeviceStatus = deviceStatus;
+                OnDeviceStatusChange?.Invoke(DeviceStatus);
+            }
+            else {
+                Debug.LogWarning("Could not deserialize DeviceStatus from " + subPath +
+                    "Invoking RefreshDeviceStatus to request from AdminAppMessengerManager");
+                RefreshDeviceStatus();
+            }
+        }
+
+        bool DeserializeFromFile<T>(string subPath, out string contents, out T value) {
+            try {
+                var filePath = MXRStorage.GetFullPath(subPath);
+                contents = File.ReadAllText(filePath);
+                value = JsonConvert.DeserializeObject<T>(contents);
+                return true;
+            }
+            catch (Exception e) {
+                Debug.LogError(e);
+                contents = null;
+                value = default;
+                return false;
+            }
+        }
+        #endregion
     }
 }
+#endif
