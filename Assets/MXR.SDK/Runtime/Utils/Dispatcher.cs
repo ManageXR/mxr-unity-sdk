@@ -59,9 +59,10 @@ namespace MXR.SDK {
         /// The number of times the application has gained focus.
         /// Default: 0 
         /// </summary>
-        static public int FocusCount { get; private set; } = 1;
+        static public int FocusCount { get; private set; }
 
         void StartFocus() {
+            FocusCount = 1;
             OnPlayerFocusChange?.Invoke(true);
         }
 
@@ -73,6 +74,10 @@ namespace MXR.SDK {
 
         void OnApplicationFocus(bool hasFocus) {
             focus = hasFocus;
+        }
+
+        private void OnApplicationPause(bool pause) {
+            focus = !pause;
         }
 
         void LateUpdateFocus() {
