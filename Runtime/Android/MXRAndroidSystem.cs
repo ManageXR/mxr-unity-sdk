@@ -1,4 +1,4 @@
-﻿#if UNITY_ANDROID
+#if UNITY_ANDROID
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -126,17 +126,17 @@ namespace MXR.SDK {
         HashSet<string> executedIntentIds = new HashSet<string>();
         void TryExecuteIntentCommands() {
             var intentId = MXRAndroidUtils.GetExtraString("intentId");
+            if (string.IsNullOrEmpty(intentId)) return;
 
             // If we've already executed the command with this intent id, we ignore it.
             if (executedIntentIds.Contains(intentId))
                 return;
 
             var commandJson = MXRAndroidUtils.GetExtraString("command");
+            if (string.IsNullOrEmpty(commandJson)) return;
 
-            if (!string.IsNullOrEmpty(commandJson)) {
-                ProcessCommandJson(commandJson);
-                executedIntentIds.Add(intentId);
-            }
+            ProcessCommandJson(commandJson);
+            executedIntentIds.Add(intentId);
         }
 
         void ProcessCommandJson(string json) {
