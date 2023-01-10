@@ -19,7 +19,7 @@ Example usages of this SDK:
 ## Installation & Setup  
 1. Install the SDK package in your Unity project. There are multiple methods:
 
-   ### _Via  Package Manager window (No Available Yet - Coming Soon!)_  
+   ### _Via  Package Manager window (Not Available Yet - Coming Soon!)_  
    The UPM package is [available on OpenUPM](https://openupm.com/packages/com.mxr.unity.sdk). To install, follow these instructions:  
    - Add the OpenUPM registry with the ManageXR Unity SDK as a `scope`. To do this, go to `Edit/Project Settings/Package Manager`, add the OpenUPM scope registry with the URL `https://package.openupm.com` and add `com.mxr.unity.sdk` as a scope.
 
@@ -28,7 +28,7 @@ Example usages of this SDK:
    ### _Via manifest.json_  
    - Go to `Packages/manifest.json` inside your Unity project  
    - Add `"com.mxr.unity.sdk" : "https://github.com/managexr/mxr-unity-sdk.git#upm@latest"` under the `dependencies` object  
-   - __Note:__ This method is NOT recommended, as this causes Unity to always fetch the latest version of UPM package from the Github URL into your project. If a new version introduces breaking or unexpected changes in the SDK, your project might not work as expected. With the Package Manager Window method described above, you can lock your project to a specific version of the package and up/downgrade when you want.  
+   - __Note:__ We recommend migrating to the Package Manager installation method above as soon as it is released.
   
 1. Setup MXR files for Unity Editor testing. This allows you to simulate SDK operations in the editor.  
    - After installation, go to `Library/PackageCache/com.mxr.unity.sdk@x.x.x/` directory in your Unity project and extract `Files.zip` to the root of your Unity project. Your project structure should then look like this:  
