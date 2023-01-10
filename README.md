@@ -19,7 +19,7 @@ Example usages of this SDK:
 ## Installation & Setup  
 1. Install the SDK package in your Unity project. There are multiple methods:
 
-   ### _Via  Package Manager window (Recommended)_  
+   ### _Via  Package Manager window (No Available Yet - Coming Soon!)_  
    The UPM package is [available on OpenUPM](https://openupm.com/packages/com.mxr.unity.sdk). To install, follow these instructions:  
    - Add the OpenUPM registry with the ManageXR Unity SDK as a `scope`. To do this, go to `Edit/Project Settings/Package Manager`, add the OpenUPM scope registry with the URL `https://package.openupm.com` and add `com.mxr.unity.sdk` as a scope.
 
