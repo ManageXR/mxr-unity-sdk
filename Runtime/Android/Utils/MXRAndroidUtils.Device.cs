@@ -39,6 +39,8 @@ namespace MXR.SDK {
 
         public static bool IsPicoNeo3 =>
             Application.isEditor ? false : DeviceModel.Equals("Pico Neo 3");
+        public static bool IsPico4 =>
+            Application.isEditor ? false : DeviceModel.Equals("A8140");
 
         public static bool IsOculusGo =>
             Application.isEditor ? false : DeviceModel.Equals("Pacific");
