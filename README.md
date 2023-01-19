@@ -94,5 +94,14 @@ See `LibraryPanel.cs` and `WifiPanel.cs` under `Assets/MXR.SDK/Samples/Scripts/`
 IntelliSense code comments have been added for the key APIs and models. API reference and further documentation coming soon.
 
 ___
+## Building your Unity project
+Make sure that the VR device has been set up using the ManageXR Device Setup Tool ([docs here](https://help.managexr.com/en/articles/5296578-register-a-new-device)) which installs the Android applications on your device that the SDK requires.
+  
+Add the `READ_EXTERNAL_STORAGE` permission to your Android Manifest.  
+`<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>`
+
+Enable `requestLegacyExternalStorage` on builds targeting _Android API Level 29 and below_.  
+`<application android:requestLegacyExternalStorage="true">`
+___
 ## Support  
 Please open a Github Issue or contact support@managexr.com for additional support.
