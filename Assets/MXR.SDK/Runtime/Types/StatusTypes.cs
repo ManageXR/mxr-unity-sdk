@@ -25,6 +25,11 @@ namespace MXR.SDK {
         public Dictionary<string, FileInstallStatus> videoStatuses = new Dictionary<string, FileInstallStatus>();
 
         /// <summary>
+        /// Whether the device is locked using a passcode.
+        /// </summary>
+        public bool locked = false;
+
+        /// <summary>
         /// Status of the device system
         /// </summary>
         public DeviceSystemVersionInstallStatus deviceSystemVersionStatus = new DeviceSystemVersionInstallStatus();
