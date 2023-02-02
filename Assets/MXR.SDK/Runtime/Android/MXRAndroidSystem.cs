@@ -83,6 +83,7 @@ namespace MXR.SDK {
 
                     List<ScannedWifiNetwork> networks = JsonConvert.DeserializeObject<List<ScannedWifiNetwork>>(json);
                     if (networks != null) {
+                        lastDeviceStatusJSON = json;
                         WifiNetworks = networks;
                         OnWifiNetworksChange?.Invoke(networks);
                     }
@@ -92,6 +93,7 @@ namespace MXR.SDK {
 
                     WifiConnectionStatus status = JsonConvert.DeserializeObject<WifiConnectionStatus>(json);
                     if (status != null) {
+                        lastWifiConnectionStatusJSON = json;
                         WifiConnectionStatus = status;
                         OnWifiConnectionStatusChange?.Invoke(status);
                     }
