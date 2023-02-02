@@ -101,6 +101,7 @@ namespace MXR.SDK {
 
                     RuntimeSettingsSummary summary = JsonConvert.DeserializeObject<RuntimeSettingsSummary>(json);
                     if (summary != null) {
+                        lastRuntimeSettingsSummaryJSON = json;
                         RuntimeSettingsSummary = summary;
                         OnRuntimeSettingsSummaryChange?.Invoke(summary);
                     }
@@ -110,6 +111,7 @@ namespace MXR.SDK {
 
                     DeviceStatus status = JsonConvert.DeserializeObject<DeviceStatus>(json);
                     if (status != null) {
+                        lastDeviceStatusJSON = json;
                         DeviceStatus = status;
                         OnDeviceStatusChange?.Invoke(status);
                     }
