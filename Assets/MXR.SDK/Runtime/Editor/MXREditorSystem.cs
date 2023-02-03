@@ -13,6 +13,8 @@ namespace MXR.SDK {
     /// Allows testing the application/integration in the editor.
     /// </summary>
     public class MXREditorSystem : MonoBehaviour, IMXRSystem {
+        const string TAG = "[MXREditorSystem]";
+
         // ================================================
         #region INITIALIZATION AND LOOP
         // ================================================
@@ -48,13 +50,19 @@ namespace MXR.SDK {
         #endregion
 
         public void ExecuteCommand(Command command) {
+            var data = command.data;
+
             switch (command.action) {
-                case CommandAction.PLAY_VIDEO:
+                case Command.PLAY_VIDEO_ACTION:
+                    if (LoggingEnabled)
+                        Debug.unityLogger.Log(LogType.Log, TAG, "Play Video Command received. " + JsonUtility.ToJson(command));
                     var playVideoCommandData = JsonUtility.FromJson<PlayVideoCommandData>(command.data);
                     if (playVideoCommandData != null)
                         OnPlayVideoCommand?.Invoke(playVideoCommandData);
                     break;
-                case CommandAction.PAUSE_VIDEO:
+                case Command.PAUSE_VIDEO_ACTION:
+                    if (LoggingEnabled)
+                        Debug.unityLogger.Log(LogType.Log, TAG, "Pause Video Command received.");
                     var pauseVideoCommandData = JsonUtility.FromJson<PauseVideoCommandData>(command.data);
                     if (pauseVideoCommandData != null)
                         OnPauseVideoCommand?.Invoke(pauseVideoCommandData);
@@ -65,8 +73,13 @@ namespace MXR.SDK {
         // ================================================
         #region INTERFACE IMPLEMENTATION
         // ================================================
-
         // INTERFACE PROPERTIES
+        bool loggingEnabled = true;
+        public bool LoggingEnabled {
+            get => loggingEnabled;
+            set => loggingEnabled = value;
+        }
+
         public bool IsAvailable => Directory.Exists(MXRStorage.MXRRootDirectory);
 
         public ScannedWifiNetwork CurrentNetwork {
@@ -105,7 +118,6 @@ namespace MXR.SDK {
         public RuntimeSettingsSummary RuntimeSettingsSummary { get; private set; }
         public WifiConnectionStatus WifiConnectionStatus { get; private set; }
         public List<ScannedWifiNetwork> WifiNetworks { get; private set; }
-
         // INTERFACE EVENTS
         public event Action<DeviceStatus> OnDeviceStatusChange;
         public event Action<RuntimeSettingsSummary> OnRuntimeSettingsSummaryChange;
@@ -117,27 +129,70 @@ namespace MXR.SDK {
 
         // INTERFACE METHODS
         public void DisableKioskMode() {
-            RuntimeSettingsSummary.kioskModeEnabled = false;
-            WriteRuntimeSettings();
+            try {
+                if (RuntimeSettingsSummary.kioskModeEnabled == false) return;
+                
+                RuntimeSettingsSummary.kioskModeEnabled = false;
+                WriteRuntimeSettings();
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Log, TAG, "Disabled Kiosk Mode");
+            }
+            catch (Exception e) {
+                RuntimeSettingsSummary.kioskModeEnabled = true;
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Error, TAG, "Could not disable Kiosk Mode. " + e);
+            }
         }
 
         public void EnableKioskMode() {
-            RuntimeSettingsSummary.kioskModeEnabled = true;
-            WriteRuntimeSettings();
+            try {
+                if (RuntimeSettingsSummary.kioskModeEnabled) return;
+
+                RuntimeSettingsSummary.kioskModeEnabled = true;
+                WriteRuntimeSettings();
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Log, TAG, "Enabled Kiosk Mode");
+            }
+            catch(Exception e) {
+                RuntimeSettingsSummary.kioskModeEnabled = false;
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Error, TAG, "Could not enable Kiosk Mode. " + e);
+            }
         }
 
         public void EnableWifi() {
-            WifiConnectionStatus.wifiIsEnabled = true;
-            WriteWifiConnectionStatus();
+            try {
+                if (WifiConnectionStatus.wifiIsEnabled) return;
+
+                WifiConnectionStatus.wifiIsEnabled = true;
+                WriteWifiConnectionStatus();
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Log, TAG, "Enabled Wifi");
+            }
+            catch(Exception e){
+                WifiConnectionStatus.wifiIsEnabled = false;
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Error, TAG, "Could not enable Wifi. " + e);
+            }
         }
 
         public void DisableWifi() {
-            lastWifiConnectionStatusJson = string.Empty;
-            lastWifiNetworksJson = string.Empty;
-            WifiNetworks.Clear();
-            CurrentNetwork = null;
-            WifiConnectionStatus.wifiIsEnabled = false;
-            WriteWifiConnectionStatus();
+            try {
+                if (WifiConnectionStatus.wifiIsEnabled == false) return;
+
+                lastWifiConnectionStatusJson = string.Empty;
+                lastWifiNetworksJson = string.Empty;
+                WifiNetworks.Clear();
+                CurrentNetwork = null;
+                WifiConnectionStatus.wifiIsEnabled = false;
+                WriteWifiConnectionStatus();
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Log, TAG, "Disabled Kiosk Mode");
+            }
+            catch(Exception e) {
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Error, TAG, "Could not disable Wifi. " + e);
+            }
         }
 
         public void RequestHomeScreenState() {
@@ -150,11 +205,17 @@ namespace MXR.SDK {
             ssid = JsonConvert.ToString(ssid);
             ssid = ssid.Substring(1, ssid.Length - 2);
 
+            if (LoggingEnabled)
+                Debug.unityLogger.Log(LogType.Log, TAG, "Connecting to Wifi Network with SSID " + ssid + " using password " + password);
+
             // If a network with the given SSID is available
             // just set it as the current network
             foreach (var network in WifiNetworks) {
-                if (network.ssid.Equals(ssid))
+                if (network.ssid.Equals(ssid)) {
                     CurrentNetwork = network;
+                    if (LoggingEnabled)
+                        Debug.unityLogger.Log(LogType.Log, TAG, "Connected to Wifi Network with SSID " + ssid);
+                }
             }
         }
 
@@ -169,11 +230,17 @@ namespace MXR.SDK {
             ssid = JsonConvert.ToString(ssid);
             ssid = ssid.Substring(1, ssid.Length - 2);
 
-            if (CurrentNetwork != null && CurrentNetwork.ssid.Equals(ssid))
+            if (CurrentNetwork != null && CurrentNetwork.ssid.Equals(ssid)) {
                 CurrentNetwork = null;
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Log, TAG, "Forgot Wifi Network with SSID " + ssid);
+            }
         }
 
         public void Sync() {
+            if (LoggingEnabled)
+                Debug.unityLogger.Log(LogType.Log, TAG, "Syncing...");
+
             // Refresh the data from all the json files
             // this class uses
             RefreshDeviceStatus();
@@ -185,70 +252,84 @@ namespace MXR.SDK {
         string lastRuntimeSettingsSummaryJson = string.Empty;
         public void RefreshRuntimeSettings() {
             try {
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Log, TAG, "Refreshing RuntimeSettingsSummary from runtimeSettingsSummary.json");
                 if (TryRefresh("runtimeSettingsSummary.json", ref lastRuntimeSettingsSummaryJson, out RuntimeSettingsSummary summary)) {
                     RuntimeSettingsSummary = summary;
                     OnRuntimeSettingsSummaryChange?.Invoke(summary);
                 }
             }
-            catch {
-                if (RuntimeSettingsSummary != null)
-                    OnWifiNetworksChange?.Invoke(null);
+            catch (Exception e) {
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Error, TAG, "Could not refresh Wifi Networks from wifiNetworks.json. " + e);
                 RuntimeSettingsSummary = null;
+                OnRuntimeSettingsSummaryChange?.Invoke(RuntimeSettingsSummary);
             }
         }
 
         string lastDeviceStatus = string.Empty;
         public void RefreshDeviceStatus() {
             try {
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Log, TAG, "Refreshing DeviceStatus from deviceStatus.json");
                 if (TryRefresh("deviceStatus.json", ref lastDeviceStatus, out DeviceStatus status)) {
                     DeviceStatus = status;
                     OnDeviceStatusChange?.Invoke(status);
                 }
             }
-            catch {
-                if (DeviceStatus != null)
-                    OnDeviceStatusChange?.Invoke(null);
+            catch (Exception e) {
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Error, TAG, "Could not refresh DeviceStatus from deviceStatus.json. " + e);
                 DeviceStatus = null;
+                OnDeviceStatusChange?.Invoke(DeviceStatus);
             }
         }
 
         string lastWifiNetworksJson = string.Empty;
         public void RefreshWifiNetworks() {
             try {
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Log, TAG, "Refreshing WifiNetworks from wifiNetworks.json");
                 if (TryRefresh("wifiNetworks.json", ref lastWifiNetworksJson, out List<ScannedWifiNetwork> networks)) {
                     WifiNetworks = networks;
                     OnWifiNetworksChange?.Invoke(networks);
                 }
             }
-            catch {
-                if (WifiNetworks != null)
-                    OnWifiNetworksChange?.Invoke(null);
+            catch (Exception e) {
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Error, TAG, "Could not refresh Wifi Networks from wifiNetworks.json. " + e);
                 WifiNetworks = null;
+                OnWifiNetworksChange?.Invoke(WifiNetworks);
             }
         }
 
         string lastWifiConnectionStatusJson = string.Empty;
         public void RefreshWifiConnectionStatus() {
             try {
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Log, TAG, "Refreshing WifiConnectionStatus from wifiConnectionStatus.json");
                 if (TryRefresh("wifiConnectionStatus.json", ref lastWifiConnectionStatusJson, out WifiConnectionStatus status)) {
                     WifiConnectionStatus = status;
                     OnWifiConnectionStatusChange?.Invoke(status);
                 }
             }
-            catch {
-                if (WifiConnectionStatus != null)
-                    OnWifiConnectionStatusChange?.Invoke(null);
+            catch (Exception e) {
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Error, TAG, "Could not refresh WifiConnectionStatus from wifiConnectionStatus.json. " + e);
                 WifiConnectionStatus = null;
+                OnWifiConnectionStatusChange?.Invoke(WifiConnectionStatus);
             }
         }
 
         public void SendHomeScreenState(HomeScreenState state) {
-            Debug.Log("SendHomeScreenState " + JsonUtility.ToJson(state) + 
-            "\nEditor mode doesn't send HomeScreenState anywhere, only prints it to console.");
+            if (LoggingEnabled)
+                Debug.unityLogger.Log(LogType.Warning, TAG, "SendHomeScreenState " + JsonUtility.ToJson(state) +
+                    "\nEditor mode doesn't send HomeScreenState anywhere, only prints it to console.");
         }
 
         public void ExitLauncher() {
-            Debug.Log("Editor mode doesn't support ExitLauncher(). Safely ignored...");
+            if (LoggingEnabled)
+                Debug.unityLogger.Log(LogType.Log, TAG, "Editor mode doesn't support ExitLauncher(). Safely ignored...");
         }
         #endregion
 
@@ -272,21 +353,32 @@ namespace MXR.SDK {
                 return false;
             }
             catch (JsonReaderException e) {
-                Debug.LogError($"Error reading json {e}. Skipping...");
                 throw new Exception($"Error reading json {e}. Skipping...");
             }
         }
 
         void WriteRuntimeSettings() {
-            string path = GetFilePath("runtimeSettingsSummary.json");
-            var json = JsonConvert.SerializeObject(RuntimeSettingsSummary);
-            File.WriteAllText(path, json);
+            try {
+                string path = GetFilePath("runtimeSettingsSummary.json");
+                var json = JsonConvert.SerializeObject(RuntimeSettingsSummary);
+                File.WriteAllText(path, json);
+            }
+            catch(Exception e) {
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Error, TAG, e);
+            }
         }
 
         void WriteWifiConnectionStatus() {
-            string path = GetFilePath("wifiConnectionStatus.json");
-            var json = JsonConvert.SerializeObject(WifiConnectionStatus);
-            File.WriteAllText(path, json);
+            try {
+                string path = GetFilePath("wifiConnectionStatus.json");
+                var json = JsonConvert.SerializeObject(WifiConnectionStatus);
+                File.WriteAllText(path, json);
+            }
+            catch(Exception e) {
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Error, TAG, e);
+            }
         }
 
         string GetFilePath(string fileName) {
