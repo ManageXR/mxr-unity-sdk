@@ -41,7 +41,6 @@ namespace MXR.SDK {
             if (IsInitialized)
                 return;
 
-            Dispatcher.Init();
             HomeScreenState = new HomeScreenState {
                 view = HomeScreenView.LIBRARY,
                 viewDetails = new HomeScreenViewDetails()

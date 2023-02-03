@@ -8,6 +8,11 @@ namespace MXR.SDK {
     /// </summary>
     public interface IMXRSystem {
         /// <summary>
+        /// Whether the system will log messages to the Unity console
+        /// </summary>
+        bool LoggingEnabled { get; set; }
+
+        /// <summary>
         /// Whether the system is available/bound/online
         /// for use. Depending on the implementation, 
         /// availability of <see cref="IMXRSystem"/> 
