@@ -102,6 +102,8 @@ Add the `READ_EXTERNAL_STORAGE` permission to your Android Manifest.
 
 Enable `requestLegacyExternalStorage` on builds targeting _Android API Level 29 and below_.  
 `<application android:requestLegacyExternalStorage="true">`
+
+Logging is enabled by default. Use `MXRSystem.EnableLogging = false` to disable messages from being logged to the console.
 ___
 ## Support  
 Please open a Github Issue or contact support@managexr.com for additional support.
