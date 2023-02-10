@@ -25,7 +25,34 @@ namespace MXR.SDK {
             }
         }
 
-        public static string GetExtraString(string key) {
+        /// <summary>
+        /// Returns if the Android intent extras bundle has a key with the given name
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public static bool HasIntentExtra(string key) {
+            var intent = CurrentActivity.Call<AndroidJavaObject>("getIntent");
+            var bundle = intent.Call<AndroidJavaObject>("getExtras");
+            return bundle.Call<bool>("containsKey", key);
+        }
+
+        /// <summary>
+        /// Returns a boolean from the Android intent extras 
+        /// </summary>
+        /// <param name="key">The key to read the boolean from</param>
+        /// <param name="defaultValue">The default value in case the key doesn't exist</param>
+        /// <returns></returns>
+        public static bool GetIntentBooleanExtra(string key, bool defaultValue) {
+            var intent = CurrentActivity.Call<AndroidJavaObject>("getIntent");
+            return intent.Call<bool>("getBooleanExtra", key, defaultValue);
+        }
+
+        /// <summary>
+        /// Returns a string from the Android intent extras
+        /// </summary>
+        /// <param name="key">The key to read the string from</param>
+        /// <returns></returns>
+        public static string GetIntentStringExtra(string key) {
             var intent = CurrentActivity.Call<AndroidJavaObject>("getIntent");
             return intent.Call<string>("getStringExtra", key);
         }

@@ -148,32 +148,67 @@ namespace MXR.SDK {
             };
         }
 
-        HashSet<string> executedIntentIds = new HashSet<string>();
+        // When receiving commands through the Android intent, we get
+        // the values in a flattened manner. Schema:
+        // {intentID=VALUE,action=VALUE, videoId=VALUE, playFromBeginning=VALUE}
+        // 
+        // This is different from how the messenger manager sends it, the root has action:string and 
+        // data:object where the latter has the string:videoId and 
+        // bool:playFromBeginning. Schema:
+        // {action=VALUE, data={videoId=VALUE, fromFromBeginning=VALUE}}
+        //
+        // We currently only handle the PLAY_VIDEO action through intents
+        // so we first check if the "action" and "videoId" keys are present
+        // in the intent bundle and then create a command object as a dictionary,
+        // serialize it to json, and send it for processing. We attempt to read the
+        // "playFromBeginning" boolean, but if not found, we default to true.
+        readonly HashSet<string> executedIntentIds = new HashSet<string>();
         void TryExecuteIntentCommands() {
             if (LoggingEnabled)
                 Debug.unityLogger.Log(LogType.Log, TAG, "Checking for intent commands");
 
-            var intentId = MXRAndroidUtils.GetExtraString("intentId");
-            if (string.IsNullOrEmpty(intentId)) return;
-
-            if (LoggingEnabled)
-                Debug.unityLogger.Log(LogType.Log, TAG, "Found intentId extra string: " + intentId);
-
-            // If we've already executed the command with this intent id, we ignore it.
-            if (executedIntentIds.Contains(intentId)) {
+            if (!MXRAndroidUtils.HasIntentExtra("intentId")) {
                 if (LoggingEnabled)
-                    Debug.unityLogger.Log(LogType.Log, TAG, "intentId " + intentId + " has already been executed. Ignoring.");
+                    Debug.unityLogger.Log(LogType.Log, TAG, "No 'intentId' key found in intent extras.");
                 return;
             }
 
-            var commandJson = MXRAndroidUtils.GetExtraString("command");
-            if (string.IsNullOrEmpty(commandJson)) return;
+            if (!MXRAndroidUtils.HasIntentExtra("action")) {
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Log, TAG, "No 'action' key found in intent extras.");
+                return;
+            }
 
-            if (LoggingEnabled)
-                Debug.unityLogger.Log(LogType.Log, TAG, "Found command in intent extra strings " + commandJson);
+            var action = MXRAndroidUtils.GetIntentStringExtra("action");
+            if (!action.Equals("PLAY_VIDEO")) {
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Log, TAG, 
+                        "Only PLAY_VIDEO command action is supported via intents.");
+                return;
+            }
+            else if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Log, TAG, "PLAY_VIDEO command action found.");
 
-            ProcessCommandJson(commandJson);
+            if (!MXRAndroidUtils.HasIntentExtra("videoId")) {
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Error, TAG, "No 'videoId' key found in intent extras.");
+                return;
+            }
+
+            var intentId = MXRAndroidUtils.GetIntentStringExtra("intentId");
+            var videoId = MXRAndroidUtils.GetIntentStringExtra("videoId");
+            var playFromBeginning = MXRAndroidUtils.GetIntentBooleanExtra("playFromBeginning", true);
+
+            var commandObj = new Dictionary<string, object> {
+                {"action", "PLAY_VIDEO" },
+                {"data", new Dictionary<string, object> {
+                    {"videoId", videoId },
+                    {"playFromBeginning", playFromBeginning }
+                } }
+            };
+
             executedIntentIds.Add(intentId);
+            ProcessCommandJson(JsonConvert.SerializeObject(commandObj));
         }
 
         void ProcessCommandJson(string json) {
@@ -233,7 +268,7 @@ namespace MXR.SDK {
 
         public void DisableWifi() {
             if (messenger.IsBoundToService) {
-                if(LoggingEnabled)
+                if (LoggingEnabled)
                     Debug.unityLogger.Log(LogType.Log, TAG, "DisableWifi called. Invoking over JNI: disableWifiAsync");
                 messenger.Native?.Call<bool>("disableWifiAsync");
             }
@@ -243,7 +278,7 @@ namespace MXR.SDK {
 
         public void EnableWifi() {
             if (messenger.IsBoundToService) {
-                if(LoggingEnabled)
+                if (LoggingEnabled)
                     Debug.unityLogger.Log(LogType.Log, TAG, "EnableWifi called. Invoking over JNI: enableWifiAsync");
                 messenger.Native?.Call<bool>("enableWifiAsync");
             }
@@ -258,7 +293,7 @@ namespace MXR.SDK {
             ssid = ssid.Substring(1, ssid.Length - 2);
 
             if (messenger.IsBoundToService) {
-                if(LoggingEnabled)
+                if (LoggingEnabled)
                     Debug.unityLogger.Log(LogType.Log, TAG, "ForgetWifiNetwork called. Invoking over JNI: forgetWifiNetworkAsync");
                 messenger.Native?.Call<bool>("forgetWifiNetworkAsync", ssid);
             }
@@ -268,7 +303,7 @@ namespace MXR.SDK {
 
         public void RefreshWifiNetworks() {
             if (messenger.IsBoundToService) {
-                if(LoggingEnabled)
+                if (LoggingEnabled)
                     Debug.unityLogger.Log(LogType.Log, TAG, "RefreshWifiNetworks called. Invoking over JNI: getWifiNetworksAsync");
                 messenger.Native?.Call<bool>("getWifiNetworksAsync");
             }
@@ -278,7 +313,7 @@ namespace MXR.SDK {
 
         public void RefreshWifiConnectionStatus() {
             if (messenger.IsBoundToService) {
-                if(LoggingEnabled)
+                if (LoggingEnabled)
                     Debug.unityLogger.Log(LogType.Log, TAG, "RefreshWifiConnectionStatus called. Invoking over JNI: getWifiConnectionStatusAsync");
                 messenger.Native?.Call<bool>("getWifiConnectionStatusAsync");
             }
@@ -288,7 +323,7 @@ namespace MXR.SDK {
 
         public void RefreshRuntimeSettings() {
             if (IsAvailable) {
-                if(LoggingEnabled) 
+                if (LoggingEnabled)
                     Debug.unityLogger.Log(LogType.Log, TAG, "RefreshRuntimeSettings called. Invoking over JNI: getRuntimeSettingsAsync");
                 messenger.Native?.Call<bool>("getRuntimeSettingsAsync");
             }
@@ -298,7 +333,7 @@ namespace MXR.SDK {
 
         public void RefreshDeviceStatus() {
             if (IsAvailable) {
-                if(LoggingEnabled) 
+                if (LoggingEnabled)
                     Debug.unityLogger.Log(LogType.Log, TAG, "RefreshDeviceStatus called. Invoking over JNI: getDeviceStatusAsync");
                 messenger.Native?.Call<bool>("getDeviceStatusAsync");
             }
@@ -308,7 +343,7 @@ namespace MXR.SDK {
 
         public void EnableKioskMode() {
             if (messenger.IsBoundToService) {
-                if(LoggingEnabled) 
+                if (LoggingEnabled)
                     Debug.unityLogger.Log(LogType.Log, TAG, "EnableKioskMode called. Invoking over JNI: enableKioskModeAsync");
                 messenger.Native?.Call<bool>("enableKioskModeAsync");
             }
@@ -318,7 +353,7 @@ namespace MXR.SDK {
 
         public void DisableKioskMode() {
             if (messenger.IsBoundToService) {
-                if(LoggingEnabled)
+                if (LoggingEnabled)
                     Debug.unityLogger.Log(LogType.Log, TAG, "DisableKioskMode called. Invoking over JNI: disableKioskModeAsync");
                 messenger.Native?.Call<bool>("disableKioskModeAsync");
             }
@@ -328,7 +363,7 @@ namespace MXR.SDK {
 
         public void Sync() {
             if (messenger.IsBoundToService) {
-                if(LoggingEnabled) 
+                if (LoggingEnabled)
                     Debug.unityLogger.Log(LogType.Log, TAG, "Sync called. Invoking over JNI: checkDbAsync");
                 messenger.Native?.Call<bool>("checkDbAsync");
             }
@@ -337,13 +372,13 @@ namespace MXR.SDK {
         }
 
         public void SendHomeScreenState(HomeScreenState state) {
-            if(LoggingEnabled) 
+            if (LoggingEnabled)
                 Debug.unityLogger.Log(LogType.Log, TAG, "SendHomeScreenState method not yet supported");
         }
 
         public void ExitLauncher() {
             if (messenger.IsBoundToService) {
-                if(LoggingEnabled) 
+                if (LoggingEnabled)
                     Debug.unityLogger.Log(LogType.Log, TAG, "ExitLauncher called. Invoking over JNI: exitLauncherAsync");
                 messenger.Native?.Call<bool>("exitLauncherAsync");
             }
@@ -362,7 +397,7 @@ namespace MXR.SDK {
             else {
                 var msg = "Could not deserialize RuntimeSettingsSummary from " + subPath +
                     "Invoking RefreshRuntimeSettingsSummary to request from AdminAppMessengerManager";
-                if(LoggingEnabled) Debug.unityLogger.Log(LogType.Warning, TAG, msg);
+                if (LoggingEnabled) Debug.unityLogger.Log(LogType.Warning, TAG, msg);
                 RefreshRuntimeSettings();
             }
         }
@@ -377,7 +412,7 @@ namespace MXR.SDK {
             else {
                 var msg = "Could not deserialize DeviceStatus from " + subPath +
                     "Invoking RefreshDeviceStatus to request from AdminAppMessengerManager";
-                if(LoggingEnabled) Debug.unityLogger.Log(LogType.Warning, TAG, msg);
+                if (LoggingEnabled) Debug.unityLogger.Log(LogType.Warning, TAG, msg);
                 RefreshDeviceStatus();
             }
         }
@@ -390,7 +425,7 @@ namespace MXR.SDK {
                 return true;
             }
             catch (Exception e) {
-                if(LoggingEnabled)
+                if (LoggingEnabled)
                     Debug.unityLogger.Log(LogType.Error, TAG, e);
                 contents = null;
                 value = default;
