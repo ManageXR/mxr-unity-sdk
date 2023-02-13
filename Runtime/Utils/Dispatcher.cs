@@ -85,7 +85,12 @@ namespace MXR.SDK {
             if (focus != null) {
                 if (focus.Value)
                     FocusCount++;
-                OnPlayerFocusChange?.Invoke(focus.Value);
+                try {
+                    OnPlayerFocusChange?.Invoke(focus.Value);
+                }
+                catch(Exception e) {
+                    Debug.LogError("MXR Dispatcher encountered an exception invoking the focus change callback. " + e);
+                }
                 focus = null;
             }
         }
@@ -97,8 +102,14 @@ namespace MXR.SDK {
 
         void UpdateActionQueue() {
             lock (actionQueue) {
-                while (actionQueue.Count > 0)
-                    actionQueue.Dequeue().Invoke();
+                while (actionQueue.Count > 0) {
+                    try {
+                        actionQueue.Dequeue().Invoke();
+                    }
+                    catch(Exception e) {
+                        Debug.LogError("MXR Dispatcher encountered an exception dequeuing the action queue. " + e);
+                    }
+                }
             }
         }
 
@@ -108,7 +119,12 @@ namespace MXR.SDK {
         /// <param name="action">Action that will be executed from the main thread.</param>
         public static void RunOnMainThread(Action action) {
             lock (actionQueue) {
-                actionQueue.Enqueue(action);
+                try {
+                    actionQueue.Enqueue(action);
+                }
+                catch(Exception e) {
+                    Debug.LogError("MXR Dispatcher encountered an exception running on main thread. " + e);
+                }
             }
         }
     }
