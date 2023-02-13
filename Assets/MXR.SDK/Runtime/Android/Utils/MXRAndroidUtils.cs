@@ -33,6 +33,7 @@ namespace MXR.SDK {
         public static bool HasIntentExtra(string key) {
             var intent = CurrentActivity.Call<AndroidJavaObject>("getIntent");
             var bundle = intent.Call<AndroidJavaObject>("getExtras");
+            if (bundle == null) return false;
             return bundle.Call<bool>("containsKey", key);
         }
 
