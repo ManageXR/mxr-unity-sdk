@@ -21,9 +21,10 @@ namespace MXR.SDK {
         // ================================================
         static Dispatcher instance = null;
 
-        public static void Init() {
+        [RuntimeInitializeOnLoadMethod]
+        static void Init() {
             if (instance == null && Application.isPlaying) {
-                var go = new GameObject("Dispatcher");
+                var go = new GameObject("MXR SDK Dispatcher");
                 go.hideFlags = HideFlags.HideAndDontSave;
                 DontDestroyOnLoad(go);
                 instance = go.AddComponent<Dispatcher>();
@@ -84,7 +85,12 @@ namespace MXR.SDK {
             if (focus != null) {
                 if (focus.Value)
                     FocusCount++;
-                OnPlayerFocusChange?.Invoke(focus.Value);
+                try {
+                    OnPlayerFocusChange?.Invoke(focus.Value);
+                }
+                catch(Exception e) {
+                    Debug.LogError("MXR Dispatcher encountered an exception invoking the focus change callback. " + e);
+                }
                 focus = null;
             }
         }
@@ -96,8 +102,14 @@ namespace MXR.SDK {
 
         void UpdateActionQueue() {
             lock (actionQueue) {
-                while (actionQueue.Count > 0)
-                    actionQueue.Dequeue().Invoke();
+                while (actionQueue.Count > 0) {
+                    try {
+                        actionQueue.Dequeue().Invoke();
+                    }
+                    catch(Exception e) {
+                        Debug.LogError("MXR Dispatcher encountered an exception dequeuing the action queue. " + e);
+                    }
+                }
             }
         }
 
@@ -106,12 +118,13 @@ namespace MXR.SDK {
         /// </summary>
         /// <param name="action">Action that will be executed from the main thread.</param>
         public static void RunOnMainThread(Action action) {
-            if (instance == null)
-                Debug.LogWarning("Dispatcher not initialized, actions will not be executed until initialization. " +
-                "The action has been added to the queue. To run them, call Dispatcher.Init()");
-
             lock (actionQueue) {
-                actionQueue.Enqueue(action);
+                try {
+                    actionQueue.Enqueue(action);
+                }
+                catch(Exception e) {
+                    Debug.LogError("MXR Dispatcher encountered an exception running on main thread. " + e);
+                }
             }
         }
     }

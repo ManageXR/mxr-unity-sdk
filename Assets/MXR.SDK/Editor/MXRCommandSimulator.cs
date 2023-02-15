@@ -103,7 +103,7 @@ namespace MXR.SDK.Editor {
                             GUILayout.Space(10);
                             if (GUILayout.Button("Invoke Play Video Command", GUILayout.Width(width *.6f)))
                                 system.ExecuteCommand(new Command {
-                                    action = CommandAction.PLAY_VIDEO,
+                                    action = Command.PLAY_VIDEO_ACTION,
                                     data = JsonUtility.ToJson(new PlayVideoCommandData {
                                         videoId = videoIDs[selectedVideoIndex],
                                         playFromBeginning = playFromBeginning
@@ -121,7 +121,7 @@ namespace MXR.SDK.Editor {
                             GUILayout.Space(20);
                             if (GUILayout.Button("Invoke Pause Video Command", GUILayout.Width(width * .6f)))
                                 system.ExecuteCommand(new Command {
-                                    action = CommandAction.PAUSE_VIDEO,
+                                    action = Command.PAUSE_VIDEO_ACTION,
                                     data = JsonUtility.ToJson(new PauseVideoCommandData())
                                 });
                             break;
