@@ -43,7 +43,7 @@ namespace MXR.SDK {
 
             HomeScreenState = new HomeScreenState {
                 view = HomeScreenView.LIBRARY,
-                viewDetails = new HomeScreenViewDetails()
+                data = new HomeScreenData()
             };
 
             if (system == null) {

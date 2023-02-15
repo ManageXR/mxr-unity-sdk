@@ -372,8 +372,19 @@ namespace MXR.SDK {
         }
 
         public void SendHomeScreenState(HomeScreenState state) {
-            if (LoggingEnabled)
-                Debug.unityLogger.Log(LogType.Log, TAG, "SendHomeScreenState method not yet supported");
+            if(messenger.IsBoundToService) {
+                try {
+                    var stateJson = JsonConvert.SerializeObject(state);
+                    messenger.Native?.Call<bool>("sendHomeScreenState", stateJson);
+                    if (LoggingEnabled)
+                        Debug.unityLogger.Log(LogType.Log, TAG, "SendHomeScreenState called. Invoking over JNI: sendHomeScreenState");
+                }
+                catch(Exception e) {
+                    Debug.LogError("An error occured while trying to send homescreen state " + e);
+                }
+            }
+            else if (LoggingEnabled)
+                Debug.unityLogger.Log(LogType.Warning, TAG, "SendHomeScreenState ignored. System is not available (not bound to messenger.");
         }
 
         public void ExitLauncher() {
