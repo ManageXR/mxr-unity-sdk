@@ -81,6 +81,7 @@ To Initialize the `MXRSystem`, call `MXRManager.Init();`. You may then access th
 The `MXRSystem` relays information to your app through a few different value classes:
 
 - `MXRSystem.RuntimeSettingsSummary` contains all information about the device and its current configuration. This will include information about all of the apps, files, and settings that are deployed to this device.
+- `MXRManager` also internally handles `System.OnHomeScreenStateRequest` events by sending the last reported `HomeScreenState`. You can modify the `HomeScreenState` using `SetHomeScreenState` and `ModifyHomeScreenState` methods in `MXRManager`. 
 - See `Assets/MXR.SDK/Runtime/Types/RuntimeTypes.cs` for full code documentation of this type and the data included in it.
 - See `Assets/MXR.SDK/Runtime/Editor/Files/MightyImmersion/runtimeSettingsSummary.json` for an example of this data in json format. (Note: You can edit this json file and its data will be reflected in the Sample Scene in realtime when run in the editor)
 - You may subscribe to realtime changes of this data with `MXRManager.System.OnRuntimeSettingsSummaryChange += OnRuntimeSettingsSummaryChange;`
