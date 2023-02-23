@@ -47,6 +47,9 @@ namespace MXR.SDK {
             Plugin.Call<bool>("launchIntentAction", intentAction);
         }
 
+        // Note: This function only works on certain device / firmware combinations.
+        // Instead, rely on the AdminAppMessengerManager to send KillApp messages to the
+        // admin app.
         public static void KillApp(string packageName) {
             if (Plugin != null)
                 Plugin.Call("killApp", packageName);
