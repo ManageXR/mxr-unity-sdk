@@ -160,6 +160,16 @@ namespace MXR.SDK {
             }
         }
 
+        public void KillApp(string packageName) {
+            if (LoggingEnabled)
+                Debug.unityLogger.Log(LogType.Log, TAG, "Killed App");
+        }
+
+        public void RestartApp(string packageName) {
+            if (LoggingEnabled)
+                Debug.unityLogger.Log(LogType.Log, TAG, "Restarted App");
+        }
+
         public void EnableWifi() {
             try {
                 if (WifiConnectionStatus.wifiIsEnabled) return;

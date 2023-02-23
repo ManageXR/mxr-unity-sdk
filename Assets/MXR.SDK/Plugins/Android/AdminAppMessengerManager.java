@@ -143,6 +143,14 @@ public class AdminAppMessengerManager {
         return sendMessage(AdminAppMessageTypes.EXIT_LAUNCHER);
     }
 
+    public boolean killApp(String packageName) {
+        return sendMessage(AdminAppMessageTypes.KILL_APP, "{\"packageName\":\""+packageName+"\"}");
+    }
+
+    public boolean restartApp(String packageName) {
+        return sendMessage(AdminAppMessageTypes.RESTART_APP, "{\"packageName\":\""+packageName+"\"}");
+    }
+
     public boolean checkDbAsync() {
         return sendMessage(AdminAppMessageTypes.CHECK_DB);
     }

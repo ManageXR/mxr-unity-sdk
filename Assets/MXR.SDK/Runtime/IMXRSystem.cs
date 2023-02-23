@@ -91,6 +91,17 @@ namespace MXR.SDK {
         /// </summary>
         void EnableKioskMode();
 
+
+        /// <summary>
+        /// Kills the running application with packageName.
+        /// </summary>
+        void KillApp(string packageName);
+
+        /// <summary>
+        /// Kills and then restarts the running application with packageName.
+        /// </summary>
+        void RestartApp(string packageName);
+
         /// <summary>
         /// Syncs the device with the configuration
         /// on the ManageXR dashboard
