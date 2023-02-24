@@ -250,8 +250,8 @@ namespace MXR.SDK {
         }
 
         public void ConnectToWifiNetwork(string ssid, string password) {
-            ssid = escapeStringToJsonString(ssid);
-            password = escapeStringToJsonString(password);
+            ssid = EscapeStringToJsonString(ssid);
+            password = EscapeStringToJsonString(password);
 
             if (messenger.IsBoundToService) {
                 if (LoggingEnabled)
@@ -283,7 +283,7 @@ namespace MXR.SDK {
         }
 
         public void ForgetWifiNetwork(string ssid) {
-            ssid = escapeStringToJsonString(ssid);
+            ssid = EscapeStringToJsonString(ssid);
 
             if (messenger.IsBoundToService) {
                 if (LoggingEnabled)
@@ -355,7 +355,7 @@ namespace MXR.SDK {
         }
 
         public void KillApp(string packageName) {
-            packageName = escapeStringToJsonString(packageName);
+            packageName = EscapeStringToJsonString(packageName);
 
             if (messenger.IsBoundToService) {
                 if (LoggingEnabled)
@@ -367,11 +367,11 @@ namespace MXR.SDK {
         }
 
         public void RestartApp(string packageName) {
-            packageName = escapeStringToJsonString(packageName);
+            packageName = EscapeStringToJsonString(packageName);
 
             if (messenger.IsBoundToService) {
                 if (LoggingEnabled)
-                    Debug.unityLogger.Log(LogType.Log, TAG, "restartApp called. Invoking over JNI: killApp");
+                    Debug.unityLogger.Log(LogType.Log, TAG, "RestartApp called. Invoking over JNI: restartApp");
                 messenger.Native?.Call<bool>("restartApp", packageName);
             }
             else if (LoggingEnabled)
@@ -462,7 +462,7 @@ namespace MXR.SDK {
         }
         #endregion
 
-        string escapeStringToJsonString(string input) {
+        string EscapeStringToJsonString(string input) {
             // Escape JSON string. Ref: https://stackoverflow.com/a/26152046
             // Then get rid of the encosing double quotes (") using substring
             string output = JsonConvert.ToString(input);
