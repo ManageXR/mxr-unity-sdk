@@ -250,12 +250,8 @@ namespace MXR.SDK {
         }
 
         public void ConnectToWifiNetwork(string ssid, string password) {
-            // Escape JSON string. Ref: https://stackoverflow.com/a/26152046
-            // Then get rid of the encosing double quotes (") using substring
-            ssid = JsonConvert.ToString(ssid);
-            ssid = ssid.Substring(1, ssid.Length - 2);
-            password = JsonConvert.ToString(password);
-            password = password.Substring(1, password.Length - 2);
+            ssid = EscapeStringToJsonString(ssid);
+            password = EscapeStringToJsonString(password);
 
             if (messenger.IsBoundToService) {
                 if (LoggingEnabled)
@@ -287,10 +283,7 @@ namespace MXR.SDK {
         }
 
         public void ForgetWifiNetwork(string ssid) {
-            // Escape JSON string. Ref: https://stackoverflow.com/a/26152046
-            // Then get rid of the encosing double quotes (") using substring
-            ssid = JsonConvert.ToString(ssid);
-            ssid = ssid.Substring(1, ssid.Length - 2);
+            ssid = EscapeStringToJsonString(ssid);
 
             if (messenger.IsBoundToService) {
                 if (LoggingEnabled)
@@ -359,6 +352,30 @@ namespace MXR.SDK {
             }
             else if (LoggingEnabled)
                 Debug.unityLogger.Log(LogType.Warning, TAG, "DisableKioskMode ignored. System is not available (not bound to messenger.");
+        }
+
+        public void KillApp(string packageName) {
+            packageName = EscapeStringToJsonString(packageName);
+
+            if (messenger.IsBoundToService) {
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Log, TAG, "KillApp called. Invoking over JNI: killApp");
+                messenger.Native?.Call<bool>("killApp", packageName);
+            }
+            else if (LoggingEnabled)
+                Debug.unityLogger.Log(LogType.Warning, TAG, "KillApp ignored. System is not available (not bound to messenger).");
+        }
+
+        public void RestartApp(string packageName) {
+            packageName = EscapeStringToJsonString(packageName);
+
+            if (messenger.IsBoundToService) {
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Log, TAG, "RestartApp called. Invoking over JNI: restartApp");
+                messenger.Native?.Call<bool>("restartApp", packageName);
+            }
+            else if (LoggingEnabled)
+                Debug.unityLogger.Log(LogType.Warning, TAG, "restartApp ignored. System is not available (not bound to messenger).");
         }
 
         public void Sync() {
@@ -444,6 +461,15 @@ namespace MXR.SDK {
             }
         }
         #endregion
+
+        string EscapeStringToJsonString(string input) {
+            // Escape JSON string. Ref: https://stackoverflow.com/a/26152046
+            // Then get rid of the encosing double quotes (") using substring
+            string output = JsonConvert.ToString(input);
+            output = output.Substring(1, output.Length - 2);
+
+            return output;
+        }
     }
 }
 #endif

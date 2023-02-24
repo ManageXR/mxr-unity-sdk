@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+
+using UnityEngine;
 
 namespace MXR.SDK {
     public static partial class MXRAndroidUtils {
@@ -47,6 +49,13 @@ namespace MXR.SDK {
             Plugin.Call<bool>("launchIntentAction", intentAction);
         }
 
+        /// <summary>
+        /// This function only works on certain device / firmware combinations.
+        /// Instead, rely on the AdminAppMessengerManager to send KillApp messages to the admin app.
+        /// </summary>
+        /// <param name="packageName"></param>
+        [Obsolete(@"This function only works on certain device / firmware combinations. 
+        Instead, rely on the AdminAppMessengerManager to send KillApp messages to the admin app.", false)]
         public static void KillApp(string packageName) {
             if (Plugin != null)
                 Plugin.Call("killApp", packageName);
