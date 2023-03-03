@@ -9,28 +9,30 @@ namespace MXR.SDK {
     [Serializable]
     public class Command {
         /// <summary>
-        /// The action for this command
+        /// The action string used for Play Video commands
         /// </summary>
-        public CommandAction action;
+        public const string PLAY_VIDEO_ACTION = "PLAY_VIDEO";
 
         /// <summary>
-        /// Data associated with this command
-        /// represented in JSON format
+        /// The action string used for Pause Video commands
+        /// </summary>
+        public const string PAUSE_VIDEO_ACTION = "PAUSE_VIDEO";
+
+        /// <summary>
+        /// The action for this command, used to distinguish
+        /// different command types.
+        /// </summary>
+        public string action;
+
+        /// <summary>
+        /// Data associated with this command represented in JSON format
         /// </summary>
         public string data;
     }
 
     /// <summary>
-    /// The different types of commands supported by the SDK
-    /// </summary>
-    public enum CommandAction {
-        PLAY_VIDEO,
-        PAUSE_VIDEO
-    }
-
-    /// <summary>
     /// The data associated with a command 
-    /// when the action is <see cref="CommandAction.PLAY_VIDEO"/>
+    /// when the action is <see cref="Command.PLAY_VIDEO_ACTION"/>
     /// </summary>
     [Serializable]
     public class PlayVideoCommandData {
@@ -40,7 +42,7 @@ namespace MXR.SDK {
 
     /// <summary>
     /// The data ssociated with a command when the 
-    /// action is <see cref="CommandAction.PAUSE_VIDEO"/>
+    /// action is <see cref="Command.PAUSE_VIDEO_ACTION"/>
     /// </summary>
     [Serializable]
     public class PauseVideoCommandData { }

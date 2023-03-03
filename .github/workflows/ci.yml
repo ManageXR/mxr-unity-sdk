@@ -39,3 +39,11 @@ jobs:
         git push -f -u origin upm@latest
       env:
         PKG_ROOT: "Assets/MXR.SDK"
+        
+    # - name: Create UPM git tag
+    #   if: steps.semantic.outputs.new_release_published == 'true'
+    #   run: |
+    #     git tag $TAG upm@latest
+    #     git push origin --tags
+    #   env:
+    #     TAG: upm/v${{ steps.semantic.outputs.new_release_version }}
