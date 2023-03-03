@@ -105,6 +105,9 @@ public class NativeUtils {
         }
     }
 
+    // Note: This function only works on certain device / firmware combinations.
+    // Instead, rely on the AdminAppMessengerManager to send KillApp messages to the
+    // admin app.
     public void killApp(String packageName) {
         try {
             Log.v("NativeUtils", "Killing " + packageName);
