@@ -172,6 +172,10 @@ public class AdminAppMessengerManager {
         return sendMessage(AdminAppMessageTypes.FORGET_WIFI_NETWORK, "{\"ssid\":\""+ssid+"\"}");
     }
 
+    public boolean sendHomeScreenState(String stateJson) {
+        return sendMessage(AdminAppMessageTypes.HOME_SCREEN_STATE, stateJson);
+    }
+
     private boolean sendMessage(int what) {
         return sendMessage(what, null);
     }

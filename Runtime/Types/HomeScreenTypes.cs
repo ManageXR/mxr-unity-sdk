@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
+using System;
 
 namespace MXR.SDK {
     /// <summary>
@@ -11,13 +14,14 @@ namespace MXR.SDK {
         /// <summary>
         /// The current view of the homescreen
         /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
         public HomeScreenView view;
 
         /// <summary>
-        /// The details associated with the view.
+        /// The details associated with the state of the homescreen.
         /// Currently the SDK supports video related details.
         /// </summary>
-        public HomeScreenViewDetails viewDetails = new HomeScreenViewDetails();
+        public HomeScreenData data = new HomeScreenData();
     }
 
     /// <summary>
@@ -38,7 +42,7 @@ namespace MXR.SDK {
     /// Currently contains fields for video reporting.
     /// </summary>
     [Serializable]
-    public class HomeScreenViewDetails {
+    public class HomeScreenData {
         /// <summary>
         /// The ID of the video currently being played
         /// </summary>
@@ -62,6 +66,7 @@ namespace MXR.SDK {
         /// <summary>
         /// The current state of video playback
         /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
         public HomeScreenVideoState videoState;
     }
 

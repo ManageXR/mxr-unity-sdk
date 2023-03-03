@@ -37,4 +37,5 @@ public class AdminAppMessageTypes {
 
     public static final int ENABLE_WIFI = 13;
     public static final int DISABLE_WIFI = 14;
+    public static final int HOME_SCREEN_STATE = 15;
 }
