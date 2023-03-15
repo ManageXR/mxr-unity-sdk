@@ -34,7 +34,8 @@ namespace MXR.SDK {
         WIFI,
         ADMIN_PIN,
         ADMIN_SETTINGS,
-        SHORTCUT_MENU
+        SHORTCUT_MENU,
+        PASSCODE
     }
 
     /// <summary>
