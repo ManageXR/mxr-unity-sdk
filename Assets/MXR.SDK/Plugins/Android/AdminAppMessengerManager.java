@@ -184,11 +184,11 @@ public class AdminAppMessengerManager {
         return sendMessage(AdminAppMessageTypes.HOME_SCREEN_STATE, stateJson);
     }
 
-    private boolean sendMessage(int what) {
+    public boolean sendMessage(int what) {
         return sendMessage(what, null);
     }
 
-    private boolean sendMessage(int what, String jsonString) {
+    public boolean sendMessage(int what, String jsonString) {
         if (!bound) {
             tryBindToAdminService();
             return false;

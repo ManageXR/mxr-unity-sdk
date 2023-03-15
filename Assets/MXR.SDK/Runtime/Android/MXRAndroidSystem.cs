@@ -14,8 +14,13 @@ namespace MXR.SDK {
     /// </summary>
     public class MXRAndroidSystem : IMXRSystem {
         static readonly string TAG = "[MXRAndroidSystem]";
-
         readonly AdminAppMessengerManager messenger;
+
+        /// <summary>
+        /// The messenger used for sending and receiving messages
+        /// between Unity and Admin App
+        /// </summary>
+        public AdminAppMessengerManager Messenger => messenger;
 
         public ScannedWifiNetwork CurrentNetwork {
             get {
@@ -256,7 +261,7 @@ namespace MXR.SDK {
             if (messenger.IsBoundToService) {
                 if (LoggingEnabled)
                     Debug.unityLogger.Log(LogType.Log, TAG, "ConnectToWifiNetwork called. Invoking over JNI: connectToWifiNetworkAsync");
-                messenger.Native?.Call<bool>("connectToWifiNetworkAsync", ssid, password);
+                messenger.Call<bool>("connectToWifiNetworkAsync", ssid, password);
             }
             else if (LoggingEnabled)
                 Debug.unityLogger.Log(LogType.Warning, TAG, "ConnectToWifiNetwork ignored. System is not available (not bound to messenger.");
@@ -266,7 +271,7 @@ namespace MXR.SDK {
             if (messenger.IsBoundToService) {
                 if (LoggingEnabled)
                     Debug.unityLogger.Log(LogType.Log, TAG, "DisableWifi called. Invoking over JNI: disableWifiAsync");
-                messenger.Native?.Call<bool>("disableWifiAsync");
+                messenger.Call<bool>("disableWifiAsync");
             }
             else if (LoggingEnabled)
                 Debug.unityLogger.Log(LogType.Warning, TAG, "DisableWifi ignored. System is not available (not bound to messenger.");
@@ -276,7 +281,7 @@ namespace MXR.SDK {
             if (messenger.IsBoundToService) {
                 if (LoggingEnabled)
                     Debug.unityLogger.Log(LogType.Log, TAG, "EnableWifi called. Invoking over JNI: enableWifiAsync");
-                messenger.Native?.Call<bool>("enableWifiAsync");
+                messenger.Call<bool>("enableWifiAsync");
             }
             else if (LoggingEnabled)
                 Debug.unityLogger.Log(LogType.Warning, TAG, "EnableWifi ignored. System is not available (not bound to messenger.");
@@ -288,7 +293,7 @@ namespace MXR.SDK {
             if (messenger.IsBoundToService) {
                 if (LoggingEnabled)
                     Debug.unityLogger.Log(LogType.Log, TAG, "ForgetWifiNetwork called. Invoking over JNI: forgetWifiNetworkAsync");
-                messenger.Native?.Call<bool>("forgetWifiNetworkAsync", ssid);
+                messenger.Call<bool>("forgetWifiNetworkAsync", ssid);
             }
             else if (LoggingEnabled)
                 Debug.unityLogger.Log(LogType.Warning, TAG, "ForgetWifiNetwork ignored. System is not available (not bound to messenger.");
@@ -298,7 +303,7 @@ namespace MXR.SDK {
             if (messenger.IsBoundToService) {
                 if (LoggingEnabled)
                     Debug.unityLogger.Log(LogType.Log, TAG, "RefreshWifiNetworks called. Invoking over JNI: getWifiNetworksAsync");
-                messenger.Native?.Call<bool>("getWifiNetworksAsync");
+                messenger.Call<bool>("getWifiNetworksAsync");
             }
             else if (LoggingEnabled)
                 Debug.unityLogger.Log(LogType.Warning, TAG, "RefreshWifiNetworks ignored. System is not available (not bound to messenger.");
@@ -308,7 +313,7 @@ namespace MXR.SDK {
             if (messenger.IsBoundToService) {
                 if (LoggingEnabled)
                     Debug.unityLogger.Log(LogType.Log, TAG, "RefreshWifiConnectionStatus called. Invoking over JNI: getWifiConnectionStatusAsync");
-                messenger.Native?.Call<bool>("getWifiConnectionStatusAsync");
+                messenger.Call<bool>("getWifiConnectionStatusAsync");
             }
             else if (LoggingEnabled)
                 Debug.unityLogger.Log(LogType.Warning, TAG, "RefreshWifiConnectionStatus ignored. System is not available (not bound to messenger.");
@@ -318,7 +323,7 @@ namespace MXR.SDK {
             if (IsAvailable) {
                 if (LoggingEnabled)
                     Debug.unityLogger.Log(LogType.Log, TAG, "RefreshRuntimeSettings called. Invoking over JNI: getRuntimeSettingsAsync");
-                messenger.Native?.Call<bool>("getRuntimeSettingsAsync");
+                messenger.Call<bool>("getRuntimeSettingsAsync");
             }
             else if (LoggingEnabled)
                 Debug.unityLogger.Log(LogType.Warning, TAG, "RefreshRuntimeSettings ignored. System is not available (not bound to messenger.");
@@ -328,7 +333,7 @@ namespace MXR.SDK {
             if (IsAvailable) {
                 if (LoggingEnabled)
                     Debug.unityLogger.Log(LogType.Log, TAG, "RefreshDeviceStatus called. Invoking over JNI: getDeviceStatusAsync");
-                messenger.Native?.Call<bool>("getDeviceStatusAsync");
+                messenger.Call<bool>("getDeviceStatusAsync");
             }
             else if (LoggingEnabled)
                 Debug.unityLogger.Log(LogType.Warning, TAG, "RefreshDeviceStatus ignored. System is not available (not bound to messenger.");
@@ -338,7 +343,7 @@ namespace MXR.SDK {
             if (messenger.IsBoundToService) {
                 if (LoggingEnabled)
                     Debug.unityLogger.Log(LogType.Log, TAG, "EnableKioskMode called. Invoking over JNI: enableKioskModeAsync");
-                messenger.Native?.Call<bool>("enableKioskModeAsync");
+                messenger.Call<bool>("enableKioskModeAsync");
             }
             else if (LoggingEnabled)
                 Debug.unityLogger.Log(LogType.Warning, TAG, "EnableKioskMode ignored. System is not available (not bound to messenger.");
@@ -348,7 +353,7 @@ namespace MXR.SDK {
             if (messenger.IsBoundToService) {
                 if (LoggingEnabled)
                     Debug.unityLogger.Log(LogType.Log, TAG, "DisableKioskMode called. Invoking over JNI: disableKioskModeAsync");
-                messenger.Native?.Call<bool>("disableKioskModeAsync");
+                messenger.Call<bool>("disableKioskModeAsync");
             }
             else if (LoggingEnabled)
                 Debug.unityLogger.Log(LogType.Warning, TAG, "DisableKioskMode ignored. System is not available (not bound to messenger.");
@@ -360,7 +365,7 @@ namespace MXR.SDK {
             if (messenger.IsBoundToService) {
                 if (LoggingEnabled)
                     Debug.unityLogger.Log(LogType.Log, TAG, "KillApp called. Invoking over JNI: killApp");
-                messenger.Native?.Call<bool>("killApp", packageName);
+                messenger.Call<bool>("killApp", packageName);
             }
             else if (LoggingEnabled)
                 Debug.unityLogger.Log(LogType.Warning, TAG, "KillApp ignored. System is not available (not bound to messenger).");
@@ -372,7 +377,7 @@ namespace MXR.SDK {
             if (messenger.IsBoundToService) {
                 if (LoggingEnabled)
                     Debug.unityLogger.Log(LogType.Log, TAG, "RestartApp called. Invoking over JNI: restartApp");
-                messenger.Native?.Call<bool>("restartApp", packageName);
+                messenger.Call<bool>("restartApp", packageName);
             }
             else if (LoggingEnabled)
                 Debug.unityLogger.Log(LogType.Warning, TAG, "restartApp ignored. System is not available (not bound to messenger).");
@@ -382,7 +387,7 @@ namespace MXR.SDK {
             if (messenger.IsBoundToService) {
                 if (LoggingEnabled)
                     Debug.unityLogger.Log(LogType.Log, TAG, "Sync called. Invoking over JNI: checkDbAsync");
-                messenger.Native?.Call<bool>("checkDbAsync");
+                messenger.Call<bool>("checkDbAsync");
             }
             else if (LoggingEnabled)
                 Debug.unityLogger.Log(LogType.Warning, TAG, "Sync ignored. System is not available (not bound to messenger.");
@@ -392,7 +397,7 @@ namespace MXR.SDK {
             if(messenger.IsBoundToService) {
                 try {
                     var stateJson = JsonConvert.SerializeObject(state);
-                    messenger.Native?.Call<bool>("sendHomeScreenState", stateJson);
+                    messenger.Call<bool>("sendHomeScreenState", stateJson);
                     if (LoggingEnabled)
                         Debug.unityLogger.Log(LogType.Log, TAG, "SendHomeScreenState called. Invoking over JNI: sendHomeScreenState");
                 }
@@ -408,7 +413,7 @@ namespace MXR.SDK {
             if (messenger.IsBoundToService) {
                 if (LoggingEnabled)
                     Debug.unityLogger.Log(LogType.Log, TAG, "ExitLauncher called. Invoking over JNI: exitLauncherAsync");
-                messenger.Native?.Call<bool>("exitLauncherAsync");
+                messenger.Call<bool>("exitLauncherAsync");
             }
             else if (LoggingEnabled)
                 Debug.unityLogger.Log(LogType.Warning, TAG, "ExitLauncher ignored. System is not available (not bound to messenger.");
