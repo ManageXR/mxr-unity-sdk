@@ -87,7 +87,7 @@ namespace MXR.SDK {
         /// </summary>
         /// <param name="messageType">The type/ID of the message</param>
         /// <returns>Whether the message was sent. This will be false if the messenger wasn't bound to service</returns>
-        public bool SendMessage(int messageType) {
+        public bool SendMessageToAdminApp(int messageType) {
             return Call<bool>("sendMessage", messageType);
         }
 
@@ -98,7 +98,7 @@ namespace MXR.SDK {
         /// <param name="messageType">The type/ID of the message</param>
         /// <param name="dataJson">Payload associated with the message as a json string</param>
         /// <returns>Whether the message was sent. This will be false if the messenger wasn't bound to service</returns>
-        public bool SendMessage(int messageType, string dataJson) {
+        public bool SendMessageToAdminApp(int messageType, string dataJson) {
             return Call<bool>("sendMessage", messageType, dataJson);
         }
 
