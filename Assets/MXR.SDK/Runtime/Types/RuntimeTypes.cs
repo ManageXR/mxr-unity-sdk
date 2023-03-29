@@ -155,6 +155,12 @@ namespace MXR.SDK {
         public bool disableShortcutMenu = false;
 
         /// <summary>
+        /// Whether device passcode has been enabled on the configuration this device
+        /// uses.
+        /// </summary>
+        public bool isPasscodeEnabled = false;
+
+        /// <summary>
         /// The settings that are not to be made editable in the launcher
         /// </summary>
         public HiddenSettings hiddenSettings = new HiddenSettings();
