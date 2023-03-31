@@ -20,7 +20,13 @@ namespace MXR.SDK {
         /// <summary>
         /// The name of the device as set on the ManageXR portal
         /// </summary>
-        public string deviceName;
+        public string deviceName; 
+
+        /// <summary>
+        /// Whether device passcode has been enabled on the configuration this device
+        /// uses. 
+        /// </summary>
+        public bool isPasscodeEnabled = false;
 
         /// <summary>
         /// The ManageXR organization this device is under
@@ -153,12 +159,6 @@ namespace MXR.SDK {
         /// is set to <see cref="DeviceExperienceMode.HOME_SCREEN"/>
         /// </summary>
         public bool disableShortcutMenu = false;
-
-        /// <summary>
-        /// Whether device passcode has been enabled on the configuration this device
-        /// uses.
-        /// </summary>
-        public bool isPasscodeEnabled = false;
 
         /// <summary>
         /// The settings that are not to be made editable in the launcher
