@@ -26,7 +26,7 @@ namespace MXR.SDK {
         /// Whether device passcode has been enabled on the configuration this device
         /// uses. 
         /// </summary>
-        public bool isPasscodeEnabled = false;
+        public bool isPasscodeEnabled;
 
         /// <summary>
         /// The ManageXR organization this device is under
