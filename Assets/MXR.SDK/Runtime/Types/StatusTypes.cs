@@ -33,6 +33,17 @@ namespace MXR.SDK {
         /// Status of the device system
         /// </summary>
         public DeviceSystemVersionInstallStatus deviceSystemVersionStatus = new DeviceSystemVersionInstallStatus();
+
+        /// <summary>
+        /// Whether the application has Android data permissions, required for local storage
+        /// </summary>
+        public bool hasAndroidDataPermission = false;
+
+        /// <summary>
+        /// WHether the applicationo has Android OBB permissions, required for application installation
+        /// </summary>
+        public bool hasAndroidObbPermission = false;
+
         public bool picoCvControllerUpdateAvailable;
         public bool picoGuardianHasBeenOpened;
         public ForegroundApp currentForegroundApp = new ForegroundApp();
@@ -40,9 +51,6 @@ namespace MXR.SDK {
         public Dictionary<string, FileInstallStatus> fileStatuses = new Dictionary<string, FileInstallStatus>();
         public Timestamp lastCheckIn = new Timestamp();
         public Timestamp lastUpdate = new Timestamp();
-
-        public bool hasAndroidDataPermission = false;
-        public bool hasAndroidObbPermission = false;
         
         /// <summary>
         /// Returns the <see cref="FileInstallStatus"/> for a <see cref="Video"/>
