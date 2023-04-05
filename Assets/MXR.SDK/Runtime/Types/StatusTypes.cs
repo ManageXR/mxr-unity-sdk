@@ -40,6 +40,9 @@ namespace MXR.SDK {
         public Dictionary<string, FileInstallStatus> fileStatuses = new Dictionary<string, FileInstallStatus>();
         public Timestamp lastCheckIn = new Timestamp();
         public Timestamp lastUpdate = new Timestamp();
+
+        public bool hasAndroidDataPermission = false;
+        public bool hasAndroidObbPermission = false;
         
         /// <summary>
         /// Returns the <see cref="FileInstallStatus"/> for a <see cref="Video"/>
