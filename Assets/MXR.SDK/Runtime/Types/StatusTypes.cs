@@ -33,6 +33,17 @@ namespace MXR.SDK {
         /// Status of the device system
         /// </summary>
         public DeviceSystemVersionInstallStatus deviceSystemVersionStatus = new DeviceSystemVersionInstallStatus();
+
+        /// <summary>
+        /// Whether the application has Android data permissions, required for local storage
+        /// </summary>
+        public bool hasAndroidDataPermission = false;
+
+        /// <summary>
+        /// WHether the applicationo has Android OBB permissions, required for application installation
+        /// </summary>
+        public bool hasAndroidObbPermission = false;
+
         public bool picoCvControllerUpdateAvailable;
         public bool picoGuardianHasBeenOpened;
         public ForegroundApp currentForegroundApp = new ForegroundApp();
