@@ -40,9 +40,19 @@ namespace MXR.SDK {
         public bool hasAndroidDataPermission = false;
 
         /// <summary>
-        /// WHether the applicationo has Android OBB permissions, required for application installation
+        /// Whether the application requires Android data permissions, based on its deployed files.
+        /// </summary>
+        public bool requiresAndroidDataPermission = false;
+
+        /// <summary>
+        /// Whether the application has Android OBB permissions, required for application installation
         /// </summary>
         public bool hasAndroidObbPermission = false;
+
+        /// <summary>
+        /// Whether the application requires Android OBB permissions, based on its deployed apps.
+        /// </summary>
+        public bool requiresAndroidObbPermission = false;        
 
         public bool picoCvControllerUpdateAvailable;
         public bool picoGuardianHasBeenOpened;
