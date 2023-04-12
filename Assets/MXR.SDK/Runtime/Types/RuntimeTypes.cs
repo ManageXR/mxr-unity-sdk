@@ -84,6 +84,12 @@ namespace MXR.SDK {
         public List<string> featureFlags = new List<string>();
 
         /// <summary>
+        /// Use to determine if, once we are in the android 12 permissions popup, we should allow
+        /// the user to exit or not.
+        /// </summary>
+        public bool forceAndroid12PermissionsAccept = false;
+
+        /// <summary>
         /// Helper property for whether the guardian settings are hidden
         /// </summary>
         [JsonIgnore]
