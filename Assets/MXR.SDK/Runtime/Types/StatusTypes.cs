@@ -40,6 +40,7 @@ namespace MXR.SDK {
         public Dictionary<string, FileInstallStatus> fileStatuses = new Dictionary<string, FileInstallStatus>();
         public Timestamp lastCheckIn = new Timestamp();
         public Timestamp lastUpdate = new Timestamp();
+        public ForegroundAppForShortcutMenu lastForegroundAppForShortcutMenu = new ForegroundAppForShortcutMenu();
         
         /// <summary>
         /// Returns the <see cref="FileInstallStatus"/> for a <see cref="Video"/>
@@ -100,6 +101,13 @@ namespace MXR.SDK {
     public class ForegroundApp {
         public string packageName;
         public string className;
+    }
+
+    [System.Serializable]
+    public class ForegroundAppForShortcutMenu {
+        public string packageName;
+        public string className;
+        public Timestamp lastUpdated = new Timestamp();
     }
 
     /// <summary>
