@@ -31,16 +31,29 @@ namespace MXR.SDK {
         public static bool IsHTCViveFlow =>
             Application.isEditor ? false : DeviceModel.Equals("Vive Flow");
 
+        static readonly List<string> knownPicoG2DeviceModels = new List<string> {
+            "Pico G2", "Pico G2 4K" 
+        };
         public static bool IsPicoG2 =>
-            Application.isEditor ? false : DeviceModel.Equals("Pico G2") || DeviceModel.Equals("Pico G2 4K");
+            Application.isEditor ? false : knownPicoG2DeviceModels.Contains(DeviceModel);
 
         public static bool IsPicoNeo2 =>
             Application.isEditor ? false : DeviceModel.Equals("Pico Neo 2");
 
         public static bool IsPicoNeo3 =>
             Application.isEditor ? false : DeviceModel.Equals("Pico Neo 3");
-        public static bool IsPico4 =>
-            Application.isEditor ? false : DeviceModel.Equals("A8140");
+
+
+        static readonly List<string> knownPico4DeviceModels = new List<string> {
+            "A8140", "A8110", "A81X0", "A8E50", "A8150", "A81E0" 
+        };
+        public static bool IsPico4 {
+            get {
+                if (Application.isEditor) 
+                    return false;
+                return knownPico4DeviceModels.Contains(DeviceModel);
+            }
+        }
 
         public static bool IsOculusGo =>
             Application.isEditor ? false : DeviceModel.Equals("Pacific");
