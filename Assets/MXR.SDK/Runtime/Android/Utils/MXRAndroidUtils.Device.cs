@@ -13,6 +13,9 @@ namespace MXR.SDK {
         public static string DeviceModel =>
             Application.isEditor ? "EDITOR" : AndroidOSBuild.GetStatic<string>("MODEL");
 
+        public static string DeviceProduct =>
+            Application.isEditor ? "EDITOR" : AndroidOSBuild.GetStatic<string>("PRODUCT");
+
         public static string PicoUIVersion =>
             IsPicoDevice ? AndroidOSBuild.GetStatic<string>("DISPLAY") : "0.0.0";
 
@@ -42,6 +45,11 @@ namespace MXR.SDK {
 
         public static bool IsPicoNeo3 =>
             Application.isEditor ? false : DeviceModel.Equals("Pico Neo 3");
+        public static bool IsQuest2 =>
+            Application.isEditor ? false : DeviceProduct.Equals("hollywood");
+
+        public static bool IsQuestPro =>
+            Application.isEditor ? false : DeviceProduct.Equals("seacliff");            
 
 
         static readonly List<string> knownPico4DeviceModels = new List<string> {
