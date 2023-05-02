@@ -66,6 +66,12 @@ public class NativeUtils {
             return false;
         }
     }
+    
+    public void openUrlWithOculus(String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(url));
+        mContext.startActivity(intent);
+    }
 
     public boolean launchOculusSystemUx(String dataUri) {
         try {
