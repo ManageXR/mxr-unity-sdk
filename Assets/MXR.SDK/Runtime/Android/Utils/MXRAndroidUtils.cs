@@ -58,6 +58,17 @@ namespace MXR.SDK {
             return intent.Call<string>("getStringExtra", key);
         }
 
+        /// <summary>
+        /// An alternative to Unity's Application.OpenURL that calls Java code using JNI
+        /// that uses Intent to open the browser with the URL. 
+        /// Consider using this if Application.OpenURL isn't working as expected.
+        /// </summary>
+        /// <param name="url"></param>
+        public static void OpenURL(string url) {
+            if (Plugin != null)
+                Plugin.Call("openUrl", url);
+        }
+
         public static void SendBroadcastAction(string action) {
             if (Plugin != null)
                 Plugin.Call("sendBroadcastAction", action);

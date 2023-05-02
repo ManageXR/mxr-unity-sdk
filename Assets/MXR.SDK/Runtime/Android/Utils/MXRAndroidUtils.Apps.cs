@@ -49,11 +49,6 @@ namespace MXR.SDK {
             Plugin.Call<bool>("launchIntentAction", intentAction);
         }
 
-        public static void OpenURLWithOculusBrowser(string url) {
-            if (Plugin != null)
-                Plugin.Call("openUrlWithOculus", url);
-        }
-
         /// <summary>
         /// This function only works on certain device / firmware combinations.
         /// Instead, rely on the AdminAppMessengerManager to send KillApp messages to the admin app.

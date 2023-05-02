@@ -172,17 +172,11 @@ namespace MXR.SDK {
             if (LoggingEnabled)
                 Debug.unityLogger.Log(LogType.Log, TAG, "Checking for intent commands");
 
-            if (!MXRAndroidUtils.HasIntentExtra("intentId")) {
-                if (LoggingEnabled)
-                    Debug.unityLogger.Log(LogType.Log, TAG, "No 'intentId' key found in intent extras.");
+            if (!MXRAndroidUtils.HasIntentExtra("intentId")) 
                 return;
-            }
 
-            if (!MXRAndroidUtils.HasIntentExtra("action")) {
-                if (LoggingEnabled)
-                    Debug.unityLogger.Log(LogType.Log, TAG, "No 'action' key found in intent extras.");
+            if (!MXRAndroidUtils.HasIntentExtra("action")) 
                 return;
-            }
 
             var action = MXRAndroidUtils.GetIntentStringExtra("action");
             if (!action.Equals("PLAY_VIDEO")) {
@@ -192,7 +186,7 @@ namespace MXR.SDK {
                 return;
             }
             else if (LoggingEnabled)
-                    Debug.unityLogger.Log(LogType.Log, TAG, "PLAY_VIDEO command action found.");
+                Debug.unityLogger.Log(LogType.Log, TAG, "PLAY_VIDEO command action found.");
 
             if (!MXRAndroidUtils.HasIntentExtra("videoId")) {
                 if (LoggingEnabled)

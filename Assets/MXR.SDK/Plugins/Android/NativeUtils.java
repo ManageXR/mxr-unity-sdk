@@ -67,7 +67,7 @@ public class NativeUtils {
         }
     }
     
-    public void openUrlWithOculus(String url) {
+    public void openUrl(String url) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));
         mContext.startActivity(intent);
