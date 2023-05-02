@@ -3,6 +3,9 @@
 namespace MXR.SDK {
     public static partial class MXRAndroidUtils {
         static AndroidJavaObject currentActivity;
+        /// <summary>
+        /// AndroidJavaObject that holds reference to com.unity3d.player.UnityPlayer.currentActivity static class
+        /// </summary>
         public static AndroidJavaObject CurrentActivity {
             get {
                 if (currentActivity != null) return currentActivity;
@@ -13,6 +16,11 @@ namespace MXR.SDK {
         }
 
         static AndroidJavaObject plugin;
+
+        /// <summary>
+        /// AncroidJavaObject that holds an instance of the native Java class
+        /// com.mightyimmersion.customlauncher.NativeUtils by ManageXR
+        /// </summary>
         public static AndroidJavaObject Plugin {
             get {
                 if (plugin != null) return plugin;
@@ -59,19 +67,31 @@ namespace MXR.SDK {
         }
 
         /// <summary>
-        /// An alternative to Unity's Application.OpenURL that calls Java code using JNI
-        /// that uses Intent to open the browser with the URL. 
+        /// An alternative to Unity's Application.OpenURL that calls ManageXR's
+        /// com.mightyimmersion.customlauncher.NativeUtils.openUrl method using JNI
+        /// to open a URL in the device browser.
         /// Consider using this if Application.OpenURL isn't working as expected.
         /// </summary>
         /// <param name="url"></param>
         public static void OpenURL(string url) {
             if (Plugin != null)
                 Plugin.Call("openUrl", url);
+            else
+                Debug.LogError("MXRAndroidUtils.Plugin that holds the com.mightyimmersion.customlauncher.NativeUtils instance is null. " +
+                "Cannot invoke non-static method com.mightyimmersion.customlauncher.NativeUtils.openUrl using JNI.");
         }
 
+        /// <summary>
+        /// Invokes the sendBroadcast Java method on the application context with an action string.
+        /// Reference: https://developer.android.com/reference/android/content/Context#sendBroadcast(android.content.Intent
+        /// </summary>
+        /// <param name="action">The action to broadcast</param>
         public static void SendBroadcastAction(string action) {
             if (Plugin != null)
                 Plugin.Call("sendBroadcastAction", action);
+            else
+                Debug.LogError("MXRAndroidUtils.Plugin that holds the com.mightyimmersion.customlauncher.NativeUtils instance is null. " +
+                "Cannot invoke non-static method com.mightyimmersion.customlauncher.NativeUtils.sendBroadcastAction using JNI.");
         }
     }
 }
