@@ -46,6 +46,11 @@ namespace MXR.SDK {
         ScannedWifiNetwork CurrentNetwork { get; }
 
         /// <summary>
+        /// Fired when the availability of system changes.
+        /// </summary>
+        event Action<bool> OnAvailabilityChange;
+
+        /// <summary>
         /// Fired when the ManageXR status updates
         /// </summary>
         event Action<DeviceStatus> OnDeviceStatusChange;
