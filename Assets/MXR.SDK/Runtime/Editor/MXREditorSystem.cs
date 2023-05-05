@@ -33,6 +33,8 @@ namespace MXR.SDK {
 
         Coroutine coroutine;
         void OnEnable() {
+            isAvailable = Directory.Exists(MXRStorage.MXRRootDirectory);
+            OnAvailabilityChange?.Invoke(isAvailable);
             coroutine = StartCoroutine(Loop());
         }
 
@@ -43,7 +45,14 @@ namespace MXR.SDK {
 
         IEnumerator Loop() {
             while (true) {
+                var dirExists = Directory.Exists(MXRStorage.MXRRootDirectory);
+                if (isAvailable != dirExists) {
+                    isAvailable = dirExists;
+                    OnAvailabilityChange?.Invoke(dirExists);
+                }
+
                 Sync();
+
                 yield return new WaitForSeconds(syncTimestep);
             }
         }
@@ -80,7 +89,8 @@ namespace MXR.SDK {
             set => loggingEnabled = value;
         }
 
-        public bool IsAvailable => Directory.Exists(MXRStorage.MXRRootDirectory);
+        bool isAvailable;
+        public bool IsAvailable => isAvailable;
 
         public ScannedWifiNetwork CurrentNetwork {
             get {
@@ -118,7 +128,9 @@ namespace MXR.SDK {
         public RuntimeSettingsSummary RuntimeSettingsSummary { get; private set; }
         public WifiConnectionStatus WifiConnectionStatus { get; private set; }
         public List<ScannedWifiNetwork> WifiNetworks { get; private set; }
+
         // INTERFACE EVENTS
+        public event Action<bool> OnAvailabilityChange;
         public event Action<DeviceStatus> OnDeviceStatusChange;
         public event Action<RuntimeSettingsSummary> OnRuntimeSettingsSummaryChange;
         public event Action<WifiConnectionStatus> OnWifiConnectionStatusChange;
