@@ -42,7 +42,7 @@ namespace MXR.SDK {
         public static bool IsInitialized { get; private set; } = false;
 
         /// <summary>
-        /// Auto-initializes <see cref="System"/> with appropriate implemenration
+        /// Auto-initializes <see cref="System"/> with appropriate implementation
         /// based on the runtime environment and awaits until the system is available 
         /// for the first time.
         /// </summary>
