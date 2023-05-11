@@ -5,9 +5,9 @@ using MXR.SDK.Editor;
 
 namespace MXR.SDK.Samples {
     public class CommandSubscriberExample : MonoBehaviour {
-        void Start() {
+        async void Start() {
             Debug.Log("<color=\"yellow\">Open the command simulator window using Tools/MXR</color>");
-            MXRManager.Init();
+            await MXRManager.InitAsync();
 #if UNITY_EDITOR
             MXRCommandSimulator.SetSystem(MXRManager.System);
 #endif
