@@ -52,13 +52,9 @@ namespace MXR.SDK.Samples {
             text.text = value.ToString();
         }
 
-        void Awake() {
-            MXRManager.Init();
-        }
-
-        void Start() {
+        async void Start() {
             wifiSsidTemplate.gameObject.SetActive(false);
-            MXRManager.Init();
+            await MXRManager.InitAsync();
 
             OnWifiConnectionStatusChange(MXRManager.System.WifiConnectionStatus);
             OnWifiNetworksChange(MXRManager.System.WifiNetworks);

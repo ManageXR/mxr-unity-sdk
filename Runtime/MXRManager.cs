@@ -10,7 +10,7 @@ namespace MXR.SDK {
     /// an API to get/set/update the HomeScreenState.
     /// </summary>
     public static class MXRManager {
-        const string TAG = "[MXRManager";
+        const string TAG = "[MXRManager]";
 
         /// <summary>
         /// The <see cref="IMXRSystem"/> implementation being used by the SDK
@@ -49,6 +49,11 @@ namespace MXR.SDK {
         /// <param name="system"></param>
         /// <returns>The <see cref="IMXRSystem"/> instance in MXRManager</returns>
         async public static Task<IMXRSystem> InitAsync(IMXRSystem system = null) {
+            // We switch off the CS0618 warning code here because we're using the Init 
+            // method that has been deprecated. Otherwise we'd be printing the warning
+            // to the console.
+            // We restore it immediately after calling it so that only the warning
+            // for this line is ignored.
 #pragma warning disable 0618
             var result = Init(system);
 #pragma warning restore 0618
