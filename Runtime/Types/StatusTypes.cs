@@ -57,6 +57,7 @@ namespace MXR.SDK {
         public bool picoCvControllerUpdateAvailable;
         public bool picoGuardianHasBeenOpened;
         public ForegroundAppForShortcutMenu lastForegroundAppForShortcutMenu = new ForegroundAppForShortcutMenu();
+        public bool oculusScreencastActive;
         public ForegroundApp currentForegroundApp = new ForegroundApp();
         public ForegroundApp previousForegroundApp = new ForegroundApp();
         public Dictionary<string, FileInstallStatus> fileStatuses = new Dictionary<string, FileInstallStatus>();
