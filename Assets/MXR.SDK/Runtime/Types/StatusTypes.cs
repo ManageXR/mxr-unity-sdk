@@ -56,6 +56,10 @@ namespace MXR.SDK {
 
         public bool picoCvControllerUpdateAvailable;
         public bool picoGuardianHasBeenOpened;
+        
+        /// <summary>
+        /// The last app open in the foregound that is appropriate to show in the shortcut menu.
+        /// </summary>
         public ForegroundAppForShortcutMenu lastForegroundAppForShortcutMenu = new ForegroundAppForShortcutMenu();
         public bool oculusScreencastActive;
         public ForegroundApp currentForegroundApp = new ForegroundApp();
@@ -127,6 +131,10 @@ namespace MXR.SDK {
 
     [System.Serializable]
     public class ForegroundAppForShortcutMenu : ForegroundApp {
+        /// <summary>
+        /// The last time this object was updated. This represents the time that this foreground
+        /// app was first detected in the foreground.
+        /// </summary>
         public Timestamp lastUpdated = new Timestamp();
     }
 
