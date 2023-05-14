@@ -56,12 +56,12 @@ namespace MXR.SDK {
 
         public bool picoCvControllerUpdateAvailable;
         public bool picoGuardianHasBeenOpened;
+        public ForegroundAppForShortcutMenu lastForegroundAppForShortcutMenu = new ForegroundAppForShortcutMenu();
         public ForegroundApp currentForegroundApp = new ForegroundApp();
         public ForegroundApp previousForegroundApp = new ForegroundApp();
         public Dictionary<string, FileInstallStatus> fileStatuses = new Dictionary<string, FileInstallStatus>();
         public Timestamp lastCheckIn = new Timestamp();
         public Timestamp lastUpdate = new Timestamp();
-        public ForegroundAppForShortcutMenu lastForegroundAppForShortcutMenu = new ForegroundAppForShortcutMenu();
         
         /// <summary>
         /// Returns the <see cref="FileInstallStatus"/> for a <see cref="Video"/>
@@ -125,9 +125,7 @@ namespace MXR.SDK {
     }
 
     [System.Serializable]
-    public class ForegroundAppForShortcutMenu {
-        public string packageName;
-        public string className;
+    public class ForegroundAppForShortcutMenu : ForegroundApp {
         public Timestamp lastUpdated = new Timestamp();
     }
 
