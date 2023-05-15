@@ -77,6 +77,11 @@ namespace MXR.SDK {
         public bool kioskModeEnabled = true;
 
         /// <summary>
+        /// Whether the mic is force muted at the system level.
+        /// </summary>
+        public bool muteMic = true;
+
+        /// <summary>
         /// Use when <see cref="deviceExperienceMode"/> is set to <see cref="DeviceExperienceMode.KIOSK"/>,
         /// in this scenario, the homescreen is launched on pressing the home (or equivalent) button 
         /// on the controller.
