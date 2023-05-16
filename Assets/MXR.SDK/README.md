@@ -44,8 +44,9 @@ Merge the following snippet in the project manifest json file located at `Packag
    }
 }  
 
-
 ```
+
+*Note:* Change `1.0.0` to the SDK version you wish to use. Latest recommended.
 ___
 ## Samples  
 The repository includes samples that demonstrate basic integration with the Content API, Status API, Wifi API and SDK Commands.
@@ -101,10 +102,33 @@ Make sure that the VR device has been set up using the ManageXR Device Setup Too
 Add the `READ_EXTERNAL_STORAGE` permission to your Android Manifest.  
 `<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>`
 
-Enable `requestLegacyExternalStorage` on builds targeting _Android API Level 29 and below_.  
+### For Target API Level 29 (Android 10)
+
+Set `requestLegacyExternalStorage` to `true` in your Android Manifest.  
 `<application android:requestLegacyExternalStorage="true">`
 
-Logging is enabled by default. Use `MXRSystem.EnableLogging = false` to disable messages from being logged to the console.
+### For Target API Level 30 and above (Android 11 and above)
+*Note:* The following is applicable only when targetting API Level 30 and above. You can get the device Android SDK INT using:  
+`MXRAndroidUtils.AndroidSDKInt`
+
+Android 11 introduces two new permissions that are required for the MXR SDK to function:
+- [Package Visibilty](https://developer.android.com/training/package-visibility) for querying information about other apps installed on the device. Since the MXR SDK uses the ManageXR Admin App (installed by the Device Setup Tool), granting this permission is critical. To do this, add the `QUERY_ALL_PACKAGES` to your manifest:  
+`<uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />`
+
+- [External Storage Manager](https://developer.android.com/reference/android/Manifest.permission#MANAGE_EXTERNAL_STORAGE) that requires user permission for an app to be able to manage files on the device.  
+The ManageXR SDK stores files in the `MightyImmersion` directory in the SD card root that requires this permission. To do this:
+    - Add the `MANAGE_EXTERNAL_STORAGE` permission to your Android Manifest:  
+    `<uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage"/>`  
+    - You may see an error saying "Namespace prefix 'tools' is not defined" or "XmlException: 'tools' is an undeclared prefix". To fix this, add the following to the `manifest` tag in your manifest:  
+    `xmlns:tools="http://schemas.android.com/tools"`
+    - However, declaring the `MANAGE_ALL_FILES` in manifest isn't enough. The user must be sent to the Android settings to grant this permission. MXR SDK provides a utility method to do this:  
+    `MXRAndroidUtils.RequestManageAllFilesPermission();`  
+    - If you want to check if the user has already granted the `MANAGE_EXTERNAL_STORAGE` permission or not, the MXR SDK provides a static property to query this:  
+    `MXRAndroidUtils.IsExternalStorageManager`  
+
+
+*Note:* Logging is enabled by default. Use `MXRSystem.EnableLogging = false` to disable messages from being logged to the console.  
+*Tip:* If you need to request an Android permission from the user, [Unitys Permissions struct](https://docs.unity3d.com/ScriptReference/Android.Permission.html) provides a convenient API to check and ask for Android permissions.
 ___
 ## Support  
 Please open a Github Issue or contact support@managexr.com for additional support.
