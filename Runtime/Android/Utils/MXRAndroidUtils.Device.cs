@@ -7,6 +7,13 @@ namespace MXR.SDK {
         public static AndroidJavaClass AndroidOSBuild =>
             new AndroidJavaClass("android.os.Build");
 
+        public static int AndroidSDKInt {
+            get {
+                AndroidJavaClass buildVersion = new AndroidJavaClass("android.os.Build$VERSION");
+                return buildVersion.GetStatic<int>("SDK_INT");
+            }
+        }
+
         public static string DeviceManufacturer =>
             Application.isEditor ? "EDITOR" : AndroidOSBuild.GetStatic<string>("MANUFACTURER");
 
