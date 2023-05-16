@@ -27,15 +27,17 @@ namespace MXR.SDK {
         /// </summary>
         public static HomeScreenState HomeScreenState { get; private set; }
 
-        [Obsolete("This event was used with the Init method which is being deprecated. " +
+        [Obsolete("This event isn't reliable for knowing when the SDK is actually initialized. " +
+        "It may be removed in future versions and is used with the Init method which is being deprecated. " +
         "Use InitAsync instead.", false)]
         /// <summary>
         /// Fired when <see cref="MXRManager"/> is initialized
         /// </summary>
         public static event Action OnInitialize;
 
-        [Obsolete("This boolean property was used with the Init method which is being deprecated. " +
-        "Use InitAsync instead.", false)]
+        [Obsolete("This boolean property isn't a reliable source for knowing is the SDK is actually" +
+        "initialized. It may be removed in future versions and is used with the Init method " +
+        "which is being deprecated. Use InitAsync instead.", false)]
         /// <summary>
         /// Whether <see cref="MXRManager"/> has been initialized
         /// </summary>
@@ -64,6 +66,7 @@ namespace MXR.SDK {
             if (!System.IsAvailable)
                 Debug.unityLogger.Log(LogType.Log, TAG, "Waiting for MXRManager.System to be available.");
 
+            // We keep waiting for 100 milliseconds until the system is available.
             while (!System.IsAvailable)
                 await Task.Delay(100);
 
