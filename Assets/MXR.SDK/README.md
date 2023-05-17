@@ -125,10 +125,13 @@ The ManageXR SDK stores files in the `MightyImmersion` directory in the SD card 
     `MXRAndroidUtils.RequestManageAllFilesPermission();`  
     - If you want to check if the user has already granted the `MANAGE_EXTERNAL_STORAGE` permission or not, the MXR SDK provides a static property to query this:  
     `MXRAndroidUtils.IsExternalStorageManager`  
+    - *Tip*: Try to invoke `MXRAndroidUtils.RequestManageAllFilesPermission` as early as possible on startup. This way your app and the MXR SDK will be able to access the ManageXR files stored on disk. Do note the following:
+        * `MXRAndroidUtils.RequestManageAllFilesPermission` directly launches a native Android UI, you might want to show a popup that informs the user via a popup and go ahead after confirmation.
+        * Initialize the ManageXR SDK or try to access MightyImmersion files after this permission has been granted.
+        * Use the methods provided in the SDK instead of [Unitys Permissions struct](https://docs.unity3d.com/ScriptReference/Android.Permission.html) for requesting this permission and checking if it has been granted.
 
 
 *Note:* Logging is enabled by default. Use `MXRSystem.EnableLogging = false` to disable messages from being logged to the console.  
-*Tip:* If you need to request an Android permission from the user, [Unitys Permissions struct](https://docs.unity3d.com/ScriptReference/Android.Permission.html) provides a convenient API to check and ask for Android permissions.
 ___
 ## Support  
 Please open a Github Issue or contact support@managexr.com for additional support.
