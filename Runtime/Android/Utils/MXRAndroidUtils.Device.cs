@@ -7,7 +7,11 @@ namespace MXR.SDK {
         public static AndroidJavaClass AndroidOSBuild =>
             new AndroidJavaClass("android.os.Build");
 
-        public static int AndroidSDKInt {
+        /// <summary>
+        /// Returns the SDK version of Android currently running on a device.
+        /// Ref: https://developer.android.com/reference/android/os/Build.VERSION#SDK_INT
+        /// </summary>
+        public static int AndroidSDKAsInt {
             get {
                 AndroidJavaClass buildVersion = new AndroidJavaClass("android.os.Build$VERSION");
                 return buildVersion.GetStatic<int>("SDK_INT");
