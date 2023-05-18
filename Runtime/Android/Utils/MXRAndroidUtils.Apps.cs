@@ -16,6 +16,13 @@ namespace MXR.SDK {
             return null;
         }
 
+        public static bool IsExternalStorageManager {
+            get {
+                AndroidJavaClass environment = new AndroidJavaClass("android.os.Environment");
+                return environment.CallStatic<bool>("isExternalStorageManager");
+            }
+        }
+
         public static string GetInstalledPackageVersionName(string packageName) {
             if (Plugin != null)
                 Plugin.Call<string>("getInstalledPackagedVersionName", packageName);
@@ -65,6 +72,31 @@ namespace MXR.SDK {
             if (Plugin != null)
                 return Plugin.Call<string>("getInstalledAdminAppPackageName");
             return null;
+        }
+
+        /// <summary>
+        /// Opens Android UI for users to grant the MANAGE_ALL_FILES permission
+        /// </summary>
+        public static void RequestManageAllFilesPermission() {
+            try {
+                // Create an empty intent
+                AndroidJavaObject intent = new AndroidJavaObject("android.content.Intent");
+
+                // Set the intent action 
+                intent.Call<AndroidJavaObject>("setAction", "android.settings.MANAGE_APP_ALL_FILES_ACCESS_PERMISSION");
+
+                // Set the data for the intent. This causes the Android UI to open the MANAGE_ALL_FILES
+                // permission flow for the SDK integrating app
+                var uriClass = new AndroidJavaClass("android.net.Uri");
+                var data = uriClass.CallStatic<AndroidJavaObject>("parse", "package:" + Application.identifier);
+                intent.Call<AndroidJavaObject>("setData", data);
+
+                CurrentActivity.Call("startActivity", intent);
+
+            }
+            catch (Exception e) {
+                Debug.unityLogger.Log(LogType.Error, "Failed to open MANAGE_ALL_FILES permission flow: " + e.Message);
+            }
         }
     }
 }
