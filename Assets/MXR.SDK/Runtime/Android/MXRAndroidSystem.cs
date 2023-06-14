@@ -46,6 +46,7 @@ namespace MXR.SDK {
         public List<ScannedWifiNetwork> WifiNetworks { get; private set; }
         public WifiConnectionStatus WifiConnectionStatus { get; private set; }
 
+        public event Action<bool> OnAvailabilityChange;
         public event Action<RuntimeSettingsSummary> OnRuntimeSettingsSummaryChange;
         public event Action<DeviceStatus> OnDeviceStatusChange;
         public event Action<List<ScannedWifiNetwork>> OnWifiNetworksChange;
@@ -64,6 +65,9 @@ namespace MXR.SDK {
                 Debug.unityLogger.Log(LogType.Log, TAG, "Initializing MXRAndroidSystem");
 
             messenger = new AdminAppMessengerManager();
+            OnAvailabilityChange?.Invoke(messenger.IsBoundToService);
+            messenger.OnBoundStatusToAdminAppChanged += x => 
+                OnAvailabilityChange?.Invoke(x);
 
             InitializeRuntimeSettingsSummary();
             InitializeDeviceStatus();

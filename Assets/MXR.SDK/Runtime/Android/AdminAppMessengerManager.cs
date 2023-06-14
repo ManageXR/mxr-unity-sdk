@@ -40,6 +40,9 @@ namespace MXR.SDK {
                 context, 
                 new AdminAppMessengerListener(this)
             );
+            Debug.unityLogger.Log(LogType.Log, "AdminAppMessengerManager JNI bridge created.");
+            if(!IsBoundToService)
+                Debug.unityLogger.Log(LogType.Log, "AdminAppMessengerManager waiting to bind with admin app.");
         }
 
         /// <summary>
@@ -120,6 +123,7 @@ namespace MXR.SDK {
             /// <param name="bound">New bound status</param>
             public void onBindStatusToAdminAppChanged(bool bound) {
                 if (messenger.IsBoundToService != bound) {
+                    Debug.unityLogger.Log(LogType.Log, "AdminAppMessengerManager bind state changed to: " + bound);
                     messenger.IsBoundToService = bound;
                     messenger.OnBoundStatusToAdminAppChanged?.Invoke(bound);
                 }
