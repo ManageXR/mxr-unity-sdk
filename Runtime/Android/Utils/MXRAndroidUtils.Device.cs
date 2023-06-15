@@ -64,8 +64,8 @@ namespace MXR.SDK {
 
 
         static readonly List<string> knownPico4DeviceModels = new List<string> {
-            "A8140", "A8110", "A81X0", "A8E50", "A8150", "A81E0" 
-        };
+            "A8140", "A8110", "A81X0", "A8E50", "A8150", "A81E0" , "A8120", "A8250", "A82E0", "A82X0", "A8E10", "A8E40"
+        };        
         public static bool IsPico4 {
             get {
                 if (Application.isEditor) 
@@ -80,7 +80,7 @@ namespace MXR.SDK {
         public static bool IsPicoUI4 =>
             PicoUIVersion.StartsWith("4");
 
-        public static bool IsPico6DOF => IsPicoNeo2 || IsPicoNeo3;
+        public static bool IsPico6DOF => IsPicoNeo2 || IsPicoNeo3 || IsPico4;
 
         public static bool IsOculus6DOF => IsOculusDevice && !IsOculusGo;
 
