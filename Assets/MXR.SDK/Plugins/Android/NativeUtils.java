@@ -13,7 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.Canvas;
-import java.util.List;
+
 import com.unity3d.player.UnityPlayer;
 import com.unity3d.player.UnityPlayerActivity;
 import java.util.*;
@@ -191,6 +191,31 @@ public class NativeUtils {
                 return packageInfo.packageName;
             }
         }
+        return null;
+    }
+
+    public int getInstalledAdminAppVersionCode() {
+        PackageManager pm = mContext.getPackageManager();
+        List<PackageInfo> packages = pm.getInstalledPackages(0);
+
+        String adminAppPackageName = getInstalledAdminAppPackageName();
+        if (adminAppPackageName == null) return null;
+
+        for (PackageInfo packageInfo : packages) {
+            if (!packageInfo.packageName.equals(adminAppPackageName)) continue;
+
+            int versionCode;
+            // The default versionCode field is deprecated on versions > P.
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                // We don't use sizes big enough to worry about overflow, so this is safe for us.
+                versionCode = (int) pInfo.getLongVersionCode(); 
+            } else {
+                versionCode = pInfo.versionCode;
+            }
+
+            return versionCode;
+        }
+        
         return null;
     }
 

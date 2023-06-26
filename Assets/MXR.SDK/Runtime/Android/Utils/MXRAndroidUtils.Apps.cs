@@ -74,6 +74,13 @@ namespace MXR.SDK {
             return null;
         }
 
+        public static int GetAdminAppVersionCode() {
+            if (Plugin != null)
+                return Plugin.Call<string>("getInstalledAdminAppVersionCode");
+            return null;
+
+        }
+
         /// <summary>
         /// Opens Android UI for users to grant the MANAGE_ALL_FILES permission
         /// </summary>
