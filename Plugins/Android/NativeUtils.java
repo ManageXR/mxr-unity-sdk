@@ -13,7 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.Canvas;
-import java.util.List;
+
 import com.unity3d.player.UnityPlayer;
 import com.unity3d.player.UnityPlayerActivity;
 import java.util.*;
@@ -192,6 +192,22 @@ public class NativeUtils {
             }
         }
         return null;
+    }
+
+    public int getInstalledAdminAppVersionCode() {
+        PackageManager pm = mContext.getPackageManager();
+        List<PackageInfo> packages = pm.getInstalledPackages(0);
+
+        String adminAppPackageName = getInstalledAdminAppPackageName();
+        if (adminAppPackageName == null) return -1;
+
+        for (PackageInfo packageInfo : packages) {
+            if (!packageInfo.packageName.equals(adminAppPackageName)) continue;
+
+            return packageInfo.versionCode;
+        }
+
+        return -1;
     }
 
 }
