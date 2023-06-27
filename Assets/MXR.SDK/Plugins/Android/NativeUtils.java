@@ -199,24 +199,15 @@ public class NativeUtils {
         List<PackageInfo> packages = pm.getInstalledPackages(0);
 
         String adminAppPackageName = getInstalledAdminAppPackageName();
-        if (adminAppPackageName == null) return null;
+        if (adminAppPackageName == null) return -1;
 
         for (PackageInfo packageInfo : packages) {
             if (!packageInfo.packageName.equals(adminAppPackageName)) continue;
 
-            int versionCode;
-            // The default versionCode field is deprecated on versions > P.
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                // We don't use sizes big enough to worry about overflow, so this is safe for us.
-                versionCode = (int) pInfo.getLongVersionCode(); 
-            } else {
-                versionCode = pInfo.versionCode;
-            }
-
-            return versionCode;
+            return packageInfo.versionCode;
         }
-        
-        return null;
+
+        return -1;
     }
 
 }

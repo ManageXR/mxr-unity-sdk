@@ -76,8 +76,8 @@ namespace MXR.SDK {
 
         public static int GetAdminAppVersionCode() {
             if (Plugin != null)
-                return Plugin.Call<string>("getInstalledAdminAppVersionCode");
-            return null;
+                return Plugin.Call<int>("getInstalledAdminAppVersionCode");
+            return -1;
 
         }
 
