@@ -1,3 +1,4 @@
+#define UNITY_ANDROID
 #if UNITY_ANDROID
 using System;
 using System.Collections.Generic;
@@ -259,6 +260,19 @@ namespace MXR.SDK {
         }
 
         public void ConnectToWifiNetwork(string ssid, string password) {
+            ssid = EscapeStringToJsonString(ssid);
+            password = EscapeStringToJsonString(password);
+
+            if (messenger.IsBoundToService) {
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Log, TAG, "ConnectToWifiNetwork called. Invoking over JNI: connectToWifiNetworkAsync");
+                messenger.Call<bool>("connectToWifiNetworkAsync", ssid, password);
+            }
+            else if (LoggingEnabled)
+                Debug.unityLogger.Log(LogType.Warning, TAG, "ConnectToWifiNetwork ignored. System is not available (not bound to messenger.");
+        }
+
+           public void ConnectToWifiEnterpriseNetwork(string ssid, string password) {
             ssid = EscapeStringToJsonString(ssid);
             password = EscapeStringToJsonString(password);
 
