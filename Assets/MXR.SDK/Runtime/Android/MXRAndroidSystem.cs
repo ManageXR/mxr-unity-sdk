@@ -272,7 +272,7 @@ namespace MXR.SDK {
                 Debug.unityLogger.Log(LogType.Warning, TAG, "ConnectToWifiNetwork ignored. System is not available (not bound to messenger.");
         }
 
-           public void ConnectToWifiEnterpriseNetwork(string ssid, string password, string identity, string eapMethod, string phase2AuthenticationMethod, string anonymousIdentity, string domain) {
+        public void ConnectToWifiEnterpriseNetwork(string ssid, string password, string identity, string eapMethod, string phase2AuthenticationMethod, string anonymousIdentity, string domain) {
             ssid = EscapeStringToJsonString(ssid);
             password = EscapeStringToJsonString(password);
             eapMethod = EscapeStringToJsonString(eapMethod);
@@ -282,7 +282,7 @@ namespace MXR.SDK {
 
             if (messenger.IsBoundToService) {
                 if (LoggingEnabled)
-                    Debug.unityLogger.Log(LogType.Log, TAG, "ConnectToWifiEnterpriseNetwork called. Invoking over JNI: connectToWifiNetworkAsync");
+                    Debug.unityLogger.Log(LogType.Log, TAG, "ConnectToWifiEnterpriseNetwork called. Invoking over JNI: connectToEnterpriseWifiNetworkAsync");
                 messenger.Call<bool>("connectToWifiNetworkAsync", ssid, password, identity, eapMethod, phase2AuthenticationMethod, anonymousIdentity, domain);
             }
             else if (LoggingEnabled)
