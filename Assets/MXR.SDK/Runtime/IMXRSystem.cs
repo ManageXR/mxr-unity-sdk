@@ -154,10 +154,12 @@ namespace MXR.SDK {
         ///// <param name="ssid">The SSID of the network to connect to</param>
         ///// <param name="password">The password to use to attempt to connect</param>
         ///// <param name="identity">The identity to use to attempt to connect</param>
+        ///// <param name="eapMethod">The EAP Method to use to attempt to connect</param>
         ///// <param name="phase2AuthenticationMethod">The phase 2 Authentication Method to use to attempt to connect</param>
         ///// <param name="anonymousIdentity">The Anonymous Identity to use to attempt to connect</param>
-        //void ConnectToEnterpriseWifiNetwork(string ssid, string password, string identity, string phase2AuthenticationMethod, string anonymousIdentity, string domain);
-        
+        ///// <param name="domain">The domain to use to attempt to connect</param>
+        void ConnectToWifiEnterpriseNetwork(string ssid, string password, string identity, string eapMethod, string phase2AuthenticationMethod, string anonymousIdentity, string domain);
+
         /// <summary>
         /// Disable the wifi device
         /// </summary>
