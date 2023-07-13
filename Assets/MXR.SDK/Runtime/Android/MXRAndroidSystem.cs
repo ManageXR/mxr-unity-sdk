@@ -6,7 +6,6 @@ using System.IO;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-
 using UnityEngine;
 
 namespace MXR.SDK {
@@ -272,21 +271,18 @@ namespace MXR.SDK {
                 Debug.unityLogger.Log(LogType.Warning, TAG, "ConnectToWifiNetwork ignored. System is not available (not bound to messenger.");
         }
 
-        public void ConnectToWifiEnterpriseNetwork(string ssid, string password, string identity, string eapMethod, string phase2AuthenticationMethod, string anonymousIdentity, string domain) {
-            ssid = EscapeStringToJsonString(ssid);
-            password = EscapeStringToJsonString(password);
-            eapMethod = EscapeStringToJsonString(eapMethod);
-            phase2AuthenticationMethod = EscapeStringToJsonString(phase2AuthenticationMethod);
-            anonymousIdentity = EscapeStringToJsonString(anonymousIdentity);
-            domain = EscapeStringToJsonString(domain);
+        public void ConnectToEnterpriseWifiNetwork(EnterpriseWifiConnectionRequest enterpriseWifiConnectionRequest) {
+
+            if(enterpriseWifiConnectionRequest == null)
+                throw new ArgumentNullException(nameof(enterpriseWifiConnectionRequest));
 
             if (messenger.IsBoundToService) {
                 if (LoggingEnabled)
-                    Debug.unityLogger.Log(LogType.Log, TAG, "ConnectToWifiEnterpriseNetwork called. Invoking over JNI: connectToEnterpriseWifiNetworkAsync");
-                messenger.Call<bool>("connectToWifiNetworkAsync", ssid, password, identity, eapMethod, phase2AuthenticationMethod, anonymousIdentity, domain);
+                    Debug.unityLogger.Log(LogType.Log, TAG, "ConnectToEnterpriseWifiNetwork called. Invoking over JNI: connectToEnterpriseWifiNetworkAsync");
+                messenger.Call<bool>("connectToWifiNetworkAsync", JsonUtility.ToJson(enterpriseWifiConnectionRequest));
             }
             else if (LoggingEnabled)
-                Debug.unityLogger.Log(LogType.Warning, TAG, "ConnectToWifiEnterpriseNetwork ignored. System is not available (not bound to messenger.");
+                Debug.unityLogger.Log(LogType.Warning, TAG, "ConnectToEnterpriseWifiNetwork ignored. System is not available (not bound to messenger.");
         }
 
         public void DisableWifi() {

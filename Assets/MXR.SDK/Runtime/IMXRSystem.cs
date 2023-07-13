@@ -151,14 +151,8 @@ namespace MXR.SDK {
         ///// <summary>
         ///// Connects to an Enterpirse wifi network
         ///// </summary>
-        ///// <param name="ssid">The SSID of the network to connect to</param>
-        ///// <param name="password">The password to use to attempt to connect</param>
-        ///// <param name="identity">The identity to use to attempt to connect</param>
-        ///// <param name="eapMethod">The EAP Method to use to attempt to connect</param>
-        ///// <param name="phase2AuthenticationMethod">The phase 2 Authentication Method to use to attempt to connect</param>
-        ///// <param name="anonymousIdentity">The Anonymous Identity to use to attempt to connect</param>
-        ///// <param name="domain">The domain to use to attempt to connect</param>
-        void ConnectToWifiEnterpriseNetwork(string ssid, string password, string identity, string eapMethod, string phase2AuthenticationMethod, string anonymousIdentity, string domain);
+        ///// <param name="ssid">The payload for the Enterprise Wifi Connection Request</param>
+        void ConnectToEnterpriseWifiNetwork(EnterpriseWifiConnectionRequest enterpriseWifiConnectionRequest);
 
         /// <summary>
         /// Disable the wifi device
