@@ -176,14 +176,8 @@ public class AdminAppMessengerManager {
         return sendMessage(AdminAppMessageTypes.CONNECT_TO_WIFI_NETWORK, "{\"ssid\": \""+ssid+"\", \"password\":\""+password+"\" }");
     }
 
-    public boolean connectToEnterpriseWifiNetworkAsync(Sring ssid, String password, String identity, String eapMethod, String phase2AuthenticationMethod, String anonymousIdentity, String domain {
-        if (password == null) password = "";
-        if (identity == null) identity = "";
-        if (eapMethod == null) eapMethod = "";
-        if (phase2AuthenticationMethod == null) phase2AuthenticationMethod = "";
-        if (anonymousIdentity == null) anonymousIdentity = "";
-        if (domain == null) domain = "";
-        return sendMessage(AdminAppMessageTypes.CONNECT_TO_WIFI_NETWORK, "{\"ssid\": \""+ssid+"\", \"password\":\""+password+"\", \"identity\":\""+identity+"\", \"eapMethod\":\""+eapMethod+"\", \"phase2AuthenticationMethod\":\""+phase2AuthenticationMethod+"\", \"anonymousIdentity\":\""+anonymousIdentity+"\", \"domain\":\""+domain+"\"}");
+    public boolean connectToEnterpriseWifiNetworkAsync(String requestJson) {
+        return sendMessage(AdminAppMessageTypes.CONNECT_TO_WIFI_NETWORK, requestJson);
     }
 
     public boolean forgetWifiNetworkAsync(String ssid) {
