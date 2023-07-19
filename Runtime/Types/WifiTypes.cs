@@ -292,7 +292,7 @@ namespace MXR.SDK {
 
     public enum EapMethod
     {
-        EAP,
+        PEAP,
         TTLS,
         PWD,
     }
