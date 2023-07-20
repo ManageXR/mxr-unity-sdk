@@ -279,13 +279,13 @@ namespace MXR.SDK {
             if (messenger.IsBoundToService) {
                 if (LoggingEnabled)
                     Debug.unityLogger.Log(LogType.Log, TAG, "ConnectToEnterpriseWifiNetwork called. Invoking over JNI: connectToEnterpriseWifiNetworkAsync");
-                    Debug.unityLogger.Log(LogType.Log, TAG, enterpriseWifiConnectionRequest.ssid);
-                    Debug.unityLogger.Log(LogType.Log, TAG, enterpriseWifiConnectionRequest.password);
-                    Debug.unityLogger.Log(LogType.Log, TAG, enterpriseWifiConnectionRequest.identity);
-                    Debug.unityLogger.Log(LogType.Log, TAG, enterpriseWifiConnectionRequest.eapMethod.ToString());
-                    Debug.unityLogger.Log(LogType.Log, TAG, enterpriseWifiConnectionRequest.phase2Method.ToString());
-                    Debug.unityLogger.Log(LogType.Log, TAG, enterpriseWifiConnectionRequest.anonymousIdentity);
-                    Debug.unityLogger.Log(LogType.Log, TAG, enterpriseWifiConnectionRequest.domain);
+                    Debug.unityLogger.Log(LogType.Log, TAG, enterpriseWifiConnectionRequest.Ssid);
+                    Debug.unityLogger.Log(LogType.Log, TAG, enterpriseWifiConnectionRequest.Password);
+                    Debug.unityLogger.Log(LogType.Log, TAG, enterpriseWifiConnectionRequest.Identity);
+                    Debug.unityLogger.Log(LogType.Log, TAG, enterpriseWifiConnectionRequest.EapMethod.ToString());
+                    Debug.unityLogger.Log(LogType.Log, TAG, enterpriseWifiConnectionRequest.Phase2Method.ToString());
+                    Debug.unityLogger.Log(LogType.Log, TAG, enterpriseWifiConnectionRequest.AnonymousIdentity);
+                    Debug.unityLogger.Log(LogType.Log, TAG, enterpriseWifiConnectionRequest.Domain);
                 messenger.Call<bool>("connectToEnterpriseWifiNetworkAsync", JsonUtility.ToJson(enterpriseWifiConnectionRequest));
             }
             else if (LoggingEnabled)

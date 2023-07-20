@@ -308,13 +308,13 @@ namespace MXR.SDK {
     [Serializable]
     public class EnterpriseWifiConnectionRequest
     {
-        public string ssid;
-        public string password;
-        public string identity;
-        public EapMethod eapMethod;
-        public Phase2Method phase2Method;
-        public string anonymousIdentity;
-        public string domain;
+        public string Ssid;
+        public string Password;
+        public string Identity;
+        public EapMethod EapMethod;
+        public Phase2Method Phase2Method;
+        public string AnonymousIdentity;
+        public string Domain;
 
         public EnterpriseWifiConnectionRequest()
         {
@@ -324,13 +324,13 @@ namespace MXR.SDK {
         public EnterpriseWifiConnectionRequest(string ssid, string password, string identity, EapMethod eapMethod, Phase2Method phase2AuthenticationMethod, string anonymousIdentity, string domain)
         {
             //Only throw exceptions for required fields 
-            this.ssid = ssid ?? throw new ArgumentNullException(nameof(ssid));
-            this.password = password ?? throw new ArgumentNullException(nameof(password));
-            this.identity = identity ?? throw new ArgumentNullException(nameof(identity));
-            this.eapMethod = eapMethod;
-            this.phase2Method = phase2AuthenticationMethod;
-            this.anonymousIdentity = anonymousIdentity;
-            this.domain = domain;
+            this.Ssid = ssid ?? throw new ArgumentNullException(nameof(ssid));
+            this.Password = password ?? throw new ArgumentNullException(nameof(password));
+            this.Identity = identity ?? throw new ArgumentNullException(nameof(identity));
+            this.EapMethod = eapMethod;
+            this.Phase2Method = phase2AuthenticationMethod;
+            this.AnonymousIdentity = anonymousIdentity;
+            this.Domain = domain;
         }
     }
 
