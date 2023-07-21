@@ -212,7 +212,7 @@ public class AdminAppMessengerManager {
         return true;
     }
 
-    private ComponentName getInstalledAdminAdminServiceComponent() {
+    public ComponentName getInstalledAdminAdminServiceComponent() {
         PackageManager pm = context.getPackageManager();
         List<PackageInfo> packages = pm.getInstalledPackages(0);
 
