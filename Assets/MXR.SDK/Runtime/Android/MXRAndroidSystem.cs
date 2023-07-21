@@ -69,8 +69,8 @@ namespace MXR.SDK {
             messenger.OnBoundStatusToAdminAppChanged += x => 
                 OnAvailabilityChange?.Invoke(x);
 
-            InitializeRuntimeSettingsSummary();
-            InitializeDeviceStatus();
+            TryInitializeRuntimeSettingsSummary();
+            TryInitializeDeviceStatus();
             RefreshWifiConnectionStatus();
             RefreshWifiNetworks();
 
@@ -424,7 +424,16 @@ namespace MXR.SDK {
         }
 
         #region INITIALIZATION 
-        void InitializeRuntimeSettingsSummary() {
+        void TryInitializeRuntimeSettingsSummary() {
+            // On Android30 and above, we check if we have storage access. Otherwise file read attempt will fail.
+            if(MXRAndroidUtils.AndroidSDKAsInt >= 30 && !MXRAndroidUtils.IsExternalStorageManager) {
+                if (LoggingEnabled)
+                    Debug.unityLogger.LogWarning(TAG, "Not initializing RuntimeSettingsSummary using local json, " 
+                    + "the SDK will fallback to trying to initialize it using the Android Messenger. This is not an error. "
+                    + EXTERNAL_STORAGE_MANAGER_WARNING_MSG);
+                return;
+            }
+
             var subPath = "MightyImmersion/runtimeSettingsSummary.json";
             if (DeserializeFromFile(subPath, out string contents, out RuntimeSettingsSummary runtimeSettingsSummary)) {
                 lastRuntimeSettingsSummaryJSON = contents;
@@ -439,7 +448,16 @@ namespace MXR.SDK {
             }
         }
 
-        void InitializeDeviceStatus() {
+        void TryInitializeDeviceStatus() {
+            // On Android30 and above, we check if we have storage access. Otherwise file read attempt will fail.
+            if (MXRAndroidUtils.AndroidSDKAsInt >= 30 && !MXRAndroidUtils.IsExternalStorageManager) {
+                if (LoggingEnabled)
+                    Debug.unityLogger.LogWarning(TAG, "Not initializing DeviceStatus using local json, "
+                    + "the SDK will fallback to trying to initialize it using the Android Messenger. This is not an error. "
+                    + EXTERNAL_STORAGE_MANAGER_WARNING_MSG);
+                return;
+            }
+
             var subPath = "MightyImmersion/deviceStatus.json";
             if (DeserializeFromFile(subPath, out string contents, out DeviceStatus deviceStatus)) {
                 lastDeviceStatusJSON = contents;
@@ -479,6 +497,10 @@ namespace MXR.SDK {
 
             return output;
         }
+
+        const string EXTERNAL_STORAGE_MANAGER_WARNING_MSG =
+            "On Android 30 and above, request Manage All Files permission to read local files. " +
+            "A helper method MXRAndroidUtils.RequestManageAllFilesPermission() is provided in the SDK for the same. ";
     }
 }
 #endif
