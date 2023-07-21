@@ -1,4 +1,5 @@
 #define UNITY_ANDROID
+//TODO : ^ remove post testing 
 #if UNITY_ANDROID
 using System;
 using System.Collections.Generic;
@@ -286,6 +287,7 @@ namespace MXR.SDK {
                     Debug.unityLogger.Log(LogType.Log, TAG, enterpriseWifiConnectionRequest.Phase2Method.ToString());
                     Debug.unityLogger.Log(LogType.Log, TAG, enterpriseWifiConnectionRequest.AnonymousIdentity);
                     Debug.unityLogger.Log(LogType.Log, TAG, enterpriseWifiConnectionRequest.Domain);
+                    //TODO : ^ remove post testing 
                 messenger.Call<bool>("connectToEnterpriseWifiNetworkAsync", JsonUtility.ToJson(enterpriseWifiConnectionRequest));
             }
             else if (LoggingEnabled)
