@@ -39,6 +39,15 @@ namespace MXR.SDK {
             set => loggingEnabled = value;
         }
 
+        public bool IsAdminAppInstalled {
+            get {
+                if (Messenger == null)
+                    return false;
+                return Messenger.Call<AndroidJavaObject>("getInstalledAdminAdminServiceComponent") != null;
+            }
+        }
+
+        public bool IsConnectedToAdminApp => IsAvailable;
         public bool IsAvailable => messenger.IsBoundToService;
 
         public DeviceStatus DeviceStatus { get; private set; }
