@@ -60,17 +60,23 @@ namespace MXR.SDK {
         string lastRuntimeSettingsSummaryJSON = string.Empty;
         string lastDeviceStatusJSON = string.Empty;
 
+        string _cachedRuntimeSettingsSummaryFilePath =>
+            Path.Combine(Application.persistentDataPath, "ManageXR/runtimeSettingsSummary.json");
+
+        string _cachedDeviceStatusFilePath =>
+            Path.Combine(Application.persistentDataPath, "ManageXR/deviceStatus.json");
+
         public MXRAndroidSystem() {
             if (LoggingEnabled)
                 Debug.unityLogger.Log(LogType.Log, TAG, "Initializing MXRAndroidSystem");
 
             messenger = new AdminAppMessengerManager();
             OnAvailabilityChange?.Invoke(messenger.IsBoundToService);
-            messenger.OnBoundStatusToAdminAppChanged += x => 
+            messenger.OnBoundStatusToAdminAppChanged += x =>
                 OnAvailabilityChange?.Invoke(x);
 
-            TryInitializeRuntimeSettingsSummary();
-            TryInitializeDeviceStatus();
+            InitializeRuntimeSettingsSummary();
+            InitializeDeviceStatus();
             RefreshWifiConnectionStatus();
             RefreshWifiNetworks();
 
@@ -127,6 +133,8 @@ namespace MXR.SDK {
                 else if (what == RUNTIME_SETTINGS_SUMMARY) {
                     if (json.Equals(lastRuntimeSettingsSummaryJSON)) return;
 
+                    File.WriteAllText(_cachedRuntimeSettingsSummaryFilePath, json);
+
                     RuntimeSettingsSummary summary = JsonConvert.DeserializeObject<RuntimeSettingsSummary>(json);
                     if (summary != null) {
                         lastRuntimeSettingsSummaryJSON = json;
@@ -138,6 +146,8 @@ namespace MXR.SDK {
                 }
                 else if (what == DEVICE_STATUS) {
                     if (json.Equals(lastDeviceStatusJSON)) return;
+
+                    File.WriteAllText(_cachedDeviceStatusFilePath, json);
 
                     DeviceStatus status = JsonConvert.DeserializeObject<DeviceStatus>(json);
                     if (status != null) {
@@ -191,12 +201,11 @@ namespace MXR.SDK {
             var action = MXRAndroidUtils.GetIntentStringExtra("action");
             if (!action.Equals("PLAY_VIDEO")) {
                 if (LoggingEnabled)
-                    Debug.unityLogger.Log(LogType.Log, TAG, 
-                        "Only PLAY_VIDEO command action is supported via intents.");
+                    Debug.unityLogger.Log(LogType.Log, TAG, "Only PLAY_VIDEO command action is supported via intents.");
                 return;
             }
             else if (LoggingEnabled)
-                    Debug.unityLogger.Log(LogType.Log, TAG, "PLAY_VIDEO command action found.");
+                Debug.unityLogger.Log(LogType.Log, TAG, "PLAY_VIDEO command action found.");
 
             if (!MXRAndroidUtils.HasIntentExtra("videoId")) {
                 if (LoggingEnabled)
@@ -398,14 +407,14 @@ namespace MXR.SDK {
         }
 
         public void SendHomeScreenState(HomeScreenState state) {
-            if(messenger.IsBoundToService) {
+            if (messenger.IsBoundToService) {
                 try {
                     var stateJson = JsonConvert.SerializeObject(state);
                     messenger.Call<bool>("sendHomeScreenState", stateJson);
                     if (LoggingEnabled)
                         Debug.unityLogger.Log(LogType.Log, TAG, "SendHomeScreenState called. Invoking over JNI: sendHomeScreenState");
                 }
-                catch(Exception e) {
+                catch (Exception e) {
                     Debug.LogError("An error occured while trying to send homescreen state " + e);
                 }
             }
@@ -424,60 +433,112 @@ namespace MXR.SDK {
         }
 
         #region INITIALIZATION 
-        void TryInitializeRuntimeSettingsSummary() {
+        void InitializeRuntimeSettingsSummary() {
+            string filePath;
+
             // We check if we have storage access. Otherwise file read attempt will fail.
-            if(!CanAccessExternalFiles) {
+            if (CanAccessExternalFiles) {
+                filePath = MXRStorage.GetFullPath("MightyImmersion/runtimeSettingsSummary.json");
+
                 if (LoggingEnabled)
-                    Debug.unityLogger.LogWarning(TAG, "Not initializing RuntimeSettingsSummary using local json, " 
-                    + "the SDK will fallback to trying to initialize it using the Android Messenger. This is not an error. "
+                    Debug.unityLogger.Log(TAG, "Attempting to initialize RuntimeSettingsSummary using external json file.");
+            }
+            else {
+                if (LoggingEnabled)
+                    Debug.unityLogger.LogWarning(TAG, "Cannot initialize RuntimeSettingsSummary using external json file, "
+                    + "the SDK will fallback to trying to initialize it using the internal cached json file. "
+                    + "This is not an error. "
                     + EXTERNAL_STORAGE_MANAGER_WARNING_MSG);
-                return;
+
+                // If we can't read from the external storage, we check if we have a cached json in the app's directory.
+                filePath = _cachedRuntimeSettingsSummaryFilePath;
+
+                if (!File.Exists(filePath)) {
+                    if (LoggingEnabled)
+                        Debug.unityLogger.LogWarning(TAG, "Cannot initialize RuntimeSettingsSummary using internal cached json file, "
+                        + "the SDK will fallback to trying to initialize it using admin app messenger manager events. "
+                        + "This is not an error.");
+                    return;
+                }
+                else {
+                    if (LoggingEnabled)
+                        Debug.unityLogger.Log(TAG, "Initializing RuntimeSettingsSummary using internal cached json file. ");
+                }
             }
 
-            var subPath = "MightyImmersion/runtimeSettingsSummary.json";
-            if (DeserializeFromFile(subPath, out string contents, out RuntimeSettingsSummary runtimeSettingsSummary)) {
+            if (DeserializeFromFile(filePath, out string contents, out RuntimeSettingsSummary runtimeSettingsSummary)) {
                 lastRuntimeSettingsSummaryJSON = contents;
                 RuntimeSettingsSummary = runtimeSettingsSummary;
                 OnRuntimeSettingsSummaryChange?.Invoke(RuntimeSettingsSummary);
             }
             else {
-                var msg = "Could not deserialize RuntimeSettingsSummary from " + subPath +
-                    "Invoking RefreshRuntimeSettingsSummary to request from AdminAppMessengerManager";
-                if (LoggingEnabled) Debug.unityLogger.Log(LogType.Warning, TAG, msg);
+                var msg = $"Could not deserialize RuntimeSettingsSummary from {filePath}"
+                + "Invoking RefreshRuntimeSettingsSummary to request from AdminAppMessengerManager";
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Warning, TAG, msg);
                 RefreshRuntimeSettings();
             }
         }
 
-        void TryInitializeDeviceStatus() {
+        void InitializeDeviceStatus() {
+            string filePath;
+
             // We check if we have storage access. Otherwise file read attempt will fail.
-            if (!CanAccessExternalFiles) {
+            if (CanAccessExternalFiles) {
+                filePath = MXRStorage.GetFullPath("MightyImmersion/deviceStatus.json");
+
                 if (LoggingEnabled)
-                    Debug.unityLogger.LogWarning(TAG, "Not initializing DeviceStatus using local json, "
-                    + "the SDK will fallback to trying to initialize it using the Android Messenger. This is not an error. "
+                    Debug.unityLogger.Log(TAG, "Attempting to initialize DeviceStatus using external json file.");
+            }
+            else {
+                if (LoggingEnabled)
+                    Debug.unityLogger.LogWarning(TAG, "Cannot initialize DeviceStatus using external json file, "
+                    + "the SDK will fallback to trying to initialize it using the internal cached json file. "
+                    + "This is not an error."
                     + EXTERNAL_STORAGE_MANAGER_WARNING_MSG);
-                return;
+
+                // If we can't read from the external storage, we check if we have a cached json in the app's directory.
+                filePath = _cachedDeviceStatusFilePath;
+
+                if (!File.Exists(filePath)) {
+                    if (LoggingEnabled)
+                        Debug.unityLogger.LogWarning(TAG, "Cannot initialize DeviceStatus using internal cached json file, "
+                        + "the SDK will fallback to trying to initialize it using admin app messenger manager events. "
+                        + "This is not an error.");
+                    return;
+                }
+                else {
+                    if (LoggingEnabled)
+                        Debug.unityLogger.Log(TAG, "Initializing DeviceStatus using internal cached json file. ");
+                }
             }
 
-            var subPath = "MightyImmersion/deviceStatus.json";
-            if (DeserializeFromFile(subPath, out string contents, out DeviceStatus deviceStatus)) {
+            if (DeserializeFromFile(filePath, out string contents, out DeviceStatus deviceStatus)) {
                 lastDeviceStatusJSON = contents;
                 DeviceStatus = deviceStatus;
                 OnDeviceStatusChange?.Invoke(DeviceStatus);
             }
             else {
-                var msg = "Could not deserialize DeviceStatus from " + subPath +
-                    "Invoking RefreshDeviceStatus to request from AdminAppMessengerManager";
-                if (LoggingEnabled) Debug.unityLogger.Log(LogType.Warning, TAG, msg);
+                var msg = $"Could not deserialize DeviceStatus from {filePath} "
+                + "Invoking RefreshDeviceStatus to request from AdminAppMessengerManager";
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Warning, TAG, msg);
                 RefreshDeviceStatus();
             }
         }
 
-        bool DeserializeFromFile<T>(string subPath, out string contents, out T value) {
+        bool DeserializeFromFile<T>(string filePath, out string contents, out T value) {
             try {
-                var filePath = MXRStorage.GetFullPath(subPath);
-                contents = File.ReadAllText(filePath);
-                value = JsonConvert.DeserializeObject<T>(contents);
-                return true;
+                if (!File.Exists(filePath)) {
+                    contents = string.Empty;
+                    value = default;
+                    return false;
+                }
+                else {
+                    contents = File.ReadAllText(filePath);
+                    value = JsonConvert.DeserializeObject<T>(contents);
+                    return true;
+                }
             }
             catch (Exception e) {
                 if (LoggingEnabled)
