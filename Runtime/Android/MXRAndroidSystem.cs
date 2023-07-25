@@ -500,7 +500,8 @@ namespace MXR.SDK {
 
         const string EXTERNAL_STORAGE_MANAGER_WARNING_MSG =
             "On Android 30 and above, request Manage All Files permission to read local files. " +
-            "A helper method MXRAndroidUtils.RequestManageAllFilesPermission() is provided in the SDK for the same. ";
+            "A helper method MXRAndroidUtils.RequestManageAllFilesPermission() is provided in the SDK for the same. " +
+            "Refer to the MXR Unity SDK README for more info.";
     }
 }
 #endif
