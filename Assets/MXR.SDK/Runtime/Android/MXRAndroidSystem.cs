@@ -425,8 +425,8 @@ namespace MXR.SDK {
 
         #region INITIALIZATION 
         void TryInitializeRuntimeSettingsSummary() {
-            // On Android30 and above, we check if we have storage access. Otherwise file read attempt will fail.
-            if(MXRAndroidUtils.AndroidSDKAsInt >= 30 && !MXRAndroidUtils.IsExternalStorageManager) {
+            // We check if we have storage access. Otherwise file read attempt will fail.
+            if(!CanAccessExternalFiles) {
                 if (LoggingEnabled)
                     Debug.unityLogger.LogWarning(TAG, "Not initializing RuntimeSettingsSummary using local json, " 
                     + "the SDK will fallback to trying to initialize it using the Android Messenger. This is not an error. "
@@ -449,8 +449,8 @@ namespace MXR.SDK {
         }
 
         void TryInitializeDeviceStatus() {
-            // On Android30 and above, we check if we have storage access. Otherwise file read attempt will fail.
-            if (MXRAndroidUtils.AndroidSDKAsInt >= 30 && !MXRAndroidUtils.IsExternalStorageManager) {
+            // We check if we have storage access. Otherwise file read attempt will fail.
+            if (!CanAccessExternalFiles) {
                 if (LoggingEnabled)
                     Debug.unityLogger.LogWarning(TAG, "Not initializing DeviceStatus using local json, "
                     + "the SDK will fallback to trying to initialize it using the Android Messenger. This is not an error. "
@@ -496,6 +496,20 @@ namespace MXR.SDK {
             output = output.Substring(1, output.Length - 2);
 
             return output;
+        }
+
+        bool CanAccessExternalFiles {
+            get {
+                // If we're on level 29 and below, we don't need external storage manager permissions
+                if (!MXRAndroidUtils.NeedsManageAllFilesPermission)
+                    return true;
+                else {
+                    if (MXRAndroidUtils.IsExternalStorageManager)
+                        return true;
+                    else
+                        return false;
+                }
+            }
         }
 
         const string EXTERNAL_STORAGE_MANAGER_WARNING_MSG =
