@@ -12,16 +12,21 @@ namespace MXR.SDK {
             }
         }
 
+        static AndroidJavaObject applicationContext;
+        public static AndroidJavaObject ApplicationContext {
+            get {
+                if (applicationContext != null) return applicationContext;
+                applicationContext = CurrentActivity.Call<AndroidJavaObject>("applicationContext");
+                return applicationContext;
+            }
+        }
+
         static AndroidJavaObject plugin;
         public static AndroidJavaObject Plugin {
             get {
                 if (plugin != null) return plugin;
-                if (CurrentActivity != null) {
-                    var context = CurrentActivity?.Call<AndroidJavaObject>("getApplicationContext");
-                    plugin = new AndroidJavaObject("com.mightyimmersion.customlauncher.NativeUtils", context);
-                    return plugin;
-                }
-                return null;
+                plugin = new AndroidJavaObject("com.mightyimmersion.customlauncher.NativeUtils", ApplicationContext);
+                return plugin;
             }
         }
 
