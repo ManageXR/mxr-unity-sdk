@@ -43,7 +43,7 @@ namespace MXR.SDK {
             get {
                 if (Messenger == null)
                     return false;
-                return Messenger.Call<AndroidJavaObject>("getInstalledAdminAdminServiceComponent") != null;
+                return Messenger.Call<bool>("isAdminAppInstalled");
             }
         }
 
