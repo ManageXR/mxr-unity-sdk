@@ -16,6 +16,8 @@ namespace MXR.SDK {
             return null;
         }
 
+        public static bool NeedsManageAllFilesPermission => AndroidSDKAsInt >= 30;
+
         public static bool IsExternalStorageManager {
             get {
                 AndroidJavaClass environment = new AndroidJavaClass("android.os.Environment");
