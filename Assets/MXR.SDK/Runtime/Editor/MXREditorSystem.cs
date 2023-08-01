@@ -245,7 +245,7 @@ namespace MXR.SDK {
         {
             // Escape JSON string. Ref: https://stackoverflow.com/a/26152046
             // Then get rid of the encosing double quotes (") using substring
-            var ssid = JsonConvert.ToString(enterpriseWifiConnectionRequest.Ssid);
+            var ssid = JsonConvert.ToString(enterpriseWifiConnectionRequest.ssid);
             ssid = ssid.Substring(1, ssid.Length - 2);
 
             if (LoggingEnabled)
