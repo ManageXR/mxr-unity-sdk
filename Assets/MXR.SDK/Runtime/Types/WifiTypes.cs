@@ -313,8 +313,8 @@ namespace MXR.SDK {
         public string identity;
         public EapMethod eapMethod;
         public Phase2Method phase2Method;
-        public string anonymousIdentity;
-        public string domain;
+        public string anonymousIdentity = string.Empty;
+        public string domain = string.Empty;
 
         public EnterpriseWifiConnectionRequest()
         {
