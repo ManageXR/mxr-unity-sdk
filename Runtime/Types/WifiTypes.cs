@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+
 using Newtonsoft.Json;
 
 namespace MXR.SDK {
@@ -311,15 +313,19 @@ namespace MXR.SDK {
         public string ssid;
         public string password;
         public string identity;
+
         public EapMethod eapMethod;
         public Phase2Method phase2Method;
+
+        [DefaultValue("")]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string anonymousIdentity = string.Empty;
+
+        [DefaultValue("")]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string domain = string.Empty;
 
-        public EnterpriseWifiConnectionRequest()
-        {
-
-        }
+        public EnterpriseWifiConnectionRequest() { }
 
         public EnterpriseWifiConnectionRequest(string ssid, string password, string identity, EapMethod eapMethod, Phase2Method phase2AuthenticationMethod, string anonymousIdentity, string domain)
         {

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 
@@ -278,7 +279,8 @@ namespace MXR.SDK {
             if (messenger.IsBoundToService) {
                 if (LoggingEnabled)
                     Debug.unityLogger.Log(LogType.Log, TAG, "ConnectToEnterpriseWifiNetwork called. Invoking over JNI: connectToEnterpriseWifiNetworkAsync");
-                messenger.Call<bool>("connectToEnterpriseWifiNetworkAsync", JsonConvert.SerializeObject(enterpriseWifiConnectionRequest));
+                string json = JsonConvert.SerializeObject(enterpriseWifiConnectionRequest, Formatting.None, new StringEnumConverter());
+                messenger.Call<bool>("connectToEnterpriseWifiNetworkAsync", json);
             }
             else if (LoggingEnabled)
                 Debug.unityLogger.Log(LogType.Warning, TAG, "ConnectToEnterpriseWifiNetwork ignored. System is not available (not bound to messenger.");
