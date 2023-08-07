@@ -1,53 +1,107 @@
 ﻿using System;
-using System.Collections;
+using System.IO;
+using System.Net;
 
 using UnityEngine;
 
 namespace MXR.SDK.Samples {
-    public class ImageDownloader : MonoBehaviour {
-        ImageDownloader() { }
-
+    /// <summary>
+    /// Loads an image from a remote URL or the local disk as a Texture2D object
+    /// </summary>
+    public class ImageDownloader {
+        [Obsolete("This method has been deprecated and may be removed soon, Instead construct an instance using \"new ImageDownloader();\"")]
         public static ImageDownloader New() {
-            var go = new GameObject() {
-                hideFlags = HideFlags.HideAndDontSave
-            };
-            DontDestroyOnLoad(go);
-            return go.AddComponent<ImageDownloader>();
+            return new ImageDownloader();
         }
 
-        public void Download(string url, Action<Texture2D> callback) =>
-            StartCoroutine(DownloadInternal(url, callback));
+        [Obsolete("This method has been deprecated and may be removed soon, use the Load method instead")]
+        public void Download(string url, Action<Texture2D> callback) {
+            Load(url, TextureFormat.ARGB32, true, callback, error => callback?.Invoke(null));
+        }
 
-        #pragma warning disable 0618
-        IEnumerator DownloadInternal(string url, Action<Texture2D> callback) {
+        /// <summary>
+        /// Load a texture from a location. If the location is on a remote server, 
+        /// <see cref="LoadFromURL(string, TextureFormat, bool, Action{Texture2D}, Action{Exception})"/> is used
+        /// otherwise <see cref="LoadFromDisk(string, TextureFormat, bool)"/> is used.
+        /// </summary>
+        /// <param name="location">The location (local path or remote URL) to load the image from.</param>
+        /// <param name="format">The format used for the Texture2D instance returned in the success callback</param>
+        /// <param name="mipMap">Whether mipmaps are enabled for the Texture2D object</param>
+        /// <param name="onSuccess">Callback invoked when the load is successful.</param>
+        /// <param name="onError">Callback invoked when the load fails.</param>
+        public void Load(string location, TextureFormat format, bool mipMap, Action<Texture2D> onSuccess, Action<Exception> onError) {
+            // If the location is a URL, we use the remote download method
+            if (location.Contains("http://") || location.Contains("https://"))
+                LoadFromURL(location, format, mipMap, onSuccess, onError);
+            // Otherwise we load it locally.
+            else {
+                try {
+                    var tex = LoadFromDisk(location, format, mipMap);
+                    onSuccess?.Invoke(tex);
+                }
+                catch (Exception e) {
+                    onError?.Invoke(e);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Loads a texture from a remote URL.
+        /// </summary>
+        /// <param name="url">The URL to load the image from.</param>
+        /// <param name="format">The format used fo rhte Texture2D instance returned in the success callback</param>
+        /// <param name="mipMap">Whether mipmaps are enabled for the Texture2D object.</param>
+        /// <param name="onSuccess">Callback innvoked when the load is successful</param>
+        /// <param name="onError">Callback invoked when the load fails.</param>
+        public void LoadFromURL(string url, TextureFormat format, bool mipMap, Action<Texture2D> onSuccess, Action<Exception> onError) {
             if (string.IsNullOrEmpty(url)) {
-                callback?.Invoke(null);
-                yield break;
+                onError?.Invoke(new Exception("Could not download image from " + url));
+                return;
             }
 
-            var www = new WWW(url);
-            yield return www;
-            while (!www.isDone)
-                yield return null;
+            WebClient client = new WebClient();
+            client.DownloadDataCompleted += (sender, args) => {
+                if (args.Error != null) {
+                    onError?.Invoke(new Exception("Could not download image from " + url + " . Error: " + args.Error));
+                    return;
+                }
 
-            if (string.IsNullOrEmpty(www.error)) {
-                var texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
-                texture.LoadImage(www.bytes);
-                texture.Apply();
-
-                // Handle the infamous red question mark
-                // texture that shows up in Unity sometimes
-                // when the texture doesn't load. It's 8x8.
-                if (texture.width != 8 && texture.height != 8)
-                    callback?.Invoke(texture);
-                else
-                    callback?.Invoke(null);
-            }
-            else
-                callback?.Invoke(null);
-
-            Destroy(gameObject);
+                if (args.Result != null && args.Result.Length > 0) {
+                    Texture2D tex = new Texture2D(2, 2, format, mipMap);
+                    tex.LoadImage(args.Result);
+                    if (tex.width == 8 && tex.height == 8)
+                        onError?.Invoke(new Exception("Could not load texture data from image hosted at " + url));
+                    else
+                        onSuccess?.Invoke(tex);
+                }
+                else {
+                    onError?.Invoke(new Exception("Could not download image from " + url + " . Error: No data was downloaded."));
+                }
+            };
+            client.DownloadDataAsync(new Uri(url));
         }
-        #pragma warning restore 0618
+
+        /// <summary>
+        /// Loads an image from local disk.
+        /// </summary>
+        /// <param name="path">The path to load the image from</param>
+        /// <param name="format">The format to load the Texture2D instance with</param>
+        /// <param name="mipMap">Whether the loaded Texture2D object has mipmapping enabled.</param>
+        /// <returns></returns>
+        public static Texture2D LoadFromDisk(string path, TextureFormat format, bool mipMap) {
+            if (string.IsNullOrEmpty(path))
+                throw new Exception("Cannot load image from a null or empty subpath");
+
+            if (File.Exists(path)) {
+                var bytes = File.ReadAllBytes(path);
+                var texture = new Texture2D(2, 2, format, mipMap);
+                texture.LoadImage(bytes, true);
+                if (texture.width != 8 && texture.height != 8)
+                    return texture;
+                else
+                    throw new Exception("Loaded texture was not valid. " + path);
+            }
+            throw new Exception("No file exists at path " + path);
+        }
     }
 }
