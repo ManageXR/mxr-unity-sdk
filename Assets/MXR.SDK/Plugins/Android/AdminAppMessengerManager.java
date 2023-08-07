@@ -176,6 +176,10 @@ public class AdminAppMessengerManager {
         return sendMessage(AdminAppMessageTypes.CONNECT_TO_WIFI_NETWORK, "{\"ssid\": \""+ssid+"\", \"password\":\""+password+"\" }");
     }
 
+    public boolean connectToEnterpriseWifiNetworkAsync(String requestJson) {
+        return sendMessage(AdminAppMessageTypes.CONNECT_TO_WIFI_NETWORK, requestJson);
+    }
+
     public boolean forgetWifiNetworkAsync(String ssid) {
         return sendMessage(AdminAppMessageTypes.FORGET_WIFI_NETWORK, "{\"ssid\":\""+ssid+"\"}");
     }

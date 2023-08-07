@@ -148,6 +148,12 @@ namespace MXR.SDK {
         /// <param name="password">The password to use to attempt to connect</param>
         void ConnectToWifiNetwork(string ssid, string password);
 
+        ///// <summary>
+        ///// Connects to an Enterpirse wifi network
+        ///// </summary>
+        ///// <param name="ssid">The payload for the Enterprise Wifi Connection Request</param>
+        void ConnectToEnterpriseWifiNetwork(EnterpriseWifiConnectionRequest enterpriseWifiConnectionRequest);
+
         /// <summary>
         /// Disable the wifi device
         /// </summary>

@@ -241,6 +241,31 @@ namespace MXR.SDK {
             }
         }
 
+        public void ConnectToEnterpriseWifiNetwork(EnterpriseWifiConnectionRequest enterpriseWifiConnectionRequest)
+        {
+            // Escape JSON string. Ref: https://stackoverflow.com/a/26152046
+            // Then get rid of the encosing double quotes (") using substring
+            var ssid = JsonConvert.ToString(enterpriseWifiConnectionRequest.ssid);
+            ssid = ssid.Substring(1, ssid.Length - 2);
+
+            if (LoggingEnabled)
+            {
+                Debug.unityLogger.Log(LogType.Log, TAG, "Connecting to Enterprise Wifi Network with SSID " + ssid);
+            }
+
+            // If a network with the given SSID is available
+            // just set it as the current network
+            foreach (var network in WifiNetworks)
+            {
+                if (network.ssid.Equals(ssid))
+                {
+                    CurrentNetwork = network;
+                    if (LoggingEnabled)
+                        Debug.unityLogger.Log(LogType.Log, TAG, "Connected to Enterprise Wifi Network with SSID " + ssid);
+                }
+            }
+        }
+
         /// <summary>
         /// Currently, in editor, we can only forget the current network.
         /// TODO: Add savedWifiNetworks.json to simulate this function better.
@@ -412,6 +437,7 @@ namespace MXR.SDK {
                 throw new DirectoryNotFoundException("Ensure Files/MightyImmersion directory inside Unity project");
             return Path.Combine(mightyDir, fileName);
         }
+        
         #endregion
     }
 }

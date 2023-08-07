@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+
 using Newtonsoft.Json;
 
 namespace MXR.SDK {
     /// <summary>
-    /// Network types. 1-1 Mapping enum with Android native type
+    /// Network types.
     /// </summary>
     [Serializable]
     public enum NetworkType {
@@ -289,4 +291,54 @@ namespace MXR.SDK {
         [JsonIgnore]
         public bool IsOpen => networkSecurityType == NetworkType.OPEN;
     }
+
+    public enum EapMethod
+    {
+        PEAP,
+        TTLS,
+        PWD,
+    }
+
+    public enum Phase2Method
+    {
+        PAP,
+        MSCHAP,
+        MSCHAPV2,
+        GTC
+    }
+
+    [Serializable]
+    public class EnterpriseWifiConnectionRequest
+    {
+        public string ssid;
+        public string password;
+        public string identity;
+
+        public EapMethod eapMethod;
+        public Phase2Method phase2Method;
+
+        [DefaultValue("")]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string anonymousIdentity = string.Empty;
+
+        [DefaultValue("")]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string domain = string.Empty;
+
+        public EnterpriseWifiConnectionRequest() { }
+
+        public EnterpriseWifiConnectionRequest(string ssid, string password, string identity, EapMethod eapMethod, Phase2Method phase2AuthenticationMethod, string anonymousIdentity, string domain)
+        {
+            //Only throw exceptions for required fields 
+            this.ssid = ssid ?? throw new ArgumentNullException(nameof(ssid));
+            this.password = password ?? throw new ArgumentNullException(nameof(password));
+            this.identity = identity ?? throw new ArgumentNullException(nameof(identity));
+            this.eapMethod = eapMethod;
+            this.phase2Method = phase2AuthenticationMethod;
+            this.anonymousIdentity = anonymousIdentity;
+            this.domain = domain;
+        }
+    }
+
+
 }
