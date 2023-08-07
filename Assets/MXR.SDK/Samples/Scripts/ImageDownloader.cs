@@ -9,7 +9,8 @@ namespace MXR.SDK.Samples {
     /// Loads an image from a remote URL or the local disk as a Texture2D object
     /// </summary>
     public class ImageDownloader {
-        [Obsolete("This method has been deprecated and may be removed soon, Instead construct an instance using \"new ImageDownloader();\"")]
+        [Obsolete("This method has been deprecated and may be removed soon. " +
+        "Instead of this method, construct an instance using \"new ImageDownloader();\"")]
         public static ImageDownloader New() {
             return new ImageDownloader();
         }
@@ -33,7 +34,7 @@ namespace MXR.SDK.Samples {
             // If the location is a URL, we use the remote download method
             if (location.Contains("http://") || location.Contains("https://"))
                 LoadFromURL(location, format, mipMap, onSuccess, onError);
-            // Otherwise we load it locally.
+            // Otherwise we load it from disk.
             else {
                 try {
                     var tex = LoadFromDisk(location, format, mipMap);
