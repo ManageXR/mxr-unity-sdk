@@ -307,15 +307,25 @@ namespace MXR.SDK {
         GTC
     }
 
+    public enum SecurityMethod
+    {
+        OPEN,
+        WEP,
+        WPA,
+        WPA_ENTERPRISE
+    }
+
     [Serializable]
     public class EnterpriseWifiConnectionRequest
     {
         public string ssid;
         public string password;
         public string identity;
+        public bool hidden;
 
         public EapMethod eapMethod;
         public Phase2Method phase2Method;
+        public SecurityMethod securityMethod;
 
         [DefaultValue("")]
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -327,18 +337,18 @@ namespace MXR.SDK {
 
         public EnterpriseWifiConnectionRequest() { }
 
-        public EnterpriseWifiConnectionRequest(string ssid, string password, string identity, EapMethod eapMethod, Phase2Method phase2AuthenticationMethod, string anonymousIdentity, string domain)
+        public EnterpriseWifiConnectionRequest(string ssid, string password, string identity, EapMethod eapMethod, Phase2Method phase2AuthenticationMethod, SecurityMethod securityMethod,bool hidden, string anonymousIdentity, string domain)
         {
             //Only throw exceptions for required fields 
             this.ssid = ssid ?? throw new ArgumentNullException(nameof(ssid));
             this.password = password ?? throw new ArgumentNullException(nameof(password));
             this.identity = identity ?? throw new ArgumentNullException(nameof(identity));
+            this.securityMethod = securityMethod;
             this.eapMethod = eapMethod;
             this.phase2Method = phase2AuthenticationMethod;
             this.anonymousIdentity = anonymousIdentity;
             this.domain = domain;
+            this.hidden = hidden;
         }
     }
-
-
 }
