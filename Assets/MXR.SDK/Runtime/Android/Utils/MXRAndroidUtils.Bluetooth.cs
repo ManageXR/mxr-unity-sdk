@@ -7,7 +7,7 @@ namespace MXR.SDK {
         /// </summary>
         public static void LaunchBluetoothSettings() {
             var action = "android.settings.BLUETOOTH_SETTINGS";
-            Plugin.Call<bool>("launchIntentAction", action);
+            NativeUtils.Call<bool>("launchIntentAction", action);
         }
     }
 }

@@ -81,6 +81,7 @@ namespace MXR.SDK.Samples {
                 .ForEach(x => {
                     var instance = Instantiate(webXRAppCellTemplate, cellContainer);
                     instance.gameObject.SetActive(true);
+                    instance.gameObject.name = x.title;
                     instance.webXRApp = x;
                     instance.Refresh();
                     webXRAppCells.Add(instance);
@@ -92,6 +93,7 @@ namespace MXR.SDK.Samples {
                 .ForEach(x => {
                     var instance = Instantiate(videoCellTemplate, cellContainer);
                     instance.gameObject.SetActive(true);
+                    instance.gameObject.name = x.title;
                     instance.video = x;
                     instance.status = MXRManager.System.DeviceStatus.FileInstallStatusForVideo(x);
                     instance.Refresh();
@@ -104,6 +106,7 @@ namespace MXR.SDK.Samples {
                 .ForEach(x => {
                     var instance = Instantiate(appCellTemplate, cellContainer);
                     instance.gameObject.SetActive(true);
+                    instance.gameObject.name = x.title;
                     instance.runtimeApp = x;
                     instance.status = MXRManager.System.DeviceStatus.AppInstallStatusForRuntimeApp(x);
                     instance.Refresh();
