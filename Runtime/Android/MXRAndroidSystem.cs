@@ -564,12 +564,8 @@ namespace MXR.SDK {
                 // If we're on level 29 and below, we don't need external storage manager permissions
                 if (!MXRAndroidUtils.NeedsManageAllFilesPermission)
                     return true;
-                else {
-                    if (MXRAndroidUtils.IsExternalStorageManager)
-                        return true;
-                    else
-                        return false;
-                }
+                else 
+                    return MXRAndroidUtils.IsExternalStorageManager;
             }
         }
 
