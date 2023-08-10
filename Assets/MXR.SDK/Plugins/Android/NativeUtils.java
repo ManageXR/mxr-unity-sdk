@@ -27,6 +27,8 @@ public class NativeUtils {
     Context mContext;
     ActivityManager mActivityManager;
 
+    private final static String ADMIN_SERVICE_CLASS_NAME = "com.mightyimmersion.mightyplatform.AdminService";
+
     public NativeUtils(Context context) {
         mContext = context;
         mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
@@ -78,6 +80,18 @@ public class NativeUtils {
         } catch (Exception e){
             return false;
         }
+    }
+
+    public boolean isAdminAppInstalled() {
+        PackageManager pm = mContext.getPackageManager();
+        List<PackageInfo> packages = pm.getInstalledPackages(0);
+
+        for (PackageInfo packageInfo : packages) {
+            if (packageInfo.packageName.startsWith("com.mightyimmersion.mightyplatform.adminapp") && !packageInfo.packageName.contains("preload")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean isAppInstalled(String packageName) {

@@ -24,14 +24,14 @@ namespace MXR.SDK {
         }
 
         public static string GetInstalledPackageVersionName(string packageName) {
-            if (Plugin != null)
-                Plugin.Call<string>("getInstalledPackagedVersionName", packageName);
+            if (NativeUtils != null)
+                NativeUtils.Call<string>("getInstalledPackagedVersionName", packageName);
             return null;
         }
 
         public static bool IsAppInstalled(string packageName) {
-            if (Plugin != null)
-                return Plugin.Call<bool>("isAppInstalled", packageName);
+            if (NativeUtils != null)
+                return NativeUtils.Call<bool>("isAppInstalled", packageName);
             return false;
         }
 
@@ -43,17 +43,17 @@ namespace MXR.SDK {
         }
 
         public static void LaunchAppWithPackageName(string packageName) {
-            if (Plugin != null) 
-                Plugin.Call<bool>("launchApp", packageName);
+            if (NativeUtils != null) 
+                NativeUtils.Call<bool>("launchApp", packageName);
         }
 
         public static void LaunchAppWithPackageAndClassNames(string packageName, string className) {
-            if (Plugin != null) 
-                Plugin.Call<bool>("launchAppWithClass", packageName, className);
+            if (NativeUtils != null) 
+                NativeUtils.Call<bool>("launchAppWithClass", packageName, className);
         }
 
         public static void LaunchAppWithIntentAction(string intentAction) {
-            Plugin.Call<bool>("launchIntentAction", intentAction);
+            NativeUtils.Call<bool>("launchIntentAction", intentAction);
         }
 
         /// <summary>
@@ -64,19 +64,19 @@ namespace MXR.SDK {
         [Obsolete(@"This function only works on certain device / firmware combinations. 
         Instead, rely on the AdminAppMessengerManager to send KillApp messages to the admin app.", false)]
         public static void KillApp(string packageName) {
-            if (Plugin != null)
-                Plugin.Call("killApp", packageName);
+            if (NativeUtils != null)
+                NativeUtils.Call("killApp", packageName);
         }
 
         public static string GetAdminAppPackageName() {
-            if (Plugin != null)
-                return Plugin.Call<string>("getInstalledAdminAppPackageName");
+            if (NativeUtils != null)
+                return NativeUtils.Call<string>("getInstalledAdminAppPackageName");
             return null;
         }
 
         public static int GetAdminAppVersionCode() {
-            if (Plugin != null)
-                return Plugin.Call<int>("getInstalledAdminAppVersionCode");
+            if (NativeUtils != null)
+                return NativeUtils.Call<int>("getInstalledAdminAppVersionCode");
             return -1;
 
         }

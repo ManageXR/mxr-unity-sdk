@@ -115,10 +115,6 @@ public class AdminAppMessengerManager {
         return sendMessage(AdminAppMessageTypes.REGISTER_CLIENT);
     }
 
-    public boolean isAdminAppInstalled() {
-        return getInstalledAdminServiceComponent() != null;
-    }
-
     public boolean getWifiNetworksAsync() {
         return sendMessage(AdminAppMessageTypes.GET_WIFI_NETWORKS);
     }

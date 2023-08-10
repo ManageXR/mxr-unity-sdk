@@ -41,9 +41,7 @@ namespace MXR.SDK {
 
         public bool IsAdminAppInstalled {
             get {
-                if (Messenger == null)
-                    return false;
-                return Messenger.Call<bool>("isAdminAppInstalled");
+                return MXRAndroidUtils.NativeUtils.Call<bool>("isAdminAppInstalled");
             }
         }
 
