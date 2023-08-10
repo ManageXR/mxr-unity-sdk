@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+
+using UnityEngine;
 
 namespace MXR.SDK {
     public static partial class MXRAndroidUtils {
@@ -12,14 +14,24 @@ namespace MXR.SDK {
             }
         }
 
-        static AndroidJavaObject plugin;
-        public static AndroidJavaObject Plugin {
+        static AndroidJavaObject nativeUtils;
+
+        /// <summary>
+        /// Returns an instance of the NativeUtils.java class in the MXR SDK
+        /// </summary>
+        [Obsolete("This property has been deprecated and may be removed soon. Use NativeUtils instead.")]
+        public static AndroidJavaObject Plugin => NativeUtils;
+
+        /// <summary>
+        /// Returns an instance of the NativeUtils.java class in the MXR SDK
+        /// </summary>
+        public static AndroidJavaObject NativeUtils {
             get {
-                if (plugin != null) return plugin;
+                if (nativeUtils != null) return nativeUtils;
                 if (CurrentActivity != null) {
                     var context = CurrentActivity?.Call<AndroidJavaObject>("getApplicationContext");
-                    plugin = new AndroidJavaObject("com.mightyimmersion.customlauncher.NativeUtils", context);
-                    return plugin;
+                    nativeUtils = new AndroidJavaObject("com.mightyimmersion.customlauncher.NativeUtils", context);
+                    return nativeUtils;
                 }
                 return null;
             }
@@ -59,8 +71,8 @@ namespace MXR.SDK {
         }
 
         public static void SendBroadcastAction(string action) {
-            if (Plugin != null)
-                Plugin.Call("sendBroadcastAction", action);
+            if (NativeUtils != null)
+                NativeUtils.Call("sendBroadcastAction", action);
         }
     }
 }

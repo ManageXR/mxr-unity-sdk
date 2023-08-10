@@ -39,6 +39,13 @@ namespace MXR.SDK {
             set => loggingEnabled = value;
         }
 
+        public bool IsAdminAppInstalled {
+            get {
+                return MXRAndroidUtils.NativeUtils.Call<bool>("isAdminAppInstalled");
+            }
+        }
+
+        public bool IsConnectedToAdminApp => IsAvailable;
         public bool IsAvailable => messenger.IsBoundToService;
 
         public DeviceStatus DeviceStatus { get; private set; }

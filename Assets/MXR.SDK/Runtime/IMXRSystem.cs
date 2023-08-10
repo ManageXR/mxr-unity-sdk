@@ -13,11 +13,22 @@ namespace MXR.SDK {
         bool LoggingEnabled { get; set; }
 
         /// <summary>
-        /// Whether the system is available/bound/online
-        /// for use. Depending on the implementation, 
-        /// availability of <see cref="IMXRSystem"/> 
-        /// may change.
+        /// Whether the ManageXR Admin App is installed on this device.
+        /// If not, the device cannot communicate with the ManageXR service.
         /// </summary>
+        bool IsAdminAppInstalled { get; }
+
+        /// <summary>
+        /// Whether the system is available/bound/online for use.
+        /// If false, the SDK will not work.
+        /// </summary>
+        bool IsConnectedToAdminApp { get; }
+
+        /// <summary>
+        /// Whether the system is available/bound/online for use.
+        /// If false, the SDK will not work.
+        /// </summary>
+        [Obsolete("This property has been deprecated and may soon be removed. Please use IsConnectedToAdminApp instead.", false)]
         bool IsAvailable { get; }
 
         /// <summary>

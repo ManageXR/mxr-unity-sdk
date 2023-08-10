@@ -63,7 +63,7 @@ public class AdminAppMessengerManager {
         Log.v(TAG, "tryBindToAdminService. Already bound? = " + bound);
         if (bound) return;
 
-        ComponentName adminServiceComponent = getInstalledAdminAdminServiceComponent();
+        ComponentName adminServiceComponent = getInstalledAdminServiceComponent();
         if (adminServiceComponent != null) {
             launchAdminAppServiceIfNeeded(adminServiceComponent.getPackageName());
             Intent bindIntent = new Intent();
@@ -216,7 +216,7 @@ public class AdminAppMessengerManager {
         return true;
     }
 
-    private ComponentName getInstalledAdminAdminServiceComponent() {
+    private ComponentName getInstalledAdminServiceComponent() {
         PackageManager pm = context.getPackageManager();
         List<PackageInfo> packages = pm.getInstalledPackages(0);
 

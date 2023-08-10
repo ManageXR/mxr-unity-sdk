@@ -89,6 +89,11 @@ namespace MXR.SDK {
             set => loggingEnabled = value;
         }
 
+        public bool IsAdminAppInstalled => 
+            Directory.Exists(Path.Combine(MXRStorage.ExternalStorageDirectory, "MightyImmersion"));
+
+        public bool IsConnectedToAdminApp => IsAvailable;
+
         bool isAvailable;
         public bool IsAvailable => isAvailable;
 
