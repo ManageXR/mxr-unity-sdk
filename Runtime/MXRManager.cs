@@ -63,11 +63,11 @@ namespace MXR.SDK {
                 return null;
 
             // InitAsync waits for the system to become available
-            if (!System.IsAvailable)
+            if (!System.IsConnectedToAdminApp)
                 Debug.unityLogger.Log(LogType.Log, TAG, "Waiting for MXRManager.System to be available.");
 
             // We keep waiting for 100 milliseconds until the system is available.
-            while (!System.IsAvailable)
+            while (!System.IsConnectedToAdminApp)
                 await Task.Delay(100);
 
             // Next we wait for the DeviceStatus and RuntimeSettingsSummary to become non null.
