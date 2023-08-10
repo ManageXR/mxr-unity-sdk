@@ -14,24 +14,27 @@ namespace MXR.SDK.Samples {
         public void Refresh() {
             title.text = webXRApp.title;
 
-            SetRequirementIcon(controllerRequirement, webXRApp.controllersRequired);
-            SetRequirementIcon(internetRequirement, webXRApp.internetRequired);
+            // Instead of MXRStorage.GetFullPath(webXRApp.iconPath) you can also use
+            // webXRApp.iconUrl to download the icon from a URL, like this:
+            //new ImageDownloader().Load(webXRApp.iconUrl, TextureFormat.ARGB32, true, result =>{}, error =>{});
 
-            // Instead of MXRStorage.GetFullPath(video.iconPath) you can also use
-            // video.iconUrl to download the icon from a server.
-            ImageDownloader.New().Download(MXRStorage.GetFullPath(webXRApp.iconPath),
-                x => {
+            new ImageDownloader().Load(MXRStorage.GetFullPath(webXRApp.iconPath), TextureFormat.ARGB32, true,
+                result => {
                     if (isBeingDestroyed) return;
 
-                    if (x == null) {
+                    if (result == null) {
                         icon.sprite = defaultIcon;
                         return;
                     }
 
-                    icon.sprite = Sprite.Create(x, new Rect(0, 0, x.width, x.height), Vector2.one / 2);
+                    icon.sprite = Sprite.Create(result, new Rect(0, 0, result.width, result.height), Vector2.one / 2);
                     icon.preserveAspect = true;
-                }
+                },
+                error => icon.sprite = defaultIcon
             );
+
+            SetRequirementIcon(controllerRequirement, webXRApp.controllersRequired);
+            SetRequirementIcon(internetRequirement, webXRApp.internetRequired);
         }
 
         void SetRequirementIcon(Image icon, Content.Requirement requirement) {
