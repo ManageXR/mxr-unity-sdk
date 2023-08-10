@@ -18,24 +18,26 @@ namespace MXR.SDK.Samples {
         public void Refresh() {
             title.text = video.title;
 
-            SetRequirementIcon(controllerRequirement, video.controllersRequired);
-            SetRequirementIcon(internetRequirement, video.internetRequired);
-
             // Instead of MXRStorage.GetFullPath(video.iconPath) you can also use
-            // video.iconUrl to download the icon from a server.
-            ImageDownloader.New().Download(MXRStorage.GetFullPath(video.iconPath),
-                x => {
+            // video.iconUrl to download the icon from a URL, like this:
+            //new ImageDownloader().Load(video.iconUrl, TextureFormat.ARGB32, true, result =>{}, error =>{});
+            new ImageDownloader().Load(MXRStorage.GetFullPath(video.iconPath), TextureFormat.ARGB32, true,
+                result => {
                     if (isBeingDestroyed) return;
 
-                    if (x == null) {
+                    if (result == null) {
                         icon.sprite = defaultIcon;
                         return;
                     }
 
-                    icon.sprite = Sprite.Create(x, new Rect(0, 0, x.width, x.height), Vector2.one / 2);
+                    icon.sprite = Sprite.Create(result, new Rect(0, 0, result.width, result.height), Vector2.one / 2);
                     icon.preserveAspect = true;
-                }
+                },
+                error => icon.sprite = defaultIcon
             );
+
+            SetRequirementIcon(controllerRequirement, video.controllersRequired);
+            SetRequirementIcon(internetRequirement, video.internetRequired);
 
             if (status != null) {
                 if (status.status == FileInstallStatus.Status.COMPLETE) {

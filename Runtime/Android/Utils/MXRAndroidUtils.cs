@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+using System;
+
+using UnityEngine;
 
 namespace MXR.SDK {
     public static partial class MXRAndroidUtils {
@@ -12,21 +14,26 @@ namespace MXR.SDK {
             }
         }
 
-        static AndroidJavaObject applicationContext;
-        public static AndroidJavaObject ApplicationContext {
-            get {
-                if (applicationContext != null) return applicationContext;
-                applicationContext = CurrentActivity.Call<AndroidJavaObject>("applicationContext");
-                return applicationContext;
-            }
-        }
+        static AndroidJavaObject nativeUtils;
 
-        static AndroidJavaObject plugin;
-        public static AndroidJavaObject Plugin {
+        /// <summary>
+        /// Returns an instance of the NativeUtils.java class in the MXR SDK
+        /// </summary>
+        [Obsolete("This property has been deprecated and may be removed soon. Use NativeUtils instead.")]
+        public static AndroidJavaObject Plugin => NativeUtils;
+
+        /// <summary>
+        /// Returns an instance of the NativeUtils.java class in the MXR SDK
+        /// </summary>
+        public static AndroidJavaObject NativeUtils {
             get {
-                if (plugin != null) return plugin;
-                plugin = new AndroidJavaObject("com.mightyimmersion.customlauncher.NativeUtils", ApplicationContext);
-                return plugin;
+                if (nativeUtils != null) return nativeUtils;
+                if (CurrentActivity != null) {
+                    var context = CurrentActivity?.Call<AndroidJavaObject>("getApplicationContext");
+                    nativeUtils = new AndroidJavaObject("com.mightyimmersion.customlauncher.NativeUtils", context);
+                    return nativeUtils;
+                }
+                return null;
             }
         }
 
@@ -64,8 +71,8 @@ namespace MXR.SDK {
         }
 
         public static void SendBroadcastAction(string action) {
-            if (Plugin != null)
-                Plugin.Call("sendBroadcastAction", action);
+            if (NativeUtils != null)
+                NativeUtils.Call("sendBroadcastAction", action);
         }
     }
 }
