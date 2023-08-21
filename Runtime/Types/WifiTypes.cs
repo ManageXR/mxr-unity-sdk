@@ -313,7 +313,7 @@ namespace MXR.SDK {
         public string ssid;
         public string password;
         public string identity;
-        [DefaultValue("")]
+        [DefaultValue(false)]
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool hidden;
 
