@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -31,19 +32,22 @@ namespace MXR.SDK {
             IsPicoDevice ? AndroidOSBuild.GetStatic<string>("DISPLAY") : "0.0.0";
 
         public static bool IsPicoDevice =>
-            Application.isEditor ? false : DeviceManufacturer.Equals("Pico");
+            Application.isEditor ? false : DeviceManufacturer.Equals("Pico", StringComparison.OrdinalIgnoreCase);
 
         public static bool IsOculusDevice =>
-            Application.isEditor ? false : DeviceManufacturer.Equals("Oculus");
+            Application.isEditor ? false : DeviceManufacturer.Equals("Oculus", StringComparison.OrdinalIgnoreCase);
+
+        public static bool IsLenovoDevice =>
+            Application.isEditor ? false : DeviceManufacturer.Equals("Lenovo", StringComparison.OrdinalIgnoreCase);
 
         public static bool IsHTCDevice =>
-            Application.isEditor ? false : DeviceManufacturer.Equals("HTC");
+            Application.isEditor ? false : DeviceManufacturer.Equals("HTC", StringComparison.OrdinalIgnoreCase);
 
         public static bool IsHTCViveFocus3 =>
-            Application.isEditor ? false : DeviceModel.Equals("VIVE Focus 3");
+            Application.isEditor ? false : DeviceModel.Equals("VIVE Focus 3", StringComparison.OrdinalIgnoreCase);
 
         public static bool IsHTCViveFlow =>
-            Application.isEditor ? false : DeviceModel.Equals("Vive Flow");
+            Application.isEditor ? false : DeviceModel.Equals("Vive Flow", StringComparison.OrdinalIgnoreCase);
 
         static readonly List<string> knownPicoG2DeviceModels = new List<string> {
             "Pico G2", "Pico G2 4K" 
@@ -52,15 +56,15 @@ namespace MXR.SDK {
             Application.isEditor ? false : knownPicoG2DeviceModels.Contains(DeviceModel);
 
         public static bool IsPicoNeo2 =>
-            Application.isEditor ? false : DeviceModel.Equals("Pico Neo 2");
+            Application.isEditor ? false : DeviceModel.Equals("Pico Neo 2", StringComparison.OrdinalIgnoreCase);
 
         public static bool IsPicoNeo3 =>
-            Application.isEditor ? false : DeviceModel.Equals("Pico Neo 3");
+            Application.isEditor ? false : DeviceModel.Equals("Pico Neo 3", StringComparison.OrdinalIgnoreCase);
         public static bool IsQuest2 =>
-            Application.isEditor ? false : DeviceProduct.Equals("hollywood");
+            Application.isEditor ? false : DeviceProduct.Equals("hollywood", StringComparison.OrdinalIgnoreCase);
 
         public static bool IsQuestPro =>
-            Application.isEditor ? false : DeviceProduct.Equals("seacliff");            
+            Application.isEditor ? false : DeviceProduct.Equals("seacliff", StringComparison.OrdinalIgnoreCase);            
 
 
         static readonly List<string> knownPico4DeviceModels = new List<string> {
@@ -75,7 +79,7 @@ namespace MXR.SDK {
         }
 
         public static bool IsOculusGo =>
-            Application.isEditor ? false : DeviceModel.Equals("Pacific");
+            Application.isEditor ? false : DeviceModel.Equals("Pacific", StringComparison.OrdinalIgnoreCase);
 
         public static bool IsPicoUI4 =>
             PicoUIVersion.StartsWith("4");
