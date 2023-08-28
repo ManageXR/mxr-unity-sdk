@@ -313,9 +313,13 @@ namespace MXR.SDK {
         public string ssid;
         public string password;
         public string identity;
+        [DefaultValue(false)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool hidden;
 
         public EapMethod eapMethod;
         public Phase2Method phase2Method;
+        public NetworkType networkType;
 
         [DefaultValue("")]
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -327,18 +331,18 @@ namespace MXR.SDK {
 
         public EnterpriseWifiConnectionRequest() { }
 
-        public EnterpriseWifiConnectionRequest(string ssid, string password, string identity, EapMethod eapMethod, Phase2Method phase2AuthenticationMethod, string anonymousIdentity, string domain)
+        public EnterpriseWifiConnectionRequest(string ssid, string password, string identity, EapMethod eapMethod, Phase2Method phase2AuthenticationMethod, NetworkType networkType,bool hidden, string anonymousIdentity, string domain)
         {
             //Only throw exceptions for required fields 
             this.ssid = ssid ?? throw new ArgumentNullException(nameof(ssid));
             this.password = password ?? throw new ArgumentNullException(nameof(password));
             this.identity = identity ?? throw new ArgumentNullException(nameof(identity));
+            this.networkType = networkType;
             this.eapMethod = eapMethod;
             this.phase2Method = phase2AuthenticationMethod;
             this.anonymousIdentity = anonymousIdentity;
             this.domain = domain;
+            this.hidden = hidden;
         }
     }
-
-
 }
