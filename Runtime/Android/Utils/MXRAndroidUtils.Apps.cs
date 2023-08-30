@@ -16,7 +16,6 @@ namespace MXR.SDK {
             return null;
         }
 
-
         /// <summary>
         /// Returns the SDK version of Android currently running on a device.
         /// Ref: https://developer.android.com/reference/android/os/Build.VERSION#SDK_INT
@@ -41,25 +40,17 @@ namespace MXR.SDK {
         }
 
         /// <summary>
-        /// Returns whether the SDK can read external files.
+        /// Returns whether the SDK needs MANAGE_ALL_FILES permission for 
+        /// accessing files for proper functioning. This will return true
+        /// if the device OS SDK level and the builds target SDK are both
+        /// 29 and above which is where Scoped Storage for Android was introduced.
         /// </summary>
-        public static bool CanAccessExternalFiles {
-            get {
-                // If we're on level 29 and below, we don't need external storage manager permissions
-                if (!NeedsManageAllFilesPermission)
-                    return true;
-                else
-                    return IsExternalStorageManager;
-            }
-        }
+        public static bool NeedsManageAllFilesPermission => 
+            TargetSDKLevelAsInt >= 29 && AndroidSDKAsInt >= 29;
 
         /// <summary>
-        /// Returns whether the SDK needs MANAGE_ALL_FILES permission for accessing files for proper functioning
-        /// </summary>
-        public static bool NeedsManageAllFilesPermission => TargetSDKLevelAsInt >= 29 && AndroidSDKAsInt >= 29;
-
-        /// <summary>
-        /// Returns whether the SDK has the isExternalStorageManager permission for accessing files for proper functioning.
+        /// Returns whether the MANAGE_ALL_FILES permission has been granted
+        /// for accessing files for proper functioning of the SDK.
         /// </summary>
         public static bool IsExternalStorageManager {
             get {
@@ -127,7 +118,9 @@ namespace MXR.SDK {
         }
 
         /// <summary>
-        /// Opens Android UI for users to grant the MANAGE_ALL_FILES permission
+        /// Opens Android system dialog for users to grant the MANAGE_ALL_FILES permission.
+        /// Note that if the AndroidManifest.xml of the Unity project doesn't have the 
+        /// MANAGE_ALL_FILES permission, the toggle button in the system dialog will be disabled.
         /// </summary>
         public static void RequestManageAllFilesPermission() {
             try {
@@ -147,7 +140,8 @@ namespace MXR.SDK {
 
             }
             catch (Exception e) {
-                Debug.unityLogger.Log(LogType.Error, "Failed to open MANAGE_ALL_FILES permission flow: " + e.Message);
+                string err = "Failed to open MANAGE_ALL_FILES permission system dialog: " + e.Message;
+                Debug.unityLogger.Log(LogType.Error, err);
             }
         }
     }
