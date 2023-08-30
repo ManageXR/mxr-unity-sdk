@@ -498,7 +498,7 @@ namespace MXR.SDK {
             if (LoggingEnabled)
                 Debug.unityLogger.LogWarning(TAG, "RuntimeSettingsSummary cannot initialize using external json file. "
                 + "Trying to initialize it using the cached json file. This is not an error. "
-                + EXTERNAL_STORAGE_MANAGER_WARNING_MSG);
+                + EXTERNAL_READ_WARNING_MSG);
             filePath = _cachedRuntimeSettingsSummaryPath;
 
             if (InitFromFile(filePath)) {
@@ -554,7 +554,7 @@ namespace MXR.SDK {
             if (LoggingEnabled)
                 Debug.unityLogger.LogWarning(TAG, "DeviceStatus cannot initialize using external json file. "
                 + "Trying to initialize it using the cached json file. This is not an error. "
-                + EXTERNAL_STORAGE_MANAGER_WARNING_MSG);
+                + EXTERNAL_READ_WARNING_MSG);
             filePath = _cachedDeviceStatusPath;
 
             if (InitFromFile(filePath)) {
@@ -625,9 +625,10 @@ namespace MXR.SDK {
             return output;
         }
 
-        const string EXTERNAL_STORAGE_MANAGER_WARNING_MSG =
-            "On Android 30 and above, request Manage All Files permission to read local files. " +
-            "A helper method MXRAndroidUtils.RequestManageAllFilesPermission() is provided in the SDK for the same. " +
+        const string EXTERNAL_READ_WARNING_MSG =
+            "On Android 30 and above, request Manage External Storage permission to read external files. " +
+            "MXRAndroidUtils.RequestManageAppAllFilesAccessPermission() is provided in the SDK for the same. " +
+            "On Android 29, use android:requestLegacyExternalStorage=\"true\" in your AndroidManifest.xml." +
             "Refer to the MXR Unity SDK README for more info.";
     }
 }
