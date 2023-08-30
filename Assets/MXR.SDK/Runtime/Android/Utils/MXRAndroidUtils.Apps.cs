@@ -40,16 +40,16 @@ namespace MXR.SDK {
         }
 
         /// <summary>
-        /// Returns whether the SDK needs MANAGE_ALL_FILES permission for 
+        /// Returns whether the SDK needs MANAGE_EXTERNAL_STORAGE permission for 
         /// accessing files for proper functioning. This will return true
         /// if the device OS SDK level and the builds target SDK are both
         /// 29 and above which is where Scoped Storage for Android was introduced.
         /// </summary>
-        public static bool NeedsManageAllFilesPermission => 
+        public static bool NeedsManageExternalStoragePermission => 
             TargetSDKLevelAsInt >= 29 && AndroidSDKAsInt >= 29;
 
         /// <summary>
-        /// Returns whether the MANAGE_ALL_FILES permission has been granted
+        /// Returns whether the MANAGE_EXTERNAL_STORAGE permission has been granted
         /// for accessing files for proper functioning of the SDK.
         /// </summary>
         public static bool IsExternalStorageManager {
@@ -118,11 +118,12 @@ namespace MXR.SDK {
         }
 
         /// <summary>
-        /// Opens Android system dialog for users to grant the MANAGE_ALL_FILES permission.
+        /// Opens Android system dialog for users to grant MANAGE_APP_ALL_FILES_ACCESS_PERMISSION.
         /// Note that if the AndroidManifest.xml of the Unity project doesn't have the 
-        /// MANAGE_ALL_FILES permission, the toggle button in the system dialog will be disabled.
+        /// MANAGE_EXTERNAL_STORAGE permission as described in the SDK README, 
+        /// the toggle button in the system dialog may be disabled.
         /// </summary>
-        public static void RequestManageAllFilesPermission() {
+        public static void RequestManageAppAllFilesAccessPermission() {
             try {
                 // Create an empty intent
                 AndroidJavaObject intent = new AndroidJavaObject("android.content.Intent");
@@ -144,5 +145,10 @@ namespace MXR.SDK {
                 Debug.unityLogger.Log(LogType.Error, err);
             }
         }
+
+        [Obsolete("Use RequestManageAppAllFilesAccessPermission instead. " +
+        "This method may be removed in the future.")]
+        public static void RequestManageAllFilesPermission() =>
+            RequestManageAppAllFilesAccessPermission();
     }
 }
