@@ -43,10 +43,10 @@ namespace MXR.SDK {
         /// Returns whether the SDK needs MANAGE_EXTERNAL_STORAGE permission for 
         /// accessing files for proper functioning. This will return true
         /// if the device OS SDK level and the builds target SDK are both
-        /// 29 and above which is where Scoped Storage for Android was introduced.
+        /// 30 and above which is where Scoped Storage for Android was introduced.
         /// </summary>
         public static bool NeedsManageExternalStoragePermission => 
-            TargetSDKLevelAsInt >= 29 && AndroidSDKAsInt >= 29;
+            TargetSDKLevelAsInt > 29 && AndroidSDKAsInt > 29;
 
         /// <summary>
         /// Returns whether the MANAGE_EXTERNAL_STORAGE permission has been granted
