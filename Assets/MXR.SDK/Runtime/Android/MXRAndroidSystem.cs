@@ -484,7 +484,7 @@ namespace MXR.SDK {
             // Method 1: Try to initialize using the external json file
             if (LoggingEnabled)
                 Debug.unityLogger.Log(TAG, "Checking if RuntimeSettingsSummary can be initialized using external json file.");
-            if (MXRAndroidUtils.CanAccessExternalFiles) {
+            if (CanAccessExternalFiles) {
                 filePath = _externalRuntimeSettingsSummaryFilePath;
 
                 if (InitFromFile(filePath)) {
@@ -540,7 +540,7 @@ namespace MXR.SDK {
             // Method 1: Try to initialize using the external json file
             if (LoggingEnabled)
                 Debug.unityLogger.Log(TAG, "Checking if DeviceStatus can be initialized using external json file.");
-            if (MXRAndroidUtils.CanAccessExternalFiles) {
+            if (CanAccessExternalFiles) {
                 filePath = _externalDeviceStatusPath;
 
                 if (InitFromFile(filePath)) {
@@ -601,6 +601,20 @@ namespace MXR.SDK {
             }
         }
         #endregion
+
+        /// <summary>
+        /// Returns whether the SDK can read external files, taking into account
+        /// whether we need any permissions for it or not.
+        /// </summary>
+        bool CanAccessExternalFiles {
+            get {
+                // If we're on level 29 and below, we don't need external storage manager permissions
+                if (!MXRAndroidUtils.NeedsManageAllFilesPermission)
+                    return true;
+                else
+                    return MXRAndroidUtils.IsExternalStorageManager;
+            }
+        }
 
         string EscapeStringToJsonString(string input) {
             // Escape JSON string. Ref: https://stackoverflow.com/a/26152046
