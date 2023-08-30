@@ -77,23 +77,32 @@ ___
 ## Usage  
 The SDK uses `IMXRSystem` to communicate with the system layer. It provides methods, events, properties to observe, query and invoke operations in the ManageXR Admin/System.
 
-To Initialize the `MXRSystem`, call `MXRManager.Init();`. You may then access the `MXRSystem` with `MXRManager.System`.
+Initialization of the SDK is asynchronous. Use `await MXRManager.InitAsync();`. You may then access the `MXRSystem` using `MXRManager.System`.
+Sample code for initializing the SDK:
+```
+async void InitMXRSDK() {
+    await MXRManager.InitAsync();
+    // Use MXRManager.System the way you want
+}
+```
 
-The `MXRSystem` relays information to your app through a few different value classes:
+The `IMXRSystem` relays information to your app through a few different value classes:
 
-- `MXRSystem.RuntimeSettingsSummary` contains all information about the device and its current configuration. This will include information about all of the apps, files, and settings that are deployed to this device.
-- `MXRManager` also internally handles `System.OnHomeScreenStateRequest` events by sending the last reported `HomeScreenState`. You can modify the `HomeScreenState` using `SetHomeScreenState` and `ModifyHomeScreenState` methods in `MXRManager`. 
-- See `Assets/MXR.SDK/Runtime/Types/RuntimeTypes.cs` for full code documentation of this type and the data included in it.
-- See `Assets/MXR.SDK/Runtime/Editor/Files/MightyImmersion/runtimeSettingsSummary.json` for an example of this data in json format. (Note: You can edit this json file and its data will be reflected in the Sample Scene in realtime when run in the editor)
+- `IMXRSystem.RuntimeSettingsSummary` contains all information about the device and its current configuration. This will include information about all of the apps, files, and settings that are deployed to this device.
 - You may subscribe to realtime changes of this data with `MXRManager.System.OnRuntimeSettingsSummaryChange += OnRuntimeSettingsSummaryChange;`
-- `MXRSystem.DeviceStatus` contains all information about the device's current status. This includes the device's serial number and the status of apps/files that are currently being downloaded (including download progress).
+- `IMXRSystem.DeviceStatus` contains all information about the device's current status. This includes the device's serial number and the status of apps/files that are currently being downloaded (including download progress).
+- You may subscribe to realtime changes of this data with `MXRManager.System.OnDeviceStatusChange += OnDeviceStatusChange;`
+- See `Assets/MXR.SDK/Runtime/Types/RuntimeTypes.cs` for full code documentation of this type and the data included in it.
 - See `Assets/MXR.SDK/Runtime/Types/StatusTypes.cs` for full code documentation of this type and the data included in it.
+- See `Assets/MXR.SDK/Runtime/Editor/Files/MightyImmersion/runtimeSettingsSummary.json` for an example of this data in json format. (Note: You can edit this json file and its data will be reflected in the Sample Scene in realtime when run in the editor)
 - See `Assets/MXR.SDK/Runtime/Editor/Files/MightyImmersion/deviceStatus.json` for an example of this data in json format. (Note: You can edit this json file and its data will be reflected in the Sample Scene in realtime when run in the editor.)
-- You may subscribe to realtime  changes of this data with `MXRManager.System.OnDeviceStatusChange += OnDeviceStatusChange;`
+- `MXRManager` also internally handles `System.OnHomeScreenStateRequest` events by sending the last reported `HomeScreenState`. You can modify the `HomeScreenState` using `SetHomeScreenState` and `ModifyHomeScreenState` methods in `MXRManager`. 
 
 See `LibraryPanel.cs` and `WifiPanel.cs` under `Assets/MXR.SDK/Samples/Scripts/` as an example of how to initialize the MXRSystem and subscribe to events.
 
 IntelliSense code comments have been added for the key APIs and models. API reference and further documentation coming soon.
+
+Logging is enabled by default. Use `MXRManager.System.EnableLogging = false` after initialization to disable messages from being logged to the console.  
 
 ___
 ## Building your Unity project
@@ -102,36 +111,59 @@ Make sure that the VR device has been set up using the ManageXR Device Setup Too
 Add the `READ_EXTERNAL_STORAGE` permission to your Android Manifest.  
 `<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>`
 
-### For Target API Level 29 (Android 10)
+For working with the Wifi API, add the following permissions:
+`<uses-permission android:name="android.permission.INTERNET" />`  
+`<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />`  
+`<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />`  
+`<uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />`  
 
-Set `requestLegacyExternalStorage` to `true` in your Android Manifest.  
+### Additional steps for Target API Level 29 (Android 10)
+
+Add `requestLegacyExternalStorage="true"` to the `application` tag in your Android Manifest.  
 `<application android:requestLegacyExternalStorage="true">`
 
-### For Target API Level 30 and above (Android 11 and above)
-*Note:* The following is applicable only when targetting API Level 30 and above. You can get the device Android SDK INT using:  
-`MXRAndroidUtils.AndroidSDKInt`
-
-Android 11 introduces two new permissions that are required for the MXR SDK to function:
-- [Package Visibilty](https://developer.android.com/training/package-visibility) for querying information about other apps installed on the device. Since the MXR SDK uses the ManageXR Admin App (installed by the Device Setup Tool), granting this permission is critical. To do this, add the `QUERY_ALL_PACKAGES` to your manifest:  
+### Additional steps for Target API Level 30 and above (Android 11 and above)
+Android 11 introduces two new permissions that are required for the MXR SDK to function.
+  
+__1.__ [__Package Visibilty__](https://developer.android.com/training/package-visibility)  
+This is for querying information about other apps installed on the device. Since the MXR SDK heavily relies on the ManageXR Admin App (installed by the Device Setup Tool), granting this permission is critical. To do this, add the `QUERY_ALL_PACKAGES` to your manifest:  
 `<uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />`
 
-- [External Storage Manager](https://developer.android.com/reference/android/Manifest.permission#MANAGE_EXTERNAL_STORAGE) that requires user permission for an app to be able to manage files on the device.  
-The ManageXR SDK stores files in the `MightyImmersion` directory in the SD card root that requires this permission. To do this:
-    - Add the `MANAGE_EXTERNAL_STORAGE` permission to your Android Manifest:  
-    `<uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage"/>`  
-    - You may see an error saying "Namespace prefix 'tools' is not defined" or "XmlException: 'tools' is an undeclared prefix". To fix this, add the following to the `manifest` tag in your manifest:  
-    `xmlns:tools="http://schemas.android.com/tools"`
-    - However, declaring the `MANAGE_ALL_FILES` in manifest isn't enough. The user must be sent to the Android settings to grant this permission. MXR SDK provides a utility method to do this:  
-    `MXRAndroidUtils.RequestManageAllFilesPermission();`  
-    - If you want to check if the user has already granted the `MANAGE_EXTERNAL_STORAGE` permission or not, the MXR SDK provides a static property to query this:  
-    `MXRAndroidUtils.IsExternalStorageManager`  
-    - *Tip*: Try to invoke `MXRAndroidUtils.RequestManageAllFilesPermission` as early as possible on startup. This way your app and the MXR SDK will be able to access the ManageXR files stored on disk. Do note the following:
-        * `MXRAndroidUtils.RequestManageAllFilesPermission` directly launches a native Android UI, you might want to show a popup that informs the user via a popup and go ahead after confirmation.
-        * Initialize the ManageXR SDK or try to access MightyImmersion files after this permission has been granted.
-        * Use the methods provided in the SDK instead of [Unitys Permissions struct](https://docs.unity3d.com/ScriptReference/Android.Permission.html) for requesting this permission and checking if it has been granted.
+__2.__ [__External Storage Manager__](https://developer.android.com/reference/android/Manifest.permission#MANAGE_EXTERNAL_STORAGE)  
+This allows the SDK to access external files on the device. The SDK needs to access external files created by the ManageXR Admin App to function properly. 
+The ManageXR Admin App stores files in the `MightyImmersion` directory in the SD card root that requires this permission. 
 
+To do this:
+- Add the `MANAGE_EXTERNAL_STORAGE` permission to your Android Manifest:  
+`<uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage"/>`  
+- You may see an error saying "Namespace prefix 'tools' is not defined" or "XmlException: 'tools' is an undeclared prefix". To fix this, add the following to the `manifest` tag in your manifest:  
+`xmlns:tools="http://schemas.android.com/tools"`
+- However, declaring the `MANAGE_EXTERNAL_STORAGE` permission in manifest isn't enough. The user must use an Android system dialog to grant this permission. MXR SDK provides a utility method to do this:  
+`MXRAndroidUtils.RequestManageAppAllFilesAccessPermission();`  
+- If you want to check if the user has already granted the `MANAGE_EXTERNAL_STORAGE` permission, the MXR SDK provides a static property to query this:  
+`MXRAndroidUtils.IsExternalStorageManager`  
+- If you want to know if you need the `MANAGE_EXTERNAL_STORAGE` permission, the SDK provides a static property to query it:
+`MXRAndroidUtils.NeedsManageExternalStoragePermission`
 
-*Note:* Logging is enabled by default. Use `MXRSystem.EnableLogging = false` to disable messages from being logged to the console.  
+Here's some sample code for external storage permission:
+```
+void TryRequestManageExternalStoragePermission() {
+    // If we don't need the permission, don't do anything.
+    if (!MXRAndroidUtils.NeedsManageExternalStoragePermission) 
+        return;
+
+    // If we do need the permission, but it has already been granted, don't do anything.
+    if (MXRAndroidUtils.IsExternalStorageManager) 
+        return;
+
+    // If we need the permission and it's not been granted, we need to request it
+    MXRAndroidUtils.RequestManageAppAllFilesAccessPermission();
+}
+```
+
+Try to invoke `MXRAndroidUtils.RequestManageAppAllFilesAccessPermission()` as early as possible on startup and before initializing the ManageXR Unity SDK. This way your app and the MXR SDK will be able to access the ManageXR files stored on disk.  
+* Invoking `MXRAndroidUtils.RequestManageAppAllFilesAccessPermission()` opens a system dialog with a toggle button that the user must enable in order to grant the permission. BUT if the `MANAGE_EXTERNAL_STORAGE` permission is not included in the AndroidManifest, that toggle button will be in disabled state.
+* Use the `MXRAndroidUtils.RequestManageAppAllFilesAccessPermission()` method provided in the SDK instead of [Unity Permissions API](https://docs.unity3d.com/ScriptReference/Android.Permission.html) as it doesn't work with this permission.
 ___
 ## Support  
 Please open a Github Issue or contact support@managexr.com for additional support.
