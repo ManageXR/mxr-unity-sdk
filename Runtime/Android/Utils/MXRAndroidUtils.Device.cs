@@ -158,13 +158,13 @@ namespace MXR.SDK {
         /// <summary>
         /// Returns true if the SDK is able to detect the headsets degrees of freedom tracking capability
         /// </summary>
-        public static bool IsHeadsetDoFKnown =>
-            IsHeadset3DoF || IsHeadset6DoF;
+        public static bool IsHeadsetDOFKnown =>
+            IsHeadset3DOF || IsHeadset6DOF;
 
         /// <summary>
         /// Returns whether the headset has 6 degrees of freedom tracking capability
         /// </summary>
-        public static bool IsHeadset6DoF =>
+        public static bool IsHeadset6DOF =>
             // Oculus headsets
             IsQuestPro || IsQuest2 ||
 
@@ -177,7 +177,7 @@ namespace MXR.SDK {
         /// <summary>
         /// Returns whether the headset as 3 degrees of freedom traacking capability
         /// </summary>
-        public static bool IsHeadset3DoF =>
+        public static bool IsHeadset3DOF =>
             // Oculus headsets
             IsOculusGo ||
 
@@ -185,19 +185,20 @@ namespace MXR.SDK {
             IsPicoG2 || IsPicoG3;
 
         /// <summary>
+        /// Returns whether the SDK is running on a device with 3DoF headset
+        /// </summary>
+        [Obsolete("Use IsHeadset3DOF instead. This proparty may be removed in the future.")]
+        public static bool Is3DOF => IsHeadset3DOF;
+
+        /// <summary>
         /// Returns whether the SDK is running on a Pico device with 6DoF headset tracking
         /// </summary>
-        public static bool IsPico6DOF => IsPicoDevice && IsHeadset6DoF;
+        public static bool IsPico6DOF => IsPicoDevice && IsHeadset6DOF;
 
         /// <summary>
         /// Returns whether the SDK is running on an Oculus device with 6DoF headset tracking
         /// </summary>
-        public static bool IsOculus6DOF => IsOculusDevice && IsHeadset6DoF;
-
-        /// <summary>
-        /// Returns whether the SDK is running on a device with 3DoF headset
-        /// </summary>
-        public static bool Is3DOF => IsHeadset3DoF;
+        public static bool IsOculus6DOF => IsOculusDevice && IsHeadset6DOF;
 
         // PICO UI VERSION UTILS
         /// <summary>
