@@ -209,6 +209,11 @@ namespace MXR.SDK {
         public string packageName;
 
         /// <summary>
+        /// Whether the application has expired or not
+        /// </summary>
+        public bool isExpired;
+
+        /// <summary>
         /// Class name of the application
         /// </summary>
         public string className;
