@@ -16,6 +16,42 @@ namespace MXR.SDK {
             return null;
         }
 
+        /// <summary>
+        /// Returns the SDK version of Android currently running on a device.
+        /// Ref: https://developer.android.com/reference/android/os/Build.VERSION#SDK_INT
+        /// </summary>
+        public static int AndroidSDKAsInt {
+            get {
+                AndroidJavaClass buildVersion = new AndroidJavaClass("android.os.Build$VERSION");
+                return buildVersion.GetStatic<int>("SDK_INT");
+            }
+        }
+
+        /// <summary>
+        /// Returns the SDK version the app is targeting.
+        /// </summary>
+        public static int TargetSDKLevelAsInt {
+            get {
+                return CurrentActivity
+                    .Call<AndroidJavaObject>("getApplicationContext")
+                    .Call<AndroidJavaObject>("getApplicationInfo")
+                    .Get<int>("targetSdkVersion");
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the SDK needs MANAGE_EXTERNAL_STORAGE permission for 
+        /// accessing files for proper functioning. This will return true
+        /// if the device OS SDK level and the builds target SDK are both
+        /// 30 and above which is where Scoped Storage for Android was introduced.
+        /// </summary>
+        public static bool NeedsManageExternalStoragePermission => 
+            TargetSDKLevelAsInt > 29 && AndroidSDKAsInt > 29;
+
+        /// <summary>
+        /// Returns whether the MANAGE_EXTERNAL_STORAGE permission has been granted
+        /// for accessing files for proper functioning of the SDK.
+        /// </summary>
         public static bool IsExternalStorageManager {
             get {
                 AndroidJavaClass environment = new AndroidJavaClass("android.os.Environment");
@@ -82,9 +118,12 @@ namespace MXR.SDK {
         }
 
         /// <summary>
-        /// Opens Android UI for users to grant the MANAGE_ALL_FILES permission
+        /// Opens Android system dialog for users to grant MANAGE_APP_ALL_FILES_ACCESS_PERMISSION.
+        /// Note that if the AndroidManifest.xml of the Unity project doesn't have the 
+        /// MANAGE_EXTERNAL_STORAGE permission as described in the SDK README, 
+        /// the toggle button in the system dialog may be disabled.
         /// </summary>
-        public static void RequestManageAllFilesPermission() {
+        public static void RequestManageAppAllFilesAccessPermission() {
             try {
                 // Create an empty intent
                 AndroidJavaObject intent = new AndroidJavaObject("android.content.Intent");
@@ -102,8 +141,14 @@ namespace MXR.SDK {
 
             }
             catch (Exception e) {
-                Debug.unityLogger.Log(LogType.Error, "Failed to open MANAGE_ALL_FILES permission flow: " + e.Message);
+                string err = "Failed to open MANAGE_ALL_FILES permission system dialog: " + e.Message;
+                Debug.unityLogger.Log(LogType.Error, err);
             }
         }
+
+        [Obsolete("Use RequestManageAppAllFilesAccessPermission instead. " +
+        "This method may be removed in the future.")]
+        public static void RequestManageAllFilesPermission() =>
+            RequestManageAppAllFilesAccessPermission();
     }
 }

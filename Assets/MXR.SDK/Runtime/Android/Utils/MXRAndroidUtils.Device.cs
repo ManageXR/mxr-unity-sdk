@@ -8,17 +8,6 @@ namespace MXR.SDK {
         public static AndroidJavaClass AndroidOSBuild =>
             new AndroidJavaClass("android.os.Build");
 
-        /// <summary>
-        /// Returns the SDK version of Android running on the current device.
-        /// Ref: https://developer.android.com/reference/android/os/Build.VERSION#SDK_INT
-        /// </summary>
-        public static int AndroidSDKAsInt {
-            get {
-                AndroidJavaClass buildVersion = new AndroidJavaClass("android.os.Build$VERSION");
-                return buildVersion.GetStatic<int>("SDK_INT");
-            }
-        }
-
         // HARDWARE STRINGS
         /// <summary>
         /// The manufacturer string of current device. Equivalent to android.os.Build.MANUFACTURER
