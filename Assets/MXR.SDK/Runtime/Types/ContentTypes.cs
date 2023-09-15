@@ -209,7 +209,8 @@ namespace MXR.SDK {
         public string packageName;
 
         /// <summary>
-        /// Whether the application has expired or not
+        /// Indicates whether the application is currently in an expired state.
+        /// This occurs in shared applications when they reach the end of their shared time limit.
         /// </summary>
         public bool isExpired;
 
