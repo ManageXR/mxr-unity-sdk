@@ -130,7 +130,7 @@ namespace MXR.SDK {
         public bool AreControllerSettingsHidden => TryGet(x => x.customLauncherSettings.hiddenSettings.controller, false);
 
         /// <summary>
-        /// Helper property to checker whether the feature flag HIDE_ALL_CATEGORY_OF_LIBRARY is enabled 
+        /// Helper property to check whether the feature flag HIDE_ALL_CATEGORY_OF_LIBRARY is enabled 
         /// </summary>
         [JsonIgnore]
         public bool HideAllCategory => featureFlags.Contains("HIDE_ALL_CATEGORY_OF_LIBRARY");
