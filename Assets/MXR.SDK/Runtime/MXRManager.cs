@@ -67,8 +67,7 @@ namespace MXR.SDK {
                 Debug.unityLogger.Log(LogType.Log, TAG, "Waiting for MXRManager.System to be available.");
 
             // We keep waiting for 100 milliseconds until the system is available.
-            while (!System.IsConnectedToAdminApp)
-            {
+            while (!System.IsConnectedToAdminApp) {
                 Debug.unityLogger.Log("Waiting to connect to Admin App")
                 await Task.Delay(100);
             }
@@ -80,8 +79,10 @@ namespace MXR.SDK {
             if (System.RuntimeSettingsSummary == null)
                 Debug.unityLogger.Log(LogType.Log, TAG, "Waiting for MXRManager.System.RuntimeSettingsSummary to be initialized.");
 
-            while (System.DeviceStatus == null || System.RuntimeSettingsSummary == null)
+            while (System.DeviceStatus == null || System.RuntimeSettingsSummary == null) {
+                Debug.unityLogger.Log("Waiting for DeviceStatus and RuntimeSettingsSummary")
                 await Task.Delay(100);
+            }
 
             Debug.unityLogger.Log(LogType.Log, TAG, "MXRManager finished initializing.");
             return result;
