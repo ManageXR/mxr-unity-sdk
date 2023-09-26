@@ -221,7 +221,7 @@ public class AdminAppMessengerManager {
         List<PackageInfo> packages = pm.getInstalledPackages(0);
 
         for (PackageInfo packageInfo : packages) {
-            if (packageInfo.packageName.startsWith("com.mightyimmersion.mightyplatform.adminapp") && !packageInfo.packageName.contains("preload")) {
+            if (packageInfo.packageName.startsWith("com.mightyimmersion.mightyplatform.adminapp") && !packageInfo.packageName.contains("preload") && !packageInfo.packageName.contains("test")) {
                 return new ComponentName(packageInfo.packageName, ADMIN_SERVICE_CLASS_NAME);
             }
         }
