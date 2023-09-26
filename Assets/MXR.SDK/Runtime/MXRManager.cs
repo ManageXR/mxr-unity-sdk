@@ -68,7 +68,10 @@ namespace MXR.SDK {
 
             // We keep waiting for 100 milliseconds until the system is available.
             while (!System.IsConnectedToAdminApp)
+            {
+                Debug.unityLogger.Log("Waiting to connect to Admin App")
                 await Task.Delay(100);
+            }
 
             // Next we wait for the DeviceStatus and RuntimeSettingsSummary to become non null.
             if (System.DeviceStatus == null)
