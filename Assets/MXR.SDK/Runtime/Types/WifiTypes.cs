@@ -223,6 +223,12 @@ namespace MXR.SDK {
         public NetworkType networkSecurityType;
 
         /// <summary>
+        /// Authentication error whlie trying to connect to a network.
+        /// If no error is encountered, this field is null.
+        /// </summary>
+        public WifiAuthenticationError? authenticationError;
+
+        /// <summary>
         /// The captive portal URL for connecting to the network
         /// </summary>
         public string captivePortalUrl;
@@ -344,5 +350,12 @@ namespace MXR.SDK {
             this.domain = domain;
             this.hidden = hidden;
         }
+    }
+
+    public enum WifiAuthenticationError {
+        TIMEOUT,
+        WRONG_PASSWORD,
+        EAP_FAILURE,
+        UNKNOWN_AUTH_ERROR
     }
 }
