@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace MXR.SDK {
     /// <summary>
@@ -226,6 +227,7 @@ namespace MXR.SDK {
         /// Authentication error whlie trying to connect to a network.
         /// If no error is encountered, this field is null.
         /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
         public WifiAuthenticationError? authenticationError;
 
         /// <summary>
