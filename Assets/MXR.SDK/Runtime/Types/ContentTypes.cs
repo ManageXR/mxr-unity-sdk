@@ -220,5 +220,7 @@ namespace MXR.SDK {
         public string className;
 
         public bool debug_isNotInstalled;
+
+        public ExpirationBehavior expirationBehavior;
     }
 }

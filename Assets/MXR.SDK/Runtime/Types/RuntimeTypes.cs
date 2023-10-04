@@ -142,6 +142,19 @@ namespace MXR.SDK {
             return null;
         }
 
+        /// <summary>
+        /// Returns the <see cref="ExpirationBehavior"/> of a <see cref="ExpirationBehavior"/>
+        /// </summary>
+        /// <param name="runtimeApp"></param>
+        /// <returns></returns>
+        public ExpirationBehavior? GetExpirationBehaviorFromRuntimeApp(RuntimeApp runtimeApp) {
+            if (runtimeApp == null) return null;
+            if (apps.TryGetValue(runtimeApp.packageName, out RuntimeApp result))
+                return result.expirationBehavior;
+            else
+                return null;
+        }
+
         T TryGet<T>(Func<RuntimeSettingsSummary, T> getter, T fallback) {
             try {
                 return getter(this);
@@ -264,6 +277,27 @@ namespace MXR.SDK {
         /// in the homescreen.
         /// </summary>
         HOME_SCREEN
+    }
+
+    /// <summary>
+    /// Represents the current expiration behavior for the app.
+    /// </summary>
+    [Serializable]
+    public enum ExpirationBehavior {
+        /// <summary>
+        /// When the app is not disabled or deleted 
+        /// </summary>
+        NONE,
+
+        /// <summary>
+        /// When the app is in a disabled state
+        /// </summary>
+        DISABLE_APP,
+
+        /// <summary>
+        /// When the app is in a deleted state
+        /// </summary>
+        DELETE_APP
     }
 
     /// <summary>
