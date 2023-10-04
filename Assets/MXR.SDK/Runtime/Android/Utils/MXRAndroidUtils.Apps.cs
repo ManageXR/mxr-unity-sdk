@@ -150,5 +150,21 @@ namespace MXR.SDK {
         "This method may be removed in the future.")]
         public static void RequestManageAllFilesPermission() =>
             RequestManageAppAllFilesAccessPermission();
+
+        public static string EnumToString<TEnum>(TEnum enumValue) where TEnum : Enum {
+            return enumValue.ToString();
+        }
+
+        public static string MillisecondsToDate(long dateInMS) {
+            long expirationTimestampMilliseconds = dateInMS; 
+
+            // Convert milliseconds to a DateTime object
+            DateTime expirationDateTime = DateTimeOffset.FromUnixTimeMilliseconds(expirationTimestampMilliseconds).UtcDateTime;
+
+            // Format the DateTime as "Month, Day, Year, Time (12-hour)"
+            string formattedDateTime = expirationDateTime.ToString("MMMM dd, yyyy hh:mm tt");
+
+            return formattedDateTime;
+        }
     }
 }

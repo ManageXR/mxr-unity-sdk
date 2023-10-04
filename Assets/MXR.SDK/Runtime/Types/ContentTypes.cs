@@ -221,6 +221,15 @@ namespace MXR.SDK {
 
         public bool debug_isNotInstalled;
 
+        /// <summary>
+        /// The expiration behavior of a shared app
+        /// An apps expiration behavior can be NONE,  DISABLE_APP and DELETED_APP
+        /// </summary>
         public ExpirationBehavior expirationBehavior;
+
+        /// <summary>
+        /// The date, in MS, in which a shared app has expired 
+        /// </summary>
+        public long expirationTime;
     }
 }

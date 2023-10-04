@@ -142,19 +142,6 @@ namespace MXR.SDK {
             return null;
         }
 
-        /// <summary>
-        /// Returns the <see cref="ExpirationBehavior"/> of a <see cref="ExpirationBehavior"/>
-        /// </summary>
-        /// <param name="runtimeApp"></param>
-        /// <returns></returns>
-        public ExpirationBehavior? GetExpirationBehaviorFromRuntimeApp(RuntimeApp runtimeApp) {
-            if (runtimeApp == null) return null;
-            if (apps.TryGetValue(runtimeApp.packageName, out RuntimeApp result))
-                return result.expirationBehavior;
-            else
-                return null;
-        }
-
         T TryGet<T>(Func<RuntimeSettingsSummary, T> getter, T fallback) {
             try {
                 return getter(this);
