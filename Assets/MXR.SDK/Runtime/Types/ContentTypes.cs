@@ -230,6 +230,6 @@ namespace MXR.SDK {
         /// <summary>
         /// The date, in MS, in which a shared app has expired 
         /// </summary>
-        public long expirationTime;
+        public long expirationTimestamp;
     }
 }
