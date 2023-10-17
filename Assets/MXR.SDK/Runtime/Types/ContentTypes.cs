@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace MXR.SDK {
     /// <summary>
@@ -225,7 +226,8 @@ namespace MXR.SDK {
         /// The expiration behavior of a shared app
         /// An apps expiration behavior can be NONE,  DISABLE_APP and DELETED_APP
         /// </summary>
-        public ExpirationBehavior expirationBehavior;
+        [JsonConverter(typeof(StringEnumConverter))]
+        public ExpirationBehavior expirationBehavior = ExpirationBehavior.NONE;
 
         /// <summary>
         /// The date, in MS, in which a shared app has expired 
