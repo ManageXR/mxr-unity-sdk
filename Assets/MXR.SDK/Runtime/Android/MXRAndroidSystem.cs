@@ -120,7 +120,6 @@ namespace MXR.SDK {
                 // Unescape json if it is escaped 
                 // Ref: https://stackoverflow.com/a/26406504
                 if (json.StartsWith("\"")) {
-                    Debug.unityLogger.Log(LogType.Log,"JSON  Value  " + json);
                     JToken token = JToken.Parse(json);
                     JObject obj = JObject.Parse((string)token);
                     json = obj.ToString();
