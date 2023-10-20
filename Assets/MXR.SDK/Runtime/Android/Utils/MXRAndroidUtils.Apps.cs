@@ -151,10 +151,6 @@ namespace MXR.SDK {
         public static void RequestManageAllFilesPermission() =>
             RequestManageAppAllFilesAccessPermission();
 
-        public static string EnumToString<TEnum>(TEnum enumValue) where TEnum : Enum {
-            return enumValue.ToString();
-        }
-
         public static string MillisecondsToDate(long dateInMS) {
             long expirationTimestampMilliseconds = dateInMS; 
 
