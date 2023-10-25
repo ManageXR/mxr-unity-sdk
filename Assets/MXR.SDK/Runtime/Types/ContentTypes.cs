@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace MXR.SDK {
     /// <summary>
@@ -209,10 +210,28 @@ namespace MXR.SDK {
         public string packageName;
 
         /// <summary>
+        /// Indicates whether the application is currently in an expired state.
+        /// This occurs in shared applications when they reach the end of their shared time limit.
+        /// </summary>
+        public bool isExpired;
+
+        /// <summary>
         /// Class name of the application
         /// </summary>
         public string className;
 
         public bool debug_isNotInstalled;
+
+        /// <summary>
+        /// The expiration behavior of a shared app
+        /// An apps expiration behavior can be NONE,  DISABLE_APP and DELETED_APP
+        /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public ExpirationBehavior expirationBehavior = ExpirationBehavior.NONE;
+
+        /// <summary>
+        /// The date, in MS, in which a shared app has expired 
+        /// </summary>
+        public long expirationTimestamp;
     }
 }

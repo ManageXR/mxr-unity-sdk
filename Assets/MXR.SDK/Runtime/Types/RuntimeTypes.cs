@@ -267,6 +267,27 @@ namespace MXR.SDK {
     }
 
     /// <summary>
+    /// Represents the current expiration behavior for the app.
+    /// </summary>
+    [Serializable]
+    public enum ExpirationBehavior {
+        /// <summary>
+        /// When the app is not disabled or deleted 
+        /// </summary>
+        NONE,
+
+        /// <summary>
+        /// When the app is in a disabled state
+        /// </summary>
+        DISABLE_APP,
+
+        /// <summary>
+        /// When the app is in a deleted state
+        /// </summary>
+        DELETE_APP
+    }
+
+    /// <summary>
     /// Splash screen settings for the homescreen
     /// Future feature. Currently not supported.
     /// </summary>
