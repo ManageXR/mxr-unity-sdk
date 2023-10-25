@@ -600,7 +600,7 @@ namespace MXR.SDK {
                 return false;
             }
         }
-        #endregion
+#endregion
 
         /// <summary>
         /// Returns whether the SDK can read external files, taking into account
