@@ -101,6 +101,12 @@ namespace MXR.SDK {
         public bool forceAndroid12PermissionsAccept = false;
 
         /// <summary>
+        /// Disables gaze input mode when no controllers or handtracking is available. 
+        /// Instead, the headset button will be used to trigger clicks.
+        /// </summary>
+        public bool disableGazeInput = false;
+
+        /// <summary>
         /// Helper property for whether the guardian settings are hidden
         /// </summary>
         [JsonIgnore]
