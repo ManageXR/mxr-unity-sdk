@@ -1,4 +1,4 @@
-#if UNITY_ANDROID
+﻿#if UNITY_ANDROID
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -464,6 +464,17 @@ namespace MXR.SDK {
             }
             else if (LoggingEnabled)
                 Debug.unityLogger.Log(LogType.Warning, TAG, "ExitLauncher ignored. System is not available (not bound to messenger.");
+        }
+
+        public void SendAppFramePixels(byte[] rawTextureData, int width, int height, int compressionQuality) {
+            if (messenger.IsBoundToService) {
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Log, TAG, "SendAppFramePixels called. Invoking over JNI: sendAppFramePixels");
+                sbyte[] sbyteArray = (sbyte[])(Array)rawTextureData; // This is just a cast, no data is copied. It resolves a deprecation warning.
+                messenger.Call("sendAppFramePixels", sbyteArray, width, height, compressionQuality);
+            }
+            else if (LoggingEnabled)
+                Debug.unityLogger.Log(LogType.Warning, TAG, "SendAppFramePixels ignored. System is not available (not bound to messenger.");
         }
 
         #region INITIALIZATION 

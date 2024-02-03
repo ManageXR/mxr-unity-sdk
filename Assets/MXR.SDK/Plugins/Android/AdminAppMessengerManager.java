@@ -24,6 +24,13 @@ import android.os.RemoteException;
 import android.util.Log;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import android.graphics.Bitmap;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 public class AdminAppMessengerManager {
     public interface  AdminAppMessengerListener {
@@ -44,10 +51,15 @@ public class AdminAppMessengerManager {
     private int checkBindingFrequency = 60 * 1000; // 1 minute
     private Handler checkBindingHandler = new Handler();
 
+    private final ExecutorService executorService;
+
     public AdminAppMessengerManager(Context _context, AdminAppMessengerListener _listener) {
         context = _context;
         listener = _listener;
         startBindToAdminServiceLoop();
+
+        // Using a single thread executor for sequential processing, but you can configure this for more threads if necessary.
+        executorService = Executors.newSingleThreadExecutor();
     }
 
     public void startBindToAdminServiceLoop() {
@@ -188,8 +200,88 @@ public class AdminAppMessengerManager {
         return sendMessage(AdminAppMessageTypes.HOME_SCREEN_STATE, stateJson);
     }
 
+    // public boolean sendAppFramePixels(byte[] data) {
+    //     return sendMessageWithByteArrayData(AdminAppMessageTypes.APP_FRAME_PIXELS, data);
+    // }
+
     public boolean sendMessage(int what) {
         return sendMessage(what, null);
+    }
+
+    public void sendAppFramePixels(byte[] rawTextureData, int width, int height, int compressionQuality) {
+        Runnable task = () -> {
+            Log.v(TAG, "lukeluke: Converting to bitmap");
+            Bitmap bitmap = rawTextureDataToBitmap(rawTextureData, width, height);
+            Log.v(TAG, "lukeluke: compressing to jpg");
+            byte[] compressedData = compressAndSaveBitmap(bitmap, compressionQuality);
+            Log.v(TAG, "lukeluke: sending");
+            sendMessageWithByteArrayData(AdminAppMessageTypes.APP_FRAME_PIXELS, compressedData);
+            Log.v(TAG, "lukeluke: done sending");
+        };
+
+        // Execute the task in the executor service to ensure it runs on a background thread.
+        executorService.submit(task);
+    }
+
+    public Bitmap rawTextureDataToBitmap(byte[] rawTextureData, int width, int height) {
+        // Create an empty Bitmap with the same dimensions as the Unity texture
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+        // Prepare an array to hold the ARGB pixels
+        int[] pixels = new int[width * height];
+
+        // Convert each RGB triplet into an ARGB pixel
+        for (int i = 0; i < pixels.length; i++) {
+            int offset = i * 3; // Each pixel is 3 bytes in the raw data
+            int red = rawTextureData[offset] & 0xFF;
+            int green = rawTextureData[offset + 1] & 0xFF;
+            int blue = rawTextureData[offset + 2] & 0xFF;
+
+            // Since RGB24 does not include alpha, we set alpha to the maximum value (255) to ensure the pixel is opaque
+            int alpha = 255;
+
+            // Combine the channels into a single ARGB pixel
+            pixels[i] = (alpha << 24) | (red << 16) | (green << 8) | blue;
+        }
+
+        // Set the pixel data to the Bitmap
+        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+
+        return bitmap;
+    }
+
+    private byte[] compressAndSaveBitmap(Bitmap bitmap, int compressionQuality) {
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, compressionQuality, out);
+            return out.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean sendMessageWithByteArrayData(int what, byte[] data) {
+        if (!bound) {
+            tryBindToAdminService();
+            return false;
+        }
+
+        Message msg = Message.obtain(null, what);
+        msg.replyTo = incomingMessenger;
+
+        if (data != null) {
+            Bundle bundle = new Bundle();
+            bundle.putByteArray("data", data);
+            msg.setData(bundle);
+        }
+
+        try {
+            outgoingMessenger.send(msg);
+        } catch (RemoteException e) {
+            Log.e(TAG, e.getMessage());
+            return false;
+        }
+        return true;
     }
 
     public boolean sendMessage(int what, String jsonString) {

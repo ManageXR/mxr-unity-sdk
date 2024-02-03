@@ -41,4 +41,5 @@ public class AdminAppMessageTypes {
 
     public static final int KILL_APP = 17;
     public static final int RESTART_APP = 18;
+    public static final int APP_FRAME_PIXELS = 19;
 }

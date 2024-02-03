@@ -383,6 +383,11 @@ namespace MXR.SDK {
             if (LoggingEnabled)
                 Debug.unityLogger.Log(LogType.Log, TAG, "Editor mode doesn't support ExitLauncher(). Safely ignored...");
         }
+
+        public void SendAppFramePixels(byte[] rawTextureData, int width, int height, int compressionQuality) {
+            if (LoggingEnabled)
+                Debug.unityLogger.Log(LogType.Log, TAG, "Editor mode doesn't support SendAppFramePixels(). Safely ignored...");
+        }
         #endregion
 
         // ================================================

@@ -195,5 +195,7 @@ namespace MXR.SDK {
         /// Exit the launcher
         /// </summary>
         void ExitLauncher();
+
+        void SendAppFramePixels(byte[] rawTextureData, int width, int height, int compressionQuality);
     }
 }
