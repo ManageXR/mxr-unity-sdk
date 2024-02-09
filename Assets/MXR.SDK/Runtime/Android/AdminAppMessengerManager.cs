@@ -32,12 +32,9 @@ namespace MXR.SDK {
         /// Creates an instance of the messenger manager
         /// </summary>
         public AdminAppMessengerManager() {
-            AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-            AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-            AndroidJavaObject context = activity.Call<AndroidJavaObject>("getApplicationContext");
             native = new AndroidJavaObject(
                 "com.mightyimmersion.customlauncher.AdminAppMessengerManager", 
-                context, 
+                MXRAndroidUtils.ApplicationContext, 
                 new AdminAppMessengerListener(this)
             );
             Debug.unityLogger.Log(LogType.Log, "AdminAppMessengerManager JNI bridge created.");
@@ -51,17 +48,15 @@ namespace MXR.SDK {
         /// </summary>
         /// <typeparam name="T">The return type of the method</typeparam>
         /// <param name="methodName">The name of the method invoked</param>
-        public T Call<T>(string methodName) {
-            return native.Call<T>(methodName);
-        }
+        public T Call<T>(string methodName) =>
+            native.SafeCall<T>(methodName);
 
         /// <summary>
         /// Invokes a method in <see cref="native"/> using method name
         /// </summary>
         /// <param name="methodName">The name of the method invoked</param>
-        public void Call(string methodName) {
-            native.Call(methodName);
-        }
+        public void Call(string methodName) =>
+            native.SafeCall(methodName);
 
         /// <summary>
         /// Invokes a method in <see cref="native"/> using name and arguments
@@ -71,18 +66,16 @@ namespace MXR.SDK {
         /// <param name="methodName">The name of the method invoked</param>
         /// <param name="args">The arguments passed to the method</param>
         /// <returns></returns>
-        public T Call<T>(string methodName, params object[] args) {
-            return native.Call<T>(methodName, args);
-        }
+        public T Call<T>(string methodName, params object[] args) =>
+            native.SafeCall<T>(methodName, args);
 
         /// <summary>
         /// Invokes a method in <see cref="native"/> using name and arguments
         /// </summary>
         /// <param name="methodName">The name of the method invoked</param>
         /// <param name="args">The arguments passed to the method</param>
-        public void Call(string methodName, params object[] args) {
-            native.Call(methodName, args);
-        }
+        public void Call(string methodName, params object[] args) =>
+            native.SafeCall(methodName, args);
 
         /// <summary>
         /// Sends a message to the Admin App through messenger.
@@ -90,9 +83,8 @@ namespace MXR.SDK {
         /// </summary>
         /// <param name="messageType">The type/ID of the message</param>
         /// <returns>Whether the message was sent. This will be false if the messenger wasn't bound to service</returns>
-        public bool SendMessageToAdminApp(int messageType) {
-            return Call<bool>("sendMessage", messageType);
-        }
+        public bool SendMessageToAdminApp(int messageType) =>
+            native.SafeCall<bool>("sendMessage", messageType);
 
         /// <summary>
         /// Sends a message to the Admin App through the messenger.
@@ -101,9 +93,8 @@ namespace MXR.SDK {
         /// <param name="messageType">The type/ID of the message</param>
         /// <param name="dataJson">Payload associated with the message as a json string</param>
         /// <returns>Whether the message was sent. This will be false if the messenger wasn't bound to service</returns>
-        public bool SendMessageToAdminApp(int messageType, string dataJson) {
-            return Call<bool>("sendMessage", messageType, dataJson);
-        }
+        public bool SendMessageToAdminApp(int messageType, string dataJson) =>
+            native.SafeCall<bool>("sendMessage", messageType, dataJson);
 
         /// <summary>
         /// Class that implements the AdminAppMessengerListener native interface
