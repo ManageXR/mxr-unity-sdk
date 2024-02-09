@@ -5,30 +5,57 @@ using UnityEngine;
 
 namespace MXR.SDK {
     public static partial class MXRAndroidUtils {
-        public static AndroidJavaClass AndroidOSBuild =>
-            new AndroidJavaClass("android.os.Build");
+        /// <summary>
+        /// JNI to get a class instance of android.os.Build
+        /// </summary>
+        public static AndroidJavaClass AndroidOSBuild {
+            get {
+                if (androidOSBuild == null)
+                    androidOSBuild = new AndroidJavaClass("android.os.Build");
+                return androidOSBuild;
+            }
+        }
+        static AndroidJavaClass androidOSBuild;
 
         // HARDWARE STRINGS
         /// <summary>
         /// The manufacturer string of current device. Equivalent to android.os.Build.MANUFACTURER
         /// Returns "EDITOR" when running in the Unity editor
         /// </summary>
-        public static string DeviceManufacturer =>
-            Application.isEditor ? "EDITOR" : AndroidOSBuild.GetStatic<string>("MANUFACTURER");
+        public static string DeviceManufacturer {
+            get {
+                if(deviceManufacturer == null) 
+                    deviceManufacturer = Application.isEditor ? "EDITOR" : AndroidOSBuild.SafeGetStatic<string>("MANUFACTURER");
+                return deviceManufacturer;
+            }
+        }
+        static string deviceManufacturer;
 
         /// <summary>
         /// The manufacturer string of current device. Equivalent to android.os.Build.MODEL
         /// Returns "EDITOR" when running in the Unity editor
         /// </summary>
-        public static string DeviceModel =>
-            Application.isEditor ? "EDITOR" : AndroidOSBuild.GetStatic<string>("MODEL");
+        public static string DeviceModel {
+            get {
+                if(deviceModel == null)
+                    deviceModel = Application.isEditor ? "EDITOR" : AndroidOSBuild.SafeGetStatic<string>("MODEL");
+                return deviceModel;
+            }
+        }
+        static string deviceModel;
 
         /// <summary>
         /// The manufacturer string of current device. Equivalent to android.os.Build.PRODUCT
         /// Returns "EDITOR" when running in the Unity editor
         /// </summary>
-        public static string DeviceProduct =>
-            Application.isEditor ? "EDITOR" : AndroidOSBuild.GetStatic<string>("PRODUCT");
+        public static string DeviceProduct {
+            get {
+                if(deviceProduct == null)
+                    deviceProduct = Application.isEditor ? "EDITOR" : AndroidOSBuild.SafeGetStatic<string>("PRODUCT");
+                return deviceProduct;
+            }
+        }
+        static string deviceProduct;
 
         // MANUFACTURER DETECTION
         /// <summary>
@@ -181,12 +208,6 @@ namespace MXR.SDK {
             IsPicoG2 || IsPicoG3;
 
         /// <summary>
-        /// Returns whether the SDK is running on a device with 3DoF headset
-        /// </summary>
-        [Obsolete("Use IsHeadset3DOF instead. This proparty may be removed in the future.")]
-        public static bool Is3DOF => IsHeadset3DOF;
-
-        /// <summary>
         /// Returns whether the SDK is running on a Pico device with 6DoF headset tracking
         /// </summary>
         public static bool IsPico6DOF => IsPicoDevice && IsHeadset6DOF;
@@ -201,12 +222,18 @@ namespace MXR.SDK {
         /// Returns Pico's UI version. returns "0.0.0" if current device is not a Pico device
         /// </summary>
         public static string PicoUIVersion =>
-            IsPicoDevice ? AndroidOSBuild.GetStatic<string>("DISPLAY") : "0.0.0";
+            IsPicoDevice ? AndroidOSBuild.SafeGetStatic<string>("DISPLAY") : "0.0.0";
 
         /// <summary>
         /// Returns if current Pico UI version is 4.x.x if current device is a Pico device
         /// </summary>
         public static bool IsPicoUI4 =>
             PicoUIVersion.StartsWith("4");
+
+        /// <summary>
+        /// Returns whether the SDK is running on a device with 3DoF headset
+        /// </summary>
+        [Obsolete("Use IsHeadset3DOF instead. This proparty may be removed in the future.")]
+        public static bool Is3DOF => IsHeadset3DOF;
     }
 }

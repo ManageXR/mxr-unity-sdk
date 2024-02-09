@@ -4,38 +4,66 @@ using UnityEngine;
 
 namespace MXR.SDK {
     public static partial class MXRAndroidUtils {
-        static AndroidJavaObject currentActivity;
+        #region JAVA OBJECTS
+        /// <summary>
+        /// JNI to call com.unity.player.UnityPlayer.currentActivity()
+        /// </summary>
         public static AndroidJavaObject CurrentActivity {
             get {
-                if (currentActivity != null) return currentActivity;
-                AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-                currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+                if (currentActivity == null) { 
+                    AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+                    currentActivity = unityPlayer.SafeGetStatic<AndroidJavaObject>("currentActivity");
+                }
                 return currentActivity;
             }
         }
+        static AndroidJavaObject currentActivity;
 
-        static AndroidJavaObject nativeUtils;
+        public static AndroidJavaObject PackageManager {
+            get {
+                if(packageManager == null)
+                    packageManager = CurrentActivity.SafeCall<AndroidJavaObject>("getPackageManager");
+                return packageManager;
+            }
+        }
+        static AndroidJavaObject packageManager;
 
         /// <summary>
-        /// Returns an instance of the NativeUtils.java class in the MXR SDK
+        /// JNI to call <see cref="CurrentActivity"/>.getApplicationContext()
         /// </summary>
-        [Obsolete("This property has been deprecated and may be removed soon. Use NativeUtils instead.")]
-        public static AndroidJavaObject Plugin => NativeUtils;
+        public static AndroidJavaObject ApplicationContext {
+            get {
+                if (applicationContext == null) 
+                    applicationContext = CurrentActivity.SafeCall<AndroidJavaObject>("getApplicationContext");
+                return applicationContext;
+            }
+        }
+        static AndroidJavaObject applicationContext;
+
+        /// <summary>
+        /// JNI to call <see cref="ApplicationContext"/>.getApplicationInfo()
+        /// </summary>
+        public static AndroidJavaObject ApplicationInfo {
+            get {
+                if (applicationInfo == null)
+                    applicationInfo = ApplicationContext.SafeCall<AndroidJavaObject>("getApplicationInfo");
+                return applicationInfo;
+            }
+        }
+        static AndroidJavaObject applicationInfo;
 
         /// <summary>
         /// Returns an instance of the NativeUtils.java class in the MXR SDK
         /// </summary>
         public static AndroidJavaObject NativeUtils {
             get {
-                if (nativeUtils != null) return nativeUtils;
-                if (CurrentActivity != null) {
-                    var context = CurrentActivity?.Call<AndroidJavaObject>("getApplicationContext");
-                    nativeUtils = new AndroidJavaObject("com.mightyimmersion.customlauncher.NativeUtils", context);
-                    return nativeUtils;
-                }
-                return null;
+                if(nativeUtils == null) 
+                    nativeUtils = new AndroidJavaObject("com.mightyimmersion.customlauncher.NativeUtils", ApplicationContext);
+                return nativeUtils;
             }
         }
+        static AndroidJavaObject nativeUtils;
+        #endregion
 
         /// <summary>
         /// Returns if the Android intent extras bundle has a key with the given name
@@ -43,10 +71,9 @@ namespace MXR.SDK {
         /// <param name="key"></param>
         /// <returns></returns>
         public static bool HasIntentExtra(string key) {
-            var intent = CurrentActivity.Call<AndroidJavaObject>("getIntent");
-            var bundle = intent.Call<AndroidJavaObject>("getExtras");
-            if (bundle == null) return false;
-            return bundle.Call<bool>("containsKey", key);
+            var intent = CurrentActivity.SafeCall<AndroidJavaObject>("getIntent");
+            var bundle = intent.SafeCall<AndroidJavaObject>("getExtras");
+            return bundle.SafeCall<bool>("containsKey", key);
         }
 
         /// <summary>
@@ -56,8 +83,8 @@ namespace MXR.SDK {
         /// <param name="defaultValue">The default value in case the key doesn't exist</param>
         /// <returns></returns>
         public static bool GetIntentBooleanExtra(string key, bool defaultValue) {
-            var intent = CurrentActivity.Call<AndroidJavaObject>("getIntent");
-            return intent.Call<bool>("getBooleanExtra", key, defaultValue);
+            var intent = CurrentActivity.SafeCall<AndroidJavaObject>("getIntent");
+            return intent.SafeCall<bool>("getBooleanExtra", key, defaultValue);
         }
 
         /// <summary>
@@ -66,13 +93,23 @@ namespace MXR.SDK {
         /// <param name="key">The key to read the string from</param>
         /// <returns></returns>
         public static string GetIntentStringExtra(string key) {
-            var intent = CurrentActivity.Call<AndroidJavaObject>("getIntent");
-            return intent.Call<string>("getStringExtra", key);
+            var intent = CurrentActivity.SafeCall<AndroidJavaObject>("getIntent");
+            return intent.SafeCall<string>("getStringExtra", key);
         }
 
+        /// <summary>
+        /// Sends a broadcast action to NativeUtils
+        /// </summary>
+        /// <param name="action"></param>
         public static void SendBroadcastAction(string action) {
-            if (NativeUtils != null)
-                NativeUtils.Call("sendBroadcastAction", action);
+            if (NativeUtils?.SafeCall("sendBroadcastAction", action) == false)
+                Debug.unityLogger.Log(LogType.Error, "Could not broadcast action " + action);
         }
+
+        /// <summary>
+        /// Returns an instance of the NativeUtils.java class in the MXR SDK
+        /// </summary>
+        [Obsolete("This property has been deprecated and may be removed soon. Use NativeUtils instead.")]
+        public static AndroidJavaObject Plugin => NativeUtils;
     }
 }
