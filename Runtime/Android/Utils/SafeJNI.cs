@@ -12,7 +12,7 @@ namespace MXR.SDK {
         const string TAG = "SafeJNI";
 
         /// <summary>
-        /// Calls a void-returning static method on a native object using method name and optional arguments. 
+        /// Calls a static void method on a native object using method name with optional arguments.
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="methodName"></param>
@@ -42,13 +42,13 @@ namespace MXR.SDK {
         }
 
         /// <summary>
-        /// Calls a value-returning static method on a native object using method name and optional arguments. 
+        /// Calls a static method on a native object using method name with optional arguments, and returns the result.
         /// </summary>
         /// <typeparam name="ReturnType">The type as which the result should be returned.</typeparam>
         /// <param name="obj"></param>
         /// <param name="methodName"></param>
         /// <param name="args"></param>
-        /// <returns>Success: The field value. Failure: Default type value.</returns>
+        /// <returns>Success: The JNI result. Failure: Default type value.</returns>
         public static ReturnType SafeCallStatic<ReturnType>(this AndroidJavaObject obj, string methodName, params object[] args) {
             if (obj == null) {
                 Debug.unityLogger.Log(LogType.Error, TAG, "JNI Error: Tried to call " + methodName + " on a null AndroidJavaObject");
@@ -72,7 +72,7 @@ namespace MXR.SDK {
         }
 
         /// <summary>
-        /// Calls a void-returning non-static method on a native object using method name and optional arguments.
+        /// Calls a void method on a native object using method name with optional arguments.
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="methodName"></param>
@@ -102,7 +102,7 @@ namespace MXR.SDK {
         }
 
         /// <summary>
-        /// Calls a value-returning non-static method on a native object using method name and optional parameters.
+        /// Calls a method on a native object using method name with optional parameters, and returns the result.
         /// </summary>
         /// <typeparam name="ReturnType">The type as which the result should be returned.</typeparam>
         /// <param name="obj"></param>
@@ -158,7 +158,7 @@ namespace MXR.SDK {
         }
 
         /// <summary>
-        /// Gets a non-static field of a native object.
+        /// Gets a field of a native object.
         /// </summary>
         /// <typeparam name="ReturnType">The type as which the field should be retrieved.</typeparam>
         /// <param name="obj"></param>
