@@ -4,16 +4,17 @@ using UnityEngine;
 
 namespace MXR.SDK {
     public static partial class MXRAndroidUtils {
-        public static string ResolveClassNameForPackage(string pkgName) {
-            if (CurrentActivity != null) {
-                var joPackageManager = CurrentActivity.Call<AndroidJavaObject>("getPackageManager");
-                var joIntent = joPackageManager.Call<AndroidJavaObject>("getLaunchIntentForPackage", pkgName);
-                if (joIntent == null) return null;
-                var joComponent = joPackageManager.Call<AndroidJavaObject>("getComponent");
-                if (joComponent == null) return null;
-                return joComponent.Call<string>("getClassName");
-            }
-            return null;
+        /// <summary>
+        /// Gets the class name using the package name of an app
+        /// </summary>
+        /// <param name="pkgName"></param>
+        /// <returns></returns>
+        public static string ResolveClassNameForPackage(string pkgName) {               
+            var joIntent = PackageManager.SafeCall<AndroidJavaObject>("getLaunchIntentForPackage", pkgName);
+            if (joIntent == null) return null;
+            var joComponent = PackageManager.SafeCall<AndroidJavaObject>("getComponent");
+            if (joComponent == null) return null;
+            return joComponent.SafeCall<string>("getClassName");
         }
 
         /// <summary>
@@ -22,22 +23,26 @@ namespace MXR.SDK {
         /// </summary>
         public static int AndroidSDKAsInt {
             get {
-                AndroidJavaClass buildVersion = new AndroidJavaClass("android.os.Build$VERSION");
-                return buildVersion.GetStatic<int>("SDK_INT");
+                if(!androidSDKAsInt.HasValue) {
+                    AndroidJavaClass buildVersion = new AndroidJavaClass("android.os.Build$VERSION");
+                    androidSDKAsInt = buildVersion.SafeGetStatic<int>("SDK_INT");
+                }
+                return androidSDKAsInt.Value;
             }
         }
+        static int? androidSDKAsInt;
 
         /// <summary>
         /// Returns the SDK version the app is targeting.
         /// </summary>
         public static int TargetSDKLevelAsInt {
             get {
-                return CurrentActivity
-                    .Call<AndroidJavaObject>("getApplicationContext")
-                    .Call<AndroidJavaObject>("getApplicationInfo")
-                    .Get<int>("targetSdkVersion");
+                if(!targetSDKLevelAsInt.HasValue) 
+                    targetSDKLevelAsInt = ApplicationInfo.SafeGet<int>("targetSdkVersion");
+                return targetSDKLevelAsInt.Value;
             }
         }
+        static int? targetSDKLevelAsInt;
 
         /// <summary>
         /// Returns whether the SDK needs MANAGE_EXTERNAL_STORAGE permission for 
@@ -55,19 +60,19 @@ namespace MXR.SDK {
         public static bool IsExternalStorageManager {
             get {
                 AndroidJavaClass environment = new AndroidJavaClass("android.os.Environment");
-                return environment.CallStatic<bool>("isExternalStorageManager");
+                return environment.SafeCallStatic<bool>("isExternalStorageManager");
             }
         }
 
         public static string GetInstalledPackageVersionName(string packageName) {
             if (NativeUtils != null)
-                NativeUtils.Call<string>("getInstalledPackagedVersionName", packageName);
+                NativeUtils.SafeCall<string>("getInstalledPackagedVersionName", packageName);
             return null;
         }
 
         public static bool IsAppInstalled(string packageName) {
             if (NativeUtils != null)
-                return NativeUtils.Call<bool>("isAppInstalled", packageName);
+                return NativeUtils.SafeCall<bool>("isAppInstalled", packageName);
             return false;
         }
 
@@ -78,43 +83,22 @@ namespace MXR.SDK {
                 LaunchAppWithPackageAndClassNames(app.packageName, app.className);
         }
 
-        public static void LaunchAppWithPackageName(string packageName) {
-            if (NativeUtils != null) 
-                NativeUtils.Call<bool>("launchApp", packageName);
-        }
+        public static void LaunchAppWithPackageName(string packageName) =>
+            NativeUtils.SafeCall<bool>("launchApp", packageName);
 
-        public static void LaunchAppWithPackageAndClassNames(string packageName, string className) {
-            if (NativeUtils != null) 
-                NativeUtils.Call<bool>("launchAppWithClass", packageName, className);
-        }
+        public static void LaunchAppWithPackageAndClassNames(string packageName, string className) =>
+            NativeUtils.SafeCall<bool>("launchAppWithClass", packageName, className);
 
-        public static void LaunchAppWithIntentAction(string intentAction) {
-            NativeUtils.Call<bool>("launchIntentAction", intentAction);
-        }
+        public static void LaunchAppWithIntentAction(string intentAction) =>
+            NativeUtils.SafeCall<bool>("launchIntentAction", intentAction);
 
-        /// <summary>
-        /// This function only works on certain device / firmware combinations.
-        /// Instead, rely on the AdminAppMessengerManager to send KillApp messages to the admin app.
-        /// </summary>
-        /// <param name="packageName"></param>
-        [Obsolete(@"This function only works on certain device / firmware combinations. 
-        Instead, rely on the AdminAppMessengerManager to send KillApp messages to the admin app.", false)]
-        public static void KillApp(string packageName) {
-            if (NativeUtils != null)
-                NativeUtils.Call("killApp", packageName);
-        }
-
-        public static string GetAdminAppPackageName() {
-            if (NativeUtils != null)
-                return NativeUtils.Call<string>("getInstalledAdminAppPackageName");
-            return null;
-        }
+        public static string GetAdminAppPackageName() =>
+            NativeUtils.SafeCall<string>("getInstalledAdminAppPackageName");
 
         public static int GetAdminAppVersionCode() {
             if (NativeUtils != null)
-                return NativeUtils.Call<int>("getInstalledAdminAppVersionCode");
+                return NativeUtils.SafeCall<int>("getInstalledAdminAppVersionCode");
             return -1;
-
         }
 
         /// <summary>
@@ -129,15 +113,16 @@ namespace MXR.SDK {
                 AndroidJavaObject intent = new AndroidJavaObject("android.content.Intent");
 
                 // Set the intent action 
-                intent.Call<AndroidJavaObject>("setAction", "android.settings.MANAGE_APP_ALL_FILES_ACCESS_PERMISSION");
+                intent.SafeCall<AndroidJavaObject>("setAction", "android.settings.MANAGE_APP_ALL_FILES_ACCESS_PERMISSION");
 
                 // Set the data for the intent. This causes the Android UI to open the MANAGE_ALL_FILES
                 // permission flow for the SDK integrating app
                 var uriClass = new AndroidJavaClass("android.net.Uri");
-                var data = uriClass.CallStatic<AndroidJavaObject>("parse", "package:" + Application.identifier);
-                intent.Call<AndroidJavaObject>("setData", data);
+                var data = uriClass.SafeCallStatic<AndroidJavaObject>("parse", "package:" + Application.identifier);
+                intent.SafeCall<AndroidJavaObject>("setData", data);
 
-                CurrentActivity.Call("startActivity", intent);
+                if (CurrentActivity.SafeCall("startActivity", intent) == false)
+                    Debug.unityLogger.Log(LogType.Error, "Could not open android.settings.MANAGE_APP_ALL_FILES_ACCESS_PERMISSION activity.");
 
             }
             catch (Exception e) {
@@ -150,5 +135,17 @@ namespace MXR.SDK {
         "This method may be removed in the future.")]
         public static void RequestManageAllFilesPermission() =>
             RequestManageAppAllFilesAccessPermission();
+
+        /// <summary>
+        /// This function only works on certain device / firmware combinations.
+        /// Instead, rely on the AdminAppMessengerManager to send KillApp messages to the admin app.
+        /// </summary>
+        /// <param name="packageName"></param>
+        [Obsolete(@"This function only works on certain device / firmware combinations. 
+        Instead, rely on the AdminAppMessengerManager to send KillApp messages to the admin app.", false)]
+        public static void KillApp(string packageName) {
+            if (NativeUtils?.SafeCall("killApp", packageName) == false)
+                Debug.unityLogger.Log(LogType.Error, "Could not kill app " + packageName);
+        }
     }
 }
