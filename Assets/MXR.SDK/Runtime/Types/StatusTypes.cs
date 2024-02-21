@@ -56,7 +56,12 @@ namespace MXR.SDK {
 
         public bool picoCvControllerUpdateAvailable;
         public bool picoGuardianHasBeenOpened;
-        
+
+        /// <summary>
+        /// Used to display warnings on connectivity issues if a device is having intermittent issues reaching our servers.
+        /// </summary>
+        public bool isFailingManagexrConnection;
+
         /// <summary>
         /// The last app open in the foregound that is appropriate to show in the shortcut menu.
         /// </summary>
