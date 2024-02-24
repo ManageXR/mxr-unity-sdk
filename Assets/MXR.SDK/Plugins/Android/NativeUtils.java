@@ -225,6 +225,7 @@ public class NativeUtils {
             return null;
         } catch (Exception e) {
             Log.e("NativeUtils", e.toString());
+            return null;
         }
     }
 
@@ -245,6 +246,7 @@ public class NativeUtils {
             return -1;
         } catch (Exception e) {
             Log.e("NativeUtils", e.toString());
+            return -1;
         }
     }
 
