@@ -38,9 +38,11 @@ public class NativeUtils {
         try {
             Intent intent = new Intent(intentAction);
             if (intent == null) return false;
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             mContext.startActivity(intent);
             return true;
         } catch (Exception e){
+            Log.e("NativeUtils", e.toString());
             return false;
         }
     }
@@ -52,6 +54,7 @@ public class NativeUtils {
             mContext.startActivity(intent);
             return true;
         } catch (Exception e){
+            Log.e("NativeUtils", e.toString());
             return false;
         }
     }
@@ -62,9 +65,11 @@ public class NativeUtils {
 
             Intent i = new Intent();
             i.setClassName(packageName, className);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             mContext.startActivity(i);
             return true;
         } catch (Exception e){
+            Log.e("NativeUtils", e.toString());
             return false;
         }
     }
@@ -78,20 +83,27 @@ public class NativeUtils {
             mContext.startActivity(i);
             return true;
         } catch (Exception e){
+            Log.e("NativeUtils", e.toString());
             return false;
         }
     }
 
     public boolean isAdminAppInstalled() {
-        PackageManager pm = mContext.getPackageManager();
-        List<PackageInfo> packages = pm.getInstalledPackages(0);
+        try {
+            PackageManager pm = mContext.getPackageManager();
+            List<PackageInfo> packages = pm.getInstalledPackages(0);
 
-        for (PackageInfo packageInfo : packages) {
-            if (packageInfo.packageName.startsWith("com.mightyimmersion.mightyplatform.adminapp") && !packageInfo.packageName.contains("preload")) {
-                return true;
+            for (PackageInfo packageInfo : packages) {
+                if (packageInfo.packageName.startsWith("com.mightyimmersion.mightyplatform.adminapp") && !packageInfo.packageName.contains("preload")) {
+                    return true;
+                }
             }
+            return false;
         }
-        return false;
+        catch (Exception e) {
+            Log.e("NativeUtils", e.toString());
+            return false;
+        }
     }
 
     public boolean isAppInstalled(String packageName) {
@@ -106,6 +118,7 @@ public class NativeUtils {
             // }
             return pInfo.versionCode;
         } catch (Exception e){
+            Log.e("NativeUtils", e.toString());
             return -1;
         }
     }
@@ -115,6 +128,7 @@ public class NativeUtils {
             PackageInfo pInfo = mContext.getPackageManager().getPackageInfo(packageName, 0);
             return pInfo.versionName;
         } catch (Exception e){
+            Log.e("NativeUtils", e.toString());
             return null;
         }
     }
@@ -193,35 +207,47 @@ public class NativeUtils {
             i.setAction(action);
             i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION|Intent.FLAG_FROM_BACKGROUND|Intent.FLAG_INCLUDE_STOPPED_PACKAGES);        
             mContext.sendBroadcast(i);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            Log.e("NativeUtils", e.toString());
+        }
     }
 
     public String getInstalledAdminAppPackageName() {
-        PackageManager pm = mContext.getPackageManager();
-        List<PackageInfo> packages = pm.getInstalledPackages(0);
+        try {
+            PackageManager pm = mContext.getPackageManager();
+            List<PackageInfo> packages = pm.getInstalledPackages(0);
 
-        for (PackageInfo packageInfo : packages) {
-            if (packageInfo.packageName.startsWith("com.mightyimmersion.mightyplatform.adminapp") && !packageInfo.packageName.contains("preload")) {
-                return packageInfo.packageName;
+            for (PackageInfo packageInfo : packages) {
+                if (packageInfo.packageName.startsWith("com.mightyimmersion.mightyplatform.adminapp") && !packageInfo.packageName.contains("preload")) {
+                    return packageInfo.packageName;
+                }
             }
+            return null;
+        } catch (Exception e) {
+            Log.e("NativeUtils", e.toString());
+            return null;
         }
-        return null;
     }
 
     public int getInstalledAdminAppVersionCode() {
-        PackageManager pm = mContext.getPackageManager();
-        List<PackageInfo> packages = pm.getInstalledPackages(0);
+        try {
+            PackageManager pm = mContext.getPackageManager();
+            List<PackageInfo> packages = pm.getInstalledPackages(0);
 
-        String adminAppPackageName = getInstalledAdminAppPackageName();
-        if (adminAppPackageName == null) return -1;
+            String adminAppPackageName = getInstalledAdminAppPackageName();
+            if (adminAppPackageName == null) return -1;
 
-        for (PackageInfo packageInfo : packages) {
-            if (!packageInfo.packageName.equals(adminAppPackageName)) continue;
+            for (PackageInfo packageInfo : packages) {
+                if (!packageInfo.packageName.equals(adminAppPackageName)) continue;
 
-            return packageInfo.versionCode;
+                return packageInfo.versionCode;
+            }
+
+            return -1;
+        } catch (Exception e) {
+            Log.e("NativeUtils", e.toString());
+            return -1;
         }
-
-        return -1;
     }
 
 }
