@@ -92,6 +92,15 @@ namespace MXR.SDK {
             return result;
         }
 
+
+        /// <summary>
+        /// Attempts to establish a connection to the Admin App within a specified timeout period.
+        /// </summary>
+        /// <returns>
+        /// A Task that represents the asynchronous operation. This Task returns true if the connection
+        /// to the Admin App is successfully established within the timeout period, and false if the
+        /// operation times out.
+        /// </summary>
         private async static Task<bool> CanBindToAdminApp() 
         {
             TimeSpan timeout = TimeSpan.FromSeconds(3);
