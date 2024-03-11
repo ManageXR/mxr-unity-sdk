@@ -66,7 +66,7 @@ namespace MXR.SDK {
 
         public static string GetInstalledPackageVersionName(string packageName) {
             if (NativeUtils != null)
-                NativeUtils.SafeCall<string>("getInstalledPackagedVersionName", packageName);
+                return NativeUtils.SafeCall<string>("getInstalledPackagedVersionName", packageName);
             return null;
         }
 
