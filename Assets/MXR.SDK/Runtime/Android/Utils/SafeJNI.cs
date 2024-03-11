@@ -20,7 +20,6 @@ namespace MXR.SDK {
         /// <returns>Success: true. Failure: false</returns>
         public static bool SafeCallStatic(this AndroidJavaObject obj, string methodName, params object[] args) {
             if (obj == null) {
-                Debug.unityLogger.Log(LogType.Error, TAG, "JNI Error: Tried to call " + methodName + " on a null AndroidJavaObject");
                 return false;
             }
 
@@ -51,7 +50,6 @@ namespace MXR.SDK {
         /// <returns>Success: The JNI result. Failure: Default type value.</returns>
         public static ReturnType SafeCallStatic<ReturnType>(this AndroidJavaObject obj, string methodName, params object[] args) {
             if (obj == null) {
-                Debug.unityLogger.Log(LogType.Error, TAG, "JNI Error: Tried to call " + methodName + " on a null AndroidJavaObject");
                 return default;
             }
 
@@ -80,7 +78,6 @@ namespace MXR.SDK {
         /// <returns>Success: true. Failure: false</returns>
         public static bool SafeCall(this AndroidJavaObject obj, string methodName, params object[] args) {
             if (obj == null) {
-                Debug.unityLogger.Log(LogType.Error, TAG, "JNI Error: Tried to call " + methodName + " on a null AndroidJavaObject");
                 return false;
             }
 
@@ -111,7 +108,6 @@ namespace MXR.SDK {
         /// <returns>Success: The field value. Failure: Default type value.</returns>
         public static ReturnType SafeCall<ReturnType>(this AndroidJavaObject obj, string methodName, params object[] args) {
             if (obj == null) {
-                Debug.unityLogger.Log(LogType.Error, TAG, "JNI Error: Tried to call " + methodName + " on a null AndroidJavaObject");
                 return default;
             }
 
@@ -140,7 +136,6 @@ namespace MXR.SDK {
         /// <returns>Success: The field value. Failure: Default type value.</returns>
         public static ReturnType SafeGetStatic<ReturnType>(this AndroidJavaObject obj, string fieldName) {
             if (obj == null) {
-                Debug.unityLogger.Log(LogType.Error, TAG, "JNI Error: Tried to get field " + fieldName + " from a null AndroidJavaObject");
                 return default;
             }
 
@@ -166,7 +161,6 @@ namespace MXR.SDK {
         /// <returns>Success: The field value. Failure: Default type value.</returns>
         public static ReturnType SafeGet<ReturnType>(this AndroidJavaObject obj, string fieldName) {
             if (obj == null) {
-                Debug.unityLogger.Log(LogType.Error, TAG, "JNI Error: Tried to get field " + fieldName + " from a null AndroidJavaObject");
                 return default;
             }
 
