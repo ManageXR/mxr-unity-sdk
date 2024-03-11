@@ -247,6 +247,7 @@ namespace MXR.SDK {
         public bool controller;
         public bool guardian;
         public bool wifi;
+        public bool passthrough;
     }
 
     /// <summary>
