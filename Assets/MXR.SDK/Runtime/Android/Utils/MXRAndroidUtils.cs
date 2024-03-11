@@ -71,9 +71,26 @@ namespace MXR.SDK {
         /// <param name="key"></param>
         /// <returns></returns>
         public static bool HasIntentExtra(string key) {
+            if (CurrentActivity == null)
+            {
+                Debug.unityLogger.Log(LogType.Error, "CurrentActivity is null, on HasIntentExtra. Intent ID " + key );
+                return false;
+            }
+
             var intent = CurrentActivity.SafeCall<AndroidJavaObject>("getIntent");
+            if (intent == null)
+            {
+                Debug.unityLogger.Log(LogType.Error, "intent is null, on HasIntentExtra. Intent ID " + key );
+                return false;
+            }
+
             var bundle = intent.SafeCall<AndroidJavaObject>("getExtras");
-            if(bundle == null) return false;
+            if (bundle == null)
+            {
+                Debug.unityLogger.Log(LogType.Error, "bundle is null, on HasIntentExtra. Intent ID " + key );
+                return false;
+            }
+
             return bundle.SafeCall<bool>("containsKey", key);
         }
 
