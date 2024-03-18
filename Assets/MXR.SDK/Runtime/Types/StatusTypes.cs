@@ -56,6 +56,11 @@ namespace MXR.SDK {
 
         public bool picoCvControllerUpdateAvailable;
         public bool picoGuardianHasBeenOpened;
+
+        /// <summary>
+        /// The brightness level for the screen
+        /// </summary>
+        public int screenBrightness;
         
         /// <summary>
         /// The last app open in the foregound that is appropriate to show in the shortcut menu.
