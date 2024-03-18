@@ -82,12 +82,6 @@ namespace MXR.SDK {
         public bool muteMic = true;
 
         /// <summary>
-        /// Whether the brightness button is hidden or not  is force muted at the system level.
-        /// </summary>
-        public bool brightnessHidden = false;
-
-
-        /// <summary>
         /// Use when <see cref="deviceExperienceMode"/> is set to <see cref="DeviceExperienceMode.KIOSK"/>,
         /// in this scenario, the homescreen is launched on pressing the home (or equivalent) button 
         /// on the controller.
