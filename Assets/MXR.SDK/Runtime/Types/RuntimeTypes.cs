@@ -82,6 +82,12 @@ namespace MXR.SDK {
         public bool muteMic = true;
 
         /// <summary>
+        /// Whether the brightness button is hidden or not  is force muted at the system level.
+        /// </summary>
+        public bool brightnessHidden = false;
+
+
+        /// <summary>
         /// Use when <see cref="deviceExperienceMode"/> is set to <see cref="DeviceExperienceMode.KIOSK"/>,
         /// in this scenario, the homescreen is launched on pressing the home (or equivalent) button 
         /// on the controller.
@@ -117,6 +123,12 @@ namespace MXR.SDK {
         /// </summary>
         [JsonIgnore]
         public bool IsCastHidden => TryGet(x => x.customLauncherSettings.hiddenSettings.cast, false);
+
+        /// <summary>
+        /// Helper property for whether the cast settings are hidden
+        /// </summary>
+        [JsonIgnore]
+        public bool IsBrightnessHidden => TryGet(x => x.customLauncherSettings.hiddenSettings.brightnessSetting, false);
 
         /// <summary>
         /// Helper property for whether the bluetooth settings are hidden
