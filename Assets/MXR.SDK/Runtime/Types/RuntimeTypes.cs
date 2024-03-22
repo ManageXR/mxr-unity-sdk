@@ -121,7 +121,7 @@ namespace MXR.SDK {
         /// <summary>
         /// Helper property for whether the cast settings are hidden
         /// </summary>
-        //[JsonIgnore]
+        [JsonIgnore]
         public bool IsBrightnessHidden => TryGet(x => x.customLauncherSettings.hiddenSettings.brightness, false);
 
         /// <summary>
