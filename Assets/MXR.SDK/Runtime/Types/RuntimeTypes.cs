@@ -119,6 +119,12 @@ namespace MXR.SDK {
         public bool IsCastHidden => TryGet(x => x.customLauncherSettings.hiddenSettings.cast, false);
 
         /// <summary>
+        /// Helper property for whether the cast settings are hidden
+        /// </summary>
+        [JsonIgnore]
+        public bool IsBrightnessHidden => TryGet(x => x.customLauncherSettings.hiddenSettings.brightness, false);
+
+        /// <summary>
         /// Helper property for whether the bluetooth settings are hidden
         [JsonIgnore]
         public bool IsBluetoothHidden => TryGet(x => x.customLauncherSettings.hiddenSettings.bluetooth, false);
@@ -248,6 +254,7 @@ namespace MXR.SDK {
         public bool guardian;
         public bool wifi;
         public bool passthrough;
+        public bool brightness;
     }
 
     /// <summary>
