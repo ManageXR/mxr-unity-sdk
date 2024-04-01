@@ -170,6 +170,13 @@ namespace MXR.SDK {
         /// </summary>
         public string adminPin = "5112";
 
+
+        /// <summary>
+        /// The display language type used in the home screen
+        /// </summary>
+        public HomeScreenDisplayLanguages displayLangauge;
+
+
         /// <summary>
         /// Whether the shortcut menu should NOT be shown when the user comes back to the
         /// homescreen app when <see cref="RuntimeSettingsSummary.deviceExperienceMode"/>

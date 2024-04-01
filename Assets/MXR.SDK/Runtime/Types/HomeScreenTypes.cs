@@ -39,6 +39,19 @@ namespace MXR.SDK {
     }
 
     /// <summary>
+    /// The different language types recognised by the SDK. 
+    /// </summary>
+    [Serializable]
+    public enum HomeScreenDisplayLanguages {
+        enUS,
+        frFR,
+        deDE,
+        esES,
+        ukUA,
+        ptPT
+    }
+
+    /// <summary>
     /// Details associated with the view of the home screen.
     /// Currently contains fields for video reporting.
     /// </summary>
