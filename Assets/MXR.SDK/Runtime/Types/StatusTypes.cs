@@ -104,6 +104,7 @@ namespace MXR.SDK {
     /// <summary>
     /// Represents the status of a controller, this is used as a fallback for when certain SDKs cannot provide controller information
     /// </summary>
+    [System.Serializable]
     public class Controller {
         public long batteryLevel = 0;
         public string version = "";
@@ -112,6 +113,7 @@ namespace MXR.SDK {
     /// <summary>
     /// Represents the status of a set of controllers
     /// </summary>
+    [System.Serializable]
     public class ControllerData {
         public Timestamp lastUpdated = new Timestamp();
         public Controller controller0 = new Controller();
