@@ -67,6 +67,7 @@ namespace MXR.SDK {
         public Dictionary<string, FileInstallStatus> fileStatuses = new Dictionary<string, FileInstallStatus>();
         public Timestamp lastCheckIn = new Timestamp();
         public Timestamp lastUpdate = new Timestamp();
+        public ControllerData controllerData;
 
         /// <summary>
         /// Whether the device has its mic muted at the system level.
@@ -98,6 +99,23 @@ namespace MXR.SDK {
             else
                 return null;
         }
+    }
+
+    /// <summary>
+    /// Represents the status of a controller, this is used as a fallback for when certain SDKs cannot provide controller information
+    /// </summary>
+    public class Controller {
+        public long batteryLevel = 0;
+        public string version = "";
+    }
+
+    /// <summary>
+    /// Represents the status of a set of controllers
+    /// </summary>
+    public class ControllerData {
+        public Timestamp lastUpdated = new Timestamp();
+        public Controller controller0 = new Controller();
+        public Controller controller1 = new Controller();
     }
 
     /// <summary>
@@ -204,25 +222,6 @@ namespace MXR.SDK {
         public bool HasError() {
             return status == Status.ERROR;
         }
-    }
-
-    /// <summary>
-    /// Represents the status of a controller, this is used as a fallback for when certain SDKs cannot provide controller information
-    /// </summary>
-    [System.Serializable]
-    public class Controller {
-        public long batteryLevel = 0;
-        public string version = "";
-    }
-
-    /// <summary>
-    /// Represents the status of a set of controllers
-    /// </summary>
-    [System.Serializable]
-    public class ControllerData {
-        public Timestamp lastUpdated = new Timestamp();
-        public Controller controller0 = new Controller();
-        public Controller controller1 = new Controller();
     }
 
     [System.Serializable]
