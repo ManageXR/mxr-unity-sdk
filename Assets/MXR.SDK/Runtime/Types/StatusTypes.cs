@@ -116,7 +116,13 @@ namespace MXR.SDK {
     [System.Serializable]
     public class ControllerData {
         public Timestamp lastUpdated = new Timestamp();
+        /// <summary>
+        /// The left controller
+        /// </summary>
         public Controller controller0 = new Controller();
+        /// <summary>
+        /// The right controller
+        /// </summary>
         public Controller controller1 = new Controller();
     }
 
