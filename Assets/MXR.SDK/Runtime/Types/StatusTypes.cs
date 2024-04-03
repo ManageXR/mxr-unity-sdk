@@ -67,6 +67,9 @@ namespace MXR.SDK {
         public Dictionary<string, FileInstallStatus> fileStatuses = new Dictionary<string, FileInstallStatus>();
         public Timestamp lastCheckIn = new Timestamp();
         public Timestamp lastUpdate = new Timestamp();
+        /// <summary>
+        /// Used for representing the status of a set of controllers,currently this is only relevant on quest devices
+        /// </summary>
         public ControllerData controllerData;
 
         /// <summary>
@@ -103,6 +106,9 @@ namespace MXR.SDK {
 
     /// <summary>
     /// Represents the status of a controller, this is used as a fallback for when certain SDKs cannot provide controller information
+    /// We use this for following reasons
+    /// Battery reporting on Oculus SDK has been known to be unreliable
+    /// This class is only relevant on Quest devices currently, do not use it with the Pico or Wave SDK
     /// </summary>
     [System.Serializable]
     public class Controller {
