@@ -15,44 +15,26 @@ Example usages of this SDK:
 - Update users in-headset when an update for you app is downloading/available
 - Use device serial / details to augment your app's analytics reporting
 
-___
-## Installation & Setup  
-Install the SDK package in your Unity project. There are multiple methods:
+## Installation  
+> ⚠️  
+> We recommend installing the latest version of the SDK.  
+> Version name are in the format `vx.x.x`, for example `v1.0.10`  
+> [Version history can be found here](https://github.com/ManageXR/mxr-unity-sdk/releases)  
 
-### _1. Via Package Manager window_  
-The UPM package is [available on OpenUPM](https://openupm.com/packages/com.mxr.unity.sdk). To install, follow these instructions:  
-- Add the OpenUPM registry with the ManageXR Unity SDK as a `scope`. To do this, go to `Edit/Project Settings/Package Manager`, add the OpenUPM scope registry with the URL `https://package.openupm.com` and add `com.mxr.unity.sdk` as a scope.
+Go to your project manifest json file located at `Packages/manifest.json`.
+Add this line to your dependency list
+* `"com.mxr.unity.sdk":"https://www.github.com/ManageXR/mxr-unity-sdk.git#VERSION"` 
+    * `VERSION` is the SDK version you want to install
+    * For example, if you want to install version `v1.0.10`, the line should be `"com.mxr.unity.sdk":"https://www.github.com/ManageXR/mxr-unity-sdk.git#v1.0.10"`
 
-- Install the package from OpenUPM registry. To do this, go to `Window/Package Manager/`. Select in the `My Registries` view (located at the top left, the default selection is `Unity Registry`), locate `ManageXR Unity SDK` and click install. After installation, the package will show up in the `In Project` view as well.
+## Changing the SDK version
+If you want to move to a different SDK version (for example, when a new version is released and you want to upgrade), open `Packages/manifest.json` and change the version in the `"com.mxr.unity.sdk"` dependency line.
 
-### _2. Via Project Manifest_
-Merge the following snippet in the project manifest json file located at `Packages/manifest.json` in your Unity project.  
-```  
-
-{
-   "scopedRegistries": [
-      {
-            "name": "package.openupm.com",
-            "url": "https://package.openupm.com",
-            "scopes": [
-               "com.mxr.unity.sdk"
-            ]
-      }
-   ],
-   "dependencies": {
-      "com.mxr.unity.sdk": "1.0.0"
-   }
-}  
-
-```
-
-*Note:* Change `1.0.0` to the SDK version you wish to use. Latest recommended.
-___
 ## Samples  
 The repository includes samples that demonstrate basic integration with the Content API, Status API, Wifi API and SDK Commands.
 
 ### Installation
-To install, select the ManageXR Unity SDK in the Package Manager window after you've successfully imported it click on `Import Into Project`. The samples will be imported under `Assets/Samples` in your Unity project.
+First, ensure that the ManageXR SDK is installed by checking your Package Manager window. Select the ManageXR Unity SDK in the Package Manager window, expand the Samples section, then click on the Import button. The samples will be imported under `Assets/Samples` in your Unity project.
 
 ### Files  
 Sample Files allow you to simulate SDK operations in the editor.  
@@ -73,7 +55,6 @@ It is recommended that you extract Files.zip in required location this every tim
 
 Please refer to `README.txt` inside the samples directory for further information about running samples in the Unity editor.
 
-___
 ## Usage  
 The SDK uses `IMXRSystem` to communicate with the system layer. It provides methods, events, properties to observe, query and invoke operations in the ManageXR Admin/System.
 
@@ -98,20 +79,19 @@ The `IMXRSystem` relays information to your app through a few different value cl
 - See `Assets/MXR.SDK/Runtime/Editor/Files/MightyImmersion/deviceStatus.json` for an example of this data in json format. (Note: You can edit this json file and its data will be reflected in the Sample Scene in realtime when run in the editor.)
 - `MXRManager` also internally handles `System.OnHomeScreenStateRequest` events by sending the last reported `HomeScreenState`. You can modify the `HomeScreenState` using `SetHomeScreenState` and `ModifyHomeScreenState` methods in `MXRManager`. 
 
-See `LibraryPanel.cs` and `WifiPanel.cs` under `Assets/MXR.SDK/Samples/Scripts/` as an example of how to initialize the MXRSystem and subscribe to events.
+See `LibraryPanel.cs` and `WifiPanel.cs` under `Assets/MXR.SDK/Samples/Scripts/` for an example of how to initialize the MXRSystem and subscribe to events.
 
 IntelliSense code comments have been added for the key APIs and models. API reference and further documentation coming soon.
 
 Logging is enabled by default. Use `MXRManager.System.EnableLogging = false` after initialization to disable messages from being logged to the console.  
 
-___
 ## Building your Unity project
 Make sure that the VR device has been set up using the ManageXR Device Setup Tool ([docs here](https://help.managexr.com/en/articles/5296578-register-a-new-device)) which installs the Android applications on your device that the SDK requires.
   
 Add the `READ_EXTERNAL_STORAGE` permission to your Android Manifest.  
 `<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>`
 
-For working with the Wifi API, add the following permissions:
+For working with the Wifi API, add the following permissions:  
 `<uses-permission android:name="android.permission.INTERNET" />`  
 `<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />`  
 `<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />`  
@@ -164,6 +144,6 @@ void TryRequestManageExternalStoragePermission() {
 Try to invoke `MXRAndroidUtils.RequestManageAppAllFilesAccessPermission()` as early as possible on startup and before initializing the ManageXR Unity SDK. This way your app and the MXR SDK will be able to access the ManageXR files stored on disk.  
 * Invoking `MXRAndroidUtils.RequestManageAppAllFilesAccessPermission()` opens a system dialog with a toggle button that the user must enable in order to grant the permission. BUT if the `MANAGE_EXTERNAL_STORAGE` permission is not included in the AndroidManifest, that toggle button will be in disabled state.
 * Use the `MXRAndroidUtils.RequestManageAppAllFilesAccessPermission()` method provided in the SDK instead of [Unity Permissions API](https://docs.unity3d.com/ScriptReference/Android.Permission.html) as it doesn't work with this permission.
-___
+
 ## Support  
 Please open a Github Issue or contact support@managexr.com for additional support.
