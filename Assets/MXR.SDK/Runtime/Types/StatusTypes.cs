@@ -96,31 +96,6 @@ namespace MXR.SDK {
         }
 
         /// <summary>
-        /// Retrieves the string representation of language codes based on the HomeScreenDisplayLanguages enum.
-        /// This method maps enum values to their respective BCP 47 language tags.
-        /// </summary>
-        /// <param name="language">The language enum value.</param>
-        /// <returns>The BCP 47 language tag as a string.</returns>
-        public string GetLanguageCode(HomeScreenDisplayLanguages language) {
-            switch (language) {
-                case HomeScreenDisplayLanguages.enUS:
-                    return "en-US";
-                case HomeScreenDisplayLanguages.frFR:
-                    return "fr-FR";
-                case HomeScreenDisplayLanguages.deDE:
-                    return "de-DE";
-                case HomeScreenDisplayLanguages.esES:
-                    return "es-ES";
-                case HomeScreenDisplayLanguages.ukUA:
-                    return "uk-UA";
-                case HomeScreenDisplayLanguages.ptPT:
-                    return "pt-PT";
-                default:
-                    return "en-US"; // Fallback to English (United States) if no match is found
-            }
-        }
-
-        /// <summary>
         /// Returns the <see cref="AppInstallStatus"/> of a <see cref="RuntimeApp"/>
         /// </summary>
         /// <param name="runtimeApp"></param>

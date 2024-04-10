@@ -42,13 +42,14 @@ namespace MXR.SDK {
     /// The different language types recognised by the SDK. 
     /// </summary>
     [Serializable]
-    public enum HomeScreenDisplayLanguages {
+    public enum HomeScreenDisplayLanguage {
         enUS,
         frFR,
         deDE,
         esES,
         ukUA,
-        ptPT
+        ptPT,
+        svSE
     }
 
     /// <summary>
