@@ -176,11 +176,24 @@ namespace MXR.SDK {
         /// </summary>
         public string adminPin = "5112";
 
+        /// <summary>
+        /// The different language types recognised by the SDK. 
+        /// </summary>
+        [Serializable]
+        public enum DisplayLanguage {
+            enUS,
+            frFR,
+            deDE,
+            esES,
+            ukUA,
+            ptPT,
+            svSE
+        }
 
         /// <summary>
         /// The display language type used in the home screen
         /// </summary>
-        public HomeScreenDisplayLanguage displayLangauge;
+        public DisplayLanguage displayLangauge;
 
 
         /// <summary>
