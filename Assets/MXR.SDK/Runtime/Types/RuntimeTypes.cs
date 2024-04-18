@@ -193,7 +193,7 @@ namespace MXR.SDK {
         /// <summary>
         /// The display language type used in the home screen
         /// </summary>
-        public DisplayLanguage displayLangauge;
+        public DisplayLanguage displayLanguage;
 
 
         /// <summary>
