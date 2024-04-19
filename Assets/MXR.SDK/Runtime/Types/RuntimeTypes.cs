@@ -177,6 +177,26 @@ namespace MXR.SDK {
         public string adminPin = "5112";
 
         /// <summary>
+        /// The different language types recognised by the SDK. 
+        /// </summary>
+        [Serializable]
+        public enum DisplayLanguage {
+            enUS,
+            frFR,
+            deDE,
+            esES,
+            ukUA,
+            ptPT,
+            svSE
+        }
+
+        /// <summary>
+        /// The display language type used in the home screen
+        /// </summary>
+        public DisplayLanguage displayLanguage;
+
+
+        /// <summary>
         /// Whether the shortcut menu should NOT be shown when the user comes back to the
         /// homescreen app when <see cref="RuntimeSettingsSummary.deviceExperienceMode"/>
         /// is set to <see cref="DeviceExperienceMode.HOME_SCREEN"/>
