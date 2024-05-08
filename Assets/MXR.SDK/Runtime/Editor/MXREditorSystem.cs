@@ -214,7 +214,7 @@ namespace MXR.SDK {
                 WifiConnectionStatus.wifiIsEnabled = false;
                 WriteWifiConnectionStatus();
                 if (LoggingEnabled)
-                    Debug.unityLogger.Log(LogType.Log, TAG, "Disabled Kiosk Mode");
+                    Debug.unityLogger.Log(LogType.Log, TAG, "Disabled Wifi");
             }
             catch(Exception e) {
                 if (LoggingEnabled)
