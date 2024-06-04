@@ -224,6 +224,9 @@ namespace MXR.SDK {
         public static string PicoUIVersion =>
             IsPicoDevice ? AndroidOSBuild.SafeGetStatic<string>("DISPLAY") : "0.0.0";
 
+        /// <summary>
+        /// The minimum Lenovo firmware version required to support casting functionality.
+        /// </summary>
         private const int CastingSupportedLenovoFirmware = 1072;
 
         // Lenovo UI VERSION UTILS
