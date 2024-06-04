@@ -224,6 +224,61 @@ namespace MXR.SDK {
         public static string PicoUIVersion =>
             IsPicoDevice ? AndroidOSBuild.SafeGetStatic<string>("DISPLAY") : "0.0.0";
 
+        private const int CastingSupportedLenovoFirmware = 1072;
+
+        // Lenovo UI VERSION UTILS
+        /// <summary>
+        /// Returns Lenovo's UI version. returns "0.0.0" if current device is not a Lenovo device
+        /// </summary>
+        public static string LenovoUIVersion =>
+            IsLenovoDevice ? AndroidOSBuild.SafeGetStatic<string>("DISPLAY") : "0.0.0";
+
+        /// <summary>
+        /// Checks if the Lenovo UI version is greater than or equal to the specified major and minor version.
+        /// </summary>
+        /// <param name="majorVersion">The major version to compare against.</param>
+        /// <param name="minorVersion">The minor version to compare against.</param>
+        /// <returns>True if the current Lenovo UI version is greater than or equal to the specified version; otherwise, false.</returns>
+        public static bool LenovoVersionIsGreaterThanOrEqualTo(int majorVersion, int minorVersion) {
+            try {
+
+                string lenovoUIVersion = LenovoUIVersion;
+
+                
+                string[] parts = lenovoUIVersion.Split('_');
+                if (parts.Length < 3) {
+                    return false;
+                }
+
+                string currentVersionPart = parts[2].Substring(1); 
+
+                // Extract the major and minor parts from the current version part
+                if (currentVersionPart.Length < 4) {
+                    return false;
+                }
+
+                int currentMajorVersion = int.Parse(currentVersionPart.Substring(0, 4));
+                int currentMinorVersion = currentVersionPart.Length > 4 ? int.Parse(currentVersionPart.Substring(4)) : 0;
+
+
+                if (currentMajorVersion > majorVersion || (currentMajorVersion == majorVersion && currentMinorVersion >= minorVersion)) {
+                    return true;
+                }
+
+                return false;
+            } catch {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Determines if the Lenovo device supports casting by checking if it is a Lenovo device
+        /// and if the firmware version is greater than or equal to the specified casting-supported version.
+        /// </summary>
+        public static bool LenovoDeviceSupportsCasting => IsLenovoDevice && LenovoVersionIsGreaterThanOrEqualTo(CastingSupportedLenovoFirmware, 0);
+
+
+
         /// <summary>
         /// Returns if current Pico UI version is 4.x.x if current device is a Pico device
         /// </summary>
