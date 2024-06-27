@@ -208,6 +208,8 @@ namespace MXR.SDK {
         /// </summary>
         public HiddenSettings hiddenSettings = new HiddenSettings();
 
+        public LibrarySettings librarySettings = new LibrarySettings();
+
         /// <summary>
         /// Whether the guardian/boundary settings should be opened on launch
         /// </summary>
@@ -275,6 +277,17 @@ namespace MXR.SDK {
         public bool wifi;
         public bool passthrough;
         public bool brightness;
+    }
+
+    [Serializable]
+    public class LibrarySettings {
+        public CardSettings cardSettings = new CardSettings();
+    }
+
+    [Serializable]
+    public class CardSettings {
+        public bool showTitle = true;
+        public bool showContentType = true;
     }
 
     /// <summary>
