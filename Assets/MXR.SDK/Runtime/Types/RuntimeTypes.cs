@@ -195,7 +195,6 @@ namespace MXR.SDK {
         /// </summary>
         public DisplayLanguage displayLanguage = DisplayLanguage.enUS;
 
-
         /// <summary>
         /// Whether the shortcut menu should NOT be shown when the user comes back to the
         /// homescreen app when <see cref="RuntimeSettingsSummary.deviceExperienceMode"/>
@@ -208,6 +207,9 @@ namespace MXR.SDK {
         /// </summary>
         public HiddenSettings hiddenSettings = new HiddenSettings();
 
+        /// <summary>
+        /// Customization settings for the library panel
+        /// </summary>
         public LibrarySettings librarySettings = new LibrarySettings();
 
         /// <summary>
@@ -279,15 +281,31 @@ namespace MXR.SDK {
         public bool brightness;
     }
 
+    /// <summary>
+    /// Customization settings for the library panel
+    /// </summary>
     [Serializable]
     public class LibrarySettings {
+        /// <summary>
+        /// Customization settings for the content cards shows in the library panel
+        /// </summary>
         public CardSettings cardSettings = new CardSettings();
     }
 
+    /// <summary>
+    /// Customization settings for the content cards shows in the library panel
+    /// </summary>
     [Serializable]
     public class CardSettings {
-        public bool showTitle = true;
-        public bool showContentType = true;
+        /// <summary>
+        /// Whether the content cards should show the title text
+        /// </summary>
+        public bool showTitle;
+
+        /// <summary>
+        /// Whether the content cards should show the content type text ("App", "Video", WebXR")
+        /// </summary>
+        public bool showContentType;
     }
 
     /// <summary>
