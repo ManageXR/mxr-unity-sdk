@@ -282,30 +282,59 @@ namespace MXR.SDK {
     }
 
     /// <summary>
-    /// Customization settings for the library panel
+    /// Customization settings for the library user interface
     /// </summary>
     [Serializable]
     public class LibrarySettings {
         /// <summary>
-        /// Customization settings for the content cards shows in the library panel
+        /// Customization settings for the content cards shown in the library
         /// </summary>
         public CardSettings cardSettings = new CardSettings();
+
+        /// <summary>
+        /// Customization settings for the panel that displays the library
+        /// </summary>
+        public PanelSettings panelSettings = new PanelSettings();
     }
 
     /// <summary>
-    /// Customization settings for the content cards shows in the library panel
+    /// Customization settings for the content cards shown in the library
     /// </summary>
     [Serializable]
     public class CardSettings {
         /// <summary>
         /// Whether the content cards should show the title text
         /// </summary>
-        public bool showTitle;
+        public bool showTitle = true;
 
         /// <summary>
         /// Whether the content cards should show the content type text ("App", "Video", WebXR")
         /// </summary>
-        public bool showContentType;
+        public bool showContentType = true;
+    }
+
+    /// <summary>
+    /// Customization settings for the panel that displays the library
+    /// </summary>
+    [Serializable]
+    public class PanelSettings {
+        public CategoriesPosition categoriesPosition = CategoriesPosition.TOP;
+    }
+
+    /// <summary>
+    /// The location of categories in the library panel
+    /// </summary>
+    [Serializable]
+    public enum CategoriesPosition {
+        /// <summary>
+        /// Categories are not shown in the library panel
+        /// </summary>
+        NONE,
+
+        /// <summary>
+        /// Categories are shown at the top of the library panel
+        /// </summary>
+        TOP
     }
 
     /// <summary>
