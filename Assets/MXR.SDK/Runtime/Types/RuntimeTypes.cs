@@ -202,7 +202,6 @@ namespace MXR.SDK {
         /// </summary>
         public DisplayLanguage displayLanguage = DisplayLanguage.enUS;
 
-
         /// <summary>
         /// Whether the shortcut menu should NOT be shown when the user comes back to the
         /// homescreen app when <see cref="RuntimeSettingsSummary.deviceExperienceMode"/>
@@ -214,6 +213,11 @@ namespace MXR.SDK {
         /// The settings that are not to be made editable in the launcher
         /// </summary>
         public HiddenSettings hiddenSettings = new HiddenSettings();
+
+        /// <summary>
+        /// Customization settings for the library panel
+        /// </summary>
+        public LibrarySettings librarySettings = new LibrarySettings();
 
         /// <summary>
         /// The settings used to configure background setting properties
@@ -294,6 +298,90 @@ namespace MXR.SDK {
     [Serializable]
     public class BackgroundSettings {
         public bool forcePassthrough;
+    }
+
+    /// <summary>
+    /// Customization settings for the library user interface
+    /// </summary>
+    [Serializable]
+    public class LibrarySettings {
+        /// <summary>
+        /// Customization settings for the content cards shown in the library
+        /// </summary>
+        public CardSettings cardSettings = new CardSettings();
+
+        /// <summary>
+        /// Customization settings for the panel that displays the library
+        /// </summary>
+        public PanelSettings panelSettings = new PanelSettings();
+
+        /// <summary>
+        /// Customization settings for the content card grid in the library
+        /// </summary>
+        public GridSettings gridSettings = new GridSettings();
+    }
+
+    /// <summary>
+    /// Customization settings for the content card grid in the library
+    /// </summary>
+    [Serializable]
+    public class GridSettings {
+        /// <summary>
+        /// The number of cards shown in a single row of the library content card grid
+        /// </summary>
+        public int cardsPerRow = 4;
+
+        /// <summary>
+        /// The alignment of the cards in the library content card grid
+        /// </summary>
+        public CardAlignment alignment = CardAlignment.LEFT;
+    }
+
+    [Serializable]
+    public enum CardAlignment {
+        LEFT,
+        CENTER,
+        RIGHT
+    }
+
+    /// <summary>
+    /// Customization settings for the content cards shown in the library
+    /// </summary>
+    [Serializable]
+    public class CardSettings {
+        /// <summary>
+        /// Whether the content cards should show the title text
+        /// </summary>
+        public bool showTitle = true;
+
+        /// <summary>
+        /// Whether the content cards should show the content type text ("App", "Video", WebXR")
+        /// </summary>
+        public bool showContentType = true;
+    }
+
+    /// <summary>
+    /// Customization settings for the panel that displays the library
+    /// </summary>
+    [Serializable]
+    public class PanelSettings {
+        public CategoriesPosition categoriesPosition = CategoriesPosition.TOP;
+    }
+
+    /// <summary>
+    /// The location of categories in the library panel
+    /// </summary>
+    [Serializable]
+    public enum CategoriesPosition {
+        /// <summary>
+        /// Categories are not shown in the library panel
+        /// </summary>
+        NONE,
+
+        /// <summary>
+        /// Categories are shown at the top of the library panel
+        /// </summary>
+        TOP
     }
 
     /// <summary>
