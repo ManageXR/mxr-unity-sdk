@@ -295,6 +295,34 @@ namespace MXR.SDK {
         /// Customization settings for the panel that displays the library
         /// </summary>
         public PanelSettings panelSettings = new PanelSettings();
+
+        /// <summary>
+        /// Customization settings for the content card grid in the library
+        /// </summary>
+        public GridSettings gridSettings = new GridSettings();
+    }
+
+    /// <summary>
+    /// Customization settings for the content card grid in the library
+    /// </summary>
+    [Serializable]
+    public class GridSettings {
+        /// <summary>
+        /// The number of cards shown in a single row of the library content card grid
+        /// </summary>
+        public int cardsPerRow = 4;
+
+        /// <summary>
+        /// The alignment of the cards in the library content card grid
+        /// </summary>
+        public CardAlignment alignment = CardAlignment.LEFT;
+    }
+
+    [Serializable]
+    public enum CardAlignment {
+        LEFT,
+        CENTER,
+        RIGHT
     }
 
     /// <summary>
