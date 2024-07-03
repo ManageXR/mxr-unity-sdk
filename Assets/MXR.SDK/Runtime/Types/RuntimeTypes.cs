@@ -139,7 +139,7 @@ namespace MXR.SDK {
         /// Helper property for whether the force passthrough setting is active or not
         /// </summary>
         [JsonIgnore]
-        public bool IsForcePassthroughActive => TryGet(x => x.customLauncherSettings.backgroundSettings.forcePassthrough, false);
+        public bool IsPassthroughForced => TryGet(x => x.customLauncherSettings.backgroundSettings.forcePassthrough, false);
 
 
         /// <summary>
