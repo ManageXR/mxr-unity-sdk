@@ -208,14 +208,14 @@ public class AdminAppMessengerManager {
         return sendMessage(what, null);
     }
 
-    public void sendAppFramePixels(byte[] rawTextureData, int width, int height, int compressionQuality) {
+    public void sendAppFramePixels(byte[] data, int width, int height, int compressionQuality) {
         Runnable task = () -> {
-            Log.v(TAG, "lukeluke: Converting to bitmap");
-            Bitmap bitmap = rawTextureDataToBitmap(rawTextureData, width, height);
-            Log.v(TAG, "lukeluke: compressing to jpg");
-            byte[] compressedData = compressAndSaveBitmap(bitmap, compressionQuality);
+            // Log.v(TAG, "lukeluke: Converting to bitmap");
+            // Bitmap bitmap = rawTextureDataToBitmap(rawTextureData, width, height);
+            // Log.v(TAG, "lukeluke: compressing to jpg");
+            // byte[] compressedData = compressAndSaveBitmap(bitmap, compressionQuality);
             Log.v(TAG, "lukeluke: sending");
-            sendMessageWithByteArrayData(AdminAppMessageTypes.APP_FRAME_PIXELS, compressedData);
+            sendMessageWithByteArrayData(AdminAppMessageTypes.APP_FRAME_PIXELS, data);
             Log.v(TAG, "lukeluke: done sending");
         };
 
