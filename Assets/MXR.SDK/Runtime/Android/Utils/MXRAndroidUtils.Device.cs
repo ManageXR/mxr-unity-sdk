@@ -224,11 +224,6 @@ namespace MXR.SDK {
         public static string PicoUIVersion =>
             IsPicoDevice ? AndroidOSBuild.SafeGetStatic<string>("DISPLAY") : "0.0.0";
 
-        /// <summary>
-        /// The minimum Lenovo firmware version required to support casting functionality.
-        /// </summary>
-        private const int CastingSupportedLenovoFirmware = 1072;
-
         // Lenovo UI VERSION UTILS
         /// <summary>
         /// Returns Lenovo's UI version. returns "0.0.0" if current device is not a Lenovo device
@@ -273,14 +268,6 @@ namespace MXR.SDK {
                 return false;
             }
         }
-
-        /// <summary>
-        /// Determines if the Lenovo device supports casting by checking if it is a Lenovo device
-        /// and if the firmware version is greater than or equal to the specified casting-supported version.
-        /// </summary>
-        public static bool LenovoDeviceSupportsCasting => IsLenovoDevice && LenovoVersionIsGreaterThanOrEqualTo(CastingSupportedLenovoFirmware, 0);
-
-
 
         /// <summary>
         /// Returns if current Pico UI version is 4.x.x if current device is a Pico device
