@@ -136,6 +136,13 @@ namespace MXR.SDK {
         public bool IsWifiHidden => TryGet(x => x.customLauncherSettings.hiddenSettings.wifi, false);
 
         /// <summary>
+        /// Helper property for whether the force passthrough setting is active or not
+        /// </summary>
+        [JsonIgnore]
+        public bool IsPassthroughForced => TryGet(x => x.customLauncherSettings.backgroundSettings.forcePassthrough, false);
+
+
+        /// <summary>
         /// Helper property for whether the controller settings are hidden
         /// </summary>
         [JsonIgnore]
@@ -213,6 +220,11 @@ namespace MXR.SDK {
         public LibrarySettings librarySettings = new LibrarySettings();
 
         /// <summary>
+        /// The settings used to configure background setting properties
+        /// </summary>
+        public BackgroundSettings backgroundSettings = new BackgroundSettings();
+
+        /// <summary>
         /// Whether the guardian/boundary settings should be opened on launch
         /// </summary>
         public bool openGuardianOnLaunch;
@@ -279,6 +291,13 @@ namespace MXR.SDK {
         public bool wifi;
         public bool passthrough;
         public bool brightness;
+    }
+    /// <summary>
+    /// Settings used to configure Background Settings.
+    /// </summary>
+    [Serializable]
+    public class BackgroundSettings {
+        public bool forcePassthrough;
     }
 
     /// <summary>
