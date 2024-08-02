@@ -449,10 +449,16 @@ namespace MXR.SDK {
         public bool loopKioskVideo;
 
         /// <summary>
-        /// After headset taken off, wait time (in seconds) before moving the current
-        /// video play position back to the start. If -1, don’t restart after HMD off.
+        /// If true, the video will be restarted after the HMD is taken off and then put back on.
+        /// See restartVideoAfterHmdOffDelay for the time to wait before restarting the video.
         /// </summary>
-        public int restartVideoAfterHmdOffDelay = -1;
+        public bool restartVideoAfterHmdOff;
+
+        /// <summary>
+        /// After headset taken off, wait time (in seconds) before moving the current
+        /// video play position back to the start. Default = 10 seconds.
+        /// </summary>
+        public int restartVideoAfterHmdOffDelay = 10;
     }
 
     /// <summary>
