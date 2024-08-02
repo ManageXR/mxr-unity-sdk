@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -153,6 +154,25 @@ namespace MXR.SDK {
 
         // local path to video file (it may or may not exist)
         public string videoPath;
+
+        public string GetFullVideoFilePath() {
+            if (string.IsNullOrEmpty(videoPath)) {
+                return null;
+            }
+
+            string fullVideoPath = videoPath;
+            if (!fullVideoPath.Contains("://")) fullVideoPath = MXRStorage.GetFullPath(videoPath);
+            return fullVideoPath;
+        }
+
+        public bool VideoFileIsAvailable() {
+            string fullVideoPath = GetFullVideoFilePath();
+            if (string.IsNullOrEmpty(fullVideoPath)) {
+                return false;
+            }
+
+            return File.Exists(fullVideoPath);
+        }
 
         public enum VideoType {
             _360,
