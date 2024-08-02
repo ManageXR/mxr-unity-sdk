@@ -312,14 +312,23 @@ namespace MXR.SDK {
         /// </summary>
         public int cardsPerRow = 4;
 
+        public VerticalCardAlignment verticalAlignment = VerticalCardAlignment.TOP;
+
         /// <summary>
         /// The alignment of the cards in the library content card grid
         /// </summary>
-        public CardAlignment alignment = CardAlignment.LEFT;
+        public HorizontalCardAlignment horizontalAlignment = HorizontalCardAlignment.LEFT;
     }
 
     [Serializable]
-    public enum CardAlignment {
+    public enum VerticalCardAlignment {
+        TOP,
+        CENTER,
+        BOTTOM
+    }
+
+    [Serializable]
+    public enum HorizontalCardAlignment {
         LEFT,
         CENTER,
         RIGHT
