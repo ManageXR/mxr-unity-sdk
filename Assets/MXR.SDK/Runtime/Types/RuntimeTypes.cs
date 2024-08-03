@@ -45,6 +45,24 @@ namespace MXR.SDK {
         public RuntimeApp kioskApp = null;
 
         /// <summary>
+        /// The id of the video to kiosk if <see cref="deviceExperienceMode"/> is set to
+        /// <see cref="DeviceExperienceMode.KIOSK_VIDEO"/>. This video will be in the videos
+        /// dictionary. If it is not available for some reason, the device should behave as if
+        /// it is in <see cref="DeviceExperienceMode.HOME_SCREEN"/>.
+        /// </summary>
+        public String kioskVideoId = null;
+        /// <summary>
+        /// Helper property to get the Video identified by <see cref="kioskVideoId"/>
+        /// </summary>
+        [JsonIgnore]
+        public Video KioskVideo => string.IsNullOrEmpty(kioskVideoId) ? null : videos.GetValueOrDefault(kioskVideoId, null);
+        /// <summary>
+        /// Helper property to detemine if the KioskVideo is ready to be viewed
+        /// </summary>
+        [JsonIgnore]
+        public bool KioskVideoIsReady => KioskVideo != null && KioskVideo.VideoFileIsAvailable();
+
+        /// <summary>
         /// The current "mode" set as the device experience. Refer to managexr.com
         /// for what these different product offerings mean.
         /// Defaults to HOME_SCREEN for legacy reasons.
@@ -82,12 +100,20 @@ namespace MXR.SDK {
         public bool muteMic = true;
 
         /// <summary>
-        /// Use when <see cref="deviceExperienceMode"/> is set to <see cref="DeviceExperienceMode.KIOSK"/>,
-        /// in this scenario, the homescreen is launched on pressing the home (or equivalent) button 
-        /// on the controller.
-        /// This field describes if the shortcut menu is to be shown when the homescreen opens.
+        /// When <see cref="deviceExperienceMode"/> is set to <see cref="DeviceExperienceMode.KIOSK"/>,
+        /// the homescreen is launched on pressing the home (or equivalent) button  on the controller.
+        /// In that case, the shortcut menu is to be shown when the homescreen opens.
+        /// 
+        /// When <see cref="deviceExperienceMode"/> is set to <see cref="DeviceExperienceMode.KIOSK_VIDEO"/>,
+        /// the user may exit the video via the UI and be brought to the shortcut menu. (Pressing the home button
+        /// on the controller will do nothing).
         /// </summary>
         public bool enableKioskShortcutMenu = false;
+
+        /// <summary>
+        /// kioskVideoSettings is used to configure the Kiosk Video feature when <see cref="deviceExperienceMode"/> 
+        /// is set to <see cref="DeviceExperienceMode.KIOSK_VIDEO"/>.
+        public KioskVideoSettings kioskVideoSettings = new KioskVideoSettings();
 
         /// <summary>
         /// A list of features enabled for this deployment
@@ -413,7 +439,35 @@ namespace MXR.SDK {
         /// Mode when the ManageXR library is visible along with settings/options
         /// in the homescreen.
         /// </summary>
-        HOME_SCREEN
+        HOME_SCREEN,
+        
+         /// <summary>
+        /// Mode when ManageXR Home Screen is locked to a single video
+        /// </summary>
+        KIOSK_VIDEO
+    }
+
+    /// <summary>
+    /// Settings for when deviceExperienceMode is set to KIOSK_VIDEO
+    /// </summary>
+    [Serializable]
+    public class KioskVideoSettings {
+        /// <summary>
+        /// If true, the kiosk video will be played in a loop.
+        /// </summary>
+        public bool loopKioskVideo;
+
+        /// <summary>
+        /// If true, the video will be restarted after the HMD is taken off and then put back on.
+        /// See restartVideoAfterHmdOffDelay for the time to wait before restarting the video.
+        /// </summary>
+        public bool restartVideoAfterHmdOff;
+
+        /// <summary>
+        /// After headset taken off, wait time (in seconds) before moving the current
+        /// video play position back to the start. Default = 10 seconds.
+        /// </summary>
+        public int restartVideoAfterHmdOffDelay = 10;
     }
 
     /// <summary>
