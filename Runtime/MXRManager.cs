@@ -62,6 +62,11 @@ namespace MXR.SDK {
             if (result == null)
                 return null;
 
+            if (!System.IsAdminAppInstalled) {
+                Debug.unityLogger.Log(LogType.Log, TAG, "ManageXR is not installed on this device. The SDK will not be initialized.");
+                return null;
+            }
+
             // InitAsync waits for the system to become available
             if (!System.IsConnectedToAdminApp)
                 Debug.unityLogger.Log(LogType.Log, TAG, "Waiting for MXRManager.System to be available.");
