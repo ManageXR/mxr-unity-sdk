@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -43,6 +43,21 @@ namespace MXR.SDK {
             }
         }
         static string deviceModel;
+
+        /// <summary>
+        /// The manufacturer string of current device. system property ro.product.name
+        /// Returns "EDITOR" when running in the Unity editor
+        /// </summary>
+        public static string DeviceProductName {
+            get {
+                if(deviceProductName == null) {
+                    deviceProductName = Application.isEditor ? "EDITOR" : GetProductName();
+                    
+                }
+                return deviceProductName;
+            }
+        }
+        static string deviceProductName;
 
         /// <summary>
         /// The manufacturer string of current device. Equivalent to android.os.Build.PRODUCT
@@ -150,6 +165,13 @@ namespace MXR.SDK {
                 return knownPico4DeviceModels.Contains(DeviceModel);
             }
         }
+  
+        public static bool IsPico4Ultra {
+            get {
+                Debug.Log("IsPico4Ultra: " + DeviceProductName + " " + DeviceProductName.Equals("sparrow"));
+                return Application.isEditor ? false : (DeviceProductName.Equals("sparrow", StringComparison.OrdinalIgnoreCase) || DeviceProduct.Equals("PICO 4 Enterprise Ultra", StringComparison.OrdinalIgnoreCase));
+            }
+        }
 
         // OCULUS DEVICE DETECTION
         /// <summary>
@@ -192,7 +214,7 @@ namespace MXR.SDK {
             IsQuestPro || IsQuest2 || IsQuest3 ||
 
             // Pico headsets
-            IsPico4 || IsPicoNeo3 || IsPicoNeo2 ||
+            IsPico4Ultra || IsPico4 || IsPicoNeo3 || IsPicoNeo2 ||
 
             // HTC Headsets
             IsHTCViveFlow || IsHTCViveFocus3 || IsHTCViveFocusPlus || IsHTCViveXRSeries;
