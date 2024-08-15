@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using UnityEngine;
 
 namespace MXR.SDK {
     /// <summary>
@@ -9,6 +10,16 @@ namespace MXR.SDK {
     /// </summary>
     [System.Serializable]
     public class Content {
+
+
+
+        public static RectOffset infoVerticalLayoutGroupRectPadding = new RectOffset(0, 0, 0, 8);
+        public static RectOffset infoTextVerticalLayoutGroupRectPadding = new RectOffset(15, 15, 0, 0);
+        public static RectOffset infoVerticalLayoutGroupRectNoBackground = new RectOffset(0, 0, 0, 8);
+        public static RectOffset infoTextVerticalLayoutGroupRectNoBackground = new RectOffset(0, 0, 0, 0);
+        public static RectOffset infoVerticalLayoutGroupRectNoPadding = new RectOffset(15, 15, 15, 15);
+        public static RectOffset infoTextVerticalLayoutGroupRectNoPadding = new RectOffset(0, 0, 0, 0);
+
         /// <summary>
         /// Represents a requirement for the content
         /// </summary>
