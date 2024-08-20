@@ -381,7 +381,7 @@ namespace MXR.SDK {
 
 
     [Serializable]
-    public enum Style {
+    public enum CardStyle {
         PADDING,
         NO_PADDING,
         NO_BACKGROUND
@@ -405,7 +405,7 @@ namespace MXR.SDK {
         /// <summary>
         /// The style of the content cards
         /// </summary>
-        public Style style;
+        public CardStyle cardStyle;
 
 
     }
