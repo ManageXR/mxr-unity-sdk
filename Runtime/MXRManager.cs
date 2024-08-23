@@ -62,11 +62,6 @@ namespace MXR.SDK {
             if (result == null)
                 return null;
 
-            if (!System.IsAdminAppInstalled) {
-                Debug.unityLogger.Log(LogType.Log, TAG, "ManageXR is not installed on this device. The SDK will not be initialized.");
-                return null;
-            }
-
             // InitAsync waits for the system to become available
             if (!System.IsConnectedToAdminApp)
                 Debug.unityLogger.Log(LogType.Log, TAG, "Waiting for MXRManager.System to be available.");
@@ -122,18 +117,31 @@ namespace MXR.SDK {
 #if UNITY_EDITOR
                 if (system is MXREditorSystem)
                     System = system;
-                else
+                else {
                     Debug.unityLogger.LogError(TAG, "Must initialize MXRManager with MXREditorSystem when in the Unity Editor.");
+                    return null;
+                }
 #elif UNITY_ANDROID
                 if (system is MXRAndroidSystem)
                     System = system;
-                else
+                else {
                     Debug.unityLogger.LogError(TAG, "Must initialize MXRManager with MXRAndroidSystem when on an Android device.");
+                    return null;
+                }
 #else
                 Debug.unityLogger.LogError(TAG, "Must initialize MXRManager with MXREditorSystem when in the Unity Editor " +
                     "or with MXRAndroidSystem when on an Android device.");
                 return null;
 #endif
+            }
+
+            if (!System.IsAdminAppInstalled) {
+                System = null;
+                Debug.unityLogger.Log(LogType.Log, TAG, 
+                    "ManageXR is not installed on this device. " +
+                    "The SDK will not be initialized. " +
+                    "NOTE: MXRManager.System is null.");
+                return null;
             }
 
             HomeScreenState = new HomeScreenState {
