@@ -45,6 +45,24 @@ namespace MXR.SDK {
         public RuntimeApp kioskApp = null;
 
         /// <summary>
+        /// The id of the video to kiosk if <see cref="deviceExperienceMode"/> is set to
+        /// <see cref="DeviceExperienceMode.KIOSK_VIDEO"/>. This video will be in the videos
+        /// dictionary. If it is not available for some reason, the device should behave as if
+        /// it is in <see cref="DeviceExperienceMode.HOME_SCREEN"/>.
+        /// </summary>
+        public String kioskVideoId = null;
+        /// <summary>
+        /// Helper property to get the Video identified by <see cref="kioskVideoId"/>
+        /// </summary>
+        [JsonIgnore]
+        public Video KioskVideo => string.IsNullOrEmpty(kioskVideoId) ? null : videos.GetValueOrDefault(kioskVideoId, null);
+        /// <summary>
+        /// Helper property to detemine if the KioskVideo is ready to be viewed
+        /// </summary>
+        [JsonIgnore]
+        public bool KioskVideoIsReady => KioskVideo != null && KioskVideo.VideoFileIsAvailable();
+
+        /// <summary>
         /// The current "mode" set as the device experience. Refer to managexr.com
         /// for what these different product offerings mean.
         /// Defaults to HOME_SCREEN for legacy reasons.
@@ -82,12 +100,20 @@ namespace MXR.SDK {
         public bool muteMic = true;
 
         /// <summary>
-        /// Use when <see cref="deviceExperienceMode"/> is set to <see cref="DeviceExperienceMode.KIOSK"/>,
-        /// in this scenario, the homescreen is launched on pressing the home (or equivalent) button 
-        /// on the controller.
-        /// This field describes if the shortcut menu is to be shown when the homescreen opens.
+        /// When <see cref="deviceExperienceMode"/> is set to <see cref="DeviceExperienceMode.KIOSK"/>,
+        /// the homescreen is launched on pressing the home (or equivalent) button  on the controller.
+        /// In that case, the shortcut menu is to be shown when the homescreen opens.
+        /// 
+        /// When <see cref="deviceExperienceMode"/> is set to <see cref="DeviceExperienceMode.KIOSK_VIDEO"/>,
+        /// the user may exit the video via the UI and be brought to the shortcut menu. (Pressing the home button
+        /// on the controller will do nothing).
         /// </summary>
         public bool enableKioskShortcutMenu = false;
+
+        /// <summary>
+        /// kioskVideoSettings is used to configure the Kiosk Video feature when <see cref="deviceExperienceMode"/> 
+        /// is set to <see cref="DeviceExperienceMode.KIOSK_VIDEO"/>.
+        public KioskVideoSettings kioskVideoSettings = new KioskVideoSettings();
 
         /// <summary>
         /// A list of features enabled for this deployment
@@ -134,6 +160,13 @@ namespace MXR.SDK {
         /// </summary>
         [JsonIgnore]
         public bool IsWifiHidden => TryGet(x => x.customLauncherSettings.hiddenSettings.wifi, false);
+
+        /// <summary>
+        /// Helper property for whether the force passthrough setting is active or not
+        /// </summary>
+        [JsonIgnore]
+        public bool IsPassthroughForced => TryGet(x => x.customLauncherSettings.backgroundSettings.forcePassthrough, false);
+
 
         /// <summary>
         /// Helper property for whether the controller settings are hidden
@@ -195,7 +228,6 @@ namespace MXR.SDK {
         /// </summary>
         public DisplayLanguage displayLanguage = DisplayLanguage.enUS;
 
-
         /// <summary>
         /// Whether the shortcut menu should NOT be shown when the user comes back to the
         /// homescreen app when <see cref="RuntimeSettingsSummary.deviceExperienceMode"/>
@@ -207,6 +239,16 @@ namespace MXR.SDK {
         /// The settings that are not to be made editable in the launcher
         /// </summary>
         public HiddenSettings hiddenSettings = new HiddenSettings();
+
+        /// <summary>
+        /// Customization settings for the library panel
+        /// </summary>
+        public LibrarySettings librarySettings = new LibrarySettings();
+
+        /// <summary>
+        /// The settings used to configure background setting properties
+        /// </summary>
+        public BackgroundSettings backgroundSettings = new BackgroundSettings();
 
         /// <summary>
         /// Whether the guardian/boundary settings should be opened on launch
@@ -276,6 +318,106 @@ namespace MXR.SDK {
         public bool passthrough;
         public bool brightness;
     }
+    /// <summary>
+    /// Settings used to configure Background Settings.
+    /// </summary>
+    [Serializable]
+    public class BackgroundSettings {
+        public bool forcePassthrough;
+    }
+
+    /// <summary>
+    /// Customization settings for the library user interface
+    /// </summary>
+    [Serializable]
+    public class LibrarySettings {
+        /// <summary>
+        /// Customization settings for the content cards shown in the library
+        /// </summary>
+        public CardSettings cardSettings = new CardSettings();
+
+        /// <summary>
+        /// Customization settings for the panel that displays the library
+        /// </summary>
+        public PanelSettings panelSettings = new PanelSettings();
+
+        /// <summary>
+        /// Customization settings for the content card grid in the library
+        /// </summary>
+        public GridSettings gridSettings = new GridSettings();
+    }
+
+    /// <summary>
+    /// Customization settings for the content card grid in the library
+    /// </summary>
+    [Serializable]
+    public class GridSettings {
+        /// <summary>
+        /// The number of cards shown in a single row of the library content card grid
+        /// </summary>
+        public int cardsPerRow = 4;
+
+        public VerticalCardAlignment verticalAlignment = VerticalCardAlignment.TOP;
+
+        /// <summary>
+        /// The alignment of the cards in the library content card grid
+        /// </summary>
+        public HorizontalCardAlignment horizontalAlignment = HorizontalCardAlignment.LEFT;
+    }
+
+    [Serializable]
+    public enum VerticalCardAlignment {
+        TOP,
+        CENTER,
+        BOTTOM
+    }
+
+    [Serializable]
+    public enum HorizontalCardAlignment {
+        LEFT,
+        CENTER,
+        RIGHT
+    }
+
+    /// <summary>
+    /// Customization settings for the content cards shown in the library
+    /// </summary>
+    [Serializable]
+    public class CardSettings {
+        /// <summary>
+        /// Whether the content cards should show the title text
+        /// </summary>
+        public bool showTitle = true;
+
+        /// <summary>
+        /// Whether the content cards should show the content type text ("App", "Video", WebXR")
+        /// </summary>
+        public bool showContentType = true;
+    }
+
+    /// <summary>
+    /// Customization settings for the panel that displays the library
+    /// </summary>
+    [Serializable]
+    public class PanelSettings {
+        public CategoriesPosition categoriesPosition = CategoriesPosition.TOP;
+    }
+
+    /// <summary>
+    /// The location of categories in the library panel
+    /// </summary>
+    [Serializable]
+    public enum CategoriesPosition {
+        /// <summary>
+        /// Categories are not shown in the library panel
+        /// </summary>
+        NONE,
+
+        /// <summary>
+        /// Categories are shown at the top of the library panel
+        /// </summary>
+        TOP
+    }
 
     /// <summary>
     /// Represents the mode the device/homescreen app is in.
@@ -297,7 +439,35 @@ namespace MXR.SDK {
         /// Mode when the ManageXR library is visible along with settings/options
         /// in the homescreen.
         /// </summary>
-        HOME_SCREEN
+        HOME_SCREEN,
+        
+         /// <summary>
+        /// Mode when ManageXR Home Screen is locked to a single video
+        /// </summary>
+        KIOSK_VIDEO
+    }
+
+    /// <summary>
+    /// Settings for when deviceExperienceMode is set to KIOSK_VIDEO
+    /// </summary>
+    [Serializable]
+    public class KioskVideoSettings {
+        /// <summary>
+        /// If true, the kiosk video will be played in a loop.
+        /// </summary>
+        public bool loopKioskVideo;
+
+        /// <summary>
+        /// If true, the video will be restarted after the HMD is taken off and then put back on.
+        /// See restartVideoAfterHmdOffDelay for the time to wait before restarting the video.
+        /// </summary>
+        public bool restartVideoAfterHmdOff;
+
+        /// <summary>
+        /// After headset taken off, wait time (in seconds) before moving the current
+        /// video play position back to the start. Default = 10 seconds.
+        /// </summary>
+        public int restartVideoAfterHmdOffDelay = 10;
     }
 
     /// <summary>
