@@ -101,6 +101,12 @@ namespace MXR.SDK {
             return -1;
         }
 
+        public static string GetProductName() {
+            if (NativeUtils != null)
+                return NativeUtils.SafeCall<string>("getSystemProperty", "ro.product.name");
+            return "";
+        }
+
         /// <summary>
         /// Opens Android system dialog for users to grant MANAGE_APP_ALL_FILES_ACCESS_PERMISSION.
         /// Note that if the AndroidManifest.xml of the Unity project doesn't have the 
