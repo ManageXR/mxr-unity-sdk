@@ -406,8 +406,6 @@ namespace MXR.SDK {
         /// The style of the content cards
         /// </summary>
         public CardStyle cardStyle;
-
-
     }
 
     /// <summary>
