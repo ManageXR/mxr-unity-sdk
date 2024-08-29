@@ -1,10 +1,8 @@
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using UnityEngine;
-using UnityEngine.UI;
 
 namespace MXR.SDK {
     /// <summary>
@@ -12,8 +10,6 @@ namespace MXR.SDK {
     /// </summary>
     [System.Serializable]
     public class Content {
-
-
         /// <summary>
         /// Represents a requirement for the content
         /// </summary>
