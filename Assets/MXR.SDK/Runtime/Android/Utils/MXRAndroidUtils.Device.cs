@@ -168,7 +168,6 @@ namespace MXR.SDK {
   
         public static bool IsPico4Ultra {
             get {
-                Debug.Log("IsPico4Ultra: " + DeviceProductName + " " + DeviceProductName.Equals("sparrow"));
                 return Application.isEditor ? false : (DeviceProductName.Equals("sparrow", StringComparison.OrdinalIgnoreCase) || DeviceProduct.Equals("PICO 4 Enterprise Ultra", StringComparison.OrdinalIgnoreCase));
             }
         }
