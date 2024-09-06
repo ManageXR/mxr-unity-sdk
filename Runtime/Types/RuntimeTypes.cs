@@ -51,11 +51,22 @@ namespace MXR.SDK {
         /// it is in <see cref="DeviceExperienceMode.HOME_SCREEN"/>.
         /// </summary>
         public String kioskVideoId = null;
+
         /// <summary>
         /// Helper property to get the Video identified by <see cref="kioskVideoId"/>
         /// </summary>
         [JsonIgnore]
-        public Video KioskVideo => string.IsNullOrEmpty(kioskVideoId) ? null : videos.GetValueOrDefault(kioskVideoId, null);
+        public Video KioskVideo {
+            get {
+                if (string.IsNullOrEmpty(kioskVideoId))
+                    return null;
+                else if (videos.ContainsKey(kioskVideoId))
+                    return videos[kioskVideoId];
+                else
+                    return null;
+            }
+        }
+
         /// <summary>
         /// Helper property to detemine if the KioskVideo is ready to be viewed
         /// </summary>
