@@ -255,7 +255,6 @@ public class NativeUtils {
         try {
             Class<?> systemProperties = Class.forName("android.os.SystemProperties");
             result = (String) systemProperties.getMethod("get", String.class).invoke(null, key);
-            Log.e("Unity", "NativeUtils result 1 - " + result);
         } catch (Exception e) {
             e.printStackTrace();
         }
