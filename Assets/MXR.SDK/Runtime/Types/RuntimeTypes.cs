@@ -278,10 +278,31 @@ namespace MXR.SDK {
         public CustomLauncherImage backgroundFile = new CustomLauncherImage();
 
         /// <summary>
+        /// The stereo packing of the background 360 image displayed in the homescreen
+        /// </summary>
+        public StereoscopicPacking backgroundStereo = StereoscopicPacking.NONE;
+
+        /// <summary>
+        /// The rotation of the 360 image shown in the homescreen
+        /// </summary>
+        public float backgroundRotation = 0;
+
+        /// <summary>
         /// Secondary background image, used by the official ManageXR homescreen app to
         /// change the 360 background when the user is in the app shortcut menu
         /// </summary>
         public CustomLauncherImage shortcutMenuBackgroundFile = new CustomLauncherImage();
+
+        /// <summary>
+        /// The stereo packing of the background 360 image used by the official ManageXR homescreen
+        /// app when in the shortcut menu
+        /// </summary>
+        public StereoscopicPacking shortcutMenuBackgroundStereo = StereoscopicPacking.NONE;
+
+        /// <summary>
+        /// The rotation of the 360 image shown while in the shortcut menu
+        /// </summary>
+        public float shortcutMenuBackgroundRotation = 0;
 
         /// <summary>
         /// The <see cref="CustomLauncherImage"/> to be shown on top of the homescreen panels
@@ -374,6 +395,13 @@ namespace MXR.SDK {
         /// The alignment of the cards in the library content card grid
         /// </summary>
         public HorizontalCardAlignment horizontalAlignment = HorizontalCardAlignment.LEFT;
+    }
+
+    [Serializable]
+    public enum StereoscopicPacking {
+        NONE,
+        TOP_BOTTOM,
+        LEFT_RIGHT
     }
 
     [Serializable]
