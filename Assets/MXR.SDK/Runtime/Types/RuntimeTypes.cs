@@ -273,34 +273,32 @@ namespace MXR.SDK {
         public SplashSettings splashSettings = new SplashSettings();
 
         /// <summary>
-        /// The background 360 image to be displayed in the homescreen
+        /// The skybox image to render when in the homescreen
         /// </summary>
         public CustomLauncherImage backgroundFile = new CustomLauncherImage();
 
         /// <summary>
-        /// The stereo packing of the background 360 image displayed in the homescreen
+        /// Stereo packing of <see cref="backgroundFile"/>
         /// </summary>
-        public StereoscopicPacking backgroundStereo = StereoscopicPacking.NONE;
+        public StereoscopicPacking backgroundStereoPacking = StereoscopicPacking.NONE;
 
         /// <summary>
-        /// The rotation of the 360 image shown in the homescreen
+        /// Skybox rotation of <see cref="backgroundFile"/>
         /// </summary>
         public float backgroundRotation = 0;
 
         /// <summary>
-        /// Secondary background image, used by the official ManageXR homescreen app to
-        /// change the 360 background when the user is in the app shortcut menu
+        /// The skybox image to render when in the shortcut menu
         /// </summary>
         public CustomLauncherImage shortcutMenuBackgroundFile = new CustomLauncherImage();
 
         /// <summary>
-        /// The stereo packing of the background 360 image used by the official ManageXR homescreen
-        /// app when in the shortcut menu
+        /// Stereo packing of <see cref="shortcutMenuBackgroundFile"/>
         /// </summary>
-        public StereoscopicPacking shortcutMenuBackgroundStereo = StereoscopicPacking.NONE;
+        public StereoscopicPacking shortcutMenuBackgroundStereoPacking = StereoscopicPacking.NONE;
 
         /// <summary>
-        /// The rotation of the 360 image shown while in the shortcut menu
+        /// Skybox rotation of <see cref="shortcutMenuBackgroundFile"/>
         /// </summary>
         public float shortcutMenuBackgroundRotation = 0;
 
@@ -397,10 +395,24 @@ namespace MXR.SDK {
         public HorizontalCardAlignment horizontalAlignment = HorizontalCardAlignment.LEFT;
     }
 
+    /// <summary>
+    /// Types of stereo packing supported
+    /// </summary>
     [Serializable]
     public enum StereoscopicPacking {
+        /// <summary>
+        /// No packing, i.e. Mono
+        /// </summary>
         NONE,
+
+        /// <summary>
+        /// Stereo packing with left eye frame on top and right eye frame at the bottom
+        /// </summary>
         TOP_BOTTOM,
+
+        /// <summary>
+        /// Stereo packing with left eye frame on the left and right eye frame on the right
+        /// </summary>
         LEFT_RIGHT
     }
 
