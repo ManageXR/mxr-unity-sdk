@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 

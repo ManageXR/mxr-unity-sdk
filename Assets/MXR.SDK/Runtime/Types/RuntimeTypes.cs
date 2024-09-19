@@ -430,6 +430,14 @@ namespace MXR.SDK {
         RIGHT
     }
 
+
+    [Serializable]
+    public enum CardStyle {
+        PADDING,
+        NO_PADDING,
+        NO_BACKGROUND
+    }
+
     /// <summary>
     /// Customization settings for the content cards shown in the library
     /// </summary>
@@ -444,6 +452,11 @@ namespace MXR.SDK {
         /// Whether the content cards should show the content type text ("App", "Video", WebXR")
         /// </summary>
         public bool showContentType = true;
+
+        /// <summary>
+        /// The style of the content cards
+        /// </summary>
+        public CardStyle cardStyle;
     }
 
     /// <summary>
