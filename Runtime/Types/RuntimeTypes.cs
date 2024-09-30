@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 using System;
 using System.Collections.Generic;
@@ -375,6 +375,11 @@ namespace MXR.SDK {
         /// Customization settings for the content card grid in the library
         /// </summary>
         public GridSettings gridSettings = new GridSettings();
+
+        /// <summary>
+        /// The horizontal text alignment of the content card text
+        /// </summary>
+        public HorizontalTextAlignment horizontalTextAlignment = HorizontalTextAlignment.LEFT;
     }
 
     /// <summary>
@@ -436,6 +441,13 @@ namespace MXR.SDK {
         PADDING,
         NO_PADDING,
         NO_BACKGROUND
+    }
+
+    [Serializable]
+    public enum HorizontalTextAlignment  {
+        LEFT,
+        CENTER,
+        RIGHT
     }
 
     /// <summary>
