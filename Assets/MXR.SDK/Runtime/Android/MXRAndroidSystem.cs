@@ -1,4 +1,4 @@
-#if UNITY_ANDROID
+﻿#if UNITY_ANDROID
 using System;
 using System.Collections.Generic;
 using System.IO;

@@ -51,11 +51,22 @@ namespace MXR.SDK {
         /// it is in <see cref="DeviceExperienceMode.HOME_SCREEN"/>.
         /// </summary>
         public String kioskVideoId = null;
+
         /// <summary>
         /// Helper property to get the Video identified by <see cref="kioskVideoId"/>
         /// </summary>
         [JsonIgnore]
-        public Video KioskVideo => string.IsNullOrEmpty(kioskVideoId) ? null : videos.GetValueOrDefault(kioskVideoId, null);
+        public Video KioskVideo {
+            get {
+                if (string.IsNullOrEmpty(kioskVideoId))
+                    return null;
+                else if (videos.ContainsKey(kioskVideoId))
+                    return videos[kioskVideoId];
+                else
+                    return null;
+            }
+        }
+
         /// <summary>
         /// Helper property to detemine if the KioskVideo is ready to be viewed
         /// </summary>
@@ -262,15 +273,34 @@ namespace MXR.SDK {
         public SplashSettings splashSettings = new SplashSettings();
 
         /// <summary>
-        /// The background 360 image to be displayed in the homescreen
+        /// The skybox image to render when in the homescreen
         /// </summary>
         public CustomLauncherImage backgroundFile = new CustomLauncherImage();
 
         /// <summary>
-        /// Secondary background image, used by the official ManageXR homescreen app to
-        /// change the 360 background when the user is in the app shortcut menu
+        /// Stereo packing of <see cref="backgroundFile"/>
+        /// </summary>
+        public StereoscopicPacking backgroundStereoPacking = StereoscopicPacking.NONE;
+
+        /// <summary>
+        /// Skybox rotation of <see cref="backgroundFile"/>
+        /// </summary>
+        public float backgroundRotation = 0;
+
+        /// <summary>
+        /// The skybox image to render when in the shortcut menu
         /// </summary>
         public CustomLauncherImage shortcutMenuBackgroundFile = new CustomLauncherImage();
+
+        /// <summary>
+        /// Stereo packing of <see cref="shortcutMenuBackgroundFile"/>
+        /// </summary>
+        public StereoscopicPacking shortcutMenuBackgroundStereoPacking = StereoscopicPacking.NONE;
+
+        /// <summary>
+        /// Skybox rotation of <see cref="shortcutMenuBackgroundFile"/>
+        /// </summary>
+        public float shortcutMenuBackgroundRotation = 0;
 
         /// <summary>
         /// The <see cref="CustomLauncherImage"/> to be shown on top of the homescreen panels
@@ -357,17 +387,55 @@ namespace MXR.SDK {
         /// </summary>
         public int cardsPerRow = 4;
 
+        public VerticalCardAlignment verticalAlignment = VerticalCardAlignment.TOP;
+
         /// <summary>
         /// The alignment of the cards in the library content card grid
         /// </summary>
-        public CardAlignment alignment = CardAlignment.LEFT;
+        public HorizontalCardAlignment horizontalAlignment = HorizontalCardAlignment.LEFT;
+    }
+
+    /// <summary>
+    /// Types of stereo packing supported
+    /// </summary>
+    [Serializable]
+    public enum StereoscopicPacking {
+        /// <summary>
+        /// No packing, i.e. Mono
+        /// </summary>
+        NONE,
+
+        /// <summary>
+        /// Stereo packing with left eye frame on top and right eye frame at the bottom
+        /// </summary>
+        TOP_BOTTOM,
+
+        /// <summary>
+        /// Stereo packing with left eye frame on the left and right eye frame on the right
+        /// </summary>
+        LEFT_RIGHT
     }
 
     [Serializable]
-    public enum CardAlignment {
+    public enum VerticalCardAlignment {
+        TOP,
+        CENTER,
+        BOTTOM
+    }
+
+    [Serializable]
+    public enum HorizontalCardAlignment {
         LEFT,
         CENTER,
         RIGHT
+    }
+
+
+    [Serializable]
+    public enum CardStyle {
+        PADDING,
+        NO_PADDING,
+        NO_BACKGROUND
     }
 
     /// <summary>
@@ -384,6 +452,11 @@ namespace MXR.SDK {
         /// Whether the content cards should show the content type text ("App", "Video", WebXR")
         /// </summary>
         public bool showContentType = true;
+
+        /// <summary>
+        /// The style of the content cards
+        /// </summary>
+        public CardStyle cardStyle;
     }
 
     /// <summary>
