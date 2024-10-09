@@ -89,8 +89,9 @@ namespace MXR.SDK {
         public static void LaunchAppWithPackageAndClassNames(string packageName, string className) =>
             NativeUtils.SafeCall<bool>("launchAppWithClass", packageName, className);
 
-        public static void LaunchAppWithIntentAction(string intentAction) =>
+        public static void LaunchIntentAction(string intentAction) =>
             NativeUtils.SafeCall<bool>("launchIntentAction", intentAction);
+
 
         public static string GetAdminAppPackageName() =>
             NativeUtils.SafeCall<string>("getInstalledAdminAppPackageName");
@@ -101,9 +102,13 @@ namespace MXR.SDK {
             return -1;
         }
 
-        public static string GetProductName() {
+        /// <summary>
+        /// Returns a system property using the android.os.SystemProperties.get method
+        /// </summary>
+        /// <param name="property">The property to fetch</param>
+        public static string GetSystemProperty(string property) {
             if (NativeUtils != null)
-                return NativeUtils.SafeCall<string>("getSystemProperty", "ro.product.name");
+                return NativeUtils.SafeCall<string>("getSystemProperty", property);
             return "";
         }
 
@@ -137,6 +142,7 @@ namespace MXR.SDK {
             }
         }
 
+        #region OBSOLETE
         [Obsolete("Use RequestManageAppAllFilesAccessPermission instead. " +
         "This method may be removed in the future.")]
         public static void RequestManageAllFilesPermission() =>
@@ -153,5 +159,15 @@ namespace MXR.SDK {
             if (NativeUtils?.SafeCall("killApp", packageName) == false)
                 Debug.unityLogger.Log(LogType.Error, "Could not kill app " + packageName);
         }
+
+        [Obsolete("Use GetSystemProperty(\"r.product.name\") instead")]
+        public static string GetProductName() =>
+            GetSystemProperty("ro.product.name");
+
+
+        [Obsolete("Use LaunchIntentAction instead.")]
+        public static void LaunchAppWithIntentAction(string intentAction) =>
+            LaunchIntentAction(intentAction);
+        #endregion
     }
 }
