@@ -375,11 +375,6 @@ namespace MXR.SDK {
         /// Customization settings for the content card grid in the library
         /// </summary>
         public GridSettings gridSettings = new GridSettings();
-
-        /// <summary>
-        /// The horizontal text alignment of the content card text
-        /// </summary>
-        public HorizontalTextAlignment horizontalTextAlignment = HorizontalTextAlignment.LEFT;
     }
 
     /// <summary>
@@ -469,6 +464,11 @@ namespace MXR.SDK {
         /// The style of the content cards
         /// </summary>
         public CardStyle cardStyle;
+
+        /// <summary>
+        /// The horizontal text alignment of the content card text
+        /// </summary>
+        public HorizontalTextAlignment horizontalTextAlignment = HorizontalTextAlignment.LEFT;
     }
 
     /// <summary>
