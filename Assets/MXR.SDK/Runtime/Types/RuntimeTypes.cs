@@ -50,7 +50,7 @@ namespace MXR.SDK {
         /// dictionary. If it is not available for some reason, the device should behave as if
         /// it is in <see cref="DeviceExperienceMode.HOME_SCREEN"/>.
         /// </summary>
-        public String kioskVideoId = null;
+        public string kioskVideoId = null;
 
         /// <summary>
         /// Helper property to get the Video identified by <see cref="kioskVideoId"/>
@@ -278,29 +278,9 @@ namespace MXR.SDK {
         public CustomLauncherImage backgroundFile = new CustomLauncherImage();
 
         /// <summary>
-        /// Stereo packing of <see cref="backgroundFile"/>
-        /// </summary>
-        public StereoscopicPacking backgroundStereoPacking = StereoscopicPacking.NONE;
-
-        /// <summary>
-        /// Skybox rotation of <see cref="backgroundFile"/>
-        /// </summary>
-        public float backgroundRotation = 0;
-
-        /// <summary>
         /// The skybox image to render when in the shortcut menu
         /// </summary>
         public CustomLauncherImage shortcutMenuBackgroundFile = new CustomLauncherImage();
-
-        /// <summary>
-        /// Stereo packing of <see cref="shortcutMenuBackgroundFile"/>
-        /// </summary>
-        public StereoscopicPacking shortcutMenuBackgroundStereoPacking = StereoscopicPacking.NONE;
-
-        /// <summary>
-        /// Skybox rotation of <see cref="shortcutMenuBackgroundFile"/>
-        /// </summary>
-        public float shortcutMenuBackgroundRotation = 0;
 
         /// <summary>
         /// The <see cref="CustomLauncherImage"/> to be shown on top of the homescreen panels
@@ -353,7 +333,30 @@ namespace MXR.SDK {
     /// </summary>
     [Serializable]
     public class BackgroundSettings {
+        /// <summary>
+        /// Whether the user should be forced into passthrough mode.
+        /// </summary>
         public bool forcePassthrough;
+
+        /// <summary>
+        /// Stereo packing of <see cref="backgroundFile"/>
+        /// </summary>
+        public StereoscopicPacking backgroundStereoPacking = StereoscopicPacking.NONE;
+
+        /// <summary>
+        /// Skybox rotation of <see cref="backgroundFile"/>
+        /// </summary>
+        public float backgroundRotation = 0;
+
+        /// <summary>
+        /// Stereo packing of <see cref="shortcutMenuBackgroundFile"/>
+        /// </summary>
+        public StereoscopicPacking shortcutMenuBackgroundStereoPacking = StereoscopicPacking.NONE;
+
+        /// <summary>
+        /// Skybox rotation of <see cref="shortcutMenuBackgroundFile"/>
+        /// </summary>
+        public float shortcutMenuBackgroundRotation = 0;
     }
 
     /// <summary>
