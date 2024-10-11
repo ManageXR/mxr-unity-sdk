@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 using System;
 using System.Collections.Generic;
@@ -441,6 +441,13 @@ namespace MXR.SDK {
         NO_BACKGROUND
     }
 
+    [Serializable]
+    public enum HorizontalTextAlignment  {
+        LEFT,
+        CENTER,
+        RIGHT
+    }
+
     /// <summary>
     /// Customization settings for the content cards shown in the library
     /// </summary>
@@ -460,6 +467,11 @@ namespace MXR.SDK {
         /// The style of the content cards
         /// </summary>
         public CardStyle cardStyle;
+
+        /// <summary>
+        /// The horizontal text alignment of the content card text
+        /// </summary>
+        public HorizontalTextAlignment horizontalTextAlignment = HorizontalTextAlignment.LEFT;
     }
 
     /// <summary>
