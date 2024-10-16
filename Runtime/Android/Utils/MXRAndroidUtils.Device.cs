@@ -32,7 +32,7 @@ namespace MXR.SDK {
         static string deviceManufacturer;
 
         /// <summary>
-        /// The manufacturer string of current device. Equivalent to android.os.Build.MODEL
+        /// The model string of current device. Equivalent to android.os.Build.MODEL
         /// Returns "EDITOR" when running in the Unity editor
         /// </summary>
         public static string DeviceModel {
@@ -45,22 +45,21 @@ namespace MXR.SDK {
         static string deviceModel;
 
         /// <summary>
-        /// The manufacturer string of current device. system property ro.product.name
+        /// The ro.product.name string of current device reported by android.os.SystemProperties
+        /// Equivalent to android.os.SystemProperties("ro.product.name")
         /// Returns "EDITOR" when running in the Unity editor
         /// </summary>
         public static string DeviceProductName {
             get {
-                if(deviceProductName == null) {
-                    deviceProductName = Application.isEditor ? "EDITOR" : GetProductName();
-                    
-                }
+                if(deviceProductName == null) 
+                    deviceProductName = Application.isEditor ? "EDITOR" : GetSystemProperty("ro.product.name");
                 return deviceProductName;
             }
         }
         static string deviceProductName;
 
         /// <summary>
-        /// The manufacturer string of current device. Equivalent to android.os.Build.PRODUCT
+        /// The product string of current device. Equivalent to android.os.Build.PRODUCT
         /// Returns "EDITOR" when running in the Unity editor
         /// </summary>
         public static string DeviceProduct {
@@ -166,6 +165,9 @@ namespace MXR.SDK {
             }
         }
   
+        /// <summary>
+        /// Returns true if the current device is Pico 4 Ultra
+        /// </summary>
         public static bool IsPico4Ultra {
             get {
                 return Application.isEditor ? false : (DeviceProductName.Equals("sparrow", StringComparison.OrdinalIgnoreCase) || DeviceProduct.Equals("PICO 4 Enterprise Ultra", StringComparison.OrdinalIgnoreCase));
@@ -241,23 +243,26 @@ namespace MXR.SDK {
         /// </summary>
         public static bool IsOculus6DOF => IsOculusDevice && IsHeadset6DOF;
 
-        // PICO UI VERSION UTILS
+        #region OBSOLETE
         /// <summary>
         /// Returns Pico's UI version. returns "0.0.0" if current device is not a Pico device
         /// </summary>
+        [Obsolete("Use MXRPicoUtils.PUIVersion instead. This property may be removed in the future")]
         public static string PicoUIVersion =>
-            IsPicoDevice ? AndroidOSBuild.SafeGetStatic<string>("DISPLAY") : "0.0.0";
+            MXRPicoUtils.PUIVersion;
 
         /// <summary>
         /// Returns if current Pico UI version is 4.x.x if current device is a Pico device
         /// </summary>
+        [Obsolete("Use MXRPicoUtils.IsPUI4 instead. This property may be removed in the future")]
         public static bool IsPicoUI4 =>
-            PicoUIVersion.StartsWith("4");
+            MXRPicoUtils.IsPUI4;
 
         /// <summary>
         /// Returns whether the SDK is running on a device with 3DoF headset
         /// </summary>
         [Obsolete("Use IsHeadset3DOF instead. This proparty may be removed in the future.")]
         public static bool Is3DOF => IsHeadset3DOF;
+        #endregion
     }
 }
