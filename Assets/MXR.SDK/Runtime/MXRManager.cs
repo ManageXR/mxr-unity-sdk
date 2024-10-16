@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 using UnityEngine;
@@ -66,11 +67,7 @@ namespace MXR.SDK {
             if (!System.IsConnectedToAdminApp)
                 Debug.unityLogger.Log(LogType.Log, TAG, "Waiting for MXRManager.System to be available.");
 
-            // We keep waiting for 100 milliseconds until the system is available.
-            while (!System.IsConnectedToAdminApp) {
-                Debug.unityLogger.Log("Waiting to connect to Admin App");
-                await Task.Delay(100);
-            }
+            bool isBoundToAdmin = await CanBindToAdminApp();
 
             // Next we wait for the DeviceStatus and RuntimeSettingsSummary to become non null.
             if (System.DeviceStatus == null)
@@ -83,10 +80,48 @@ namespace MXR.SDK {
                 Debug.unityLogger.Log("Waiting for DeviceStatus and RuntimeSettingsSummary");
                 await Task.Delay(100);
             }
+            
+            if(isBoundToAdmin == false) {
+                isBoundToAdmin = await CanBindToAdminApp();
+                if (!isBoundToAdmin) {
+                    Debug.unityLogger.LogError(TAG, "Failed to bind to Admin App after two attempts.");
+                }
+            }
 
             Debug.unityLogger.Log(LogType.Log, TAG, "MXRManager finished initializing.");
             return result;
         }
+
+
+        /// <summary>
+        /// Attempts to establish a connection to the Admin App within a specified timeout period.
+        /// </summary>
+        /// <returns>
+        /// A Task that represents the asynchronous operation. This Task returns true if the connection
+        /// to the Admin App is successfully established within the timeout period, and false if the
+        /// operation times out.
+        /// </summary>
+        private async static Task<bool> CanBindToAdminApp() 
+        {
+            TimeSpan timeout = TimeSpan.FromSeconds(3);
+
+            using (var cancellationTokenSource = new CancellationTokenSource(timeout)) {
+                try {
+                    while (!System.IsConnectedToAdminApp) {
+                        Debug.unityLogger.Log(LogType.Log, TAG, "Waiting to connect to Admin App");
+
+                        await Task.Delay(100, cancellationTokenSource.Token);
+                    }
+                    return true;
+                } catch (TaskCanceledException) {
+
+                    Debug.unityLogger.LogError(TAG, "Connection to Admin App timed out.");
+                    return false;
+                }
+            }
+        }
+
+
 
         [Obsolete("This method is being deprecated and may be removed or made private in future versions." +
         "Use \"await InitAsync\" instead.", false)]
