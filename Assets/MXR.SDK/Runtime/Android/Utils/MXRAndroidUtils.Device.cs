@@ -192,6 +192,9 @@ namespace MXR.SDK {
         public static bool IsQuest3 =>
             Application.isEditor ? false : DeviceProduct.Equals("eureka", StringComparison.OrdinalIgnoreCase);
 
+        public static bool IsQuest3S =>
+            Application.isEditor ? false : DeviceProduct.Equals("panther", StringComparison.OrdinalIgnoreCase);
+
         /// <summary>
         /// Returns true if the current device is Oculus Go
         /// </summary>
@@ -210,7 +213,7 @@ namespace MXR.SDK {
         /// </summary>
         public static bool IsHeadset6DOF =>
             // Oculus headsets
-            IsQuestPro || IsQuest2 || IsQuest3 ||
+            IsQuestPro || IsQuest2 || IsQuest3 || IsQuest3S ||
 
             // Pico headsets
             IsPico4Ultra || IsPico4 || IsPicoNeo3 || IsPicoNeo2 ||
