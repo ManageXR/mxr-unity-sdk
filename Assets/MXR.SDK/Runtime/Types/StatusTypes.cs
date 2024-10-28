@@ -159,8 +159,8 @@ namespace MXR.SDK {
 
         public NetworkErrorStatistics(string endPointName, int errorCount, int successCount, bool? isBlocked = null, Dictionary<string, int>? errorMessageCounts = null) {
             this.endPointName = endPointName ?? throw new ArgumentNullException(nameof(endPointName));
-            this.errorCount = errorCount ?? throw new ArgumentNullException(nameof(errorCount));
-            this.successCount = successCount ?? throw new ArgumentNullException(nameof(successCount));
+            this.errorCount = errorCount;
+            this.successCount = successCount;
             this.isBlocked = isBlocked;
             this.errorMessageCounts = errorMessageCounts ?? new Dictionary<string, int>();
         }
