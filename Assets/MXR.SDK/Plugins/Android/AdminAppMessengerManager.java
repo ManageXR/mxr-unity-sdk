@@ -84,7 +84,13 @@ public class AdminAppMessengerManager {
         @Override
         public void handleMessage(Message msg) {
             Bundle bundle = msg.getData();
-            listener.onMessageFromAdminApp(msg.what, bundle.getString("json", null));
+            
+            // Handle messages at Android or Unity level
+            if (AdminAppAndroidMessage.isAndroidMessage(msg)) {
+                AdminAppAndroidMessage.handleMessage(msg);
+            } else {
+                listener.onMessageFromAdminApp(msg.what, bundle.getString("json", null));
+            }
         }
     }
 
