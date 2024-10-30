@@ -144,7 +144,7 @@ namespace MXR.SDK {
 
 
     /// <summary>
-    /// Represents varies statistics on network errors
+    /// Represents various statistics on network errors
     /// </summary>
     [System.Serializable]
     public class NetworkErrorStatistics {
