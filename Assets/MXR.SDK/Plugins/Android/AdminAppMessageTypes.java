@@ -42,7 +42,5 @@ public class AdminAppMessageTypes {
     public static final int KILL_APP = 17;
     public static final int RESTART_APP = 18;
 
-    public static final int SET_SECURE_STRING = 19;
-    public static final int GET_SECURE_STRING = 20;
-    public static final int REMOVE_SECURE_STRING = 21;
+    public static final int SECURE_STRING_REQUEST = 19;
 }

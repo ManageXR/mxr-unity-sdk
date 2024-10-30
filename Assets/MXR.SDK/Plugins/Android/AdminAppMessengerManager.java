@@ -33,7 +33,10 @@ public class AdminAppMessengerManager {
 
     static final String TAG = "AdminAppMessengerManager";
 
+    public final static String JSON = "json";
+
     private final static String ADMIN_SERVICE_CLASS_NAME = "com.mightyimmersion.mightyplatform.AdminService";
+    private final static String ADMIN_APP = "com.mightyimmersion.mightyplatform.adminapp";
 
     private final Messenger incomingMessenger = new Messenger(new IncomingMessageHandler());
     private Messenger outgoingMessenger;
@@ -89,7 +92,7 @@ public class AdminAppMessengerManager {
             if (AdminAppAndroidMessage.isAndroidMessage(msg)) {
                 AdminAppAndroidMessage.handleMessage(msg);
             } else {
-                listener.onMessageFromAdminApp(msg.what, bundle.getString("json", null));
+                listener.onMessageFromAdminApp(msg.what, bundle.getString(JSON, null));
             }
         }
     }
@@ -209,7 +212,7 @@ public class AdminAppMessengerManager {
 
         if (jsonString != null) {
             Bundle bundle = new Bundle();
-            bundle.putString("json", jsonString);
+            bundle.putString(JSON, jsonString);
             msg.setData( bundle);
         }
 
@@ -227,7 +230,7 @@ public class AdminAppMessengerManager {
         List<PackageInfo> packages = pm.getInstalledPackages(0);
 
         for (PackageInfo packageInfo : packages) {
-            if (packageInfo.packageName.startsWith("com.mightyimmersion.mightyplatform.adminapp") && !packageInfo.packageName.contains("preload") && !packageInfo.packageName.contains("test")) {
+            if (packageInfo.packageName.startsWith(ADMIN_APP) && !packageInfo.packageName.contains("preload") && !packageInfo.packageName.contains("test")) {
                 return new ComponentName(packageInfo.packageName, ADMIN_SERVICE_CLASS_NAME);
             }
         }

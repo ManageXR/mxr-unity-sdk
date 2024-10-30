@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Mighty Immersion, Inc. All Rights Reserved.
+ * Copyright 2024 Mighty Immersion, Inc. All Rights Reserved.
  *
  * Unauthorized copying of this file, via any medium is strictly prohibited.
  *
