@@ -13,6 +13,7 @@ import android.content.Context;
 import com.mightyimmersion.customlauncher.AdminAppMessageTypes;
 import com.mightyimmersion.customlauncher.AdminAppMessengerManager;
 
+import java.rmi.RemoteException;
 import java.rmi.server.Operation;
 
 import org.json.JSONException;
@@ -24,6 +25,9 @@ class AdminAppAndroidMessage {
     private static final String KEY = "key";
     private static final String REQUEST = "request";
     private static final String VALUE = "value";
+    private static final String RESPONSE = "response";
+    private static final String RESULT = "result";
+    private static final String ERROR = "error";
 
     // List of all types that should be handled here
     private static final Array<Int> ANDROID_MESSAGE_TYPES = {
@@ -53,6 +57,24 @@ class AdminAppAndroidMessage {
         }
     }
 
+    private static void replyWithJson(int what, String json, Message originalMsg) {
+
+        Messenger replyToApp = originalMsg.replyTo;    
+        if (replyToApp == null) {
+            Log.w(TAG, "No app to reply to");
+            return;
+        }
+        try {
+            Message response = Message.obtain(null, what);
+            Bundle jsonBundle = new Bundle();
+            jsonBundle.putString(JSON, json);
+            response.setData(jsonBundle);
+            replyToApp.send(response);
+        } catch (RemoteException e) {
+            Log.e(TAG, "Error responding to app", e);
+        }
+    }
+
     private enum SecureStringRequest {
         GET,
         SET,
@@ -71,6 +93,31 @@ class AdminAppAndroidMessage {
             }
             return null;
         }
+        
+        public static String errorResponsePayload(SecureStringRequest request, String error) {
+            return responsePayload(request, error, true);
+        }
+
+        public static String responsePayload(SecureStringRequest request, String response, Boolean isError) {
+            JSONObject jsonObject = new JSONObject();
+            try {
+                if (request != null) {
+                    jsonObject.put(RESPONSE, request.getValue());
+                }
+                String safeResponse = org.json.JSONObject.quote(response);
+                jsonObject.put(isError ? ERROR : RESULT, safeResponse);
+                return jsonObject.toString();
+            } catch (JSONException e) {
+                Log.e(TAG, "Secure String Request error in forming response", e);
+                StringBuilder sb = new StringBuilder("{");
+                if (request != null) {
+                    sb.append("\"").append(RESPONSE).append("\": \"");
+                    sb.append(request.getValue()).append("\",");
+                }
+                sb.append("\"").append(ERROR).append("\": \"Unknown error\"}");
+                return sb.toString();
+            }
+        }
     }
 
     private static String getServiceEncryptedPrefsKey(String msgKey) {
@@ -83,7 +130,6 @@ class AdminAppAndroidMessage {
             str = jsonObject.getString(toFind);
         } catch (JSONException e) {
             Log.e(TAG, "Secure String Request - did not find " + toFind);
-            e.printStackTrace();
             return null;
         }
         
@@ -96,26 +142,34 @@ class AdminAppAndroidMessage {
 
     private static void processSecureStringMessage(Context context, Message msg) {
 
-        // TODO - report back any errors
-
         String jsonString = bundle.getString(AdminAppMessengerManager.JSON, null);
         JSONObject jsonObject = null;
         try {
             jsonObject = new JSONObject(jsonStr);
         } catch (JSONException e) {
             Log.e(TAG, "Secure String Request - error parsing json", e);
+            replyWithJson(msg.what, errorResponsePayload(null, "Error parsing json"), msg);
             return;
         }
 
         String requestStr = getString(jsonObject, REQUEST);
-        if (requestStr == null) return;
+        if (requestStr == null) {
+            replyWithJson(msg.what, errorResponsePayload(null, "Error getting request string"), msg);
+            return;
+        }
 
         Log.v(TAG, "Secure String Request: " + requestStr);
         SecureStringRequest request = SecureStringRequest.secureStringRequest(requestStr);
-        if (request == null) return;
+        if (request == null) {
+            replyWithJson(msg.what, errorResponsePayload(null, "Error identifying request"), msg);
+            return;
+        }
 
         String key = getString(jsonObject, KEY);
-        if (key == null ) return;
+        if (key == null ) {
+            replyWithJson(msg.what, errorResponsePayload(request, "Error getting key"), msg);
+            return;
+        }
         String prefsKey = getServiceEncryptedPrefsKey(key);
 
         switch (request) {
@@ -125,9 +179,11 @@ class AdminAppAndroidMessage {
             case GET: {
                 String value = EncryptedPrefs.getSecretString(context, prefsKey);
                 if (value != null && !value.isEmpty()) {
-                    // TODO: send value back to Admin App
+                    // Send result to Admin App
+                    replyWithJson(msg.what, responsePayload(request, value, false), msg);
                 } else {
-                    // TODO: error - report back to Admin App that there is no value saved
+                    // Error - report back to Admin App that there is no value saved
+                    replyWithJson(msg.what, errorResponsePayload(request, "Error getting string"), msg);
                 }
             }
             break;
@@ -137,8 +193,14 @@ class AdminAppAndroidMessage {
             */
             case SET: {
                 String value = getString(jsonObject, VALUE);
-                if (value == null) return;
-                EncryptedPrefs.saveSecretString(context, prefsKey, value);
+                if (value == null) {
+                    replyWithJson(msg.what, errorResponsePayload(request, "Error identifying string to save"), msg);
+                    return;
+                }
+                boolean success = EncryptedPrefs.saveSecretString(context, prefsKey, value);
+                if (!success) {
+                    replyWithJson(msg.what, errorResponsePayload(request, "Error saving string"), msg);
+                }
             }
             break;
 
@@ -147,7 +209,8 @@ class AdminAppAndroidMessage {
             */
             case EXISTS: {
                 boolean isFound = EncryptedPrefs.hasNonEmptySecretString(context, prefsKey);
-                // TODO: send value back to Admin App
+                // Send value back to Admin App
+                replyWithJson(msg.what, responsePayload(request, Boolean.toString(isFound), false), msg);
             }
             break;
 
@@ -155,7 +218,10 @@ class AdminAppAndroidMessage {
             * Admin App is requesting the removal of a string in Encrypted Preferences
             */
             case DELETE: {
-                EncryptedPrefs.removeSecret(context, prefsKey);
+                boolean success = EncryptedPrefs.removeSecret(context, prefsKey);
+                if (!success) {
+                    replyWithJson(msg.what, errorResponsePayload(request, "Error deleting string"), msg);
+                }
             }
             break;
         }
