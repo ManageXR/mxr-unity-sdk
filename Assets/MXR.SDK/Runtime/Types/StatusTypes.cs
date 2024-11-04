@@ -144,7 +144,7 @@ namespace MXR.SDK {
 
 
     /// <summary>
-    /// Represents various statistics on network errors
+    /// Stores statistics related to network errors for a specific endpoint.
     /// </summary>
     [System.Serializable]
     public class NetworkErrorStatistics {
