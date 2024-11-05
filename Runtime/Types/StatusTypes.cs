@@ -131,15 +131,8 @@ namespace MXR.SDK {
     /// </summary>
     [System.Serializable]
     public class NetworkErrorCodeFrequency {
-        public List<NetworkErrorStatistics>? networkErrorStatistics = new List<NetworkErrorStatistics>();
-        public int? connectivityFlippedCount;
-
-        public NetworkErrorCodeFrequency() { }
-
-        public NetworkErrorCodeFrequency(List<NetworkErrorStatistics> networkErrorStatistics = null, int connectivityFlippedCount = 0) {
-            this.networkErrorStatistics = networkErrorStatistics ?? new List<NetworkErrorStatistics>();
-            this.connectivityFlippedCount = connectivityFlippedCount;
-        }
+        public List<NetworkErrorStatistics> networkErrorStatistics = new List<NetworkErrorStatistics>();
+        public int connectivityFlippedCount = 0;
     }
 
 
@@ -152,12 +145,12 @@ namespace MXR.SDK {
         public int errorCount;
         public int successCount;
         [DefaultValue(false)]
-        public bool? isBlocked;
+        public bool isBlocked;
         public Dictionary<string, int>? errorMessageCounts = new Dictionary<string, int>();
 
         public NetworkErrorStatistics() { }
 
-        public NetworkErrorStatistics(string endPointName, int errorCount, int successCount, bool? isBlocked = null, Dictionary<string, int>? errorMessageCounts = null) {
+        public NetworkErrorStatistics(string endPointName, int errorCount, int successCount, bool isBlocked, Dictionary<string, int>? errorMessageCounts = null) {
             this.endPointName = endPointName ?? throw new ArgumentNullException(nameof(endPointName));
             this.errorCount = errorCount;
             this.successCount = successCount;
