@@ -132,6 +132,11 @@ namespace MXR.SDK {
         public List<string> featureFlags = new List<string>();
 
         /// <summary>
+        /// A dictionary storing feature flags and configuration values.
+        /// </summary>
+        public Dictionary<string, float> mappedFeatureFlags = new Dictionary<string, float>();
+
+        /// <summary>
         /// Use to determine if, once we are in the android 12 permissions popup, we should allow
         /// the user to exit or not.
         /// </summary>
