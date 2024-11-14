@@ -141,7 +141,7 @@ namespace MXR.SDK {
     /// </summary>
     [System.Serializable]
     public class NetworkErrorStatistics {
-        public string endPointName;
+        public string endpointName;
         public int errorCount;
         public int successCount;
         [DefaultValue(false)]
@@ -150,8 +150,8 @@ namespace MXR.SDK {
 
         public NetworkErrorStatistics() { }
 
-        public NetworkErrorStatistics(string endPointName, int errorCount, int successCount, bool isBlocked, Dictionary<string, int>? errorMessageCounts = null) {
-            this.endPointName = endPointName ?? throw new ArgumentNullException(nameof(endPointName));
+        public NetworkErrorStatistics(string endpointName, int errorCount, int successCount, bool isBlocked, Dictionary<string, int>? errorMessageCounts = null) {
+            this.endpointName = endpointName ?? throw new ArgumentNullException(nameof(endpointName));
             this.errorCount = errorCount;
             this.successCount = successCount;
             this.isBlocked = isBlocked;
