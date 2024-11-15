@@ -135,7 +135,6 @@ namespace MXR.SDK {
         public int connectivityFlippedCount = 0;
     }
 
-
     /// <summary>
     /// Stores statistics related to network errors for a specific endpoint.
     /// </summary>
@@ -144,21 +143,9 @@ namespace MXR.SDK {
         public string endpointName;
         public int errorCount;
         public int successCount;
-        [DefaultValue(false)]
         public bool isBlocked;
-        public Dictionary<string, int>? errorMessageCounts = new Dictionary<string, int>();
-
-        public NetworkErrorStatistics() { }
-
-        public NetworkErrorStatistics(string endpointName, int errorCount, int successCount, bool isBlocked, Dictionary<string, int>? errorMessageCounts = null) {
-            this.endpointName = endpointName ?? throw new ArgumentNullException(nameof(endpointName));
-            this.errorCount = errorCount;
-            this.successCount = successCount;
-            this.isBlocked = isBlocked;
-            this.errorMessageCounts = errorMessageCounts ?? new Dictionary<string, int>();
-        }
+        public Dictionary<string, int> errorMessageCounts = new Dictionary<string, int>();
     }
-
 
     /// <summary>
     /// Represents the status of controllers
