@@ -134,7 +134,7 @@ namespace MXR.SDK {
         /// <summary>
         /// A dictionary storing feature flags and configuration values.
         /// </summary>
-        public Dictionary<string, float> mappedFeatureFlags = new Dictionary<string, float>();
+        public Dictionary<string, object> mappedFeatureFlags = new Dictionary<string, object>();
 
         /// <summary>
         /// Use to determine if, once we are in the android 12 permissions popup, we should allow
