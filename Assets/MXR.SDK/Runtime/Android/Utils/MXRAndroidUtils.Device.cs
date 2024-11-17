@@ -96,6 +96,12 @@ namespace MXR.SDK {
         public static bool IsLenovoDevice =>
             Application.isEditor ? false : DeviceManufacturer.Equals("Lenovo", StringComparison.OrdinalIgnoreCase);
 
+        public static bool IsDPVRDevice =>
+            Application.isEditor ? false : DeviceManufacturer.Equals("Lexiang Inc.", StringComparison.OrdinalIgnoreCase);
+
+        public static bool IsDPVRP2 =>
+            Application.isEditor ? false : DeviceProduct.Equals("P2", StringComparison.OrdinalIgnoreCase);
+
         // HTC DEVICE DETECTION
         /// <summary>
         /// Returns true if the current device is HTC Vive Flow 
@@ -120,6 +126,12 @@ namespace MXR.SDK {
         /// </summary>
         public static bool IsHTCViveXRSeries =>
             Application.isEditor ? false : DeviceModel.Equals("VIVE XR Series", StringComparison.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Returns true if the current device is HTC Vive Focus Vision
+        /// </summary>
+        public static bool IsHTCViveFocusVision =>
+            Application.isEditor ? false : DeviceModel.Equals("VIVE Focus Vision", StringComparison.OrdinalIgnoreCase); 
 
         // PICO DEVICE DETECTION
         static readonly List<string> knownPicoG2DeviceModels = new List<string> {
@@ -221,7 +233,7 @@ namespace MXR.SDK {
             IsPico4Ultra || IsPico4 || IsPicoNeo3 || IsPicoNeo2 ||
 
             // HTC Headsets
-            IsHTCViveFlow || IsHTCViveFocus3 || IsHTCViveFocusPlus || IsHTCViveXRSeries;
+            IsHTCViveFlow || IsHTCViveFocus3 || IsHTCViveFocusPlus || IsHTCViveXRSeries || IsHTCViveFocusVision;
 
         /// <summary>
         /// Returns whether the headset as 3 degrees of freedom traacking capability
