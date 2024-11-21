@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System;
+using System.ComponentModel;
 
 namespace MXR.SDK {
     /// <summary>
@@ -82,7 +84,9 @@ namespace MXR.SDK {
         /// Whether the device has its mic muted at the system level.
         /// </summary>
         public bool micMuted;
-        
+
+        public Dictionary<string, NetworkErrorCodeFrequency> networkErrorCodeFrequency = new Dictionary<string, NetworkErrorCodeFrequency>();
+
         /// <summary>
         /// Returns the <see cref="FileInstallStatus"/> for a <see cref="Video"/>
         /// </summary>
@@ -120,6 +124,27 @@ namespace MXR.SDK {
     public class Controller {
         public long batteryLevel = 0;
         public string version = string.Empty;
+    }
+
+    /// <summary>
+    /// Enables tracking and reporting of network errors and connectivity events across different SSIDs on a device.
+    /// </summary>
+    [System.Serializable]
+    public class NetworkErrorCodeFrequency {
+        public List<NetworkErrorStatistics> networkErrorStatistics = new List<NetworkErrorStatistics>();
+        public int connectivityFlippedCount = 0;
+    }
+
+    /// <summary>
+    /// Stores statistics related to network errors for a specific endpoint.
+    /// </summary>
+    [System.Serializable]
+    public class NetworkErrorStatistics {
+        public string endpointName;
+        public int errorCount;
+        public int successCount;
+        public bool isBlocked;
+        public Dictionary<string, int> errorMessageCounts = new Dictionary<string, int>();
     }
 
     /// <summary>
