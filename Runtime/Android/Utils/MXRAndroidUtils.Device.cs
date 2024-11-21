@@ -96,6 +96,12 @@ namespace MXR.SDK {
         public static bool IsLenovoDevice =>
             Application.isEditor ? false : DeviceManufacturer.Equals("Lenovo", StringComparison.OrdinalIgnoreCase);
 
+        /// <summary>
+        /// Returns true if the current device is a DPVR device
+        /// </summary>
+        public static bool IsDPVRDevice =>
+            Application.isEditor ? false : DeviceManufacturer.Equals("Lexiang Inc.", StringComparison.OrdinalIgnoreCase);
+
         // HTC DEVICE DETECTION
         /// <summary>
         /// Returns true if the current device is HTC Vive Flow 
@@ -120,6 +126,12 @@ namespace MXR.SDK {
         /// </summary>
         public static bool IsHTCViveXRSeries =>
             Application.isEditor ? false : DeviceModel.Equals("VIVE XR Series", StringComparison.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Returns true if the current device is HTC Vive Focus Vision
+        /// </summary>
+        public static bool IsHTCViveFocusVision =>
+            Application.isEditor ? false : DeviceModel.Equals("VIVE Focus Vision", StringComparison.OrdinalIgnoreCase); 
 
         // PICO DEVICE DETECTION
         static readonly List<string> knownPicoG2DeviceModels = new List<string> {
@@ -194,6 +206,9 @@ namespace MXR.SDK {
         public static bool IsQuest3 =>
             Application.isEditor ? false : DeviceProduct.Equals("eureka", StringComparison.OrdinalIgnoreCase);
 
+        /// <summary>
+        /// Returns true if the current device is Oculus Quest 3s
+        /// </summary>
         public static bool IsQuest3S =>
             Application.isEditor ? false : DeviceProduct.Equals("panther", StringComparison.OrdinalIgnoreCase);
 
@@ -202,6 +217,13 @@ namespace MXR.SDK {
         /// </summary>
         public static bool IsOculusGo =>
             Application.isEditor ? false : DeviceModel.Equals("Pacific", StringComparison.OrdinalIgnoreCase);
+
+        // DPVR DEVICE DETECTION
+        /// <summary>
+        /// Returns true if the current device is the DPVR P2
+        /// </summary>
+        public static bool IsDPVRP2 =>
+            Application.isEditor ? false : DeviceProduct.Equals("P2", StringComparison.OrdinalIgnoreCase);
 
         // DEVICE DEGREES OF FREEDOM DETECTION
         /// <summary>
@@ -221,7 +243,7 @@ namespace MXR.SDK {
             IsPico4Ultra || IsPico4 || IsPicoNeo3 || IsPicoNeo2 ||
 
             // HTC Headsets
-            IsHTCViveFlow || IsHTCViveFocus3 || IsHTCViveFocusPlus || IsHTCViveXRSeries;
+            IsHTCViveFlow || IsHTCViveFocus3 || IsHTCViveFocusPlus || IsHTCViveXRSeries || IsHTCViveFocusVision;
 
         /// <summary>
         /// Returns whether the headset as 3 degrees of freedom traacking capability
@@ -231,7 +253,10 @@ namespace MXR.SDK {
             IsOculusGo ||
 
             // Pico headsets
-            IsPicoG2 || IsPicoG3;
+            IsPicoG2 || IsPicoG3 ||
+
+            // DPVR Headsets
+            IsDPVRP2;
 
         /// <summary>
         /// Returns whether the SDK is running on a Pico device with 6DoF headset tracking
