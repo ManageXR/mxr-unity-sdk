@@ -21,9 +21,6 @@ namespace MXR.SDK.Editor {
             // We get all the dependencies of the scene except scripts
             Debug.Log("Getting dependencies of scene at " + scenePath);
             var dependencies = AssetDatabase.GetDependencies(new string[] { scenePath });
-            dependencies = dependencies
-                .Where(x => !x.EndsWith(".cs"))
-                .ToArray();
             if(dependencies.Count() > 0) {
                 StringBuilder sb = new StringBuilder();
                 sb.Append("Dependency list:");
