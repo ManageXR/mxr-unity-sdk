@@ -76,6 +76,13 @@ namespace MXR.SDK {
                     if (pauseVideoCommandData != null)
                         OnPauseVideoCommand?.Invoke(pauseVideoCommandData);
                     break;
+                case Command.RESUME_VIDEO_ACTION:
+                    if (LoggingEnabled)
+                        Debug.unityLogger.Log(LogType.Log, TAG, "Resume Video Command received.");
+                    var resumeVideoCommandData = JsonUtility.FromJson<ResumeVideoCommandData>(command.data);
+                    if (resumeVideoCommandData != null)
+                        OnResumeVideoCommand?.Invoke(resumeVideoCommandData);
+                    break;
             }
         }
 
@@ -142,6 +149,7 @@ namespace MXR.SDK {
         public event Action<List<ScannedWifiNetwork>> OnWifiNetworksChange;
         public event Action<PlayVideoCommandData> OnPlayVideoCommand;
         public event Action<PauseVideoCommandData> OnPauseVideoCommand;
+        public event Action<ResumeVideoCommandData> OnResumeVideoCommand;
         public event Action OnHomeScreenStateRequest;
 
         // INTERFACE METHODS

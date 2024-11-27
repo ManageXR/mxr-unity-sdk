@@ -59,6 +59,7 @@ namespace MXR.SDK {
         public event Action<WifiConnectionStatus> OnWifiConnectionStatusChange;
         public event Action<PlayVideoCommandData> OnPlayVideoCommand;
         public event Action<PauseVideoCommandData> OnPauseVideoCommand;
+        public event Action<ResumeVideoCommandData> OnResumeVideoCommand;
         public event Action OnHomeScreenStateRequest;
 
         string lastWifiNetworksJSON = string.Empty;
@@ -272,6 +273,13 @@ namespace MXR.SDK {
                         var pauseVideoCommandData = JsonUtility.FromJson<PauseVideoCommandData>(data);
                         if (pauseVideoCommandData != null)
                             OnPauseVideoCommand?.Invoke(pauseVideoCommandData);
+                        else if (LoggingEnabled)
+                            Debug.unityLogger.Log(LogType.Error, TAG, "Could not deserialize command data string.");
+                        break;
+                    case Command.RESUME_VIDEO_ACTION:
+                        var resumeVideoCommandData = JsonUtility.FromJson<ResumeVideoCommandData>(data);
+                        if (resumeVideoCommandData != null)
+                            OnResumeVideoCommand?.Invoke(resumeVideoCommandData);
                         else if (LoggingEnabled)
                             Debug.unityLogger.Log(LogType.Error, TAG, "Could not deserialize command data string.");
                         break;
