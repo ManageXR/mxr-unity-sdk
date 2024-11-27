@@ -13,11 +13,17 @@ namespace MXR.SDK.Samples {
 #endif
             MXRManager.System.OnPlayVideoCommand += System_OnPlayVideoCommandReceived;
             MXRManager.System.OnPauseVideoCommand += System_OnPauseVideoCommandReceived;
+            MXRManager.System.OnResumeVideoCommand += System_OnResumeVideoCommandReceived;
         }
 
         private void System_OnPauseVideoCommandReceived(PauseVideoCommandData obj) {
             Debug.Log("<color=\"red\">Pause Video command invoked!</color>");
             Debug.Log("Pause the video playback when this command is received");
+        }
+
+        private void System_OnResumeVideoCommandReceived(ResumeVideoCommandData obj) {
+            Debug.Log("<color=\"orange\">Resume Video command invoked!</color>");
+            Debug.Log("Resume video playback when this command is received");
         }
 
         private void System_OnPlayVideoCommandReceived(PlayVideoCommandData data) {
