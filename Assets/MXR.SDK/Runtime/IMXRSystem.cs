@@ -92,6 +92,11 @@ namespace MXR.SDK {
         event Action<PauseVideoCommandData> OnPauseVideoCommand;
 
         /// <summary>
+        /// Event fired when a request to the home screen is received
+        /// </summary>
+        event Action<LaunchHomeScreenCommandData> OnLaunchHomeScreenCommand;
+
+        /// <summary>
         /// Event fired when the admin app requests for 
         /// <see cref="HomeScreenState"/> 
         /// </summary>

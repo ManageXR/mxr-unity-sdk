@@ -19,6 +19,11 @@ namespace MXR.SDK {
         public const string PAUSE_VIDEO_ACTION = "PAUSE_VIDEO";
 
         /// <summary>
+        /// The action string used for launching the home screen
+        /// </summary>
+        public const string LAUNCH_HOME_SCREEN = "LAUNCH_HOME_SCREEN";
+
+        /// <summary>
         /// The action for this command, used to distinguish
         /// different command types.
         /// </summary>
@@ -46,4 +51,12 @@ namespace MXR.SDK {
     /// </summary>
     [Serializable]
     public class PauseVideoCommandData { }
+
+
+    /// <summary>
+    /// The data ssociated with a command when the 
+    /// action is <see cref="Command.LAUNCH_HOME_SCREEN"/>
+    /// </summary>
+    [Serializable]
+    public class LaunchHomeScreenCommandData { }
 }

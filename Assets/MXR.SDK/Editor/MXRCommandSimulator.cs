@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEditor;
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace MXR.SDK.Editor {
     public class MXRCommandSimulator : EditorWindow {
@@ -25,7 +26,8 @@ namespace MXR.SDK.Editor {
         string[] commandTypes = new string[] {
             "None",
             "Play Video",
-            "Pause Video"
+            "Pause Video",
+            "Launch Home Screen"
         };
 
         // PLAY VIDEO DATA CREATION
@@ -41,7 +43,7 @@ namespace MXR.SDK.Editor {
                 EditorGUILayout.BeginVertical();
                 {
                     GUILayout.Label("This window allows you to simulate MXR Admin App commands in the editor. ");
-                    GUILayout.Label("Currently it supports PLAY_VIDEO and PAUSE_VIDEO commands");
+                    GUILayout.Label("Currently it supports PLAY_VIDEO , LAUNCH_HOME_SCREEN and PAUSE_VIDEO commands");
                     GUILayout.Label("Refer to CommandTypes.cs and CommandSubscriberExample.cs");
                     GUILayout.Space(10);
                     GUILayout.Label("You must be in Play Mode to use this tool!");
@@ -124,6 +126,23 @@ namespace MXR.SDK.Editor {
                                     action = Command.PAUSE_VIDEO_ACTION,
                                     data = JsonUtility.ToJson(new PauseVideoCommandData())
                                 });
+                            break;
+                        case 3:
+                            GUILayout.Label("LAUNCH_HOME_SCREEN requires the user to be in the video scene if the user is not in the video scene the command will not execute" +
+                                "Check out LaunchHomeScreenCommandData in CommandTypes.cs, it is an empty class.",
+                                EditorStyles.wordWrappedLabel
+                            );
+
+                            GUILayout.Label("Directly invoke using the button below.");
+                            GUILayout.Space(20);
+                            if (SceneManager.GetActiveScene().buildIndex == SceneManager.GetSceneByName("Video").buildIndex) {
+                                if (GUILayout.Button("Invoke Launch Home Screen Command", GUILayout.Width(width * .8f)))
+                                    system.ExecuteCommand(new Command {
+                                        action = Command.LAUNCH_HOME_SCREEN,
+                                        data = JsonUtility.ToJson(new LaunchHomeScreenCommandData())
+                                    });
+                                
+                            }
                             break;
                     }
 

@@ -76,6 +76,13 @@ namespace MXR.SDK {
                     if (pauseVideoCommandData != null)
                         OnPauseVideoCommand?.Invoke(pauseVideoCommandData);
                     break;
+                case Command.LAUNCH_HOME_SCREEN:
+                    if (LoggingEnabled)
+                        Debug.unityLogger.Log(LogType.Log, TAG, "Launch Home Screen Command received.");
+                    var launchHomeScreenCommandData = JsonUtility.FromJson<LaunchHomeScreenCommandData>(command.data);
+                    if (launchHomeScreenCommandData != null)
+                        OnLaunchHomeScreenCommand?.Invoke(launchHomeScreenCommandData);
+                    break;
             }
         }
 
@@ -142,6 +149,7 @@ namespace MXR.SDK {
         public event Action<List<ScannedWifiNetwork>> OnWifiNetworksChange;
         public event Action<PlayVideoCommandData> OnPlayVideoCommand;
         public event Action<PauseVideoCommandData> OnPauseVideoCommand;
+        public event Action<LaunchHomeScreenCommandData> OnLaunchHomeScreenCommand;
         public event Action OnHomeScreenStateRequest;
 
         // INTERFACE METHODS
