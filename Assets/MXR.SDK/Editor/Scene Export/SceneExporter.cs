@@ -10,6 +10,7 @@ namespace MXR.SDK.Editor {
     public static class SceneExporter {
         const string SCENE_ASSETBUNDLE_NAME = "scene";
         const string ASSETS_ASSETBUNDLE_NAME = "assets";
+        const string SCENE_ASSETBUNDLE_NAME = "scene";
 
         /// <summary>
         /// Exports a scene into a zip arachive containing three asset bundles and their manifests:
