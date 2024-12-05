@@ -20,7 +20,7 @@ namespace MXR.SDK.Editor {
 
         string exportPath;
         bool keepExportDir;
-        List<Violation> violations;
+        List<SceneExportViolation> violations;
         Vector2 scrollPos;
 
         [MenuItem("Tools/MXR/Scene Exporter")]

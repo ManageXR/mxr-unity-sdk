@@ -2,6 +2,6 @@
 
 namespace MXR.SDK.Editor {
     public interface ISceneExportValidator {
-        List<Violation> Validate();
+        List<SceneExportViolation> Validate();
     }
 }
