@@ -500,7 +500,11 @@ namespace MXR.SDK {
         /// <summary>
         /// Categories are shown at the top of the library panel
         /// </summary>
-        TOP
+        TOP,
+        /// <summary>
+        /// Categories are shown at the left of the library panel
+        /// </summary>
+        LEFT
     }
 
     /// <summary>
