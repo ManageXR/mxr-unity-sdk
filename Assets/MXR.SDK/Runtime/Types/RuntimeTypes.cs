@@ -278,6 +278,11 @@ namespace MXR.SDK {
         public SplashSettings splashSettings = new SplashSettings();
 
         /// <summary>
+        /// The 3D environment to render when in the homescreen
+        /// </summary>
+        public CustomLauncherEnvironment environmentFile = new CustomLauncherEnvironment();
+
+        /// <summary>
         /// The skybox image to render when in the homescreen
         /// </summary>
         public CustomLauncherImage backgroundFile = new CustomLauncherImage();
@@ -301,6 +306,38 @@ namespace MXR.SDK {
         /// The theme to be used for the homescreen
         /// </summary>
         public CustomHomeScreenColors colors = new CustomHomeScreenColors();
+    }
+
+    [Serializable]
+    public class CustomLauncherEnvironment {
+        /// <summary>
+        /// The file type of the environment asset
+        /// </summary>
+        public enum FileType {
+            GLTF,
+            GLB,
+            MXRUS
+        }
+
+        /// <summary>
+        /// Unique identifier of the environment
+        /// </summary>
+        public string id = string.Empty;
+
+        /// <summary>
+        /// Name of the environment
+        /// </summary>
+        public string name = string.Empty;
+
+        /// <summary>
+        /// Local path to the main environment file 
+        /// </summary>
+        public string filePath = string.Empty;
+
+        /// <summary>
+        /// The type of the environment file
+        /// </summary>
+        public FileType fileType = FileType.MXRUS;
     }
 
     /// <summary>
