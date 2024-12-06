@@ -68,9 +68,14 @@ namespace MXR.SDK {
         public string SourceFilePath { get; private set; }
 
         /// <summary>
-        /// Gets the scene inside the <see cref="SCENE_ASSETBUNDLE_NAME"/> AssetBundle in the mxrus file
+        /// Returns whether the mxrus file has a scene that can be loaded
         /// </summary>
-        public Scene? Scene {
+        public bool HasScene => !string.IsNullOrEmpty(ScenePath);
+
+        /// <summary>
+        /// Gets the path to the scene inside the <see cref="SCENE_ASSETBUNDLE_NAME"/> AssetBundle in the mxrus file
+        /// </summary>
+        public string ScenePath {
             get {
                 if (!bundles.ContainsKey(SCENE_ASSETBUNDLE_NAME)) {
                     Debug.unityLogger.Log(LogType.Error, TAG, "scene asset bundle not loaded");
@@ -82,8 +87,8 @@ namespace MXR.SDK {
                     Debug.unityLogger.Log(LogType.Error, TAG, "There are no scenes in scene bundle");
                     return null;
                 }
-                var path = sceneBundle.GetAllScenePaths()[0];
-                return SceneManager.GetSceneByPath(path);
+
+                return sceneBundle.GetAllScenePaths()[0];
             }
         }
 
@@ -163,7 +168,7 @@ namespace MXR.SDK {
             // If any bundles have failed to load, the entire load operation is undone
             // and the instance gets into the error state
             DeleteExtractDir();
-            if(failedBundleNames.Count == 0) 
+            if (failedBundleNames.Count == 0)
                 CurrState = State.Success;
             else {
                 UnloadBundles();
@@ -189,34 +194,19 @@ namespace MXR.SDK {
         }
 
         void DeleteExtractDir() {
-            if(Directory.Exists(ExtractDirPath))
+            if (Directory.Exists(ExtractDirPath))
                 Directory.Delete(ExtractDirPath, recursive: true);
         }
 
-        UniTask<AssetBundle> LoadAssetBundleAsync(string name) {
-            var source = new UniTaskCompletionSource<AssetBundle>();
-            StartCoroutine(LoadAssetBundle(name, 
-                bundle => source.TrySetResult(bundle),
-                error => source.TrySetException(new Exception(error))
-            ));
-            return source.Task;
-        }
-
-        IEnumerator LoadAssetBundle(string name, Action<AssetBundle> onSuccess, Action<string> onError) {
+        async UniTask<AssetBundle> LoadAssetBundleAsync(string name) {
             var loadRequest = AssetBundle.LoadFromFileAsync(Path.Combine(ExtractDirPath, name));
-            loadRequest.allowSceneActivation = false;
-
-            while (!loadRequest.isDone) {
-                if(Mathf.Approximately(loadRequest.progress, 1) && loadRequest.assetBundle != null) {
-                    Debug.unityLogger.Log(LogType.Log, TAG, $"AssetBundle {name} loaded successfully.");
-                    onSuccess?.Invoke(loadRequest.assetBundle);
-                }
-                else {
-                    Debug.unityLogger.Log(LogType.Error, TAG, "Failed to load AssetBundle " + name);
-                    onError?.Invoke("Failed to load AssetBundle " + name);
-                    yield break;
-                }
-                yield return null;
+            await loadRequest;
+            if (loadRequest.assetBundle != null) {
+                Debug.unityLogger.Log(LogType.Log, TAG, $"AssetBundle {name} loaded successfully.");
+                return loadRequest.assetBundle;
+            } else {
+                Debug.unityLogger.Log(LogType.Error, TAG, "Failed to load AssetBundle " + name);
+                throw new Exception("Failed to load AssetBundle " + name);
             }
         }
     }
