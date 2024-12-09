@@ -23,7 +23,7 @@ This command is an instruction for the device to pause any video it is currently
 ## Why Command Simulator?
 Commands are issued from the ManageXR Web Dashboard, sent to the MXR Admin App installed installed on your XR device, and then forwarded to the SDK. The SDK then exposes the commands in the form of events in its API.  
 
-These events are `IMXRSystem.OnPlayVideoCommand` and `IMXRSystem.OnPauseVideoCommand`.  
+These events are `IMXRSystem.OnPlayVideoCommand`, `IMXRSystem.OnPauseVideoCommand`, and `IMXRSystem.OnResumeVideoCommand`.  
   
 When integrating the SDK in your application, you might want to test the integration of commands in the editor. However, in the editor, the above flow of events isn't possible as there is to MXR Admin App running to enable the communication between the SDK and the web dashboard.  
 
@@ -51,6 +51,13 @@ Two command option buttons will be shown: Play video and Pause video.
 - Since no data is associated with the Pause Video command, no configuration UI will be shown. 
 
 - Click the `Invoke Pause Video Command` button. Any code subscribed to `IMXRSystem.OnPauseVideoCommand` will be executed.
+
+### _Resume Video Command_  
+- Select the `Resume Video` button in the simulator window.
+
+- Since no data is associated with the Resume Video command, no configuration UI will be shown. 
+
+- Click the `Invoke Resume Video Command` button. Any code subscribed to `IMXRSystem.OnResumeVideoCommand` will be executed.
 
 ## Notes
 ⚠️ Simulator initialization  
