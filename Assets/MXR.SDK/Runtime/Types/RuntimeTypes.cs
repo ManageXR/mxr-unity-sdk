@@ -485,6 +485,16 @@ namespace MXR.SDK {
     [Serializable]
     public class PanelSettings {
         public CategoriesPosition categoriesPosition = CategoriesPosition.TOP;
+
+        /// <summary>
+        /// A list of ordered categories
+        /// </summary>
+        public List<string> orderedCategories = new List<string>();
+
+        /// <summary>
+        /// Whether the "All" category will be displayed
+        /// </summary>
+        public bool hideAll;
     }
 
     /// <summary>
