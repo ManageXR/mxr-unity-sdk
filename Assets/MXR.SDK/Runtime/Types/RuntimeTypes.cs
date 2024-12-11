@@ -490,11 +490,6 @@ namespace MXR.SDK {
         /// A list of ordered categories
         /// </summary>
         public List<string> orderedCategories = new List<string>();
-
-        /// <summary>
-        /// Whether the "All" category will be displayed
-        /// </summary>
-        public bool hideAll;
     }
 
     /// <summary>
