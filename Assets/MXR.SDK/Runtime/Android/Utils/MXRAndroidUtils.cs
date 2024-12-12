@@ -5,6 +5,8 @@ using UnityEngine;
 namespace MXR.SDK {
     public static partial class MXRAndroidUtils {
         #region JAVA OBJECTS
+        public const int MIN_ADMIN_APP_VERSION_FOR_LAUNCH_WEB_URL_INTENT = 10724;
+
         /// <summary>
         /// JNI to call com.unity.player.UnityPlayer.currentActivity()
         /// </summary>
@@ -105,6 +107,27 @@ namespace MXR.SDK {
         public static void SendBroadcastAction(string action) {
             if (NativeUtils?.SafeCall("sendBroadcastAction", action) == false)
                 Debug.unityLogger.Log(LogType.Error, "Could not broadcast action " + action);
+        }
+
+        /// <summary>
+        /// Opens the browser from a resume action if the admin app version is sufficient. Otherwise, 
+        /// opens the browser via Unity's Application.OpenURL. We pass the url through an intent to the
+        /// android app to open the browser if the admin app fails as well.
+        /// </summary>
+        public static void OpenBrowserFromResume(String url)
+        {        
+            if (GetAdminAppVersionCode() < MIN_ADMIN_APP_VERSION_FOR_LAUNCH_WEB_URL_INTENT) {
+                Application.OpenURL(url);
+                return;
+            }
+
+            var intent = new AndroidJavaObject("android.content.Intent",
+                "com.mightyimmersion.mightylibrary.intent.action.LAUNCH_BROWSER_FROM_RESUME");
+
+            intent.Call<AndroidJavaObject>("putExtra", "url", url);
+
+            intent.SafeCall<AndroidJavaObject>("setPackage", GetAdminAppPackageName());
+            CurrentActivity.SafeCall("sendBroadcast", intent);
         }
 
         /// <summary>
