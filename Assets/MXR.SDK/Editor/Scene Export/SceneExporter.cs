@@ -3,6 +3,8 @@ using System.Linq;
 using System.Text;
 
 using UnityEditor;
+using UnityEditor.Build.Reporting;
+
 using UnityEngine;
 
 namespace MXR.SDK.Editor {
@@ -21,14 +23,14 @@ namespace MXR.SDK.Editor {
         /// <param name="outputFilePath">The fully resolved path to where the output archive will be saved</param>
         /// <param name="buildTarget">The target platform to build for</param>
         /// <param name="deleteExportDir">Whether the intermediate directory containing the asset bundles and manifests should be deleted after the export.</param>
-        public static void ExportScene(string scenePath, string outputFilePath, BuildTarget buildTarget = BuildTarget.Android, bool deleteExportDir = true) {
+        public static BuildReport ExportScene(string scenePath, string outputFilePath, BuildTarget buildTarget = BuildTarget.Android, bool deleteExportDir = true) {
             // Get all the dependencies of the scene
             Debug.unityLogger.Log(LogType.Log, TAG, "Getting dependencies of scene at " + scenePath);
 
             var dependencies = AssetDatabase.GetDependencies(new string[] { scenePath })
                 .Where(x => !x.EndsWith(".cs"));
 
-            if(dependencies.Count() > 0) {
+            if (dependencies.Count() > 0) {
                 StringBuilder sb = new StringBuilder();
                 sb.Append("Dependency list:");
                 foreach (var dependency in dependencies)
@@ -67,12 +69,12 @@ namespace MXR.SDK.Editor {
                 buildTarget
             );
 
-
+            var buildReport = GetLatestBuildReport();
             if (manifest == null) {
-                Debug.unityLogger.Log(LogType.Error, TAG, "Asset bundle build failed");
-                return;
+                Debug.unityLogger.Log(LogType.Error, TAG, "mxrus file export failed. " + buildReport?.GetStepsSummary());
+                return null;
             }
-            
+
             // Compress the export directory to a .mxrus file and delete the export 
             // directory if required.
             ZipUtils.CompressDirectory(exportDir, outputFilePath);
@@ -81,7 +83,40 @@ namespace MXR.SDK.Editor {
             else
                 Debug.unityLogger.Log(LogType.Log, TAG, "Exported asset bundles and manifests to " + exportDir);
 
-            Debug.unityLogger.Log(LogType.Log, TAG, "Exported .mxrus to " + outputFilePath);
+            Debug.unityLogger.Log(LogType.Log, TAG, $"Exported .mxrus to {outputFilePath}. {buildReport?.GetStepsSummary()}");
+            return buildReport;
+        }
+
+        public static BuildReport GetLatestBuildReport() {
+            try {
+                // Get the build report from the Library directory
+                // We use this because BuildReport.GetLatestReport is not supported on
+                // several Unity editors that the MXR SDK may be used in.
+                var source = Path.Combine("Library", "LastBuild.buildreport");
+                var dest = Path.Combine("Assets", "LastBuild.buildreport");
+                File.Copy(source, dest, true);
+                AssetDatabase.ImportAsset(dest);
+                var report = AssetDatabase.LoadAssetAtPath<BuildReport>(dest);
+                File.Delete(dest);
+                File.Delete(dest + ".meta");
+                return report;
+            }
+            catch {
+                return null;
+            }
+        }
+
+        public static string GetStepsSummary(this BuildReport buildReport) {
+            string message = $"Asset bundle build summary:";
+            if (buildReport != null) {
+                foreach (var step in buildReport.steps) {
+                    message += $"\n{step.name} (time:{step.duration.ToString(@"hh\:mm\:ss")})";
+                    foreach (var msg in step.messages) {
+                        message += $"\n  {msg.content}";
+                    }
+                }
+            }
+            return message;
         }
     }
 }
