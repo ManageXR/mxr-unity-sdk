@@ -120,5 +120,37 @@ namespace MXR.SDK.Editor {
         static bool DidBuildSucceed(AssetBundleManifest manifest, BuildReport buildReport) {
             return manifest != null && buildReport != null && buildReport.summary.result == BuildResult.Succeeded;
         }
+
+        public static BuildReport GetLatestBuildReport() {
+            try {
+                // Get the build report from the Library directory
+                // We use this because BuildReport.GetLatestReport is not supported on
+                // several Unity editors that the MXR SDK may be used in.
+                var source = Path.Combine("Library", "LastBuild.buildreport");
+                var dest = Path.Combine("Assets", "LastBuild.buildreport");
+                File.Copy(source, dest, true);
+                AssetDatabase.ImportAsset(dest);
+                var report = AssetDatabase.LoadAssetAtPath<BuildReport>(dest);
+                File.Delete(dest);
+                File.Delete(dest + ".meta");
+                return report;
+            }
+            catch {
+                return null;
+            }
+        }
+
+        public static string GetStepsSummary(this BuildReport buildReport) {
+            string message = $"Asset bundle build summary:";
+            if (buildReport != null) {
+                foreach (var step in buildReport.steps) {
+                    message += $"\n{step.name} (time:{step.duration.ToString(@"hh\:mm\:ss")})";
+                    foreach (var msg in step.messages) {
+                        message += $"\n  {msg.content}";
+                    }
+                }
+            }
+            return message;
+        }
     }
 }
