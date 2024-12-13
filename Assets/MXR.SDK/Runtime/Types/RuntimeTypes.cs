@@ -236,7 +236,11 @@ namespace MXR.SDK {
             esES,
             ukUA,
             ptPT,
-            svSE
+            svSE,
+            jaJP,
+            koKR,
+            nlNL,
+            nbNO
         }
 
         /// <summary>
