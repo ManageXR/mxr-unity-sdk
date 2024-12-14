@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
+using System.Collections.Generic;
 
 using Cysharp.Threading.Tasks;
 
@@ -45,10 +44,27 @@ namespace MXR.SDK {
             Success
         }
 
+        static string defaultExtractsLocation = null;
         /// <summary>
         /// The global folder where .mxrus files will be extracted by default
         /// </summary>
-        public static string GlobalExtractsLocation { get; set; }
+        public static string DefaultExtractsLocation { 
+            get {
+                if (!string.IsNullOrEmpty(defaultExtractsLocation))
+                    return defaultExtractsLocation;
+#if UNITY_EDITOR
+                defaultExtractsLocation = Application.dataPath.Replace("Assets", "Temp");
+#else
+                defaultExtractsLocation = Application.persistentDataPath;
+#endif
+                return defaultExtractsLocation;
+            }
+            set {
+                if (string.IsNullOrEmpty(value))
+                    throw new Exception("Cannot set DefaultExtractsLocation to null/empty");
+                defaultExtractsLocation = value;
+            }
+        }
 
         /// <summary>
         /// The folder where this instance will extract .mxrus files to. Use this to
@@ -117,7 +133,7 @@ namespace MXR.SDK {
         /// <param name="sourceFilePath">The fully resolved path to the mxrus file to load from</param>
         /// <param name="extractDir">
         /// The directory where the .mxrus file is temporarily extracted to
-        /// Leave this null or empty to use <see cref="GlobalExtractsLocation"/>
+        /// Leave this null or empty to use <see cref="DefaultExtractsLocation"/>
         /// </param>
         /// <returns></returns>
         public static SceneLoader New() {
@@ -140,7 +156,7 @@ namespace MXR.SDK {
             // Initialize paths and ensure extract location directory
             Debug.unityLogger.Log(LogType.Log, TAG, $"Loading {sourceFilePath}");
             SourceFilePath = sourceFilePath;
-            ExtractLocation = string.IsNullOrEmpty(extractLocation) ? GlobalExtractsLocation : extractLocation;
+            ExtractLocation = string.IsNullOrEmpty(extractLocation) ? DefaultExtractsLocation : extractLocation;
 
             if (!Directory.Exists(ExtractLocation))
                 Directory.CreateDirectory(ExtractLocation);

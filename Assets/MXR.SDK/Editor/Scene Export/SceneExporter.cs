@@ -69,9 +69,13 @@ namespace MXR.SDK.Editor {
                 buildTarget
             );
 
+            string message;
             var buildReport = GetLatestBuildReport();
             if (manifest == null) {
-                Debug.unityLogger.Log(LogType.Error, TAG, "mxrus file export failed. " + buildReport?.GetStepsSummary());
+                message = "mxrus file export failed. ";
+                if (buildReport != null)
+                    message += buildReport.GetStepsSummary();
+                Debug.unityLogger.Log(LogType.Error, TAG, message);
                 return null;
             }
 
@@ -83,7 +87,10 @@ namespace MXR.SDK.Editor {
             else
                 Debug.unityLogger.Log(LogType.Log, TAG, "Exported asset bundles and manifests to " + exportDir);
 
-            Debug.unityLogger.Log(LogType.Log, TAG, $"Exported .mxrus to {outputFilePath}. {buildReport?.GetStepsSummary()}");
+            message = $"Exported .mxrus to {outputFilePath}. ";
+            if (buildReport != null)
+                message += buildReport.GetStepsSummary();
+            Debug.unityLogger.Log(LogType.Log, TAG, message);
             return buildReport;
         }
 
