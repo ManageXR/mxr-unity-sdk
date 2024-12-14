@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 
@@ -37,7 +37,7 @@ namespace MXR.SDK.Editor {
             var renderPipelineAsset = GraphicsSettings.defaultRenderPipeline;
             var violation = new SceneExportViolation(
                 SceneExportViolation.Types.UnsupportedRenderPipeline,
-                false,
+                true,
                 "Only Universal Render Pipeline is supported.",
                 null
             );
@@ -50,6 +50,7 @@ namespace MXR.SDK.Editor {
         /// <summary>
         /// Checks and ensures the scene doesn't have materials that use unsupported shaders.
         /// Only shaders in the following namespaces/family are supported:
+        /// - Error Shader. We allow this so that the export can be tested early without worrying about every material.
         /// - Universal Render Pipeline
         /// - Unlit
         /// - UI
@@ -60,17 +61,29 @@ namespace MXR.SDK.Editor {
             var dependencies = AssetDatabase.GetDependencies(new string[] {
                 SceneManager.GetActiveScene().path
             });
+            string[] supportedShaders = new string[] {
+                "Universal Render Pipeline/",
+                "Unlit/",
+                "UI/",
+                "Sprites/",
+                "Skybox/",
+                "Hidden/InternalErrorShader"
+            };
             var unsupportedMaterials = dependencies
                 .Where(x => x.EndsWith(".mat"))
                 .Select(x => AssetDatabase.LoadAssetAtPath<Material>(x))
-                .Where(x => !x.shader.name.StartsWith("Universal Render Pipeline/"))
-                .Where(x => !x.shader.name.StartsWith("Unlit/"))
-                .Where(x => !x.shader.name.StartsWith("UI/"))
-                .Where(x => !x.shader.name.StartsWith("Sprites/"))
-                .Where(x => !x.shader.name.StartsWith("Skybox/"));
+                .Where(x => {
+                    // If the shader name matches any of the supported shaders, this material is supported
+                    foreach (var supportedShader in supportedShaders) {
+                        if (x.shader.name.StartsWith(supportedShader)) {
+                            return false;
+                        }
+                    }
+                    return true;
+                });
             return unsupportedMaterials.Select(x => new SceneExportViolation(
                 SceneExportViolation.Types.UnsupportedShader,
-                false,
+                true,
                 "Only default URP, Unlit, UI, Sprites and Skybox shaders are supported.",
                 x)).ToList();
         }
@@ -97,7 +110,7 @@ namespace MXR.SDK.Editor {
                 });
             return unsupportedComponents.Select(x => new SceneExportViolation(
                 SceneExportViolation.Types.CustomScriptFound,
-                false,
+                true,
                 "Custom scripts/components are not supported. Please remove them from the scene.",
                 x
             )).ToList();
@@ -111,7 +124,7 @@ namespace MXR.SDK.Editor {
             var cameras = Object.FindObjectsOfType<Camera>();
             return cameras.Select(x => new SceneExportViolation(
                 SceneExportViolation.Types.CameraFound,
-                false,
+                true,
                 "Scene cameras are not supported. Please remove cameras from the scene.",
                 x
             )).ToList();
@@ -127,10 +140,10 @@ namespace MXR.SDK.Editor {
                 .Where(x => x.lightmapBakeType != LightmapBakeType.Baked).ToList();
             return nonBakedLights.Select(x => new SceneExportViolation(
                 SceneExportViolation.Types.NonBakedLight,
-                true,
+                false,
                 "Realtime and Mixed lights are not recommended. " +
-                "Consider lightmapping your scene with baked lights " +
-                "and only using realtime lights if you truly need them " +
+                "Consider lightmapping your scene with baked lights. " +
+                "Only use Realtime or Mixed lights if you truly need them " +
                 "as they can impact performance.",
                 x
             )).ToList();
@@ -144,7 +157,7 @@ namespace MXR.SDK.Editor {
             var eventSystems = Object.FindObjectsOfType<EventSystem>();
             return eventSystems.Select(x => new SceneExportViolation(
                 SceneExportViolation.Types.EventSystemFound,
-                false,
+                true,
                 "There cannot be an EventSystem on the scene. Please remove them from the scene.",
                 x
             )).ToList();
