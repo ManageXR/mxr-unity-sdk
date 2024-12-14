@@ -114,8 +114,7 @@ namespace MXR.SDK {
         /// opens the browser via Unity's Application.OpenURL. We pass the url through an intent to the
         /// android app to open the browser if the admin app fails as well.
         /// </summary>
-        public static void OpenBrowserFromResume(String url)
-        {        
+        public static void OpenBrowserFromResume(String url) {        
             if (GetAdminAppVersionCode() < MIN_ADMIN_APP_VERSION_FOR_LAUNCH_WEB_URL_INTENT) {
                 Application.OpenURL(url);
                 return;
