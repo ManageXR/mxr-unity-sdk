@@ -78,7 +78,7 @@ namespace MXR.SDK.Editor {
             if (violations.Count == 0)
                 Label("Scene validated. No issues found. You can export this scene");
 
-            if (violations.Where(x => !x.IsWarning).Count() == 0) {
+            if (violations.Where(x => x.PreventsExport).Count() == 0) {
                 GUILayout.Space(10);
                 keepExportDir = GUILayout.Toggle(keepExportDir, "Keep intermediate export directory");
                 GUILayout.Space(10);
@@ -89,12 +89,12 @@ namespace MXR.SDK.Editor {
                     violations = new SceneExportValidator().Validate();
                     if (violations.Count > 0) {
                         // If there are export preventing violations, return
-                        if (violations.Where(x => !x.IsWarning).Count() > 0) 
+                        if (violations.Where(x => x.PreventsExport).Count() > 0) 
                             return;
 
                         // If there are violations that don't prevent export,
                         // confirm if the user still wants to go ahead.
-                        if (violations.Where(x => x.IsWarning).Count() > 0) {
+                        if (violations.Where(x => !x.PreventsExport).Count() > 0) {
                             var resp = EditorUtility.DisplayDialog(
                                 "MXR Scene Export",
                                 "Your scene has some issues. Are you sure you want to export?",
@@ -142,7 +142,7 @@ namespace MXR.SDK.Editor {
             for (int i = 0; i < violationTypes.Count(); i++) {
                 // Print the violation description
                 var first = violations.First(x => x.Type == violationTypes[i]);
-                if (first.IsWarning)
+                if (!first.PreventsExport)
                     Label((i + 1) + ". " + first.Description, H2);
                 else
                     Label((i + 1) + ". " + first.Description, Color.red, H2);
@@ -162,7 +162,7 @@ namespace MXR.SDK.Editor {
         // ================================================
         // BUILD REPORT
         // ================================================
-        List<string> allAssetTypes = new List<string> {
+        readonly List<string> selectableAssetTypes = new List<string> {
             "Texture2D",
             "Mesh",
             "Shader",
@@ -181,7 +181,7 @@ namespace MXR.SDK.Editor {
             GUILayout.Space(10);
 
             // Show a toolbar that allows the user to filter the packed assets by type
-            currAssetType = GUILayout.Toolbar(currAssetType, allAssetTypes.ToArray());
+            currAssetType = GUILayout.Toolbar(currAssetType, selectableAssetTypes.ToArray());
 
             var packedAssetsInfo = buildReport.packedAssets.SelectMany(x => x.contents).OrderByDescending(x => x.packedSize);
             HashSet<string> processed = new HashSet<string>();
@@ -194,24 +194,24 @@ namespace MXR.SDK.Editor {
                 processed.Add(path);
 
                 // We only show a few asset types that impact export size meaningfully
-                if (info.type.Name != allAssetTypes[currAssetType])
+                if (info.type.Name != selectableAssetTypes[currAssetType])
                     continue;
 
                 // Start a row for a single asset
                 EditorGUILayout.BeginHorizontal();
+                {
+                    // Draw the icon
+                    GUILayout.Label(AssetDatabase.GetCachedIcon(path), GUILayout.MaxHeight(16), GUILayout.Width(20));
 
-                // Draw the icon
-                GUILayout.Label(AssetDatabase.GetCachedIcon(path), GUILayout.MaxHeight(16), GUILayout.Width(20));
+                    // Show the file name, which on clicking highlights the file in the Project window
+                    var fileName = string.IsNullOrEmpty(path) ? "Unknown" : Path.GetFileName(path);
+                    var buttonWidth = GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth - 110);
+                    if (GUILayout.Button(new GUIContent(Path.GetFileName(fileName), path), GUI.skin.label, buttonWidth))
+                        EditorGUIUtility.PingObject(AssetDatabase.LoadAssetAtPath<Object>(path));
 
-                // Show the file name, which on clicking highlights the file in the Project window
-                var fileName = string.IsNullOrEmpty(path) ? "Unknown" : Path.GetFileName(path);
-                var buttonWidth = GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth - 110);
-                if (GUILayout.Button(new GUIContent(Path.GetFileName(fileName), path), GUI.skin.label, buttonWidth))
-                    EditorGUIUtility.PingObject(AssetDatabase.LoadAssetAtPath<Object>(path));
-
-                // Write the asset size
-                GUILayout.Label(GetFormattedSizeString(info.packedSize));
-
+                    // Write the asset size
+                    GUILayout.Label(GetFormattedSizeString(info.packedSize));
+                }
                 EditorGUILayout.EndHorizontal();
             }
         }

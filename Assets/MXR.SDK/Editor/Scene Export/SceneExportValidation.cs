@@ -51,13 +51,13 @@ namespace MXR.SDK.Editor {
         }
 
         public Types Type { get; private set; }
-        public bool IsWarning { get; private set; }
+        public bool PreventsExport { get; private set; }
         public string Description { get; private set; }
         public Object Object { get; private set; }
 
-        public SceneExportViolation(Types type, bool isWarning, string description, Object obj) {
+        public SceneExportViolation(Types type, bool preventsExport, string description, Object obj) {
             Type = type;
-            IsWarning = isWarning;
+            PreventsExport = preventsExport;
             Description = description;
             Object = obj;
         }
@@ -90,7 +90,7 @@ namespace MXR.SDK.Editor {
             var renderPipelineAsset = GraphicsSettings.defaultRenderPipeline;
             var violation = new SceneExportViolation(
                 SceneExportViolation.Types.UnsupportedRenderPipeline, 
-                false, 
+                true, 
                 "Only Universal Render Pipeline is supported.", 
                 null
             );
@@ -123,7 +123,7 @@ namespace MXR.SDK.Editor {
                 .Where(x => !x.shader.name.StartsWith("Skybox/"));
             return unsupportedMaterials.Select(x => new SceneExportViolation(
                 SceneExportViolation.Types.UnsupportedShader,
-                false,
+                true,
                 "Only default URP, Unlit, UI, Sprites and Skybox shaders are supported.",
                 x)).ToList();
         }
@@ -150,7 +150,7 @@ namespace MXR.SDK.Editor {
                 });
             return unsupportedComponents.Select(x => new SceneExportViolation(
                 SceneExportViolation.Types.CustomScriptFound,
-                false,
+                true,
                 "Custom scripts/components are not supported. Please remove them from the scene.",
                 x
             )).ToList();
@@ -164,7 +164,7 @@ namespace MXR.SDK.Editor {
             var cameras = Object.FindObjectsOfType<Camera>();
             return cameras.Select(x => new SceneExportViolation(
                 SceneExportViolation.Types.CameraFound,
-                false,
+                true,
                 "Scene cameras are not supported. Please remove cameras from the scene.",
                 x
             )).ToList();
@@ -180,10 +180,10 @@ namespace MXR.SDK.Editor {
                 .Where(x => x.lightmapBakeType != LightmapBakeType.Baked).ToList();
             return nonBakedLights.Select(x => new SceneExportViolation(
                 SceneExportViolation.Types.NonBakedLight,
-                true,
+                false,
                 "Realtime and Mixed lights are not recommended. " +
-                "Consider lightmapping your scene with baked lights " +
-                "and only using realtime lights if you truly need them" +
+                "Consider lightmapping your scene with baked lights. " +
+                "Only use Realtime or Mixed lights if you truly need them " +
                 "as they can impact performance.",
                 x
             )).ToList();
@@ -197,7 +197,7 @@ namespace MXR.SDK.Editor {
             var eventSystems = Object.FindObjectsOfType<EventSystem>();
             return eventSystems.Select(x => new SceneExportViolation(
                 SceneExportViolation.Types.EventSystemFound,
-                false,
+                true,
                 "There cannot be an EventSystem on the scene. Please remove them from the scene.",
                 x
             )).ToList();
