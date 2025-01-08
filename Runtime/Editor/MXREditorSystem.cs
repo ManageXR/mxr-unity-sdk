@@ -306,6 +306,7 @@ namespace MXR.SDK {
 
             // Refresh the data from all the json files
             // this class uses
+            RefreshDeviceData();
             RefreshDeviceStatus();
             RefreshRuntimeSettings();
             RefreshWifiConnectionStatus();
@@ -330,8 +331,22 @@ namespace MXR.SDK {
             }
         }
 
+        string lastDeviceData = string.Empty;
         public void RefreshDeviceData() {
-            throw new NotImplementedException();
+            try {
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Log, TAG, "Refreshing DeviceData from deviceData.json");
+                if (TryRefresh("deviceData.json", ref lastDeviceData, out DeviceData data)) {
+                    DeviceData = data;
+                    OnDeviceDataChange?.Invoke(data);
+                }
+            }
+            catch (Exception e) {
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Error, TAG, "Could not refresh DeviceData from deviceData.json. " + e);
+                DeviceData = null;
+                OnDeviceDataChange?.Invoke(DeviceData);
+            }
         }
 
         string lastDeviceStatus = string.Empty;
