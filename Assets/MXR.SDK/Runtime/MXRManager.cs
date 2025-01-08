@@ -72,18 +72,24 @@ namespace MXR.SDK {
                 await Task.Delay(100);
             }
 
-            // Next we wait for the DeviceStatus and RuntimeSettingsSummary to become non null.
+            // Next we wait for the DeviceData, DeviceStatus and RuntimeSettingsSummary to become non null.
+            if (System.DeviceData == null)
+                Debug.unityLogger.Log(LogType.Log, TAG, "Waiting for MXRManager.System.DeviceData to be initialized.");
+
             if (System.DeviceStatus == null)
                 Debug.unityLogger.Log(LogType.Log, TAG, "Waiting for MXRManager.System.DeviceStatus to be initialized.");
 
             if (System.RuntimeSettingsSummary == null)
                 Debug.unityLogger.Log(LogType.Log, TAG, "Waiting for MXRManager.System.RuntimeSettingsSummary to be initialized.");
 
-            while (System.DeviceStatus == null || System.RuntimeSettingsSummary == null) {
-                Debug.unityLogger.Log("Waiting for DeviceStatus and RuntimeSettingsSummary");
+            bool hadToWait = false;
+            while (System.DeviceData == null || System.DeviceStatus == null || System.RuntimeSettingsSummary == null) {
+                hadToWait = true;
                 await Task.Delay(100);
             }
 
+            if(hadToWait)
+                Debug.unityLogger.Log(LogType.Log, TAG, "DeviceData, DeviceStatus and RuntimeSettingsSummary are now available.");
             Debug.unityLogger.Log(LogType.Log, TAG, "MXRManager finished initializing.");
             return result;
         }
