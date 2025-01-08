@@ -41,4 +41,7 @@ public class AdminAppMessageTypes {
 
     public static final int KILL_APP = 17;
     public static final int RESTART_APP = 18;
+
+    public static final int GET_DEVICE_DATA = 19;
+    public static final int DEVICE_DATA = 19000;
 }
