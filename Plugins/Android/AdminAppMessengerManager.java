@@ -131,6 +131,10 @@ public class AdminAppMessengerManager {
         return sendMessage(AdminAppMessageTypes.GET_DEVICE_STATUS);
     }
 
+    public boolean getDeviceDataAsync() {
+        return sendMessage(AdminAppMessageTypes.GET_DEVICE_DATA);
+    }
+
     public boolean enableKioskModeAsync() {
         return sendMessage(AdminAppMessageTypes.ENABLE_KIOSK_MODE);
     }
