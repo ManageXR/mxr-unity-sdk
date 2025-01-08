@@ -136,6 +136,8 @@ namespace MXR.SDK {
                 }
             }
         }
+
+        public DeviceData DeviceData { get; private set; }
         public DeviceStatus DeviceStatus { get; private set; }
         public RuntimeSettingsSummary RuntimeSettingsSummary { get; private set; }
         public WifiConnectionStatus WifiConnectionStatus { get; private set; }
@@ -143,6 +145,7 @@ namespace MXR.SDK {
 
         // INTERFACE EVENTS
         public event Action<bool> OnAvailabilityChange;
+        public event Action<DeviceData> OnDeviceDataChange;
         public event Action<DeviceStatus> OnDeviceStatusChange;
         public event Action<RuntimeSettingsSummary> OnRuntimeSettingsSummaryChange;
         public event Action<WifiConnectionStatus> OnWifiConnectionStatusChange;
@@ -327,6 +330,10 @@ namespace MXR.SDK {
             }
         }
 
+        public void RefreshDeviceData() {
+            throw new NotImplementedException();
+        }
+
         string lastDeviceStatus = string.Empty;
         public void RefreshDeviceStatus() {
             try {
@@ -450,7 +457,7 @@ namespace MXR.SDK {
                 throw new DirectoryNotFoundException("Ensure Files/MightyImmersion directory inside Unity project");
             return Path.Combine(mightyDir, fileName);
         }
-        
+
         #endregion
     }
 }

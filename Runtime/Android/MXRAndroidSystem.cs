@@ -47,12 +47,14 @@ namespace MXR.SDK {
         public bool IsConnectedToAdminApp => IsAvailable;
         public bool IsAvailable => messenger.IsBoundToService;
 
+        public DeviceData DeviceData { get; private set; }
         public DeviceStatus DeviceStatus { get; private set; }
         public RuntimeSettingsSummary RuntimeSettingsSummary { get; private set; }
         public List<ScannedWifiNetwork> WifiNetworks { get; private set; }
         public WifiConnectionStatus WifiConnectionStatus { get; private set; }
 
         public event Action<bool> OnAvailabilityChange;
+        public event Action<DeviceData> OnDeviceDataChange;
         public event Action<RuntimeSettingsSummary> OnRuntimeSettingsSummaryChange;
         public event Action<DeviceStatus> OnDeviceStatusChange;
         public event Action<List<ScannedWifiNetwork>> OnWifiNetworksChange;
@@ -379,6 +381,10 @@ namespace MXR.SDK {
             }
             else if (LoggingEnabled)
                 Debug.unityLogger.Log(LogType.Warning, TAG, "RefreshRuntimeSettings ignored. System is not available (not bound to messenger.");
+        }
+
+        public void RefreshDeviceData() {
+            throw new NotImplementedException();
         }
 
         public void RefreshDeviceStatus() {
