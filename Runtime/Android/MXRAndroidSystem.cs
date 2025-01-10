@@ -98,7 +98,8 @@ namespace MXR.SDK {
             messenger.OnBoundStatusToAdminAppChanged += x =>
                 OnAvailabilityChange?.Invoke(x);
 
-            InitializeDeviceData();
+            if(MXRAndroidUtils.IsDeviceDataSupported)
+                InitializeDeviceData();
             InitializeRuntimeSettingsSummary();
             InitializeDeviceStatus();
             RefreshWifiConnectionStatus();
