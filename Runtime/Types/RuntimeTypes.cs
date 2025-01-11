@@ -178,11 +178,16 @@ namespace MXR.SDK {
         public bool IsWifiHidden => TryGet(x => x.customLauncherSettings.hiddenSettings.wifi, false);
 
         /// <summary>
+        /// Helper property for whether the Admin settings are hidden
+        /// </summary>
+        [JsonIgnore]
+        public bool IsAdminSettingsHidden => TryGet(x => x.customLauncherSettings.hiddenSettings.adminSettings, false);
+
+        /// <summary>
         /// Helper property for whether the force passthrough setting is active or not
         /// </summary>
         [JsonIgnore]
         public bool IsPassthroughForced => TryGet(x => x.customLauncherSettings.backgroundSettings.forcePassthrough, false);
-
 
         /// <summary>
         /// Helper property for whether the controller settings are hidden
@@ -336,6 +341,7 @@ namespace MXR.SDK {
         public bool wifi;
         public bool passthrough;
         public bool brightness;
+        public bool adminSettings;
     }
     /// <summary>
     /// Settings used to configure Background Settings.
