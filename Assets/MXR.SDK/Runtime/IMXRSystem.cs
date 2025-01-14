@@ -32,6 +32,11 @@ namespace MXR.SDK {
         bool IsAvailable { get; }
 
         /// <summary>
+        /// Data associated with this device
+        /// </summary>
+        DeviceData DeviceData { get; }
+
+        /// <summary>
         /// The current status of the device
         /// </summary>
         DeviceStatus DeviceStatus { get; }
@@ -60,6 +65,11 @@ namespace MXR.SDK {
         /// Fired when the availability of system changes.
         /// </summary>
         event Action<bool> OnAvailabilityChange;
+
+        /// <summary>
+        /// Fired when the device data changes
+        /// </summary>
+        event Action<DeviceData> OnDeviceDataChange;
 
         /// <summary>
         /// Fired when the ManageXR status updates
@@ -128,6 +138,12 @@ namespace MXR.SDK {
         /// on the ManageXR dashboard
         /// </summary>
         void Sync();
+
+        /// <summary>
+        /// Requests the admin app to refresh <see cref="DeviceData"/>
+        /// If the device data has changed, <see cref="OnDeviceDataChange"/> is fired.
+        /// </summary>
+        void RefreshDeviceData();
 
         /// <summary>
         /// Refreshes <see cref="DeviceStatus"/>
