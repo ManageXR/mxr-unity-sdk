@@ -1,4 +1,4 @@
-﻿#if UNITY_ANDROID
+#if UNITY_ANDROID
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -68,6 +68,7 @@ namespace MXR.SDK {
         string lastWifiConnectionStatusJSON = string.Empty;
         string lastRuntimeSettingsSummaryJSON = string.Empty;
         string lastDeviceStatusJSON = string.Empty;
+        string lastDeviceDataJSON = string.Empty;
 
         string _cachedJsonDirectory = Path.Combine(Application.persistentDataPath, "ManageXR");
 
@@ -76,6 +77,9 @@ namespace MXR.SDK {
 
         string _cachedDeviceStatusPath =>
             Path.Combine(_cachedJsonDirectory, "deviceStatus.json");
+
+        string _cachedDeviceDataPath =>
+            Path.Combine(_cachedJsonDirectory, "deviceData.json");
 
         string _externalRuntimeSettingsSummaryFilePath =>
             MXRStorage.GetFullPath("MightyImmersion/runtimeSettingsSummary.json");
@@ -94,6 +98,7 @@ namespace MXR.SDK {
             messenger.OnBoundStatusToAdminAppChanged += x =>
                 OnAvailabilityChange?.Invoke(x);
 
+            InitializeDeviceData();
             InitializeRuntimeSettingsSummary();
             InitializeDeviceStatus();
             RefreshWifiConnectionStatus();
@@ -102,6 +107,7 @@ namespace MXR.SDK {
             int WIFI_NETWORKS = 1000;
             int WIFI_CONNECTION_STATUS = 3000;
             int RUNTIME_SETTINGS_SUMMARY = 4000;
+            int DEVICE_DATA = 19000;
             int DEVICE_STATUS = 5000;
             int HANDLE_COMMAND = 6000;
             int GET_HOME_SCREEN_STATE = 15000;
@@ -175,6 +181,20 @@ namespace MXR.SDK {
                         OnDeviceStatusChange?.Invoke(status);
                         if (LoggingEnabled)
                             Debug.unityLogger.Log(LogType.Log, TAG, "DeviceStatus updated.");
+                    }
+                }
+                else if (what == DEVICE_DATA) {
+                    if (json.Equals(lastDeviceDataJSON)) return;
+
+                    File.WriteAllText(_cachedDeviceDataPath, json);
+
+                    DeviceData data = JsonConvert.DeserializeObject<DeviceData>(json);
+                    if (data != null) {
+                        lastDeviceDataJSON = json;
+                        DeviceData = data;
+                        OnDeviceDataChange?.Invoke(data);
+                        if (LoggingEnabled)
+                            Debug.unityLogger.Log(LogType.Log, TAG, "DeviceData updated.");
                     }
                 }
                 else if (what == HANDLE_COMMAND) {
@@ -384,7 +404,13 @@ namespace MXR.SDK {
         }
 
         public void RefreshDeviceData() {
-            throw new NotImplementedException();
+            if (IsAvailable) {
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Log, TAG, "RefreshDeviceData called. Invoking over JNI: getDeviceDataAsync");
+                messenger.Call<bool>("getDeviceDataAsync");
+            }
+            else if (LoggingEnabled)
+                Debug.unityLogger.Log(LogType.Warning, TAG, "RefreshDeviceData ignored. System is not available (not bound to messenger.)");
         }
 
         public void RefreshDeviceStatus() {
@@ -532,6 +558,46 @@ namespace MXR.SDK {
             if (LoggingEnabled)
                 Debug.unityLogger.Log("Invoking RefreshRuntimeSettings to initialize RuntimeSettingsSummary using MXR Admin App");
             RefreshRuntimeSettings();
+        }
+
+        async void InitializeDeviceData() {
+            bool InitFromFile(string path) {
+                if (DeserializeFromFile(path, out string contents, out DeviceData deviceData)) {
+                    lastDeviceDataJSON = contents;
+                    DeviceData = deviceData;
+                    OnDeviceDataChange?.Invoke(deviceData);
+                    return true;
+                }
+                else
+                    return false;
+            }
+
+            string filePath = _cachedDeviceStatusPath;
+
+            // Method 1: Try to initialize using the cached json file
+            if (LoggingEnabled)
+                Debug.unityLogger.LogWarning(TAG, "Checking if DeviceData can be initialized using the cached json file.");
+
+            if (InitFromFile(filePath)) {
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(TAG, "Initialized DeviceData using cached json file. ");
+                return;
+            }
+
+            // Method 2: If initialization using cached json fails, we wait for the SDK to get connected
+            // to the admin app and then request a DeviceData refresh
+            string msg = "Cannot initialize DeviceData using cached json file.";
+            if (!IsConnectedToAdminApp)
+                msg += "Waiting for MXR Admin App connection to send it a DeviceData refresh request.";
+            if (LoggingEnabled)
+                Debug.unityLogger.LogWarning(TAG, msg);
+
+            while (!IsConnectedToAdminApp)
+                await Task.Delay(100);
+
+            if (LoggingEnabled)
+                Debug.unityLogger.Log("Invoking RefreshDeviceData to initialize DeviceData using MXR Admin App");
+            RefreshDeviceData();
         }
 
         async void InitializeDeviceStatus() {
