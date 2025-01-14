@@ -5,6 +5,11 @@ using UnityEngine;
 namespace MXR.SDK {
     public static partial class MXRAndroidUtils {
         /// <summary>
+        /// The minimum Admin App version that supports the <see cref="DeviceData"/> features
+        /// </summary>
+        public static Version MinAdminAppVersionSupportingDeviceData => new Version(1, 7, 74);
+
+        /// <summary>
         /// Gets the class name using the package name of an app
         /// </summary>
         /// <param name="pkgName"></param>
@@ -92,14 +97,65 @@ namespace MXR.SDK {
         public static void LaunchIntentAction(string intentAction) =>
             NativeUtils.SafeCall<bool>("launchIntentAction", intentAction);
 
+        /// <summary>
+        /// The package name of the Admin App installed on an Android device
+        /// </summary>
+        /// <returns>Returns null if unsuccessful</returns>
+        public static string GetAdminAppPackageName() {
+            if(NativeUtils != null)
+                return NativeUtils.SafeCall<string>("getInstalledAdminAppPackageName");
+            return null;
+        }
 
-        public static string GetAdminAppPackageName() =>
-            NativeUtils.SafeCall<string>("getInstalledAdminAppPackageName");
-
+        /// <summary>
+        /// The version code of the Admin App installed on an Android device
+        /// </summary>
+        /// <returns>Returns -1 if unsuccessful</returns>
         public static int GetAdminAppVersionCode() {
             if (NativeUtils != null)
                 return NativeUtils.SafeCall<int>("getInstalledAdminAppVersionCode");
             return -1;
+        }
+
+        /// <summary>
+        /// The version name string of the Admin App installed on an Android device
+        /// </summary>
+        /// <returns>Returns null if unsuccessful</returns>
+        public static string GetAdminAppVersionName() {
+            if (NativeUtils != null)
+                return NativeUtils.SafeCall<string>("getInstalledAdminAppVersionName");
+            return null;
+        }
+
+        /// <summary>
+        /// The <see cref="Version"/> of the Admin App installed on an Android device
+        /// </summary>
+        /// <returns>Returns null if the version name of the installed Admin App could not be retrieved
+        /// or if the retrieved value is invalid.
+        /// </returns>
+        public static Version GetAdminAppVersion() {
+            var versionName = GetAdminAppVersionName();
+            if (versionName == null)
+                return null;
+
+            // The version name may have a hyphen, e.g. "1.0.0-test"
+            var versionString = versionName.Split('-')[0];
+            if (Version.TryParse(versionString, out var version)) 
+                return version;
+            return null;
+        }
+
+        /// <summary>
+        /// Whether the Admin App installed on an Android device supports the <see cref="DeviceData"/> features
+        /// </summary>
+        /// <returns>Returns false if the version of the installed Admin App could not be retrieved</returns>
+        public static bool IsDeviceDataSupported {
+            get {
+                var version = GetAdminAppVersion();
+                if (version == null)
+                    return false;
+                return version >= MinAdminAppVersionSupportingDeviceData;
+            }
         }
 
         /// <summary>

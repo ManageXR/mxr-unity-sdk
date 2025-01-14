@@ -250,6 +250,27 @@ public class NativeUtils {
         }
     }
 
+    public String getInstalledAdminAppVersionName() {
+        try {
+            PackageManager pm = mContext.getPackageManager();
+            List<PackageInfo> packages = pm.getInstalledPackages(0);
+
+            String adminAppPackageName = getInstalledAdminAppPackageName();
+            if (adminAppPackageName == null) return null;
+
+            for (PackageInfo packageInfo : packages) {
+                if (!packageInfo.packageName.equals(adminAppPackageName)) continue;
+
+                return packageInfo.versionName;
+            }
+
+            return null;
+        } catch (Exception e) {
+            Log.e("NativeUtils", e.toString());
+            return null;
+        }
+    }
+
     public String getSystemProperty(String key) {
         String result = "";
         try {

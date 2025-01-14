@@ -71,9 +71,11 @@ namespace MXR.SDK {
                 Debug.unityLogger.Log("Waiting to connect to Admin App");
                 await Task.Delay(100);
             }
-
+            
             // Next we wait for the DeviceData, DeviceStatus and RuntimeSettingsSummary to become non null.
-            if (System.DeviceData == null)
+            if (!MXRAndroidUtils.IsDeviceDataSupported) 
+                Debug.unityLogger.Log(LogType.Log, TAG, $"{MXRAndroidUtils.GetAdminAppVersionName()} does not support DeviceData");
+            else if (System.DeviceData == null)
                 Debug.unityLogger.Log(LogType.Log, TAG, "Waiting for MXRManager.System.DeviceData to be initialized.");
 
             if (System.DeviceStatus == null)
@@ -83,7 +85,9 @@ namespace MXR.SDK {
                 Debug.unityLogger.Log(LogType.Log, TAG, "Waiting for MXRManager.System.RuntimeSettingsSummary to be initialized.");
 
             bool hadToWait = false;
-            while (System.DeviceData == null || System.DeviceStatus == null || System.RuntimeSettingsSummary == null) {
+            while ((MXRAndroidUtils.IsDeviceDataSupported && System.DeviceData == null)
+            || System.DeviceStatus == null 
+            || System.RuntimeSettingsSummary == null) {
                 hadToWait = true;
                 await Task.Delay(100);
             }
