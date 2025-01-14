@@ -130,10 +130,15 @@ namespace MXR.SDK {
         /// <summary>
         /// The <see cref="Version"/> of the Admin App installed on an Android device
         /// </summary>
-        /// <returns>Returns null if the version name of the installed Admin App could not be retrieved
+        /// <returns>
+        /// Returns null in the Unity Editor
+        /// On Android, returns null if the version name of the installed Admin App could not be retrieved
         /// or if the retrieved value is invalid.
         /// </returns>
         public static Version GetAdminAppVersion() {
+            if (Application.isEditor)
+                return null;
+
             var versionName = GetAdminAppVersionName();
             if (versionName == null)
                 return null;
@@ -148,9 +153,17 @@ namespace MXR.SDK {
         /// <summary>
         /// Whether the Admin App installed on an Android device supports the <see cref="DeviceData"/> features
         /// </summary>
-        /// <returns>Returns false if the version of the installed Admin App could not be retrieved</returns>
+        /// <returns>
+        /// Returns true in the Unity Editor.
+        /// On Android, returns false if the version of the installed Admin App could not be retrieved 
+        /// or if the version is below <see cref="MinAdminAppVersionSupportingDeviceData"/>
+        /// </returns>
         public static bool IsDeviceDataSupported {
             get {
+                // When on the editor, we simulate DeviceData using deviceData.json included in the samples
+                if (Application.isEditor)
+                    return true;
+
                 var version = GetAdminAppVersion();
                 if (version == null)
                     return false;
