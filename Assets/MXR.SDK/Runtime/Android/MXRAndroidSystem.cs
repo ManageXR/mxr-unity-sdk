@@ -573,7 +573,7 @@ namespace MXR.SDK {
                     return false;
             }
 
-            string filePath = _cachedDeviceStatusPath;
+            string filePath = _cachedDeviceDataPath;
 
             // Method 1: Try to initialize using the cached json file
             if (LoggingEnabled)
