@@ -94,7 +94,14 @@ namespace MXR.SDK {
 
             if(hadToWait)
                 Debug.unityLogger.Log(LogType.Log, TAG, "DeviceData, DeviceStatus and RuntimeSettingsSummary are now available.");
-            Debug.unityLogger.Log(LogType.Log, TAG, "MXRManager finished initializing.");
+
+            Debug.unityLogger.Log(LogType.Log, TAG, "MXRManager finished initializing. " +
+                "Refreshing DeviceData, RuntimeSettingsSummary and DeviceStatus.");
+
+            System.RefreshDeviceData();
+            System.RefreshRuntimeSettings();
+            System.RefreshDeviceStatus();
+
             return result;
         }
 
