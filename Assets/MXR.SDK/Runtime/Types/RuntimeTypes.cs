@@ -178,6 +178,12 @@ namespace MXR.SDK {
         public bool IsWifiHidden => TryGet(x => x.customLauncherSettings.hiddenSettings.wifi, false);
 
         /// <summary>
+        /// Helper property for whether the screen recording icon is hidden
+        /// </summary>
+        [JsonIgnore]
+        public bool IsScreenRecordingHidden => TryGet(x => x.customLauncherSettings.hiddenSettings.screenRecording, false);
+
+        /// <summary>
         /// Helper property for whether the Admin settings are hidden
         /// </summary>
         [JsonIgnore]
@@ -341,6 +347,7 @@ namespace MXR.SDK {
         public bool wifi;
         public bool passthrough;
         public bool brightness;
+        public bool screenRecording;
         public bool adminSettings;
     }
     /// <summary>
