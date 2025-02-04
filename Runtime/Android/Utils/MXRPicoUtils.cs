@@ -15,9 +15,20 @@ namespace MXR.SDK {
             if (MXRAndroidUtils.IsPicoDevice)
                 LaunchIntentAction("com.mightyimmersion.mightylibrary.intent.action.OPEN_SYSTEM_UPDATE");
             else
-                Debug.unityLogger.LogWarning(TAG, "Not running on a Pico device. Ignoring PicoUtils.OpenSystemUpdateUI()");
+                Debug.unityLogger.LogWarning(TAG, "Not running on a Pico device. Ignoring MXRPicoUtils.OpenSystemUpdateUI()");
         }
 
+        /// <summary>
+        /// Opens the Pico General Settings UI.
+        /// Ignored when called on a non Pico device
+        /// </summary>
+        public static void OpenSettingsUI() {
+            if (MXRAndroidUtils.IsPicoDevice)
+                LaunchIntentAction("pui.settings.action.GENERAL_SETTINGS");
+            else
+                Debug.unityLogger.LogWarning(TAG, "Not running on a Pico device. Ignoring MXRPicoUtils.OpenSettingsUI()");
+        }
+        
         /// <summary>
         /// Returns Pico's PUI version. 
         /// Always returns "0.0.0" on non Pico device
@@ -27,12 +38,27 @@ namespace MXR.SDK {
                 if (MXRAndroidUtils.IsPicoDevice)
                     return MXRAndroidUtils.AndroidOSBuild.SafeGetStatic<string>("DISPLAY");
                 else {
-                    Debug.unityLogger.LogWarning(TAG, "Not running on a Pico device. PicoUtils.PUIVersion returning 0.0.0");
+                    Debug.unityLogger.LogWarning(TAG, "Not running on a Pico device. MXRPicoUtils.PUIVersion returning 0.0.0");
                     return "0.0.0";
                 }
             }
         }
 
+        /// <summary>
+        /// Returns if current Pico UI version is 5.x.x 
+        /// Always returns false on non Pico device
+        /// </summary>
+        public static bool IsPUI5 {
+            get {
+                if(MXRAndroidUtils.IsPicoDevice)
+                    return PUIVersion.StartsWith("5");
+                else {
+                    Debug.unityLogger.LogWarning(TAG, "Not running on a Pico device. MXRPicoUtils.IsPUI5 returning false");
+                    return false;
+                }
+            }
+        }
+        
         /// <summary>
         /// Returns if current Pico UI version is 4.x.x 
         /// Always returns false on non Pico device
@@ -42,7 +68,7 @@ namespace MXR.SDK {
                 if(MXRAndroidUtils.IsPicoDevice)
                     return PUIVersion.StartsWith("4");
                 else {
-                    Debug.unityLogger.LogWarning(TAG, "Not running on a Pico device. PicoUtils.IsPUI4 returning false");
+                    Debug.unityLogger.LogWarning(TAG, "Not running on a Pico device. MXRPicoUtils.IsPUI4 returning false");
                     return false;
                 }
             }
