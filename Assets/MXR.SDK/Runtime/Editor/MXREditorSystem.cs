@@ -62,6 +62,13 @@ namespace MXR.SDK {
             var data = command.data;
 
             switch (command.action) {
+                case Command.LAUNCH_ACTION:
+                    if (LoggingEnabled)
+                        Debug.unityLogger.Log(LogType.Log, TAG, "Launch App Command received. " + JsonUtility.ToJson(command));
+                    var launchCommandData = JsonUtility.FromJson<LaunchMXRHomeScreenCommandData>(command.data);
+                    if (launchCommandData != null)
+                        OnLaunchMXRHomeScreenCommand?.Invoke(launchCommandData);
+                    break;
                 case Command.PLAY_VIDEO_ACTION:
                     if (LoggingEnabled)
                         Debug.unityLogger.Log(LogType.Log, TAG, "Play Video Command received. " + JsonUtility.ToJson(command));
@@ -150,6 +157,7 @@ namespace MXR.SDK {
         public event Action<RuntimeSettingsSummary> OnRuntimeSettingsSummaryChange;
         public event Action<WifiConnectionStatus> OnWifiConnectionStatusChange;
         public event Action<List<ScannedWifiNetwork>> OnWifiNetworksChange;
+        public event Action<LaunchMXRHomeScreenCommandData> OnLaunchMXRHomeScreenCommand;
         public event Action<PlayVideoCommandData> OnPlayVideoCommand;
         public event Action<PauseVideoCommandData> OnPauseVideoCommand;
         public event Action<ResumeVideoCommandData> OnResumeVideoCommand;

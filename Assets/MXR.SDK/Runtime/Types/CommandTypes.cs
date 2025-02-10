@@ -22,6 +22,11 @@ namespace MXR.SDK {
         /// The action string used for Resume Video commands
         /// </summary>
         public const string RESUME_VIDEO_ACTION = "RESUME_VIDEO";
+        
+        /// <summary>
+        /// The action string used for Launching the MXR Home Screen to a specific view/location. 
+        /// </summary>
+        public const string LAUNCH_ACTION = "LAUNCH_APP";
 
         /// <summary>
         /// The action for this command, used to distinguish
@@ -46,16 +51,25 @@ namespace MXR.SDK {
     }
 
     /// <summary>
-    /// The data ssociated with a command when the 
+    /// The data associated with a command when the 
     /// action is <see cref="Command.PAUSE_VIDEO_ACTION"/>
     /// </summary>
     [Serializable]
     public class PauseVideoCommandData { }
 
-        /// <summary>
-    /// The data ssociated with a command when the 
+    /// <summary>
+    /// The data associated with a command when the 
     /// action is <see cref="Command.RESUME_VIDEO_ACTION"/>
     /// </summary>
     [Serializable]
     public class ResumeVideoCommandData { }
+        
+    /// <summary>
+    /// The data associated with a command 
+    /// when the action is <see cref="Command.LAUNCH_ACTION"/>
+    /// </summary>
+    [Serializable]
+    public class LaunchMXRHomeScreenCommandData {
+        public string launchLocation;
+    }
 }

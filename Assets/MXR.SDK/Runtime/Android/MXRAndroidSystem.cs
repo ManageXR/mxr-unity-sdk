@@ -62,6 +62,7 @@ namespace MXR.SDK {
         public event Action<PlayVideoCommandData> OnPlayVideoCommand;
         public event Action<PauseVideoCommandData> OnPauseVideoCommand;
         public event Action<ResumeVideoCommandData> OnResumeVideoCommand;
+        public event Action<LaunchMXRHomeScreenCommandData> OnLaunchMXRHomeScreenCommand;
         public event Action OnHomeScreenStateRequest;
 
         string lastWifiNetworksJSON = string.Empty;
@@ -131,7 +132,7 @@ namespace MXR.SDK {
                     JObject obj = JObject.Parse((string)token);
                     json = obj.ToString();
                 }
-
+                
                 if (what == WIFI_NETWORKS) {
                     if (json.Equals(lastWifiNetworksJSON)) return;
 
@@ -225,7 +226,7 @@ namespace MXR.SDK {
         void TryExecuteIntentCommands() {
             if (LoggingEnabled)
                 Debug.unityLogger.Log(LogType.Log, TAG, "Checking for intent commands");
-
+            
             if (!MXRAndroidUtils.HasIntentExtra("intentId")) {
                 if (LoggingEnabled)
                     Debug.unityLogger.Log(LogType.Log, TAG, "No 'intentId' key found in intent extras.");
@@ -237,7 +238,7 @@ namespace MXR.SDK {
                     Debug.unityLogger.Log(LogType.Log, TAG, "No 'action' key found in intent extras.");
                 return;
             }
-
+            
             var action = MXRAndroidUtils.GetIntentStringExtra("action");
             if (!action.Equals("PLAY_VIDEO")) {
                 if (LoggingEnabled)
@@ -285,6 +286,13 @@ namespace MXR.SDK {
                 var data = command["data"].ToString();
 
                 switch (action) {
+                    case Command.LAUNCH_ACTION:
+                        var launchCommandData = JsonUtility.FromJson<LaunchMXRHomeScreenCommandData>(data);
+                        if (launchCommandData != null)
+                            OnLaunchMXRHomeScreenCommand?.Invoke(launchCommandData);
+                        else if (LoggingEnabled)
+                            Debug.unityLogger.Log(LogType.Error, TAG, "Could not deserialize command data string.");
+                        break;
                     case Command.PLAY_VIDEO_ACTION:
                         var playVideoCommandData = JsonUtility.FromJson<PlayVideoCommandData>(data);
                         if (playVideoCommandData != null)
