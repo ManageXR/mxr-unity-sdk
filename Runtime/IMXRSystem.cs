@@ -92,6 +92,11 @@ namespace MXR.SDK {
         event Action<List<ScannedWifiNetwork>> OnWifiNetworksChange;
 
         /// <summary>
+        /// Event fired when a Launch App command is received, specific to the MXR Home Screen.
+        /// </summary>
+        event Action<LaunchMXRHomeScreenCommandData> OnLaunchMXRHomeScreenCommand;
+        
+        /// <summary>
         /// Event fired when a Play Video command is received
         /// </summary>
         event Action<PlayVideoCommandData> OnPlayVideoCommand;
