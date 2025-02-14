@@ -502,6 +502,11 @@ namespace MXR.SDK {
     [Serializable]
     public class PanelSettings {
         public CategoriesPosition categoriesPosition = CategoriesPosition.TOP;
+
+        /// <summary>
+        /// A list of ordered categories
+        /// </summary>
+        public List<string> orderedCategories = new List<string>();
     }
 
     /// <summary>
@@ -517,7 +522,11 @@ namespace MXR.SDK {
         /// <summary>
         /// Categories are shown at the top of the library panel
         /// </summary>
-        TOP
+        TOP,
+        /// <summary>
+        /// Categories are shown at the left of the library panel
+        /// </summary>
+        LEFT
     }
 
     /// <summary>
