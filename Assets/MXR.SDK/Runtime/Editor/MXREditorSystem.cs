@@ -196,6 +196,11 @@ namespace MXR.SDK {
             }
         }
 
+        public void OverrideKioskApp(string packageName) {
+            if (LoggingEnabled)
+                Debug.unityLogger.Log(LogType.Log, TAG, "Kiosk App set");
+        }
+
         public void KillApp(string packageName) {
             if (LoggingEnabled)
                 Debug.unityLogger.Log(LogType.Log, TAG, "Killed App");

@@ -143,6 +143,10 @@ public class AdminAppMessengerManager {
         return sendMessage(AdminAppMessageTypes.DISABLE_KIOSK_MODE);
     }
 
+    public boolean overrideKioskAppAsync(String packageName) {
+        return sendMessage(AdminAppMessageTypes.OVERRIDE_KIOSK_APP, "{\"packageName\":\""+packageName+"\"}");
+    }
+
     public boolean exitLauncherAsync() {
         return sendMessage(AdminAppMessageTypes.EXIT_LAUNCHER);
     }
