@@ -28,7 +28,8 @@ namespace MXR.SDK.Editor {
             Debug.unityLogger.Log(LogType.Log, TAG, "Getting dependencies of scene at " + scenePath);
 
             var dependencies = AssetDatabase.GetDependencies(new string[] { scenePath })
-                .Where(x => !x.EndsWith(".cs"));
+                .Where(x => !x.EndsWith(".cs"))
+                .Where(x => !x.EndsWith(".shader"));
 
             if (dependencies.Count() > 0) {
                 StringBuilder sb = new StringBuilder();
@@ -39,16 +40,16 @@ namespace MXR.SDK.Editor {
             }
 
             // Identify the scenes and create an asset bundle build object
-            var scenes = dependencies.Where(x => x.EndsWith(".unity")).ToArray();
-            AssetBundleBuild sceneBuild = new AssetBundleBuild();
-            sceneBuild.assetBundleName = SCENE_ASSETBUNDLE_NAME;
-            sceneBuild.assetNames = scenes;
+            AssetBundleBuild sceneBuild = new AssetBundleBuild {
+                assetBundleName = SCENE_ASSETBUNDLE_NAME,
+                assetNames = dependencies.Where(x => x.EndsWith(".unity")).ToArray()
+            };
 
             // Identify the assets and create an asset bundle build object
-            var assets = dependencies.Where(x => !x.EndsWith(".unity")).ToArray();
-            AssetBundleBuild assetsBuild = new AssetBundleBuild();
-            assetsBuild.assetBundleName = ASSETS_ASSETBUNDLE_NAME;
-            assetsBuild.assetNames = assets;
+            AssetBundleBuild assetsBuild = new AssetBundleBuild {
+                assetBundleName = ASSETS_ASSETBUNDLE_NAME,
+                assetNames = dependencies.Where(x => !x.EndsWith(".unity")).ToArray()
+            };
 
             // Create a export directory for the asset bundle export.
             // If the mxrus file destination is /exports/myscene.mxrus
@@ -65,15 +66,21 @@ namespace MXR.SDK.Editor {
             var manifest = BuildPipeline.BuildAssetBundles(
                 exportDir,
                 new AssetBundleBuild[] { sceneBuild, assetsBuild },
-                BuildAssetBundleOptions.None,
+                BuildAssetBundleOptions.AssetBundleStripUnityVersion | BuildAssetBundleOptions.ForceRebuildAssetBundle,
                 buildTarget
             );
 
+            string message;
             var buildReport = GetLatestBuildReport();
             if (manifest == null) {
-                Debug.unityLogger.Log(LogType.Error, TAG, "mxrus file export failed. " + buildReport?.GetStepsSummary());
+                message = "mxrus file export failed. ";
+                if (buildReport != null)
+                    message += buildReport.GetStepsSummary();
+                Debug.unityLogger.Log(LogType.Error, TAG, message);
                 return null;
             }
+
+            File.WriteAllText(Path.Combine(exportDir, "files.txt"), string.Join("\n", dependencies));
 
             // Compress the export directory to a .mxrus file and delete the export 
             // directory if required.
@@ -83,7 +90,10 @@ namespace MXR.SDK.Editor {
             else
                 Debug.unityLogger.Log(LogType.Log, TAG, "Exported asset bundles and manifests to " + exportDir);
 
-            Debug.unityLogger.Log(LogType.Log, TAG, $"Exported .mxrus to {outputFilePath}. {buildReport?.GetStepsSummary()}");
+            message = $"Exported .mxrus to {outputFilePath}. ";
+            if (buildReport != null)
+                message += buildReport.GetStepsSummary();
+            Debug.unityLogger.Log(LogType.Log, TAG, message);
             return buildReport;
         }
 
