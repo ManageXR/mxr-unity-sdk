@@ -24,7 +24,10 @@ namespace MXR.SDK.Editor {
         public static void ExportScene(string scenePath, string outputFilePath, BuildTarget buildTarget = BuildTarget.Android, bool deleteExportDir = true) {
             // Get all the dependencies of the scene
             Debug.unityLogger.Log(LogType.Log, TAG, "Getting dependencies of scene at " + scenePath);
-            var dependencies = AssetDatabase.GetDependencies(new string[] { scenePath });
+
+            var dependencies = AssetDatabase.GetDependencies(new string[] { scenePath })
+                .Where(x => !x.EndsWith(".cs"));
+
             if(dependencies.Count() > 0) {
                 StringBuilder sb = new StringBuilder();
                 sb.Append("Dependency list:");
