@@ -452,6 +452,18 @@ namespace MXR.SDK {
                 Debug.unityLogger.Log(LogType.Warning, TAG, "DisableKioskMode ignored. System is not available (not bound to messenger.");
         }
 
+        public void OverrideKioskApp(string packageName) {
+            packageName = EscapeStringToJsonString(packageName);
+            
+            if (messenger.IsBoundToService) {
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Log, TAG, "OverrideKioskApp called. Invoking over JNI: overrideKioskAppAsync");
+                messenger.Call<bool>("overrideKioskAppAsync", packageName);
+            }
+            else if (LoggingEnabled)
+                Debug.unityLogger.Log(LogType.Warning, TAG, "OverrideKioskApp ignored. System is not available (not bound to messenger).");
+        }
+
         public void KillApp(string packageName) {
             packageName = EscapeStringToJsonString(packageName);
 

@@ -127,6 +127,10 @@ namespace MXR.SDK {
         /// </summary>
         void EnableKioskMode();
 
+        /// <summary>
+        /// Sets the Kiosk app on the device
+        /// </summary>
+        void OverrideKioskApp(string packageName);
 
         /// <summary>
         /// Kills the running application with packageName.

@@ -44,4 +44,6 @@ public class AdminAppMessageTypes {
 
     public static final int GET_DEVICE_DATA = 19;
     public static final int DEVICE_DATA = 19000;
+
+    public static final int OVERRIDE_KIOSK_APP = 20;
 }
