@@ -316,6 +316,54 @@ namespace MXR.SDK {
         /// The theme to be used for the homescreen
         /// </summary>
         public CustomHomeScreenColors colors = new CustomHomeScreenColors();
+
+        /// <summary>
+        /// The environment deployed with the configuration to be used in the homescreen, if any.
+        /// </summary>
+        public EnvironmentFile environmentFile;
+    }
+
+    /// <summary>
+    /// 3D Environment data
+    /// </summary>
+    [Serializable]
+    public class EnvironmentFile {
+        /// <summary>
+        /// The unique ID of the environment file.
+        /// </summary>
+        public string id = string.Empty;
+
+        /// <summary>
+        /// The name of the environment file. 
+        /// This value would be same for all environments and is largely used for logging.
+        /// </summary>
+        public string name = string.Empty;
+
+        /// <summary>
+        /// The local path to the environment file.
+        /// Use this to load the environment at runtime.
+        /// </summary>
+        public string path = string.Empty;
+
+        /// <summary>
+        /// The size of the environment file (in bytes)
+        /// </summary>
+        public long size = 0;
+
+        /// <summary>
+        /// The type of the environment file
+        /// </summary>
+        public EnvironmentType type = EnvironmentType.MXRUS;
+    }
+
+    /// <summary>
+    /// The environment file type
+    /// </summary>
+    public enum EnvironmentType {
+        /// <summary>
+        /// The ManageXR .mxrus file based on AssetBundle
+        /// </summary>
+        MXRUS
     }
 
     /// <summary>
