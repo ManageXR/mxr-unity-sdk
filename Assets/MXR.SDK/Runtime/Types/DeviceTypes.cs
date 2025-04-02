@@ -6,6 +6,7 @@ namespace MXR.SDK {
         public long availableStorage;
         public long totalStorage;
         public bool isQfbDevice;
+        public bool isOemKiosk;
         public string firmwareVersion;
         public string model;
         public string manufacturer;
