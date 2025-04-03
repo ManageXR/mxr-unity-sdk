@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 
 using Cysharp.Threading.Tasks;
@@ -68,9 +68,14 @@ namespace MXR.SDK {
         public string SourceFilePath { get; private set; }
 
         /// <summary>
-        /// Gets the scene inside the <see cref="SCENE_ASSETBUNDLE_NAME"/> AssetBundle in the mxrus file
+        /// Returns whether the mxrus file has a scene that can be loaded
         /// </summary>
-        public Scene? Scene {
+        public bool HasScene => !string.IsNullOrEmpty(ScenePath);
+
+        /// <summary>
+        /// Gets the path to the scene inside the <see cref="SCENE_ASSETBUNDLE_NAME"/> AssetBundle in the mxrus file
+        /// </summary>
+        public string ScenePath {
             get {
                 if (!_bundles.ContainsKey(SCENE_ASSETBUNDLE_NAME)) {
                     Debug.unityLogger.Log(LogType.Error, TAG, "scene asset bundle not loaded");
@@ -82,8 +87,8 @@ namespace MXR.SDK {
                     Debug.unityLogger.Log(LogType.Error, TAG, "There are no scenes in scene bundle");
                     return null;
                 }
-                var path = sceneBundle.GetAllScenePaths()[0];
-                return SceneManager.GetSceneByPath(path);
+
+                return sceneBundle.GetAllScenePaths()[0];
             }
         }
 
