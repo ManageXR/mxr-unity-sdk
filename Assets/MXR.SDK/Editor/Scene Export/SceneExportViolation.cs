@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 namespace MXR.SDK.Editor {
-    public class Violation {
+    public class SceneExportViolation {
         /// <summary>
         /// Enumerates all the difference kind of violations 
         /// a scene can have that can prevent or affect export.
@@ -47,7 +47,7 @@ namespace MXR.SDK.Editor {
         public string Description { get; private set; }
         public Object Object { get; private set; }
 
-        public Violation(Types type, bool isWarning, string description, Object obj) {
+        public SceneExportViolation(Types type, bool isWarning, string description, Object obj) {
             Type = type;
             IsWarning = isWarning;
             Description = description;
