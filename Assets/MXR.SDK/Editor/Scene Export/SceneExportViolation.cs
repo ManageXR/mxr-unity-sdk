@@ -43,13 +43,13 @@ namespace MXR.SDK.Editor {
         }
 
         public Types Type { get; private set; }
-        public bool IsWarning { get; private set; }
+        public bool PreventsExport { get; private set; }
         public string Description { get; private set; }
         public Object Object { get; private set; }
 
-        public SceneExportViolation(Types type, bool isWarning, string description, Object obj) {
+        public SceneExportViolation(Types type, bool preventsExport, string description, Object obj) {
             Type = type;
-            IsWarning = isWarning;
+            PreventsExport = preventsExport;
             Description = description;
             Object = obj;
         }

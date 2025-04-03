@@ -97,7 +97,7 @@ namespace MXR.SDK.Editor {
             if (_violations.Count == 0)
                 Label("Scene validated. No issues found. You can export this scene");
 
-            if (_violations.Where(x => !x.IsWarning).Count() == 0) {
+            if (_violations.Where(x => x.PreventsExport).Count() == 0) {
                 GUILayout.Space(10);
                 _keepExportDir = GUILayout.Toggle(_keepExportDir, "Keep intermediate export directory");
                 GUILayout.Space(10);
@@ -108,12 +108,12 @@ namespace MXR.SDK.Editor {
                     _violations = new SceneExportValidator().Validate();
                     if (_violations.Count > 0) {
                         // If there are export preventing violations, return
-                        if (_violations.Where(x => !x.IsWarning).Count() > 0)
+                        if (_violations.Where(x => x.PreventsExport).Count() > 0)
                             return;
 
                         // If there are violations that don't prevent export,
                         // confirm if the user still wants to go ahead.
-                        if (_violations.Where(x => x.IsWarning).Count() > 0) {
+                        if (_violations.Where(x => !x.PreventsExport).Count() > 0) {
                             var resp = EditorUtility.DisplayDialog(
                                 "MXR Scene Export",
                                 "Your scene has some issues. Are you sure you want to export?",
@@ -182,7 +182,7 @@ namespace MXR.SDK.Editor {
             for (int i = 0; i < violationTypes.Count(); i++) {
                 // Print the violation description
                 var first = _violations.First(x => x.Type == violationTypes[i]);
-                if (first.IsWarning)
+                if (!first.PreventsExport)
                     Label((i + 1) + ". " + first.Description, FONT_SIZE_H2);
                 else
                     Label((i + 1) + ". " + first.Description, Color.red, FONT_SIZE_H2);
