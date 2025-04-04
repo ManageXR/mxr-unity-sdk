@@ -1,0 +1,15 @@
+{
+    "name": "com.mxr.unity.sdk.mxrus.editor",
+    "references": [
+        "GUID:0a6056b72db1f26499a3860e9a71e042"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
