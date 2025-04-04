@@ -104,6 +104,7 @@ namespace MXR.SDK.Editor {
             var allowedAssemblies = new string[] {
                 "Unity.TextMeshPro",
                 "Unity.RenderPipelines.Universal.Runtime",
+                "UnityEngine.UI",
                 "com.mxr.unity.sdk.mxrus.embeddings"
             };
 
