@@ -39,7 +39,17 @@ namespace MXR.SDK.Editor {
             /// If the scene has an EventSystem. The homescreen has its own and it doesn't
             /// allow another.
             /// </summary>
-            EventSystemFound
+            EventSystemFound,
+
+            /// <summary>
+            /// The the scene doesn't have any defined user area
+            /// </summary>
+            NoUserAreaProviderFound,
+
+            /// <summary>
+            /// If multiple user areas are defined in the scene.
+            /// </summary>
+            MultipleUserAreaProvidersFound
         }
 
         public Types Type { get; private set; }
