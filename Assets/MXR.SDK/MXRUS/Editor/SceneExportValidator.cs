@@ -26,6 +26,10 @@ namespace MXR.SDK.Editor {
             violations.AddRange(GetLightViolations());
             violations.AddRange(GetEventSystemViolations());
 
+            var userAreaViolations = GetUserAreaViolations();
+            if (userAreaViolations != null)
+                violations.AddRange(GetUserAreaViolations());
+
             return violations;
         }
 
@@ -90,28 +94,29 @@ namespace MXR.SDK.Editor {
 
         /// <summary>
         /// Checks and ensures the scene doesn't use any custom scripts. 
-        /// Only scripts in the following DLLs are supported:
-        /// Unity.TextMeshPro.dll
-        /// UnityEngine.UI.dll
-        /// Unity.RenderPipelines.Universal.Runtime.dll
+        /// Only scripts in the following assemblies are supported:
+        /// - Unity.TextMeshPro
+        /// - Unity.RenderPipelines.Universal.Runtime
+        /// - com.mxr.unity.sdk.mxrus-embeddings
         /// </summary>
         /// <returns></returns>
         private List<SceneExportViolation> GetScriptViolations() {
-            var supportedDLLs = new string[]{
-                "Unity.TextMeshPro.dll",
-                "UnityEngine.UI.dll",
-                "Unity.RenderPipelines.Universal.Runtime.dll"
+            var allowedAssemblies = new string[] {
+                "Unity.TextMeshPro",
+                "Unity.RenderPipelines.Universal.Runtime",
+                "com.mxr.unity.sdk.mxrus.embeddings"
             };
-            var unsupportedComponents = Object.FindObjectsOfType<MonoBehaviour>()
+
+            var unsupportedMonoBehaviours = Object.FindObjectsOfType<MonoBehaviour>()
                 .Where(x => {
-                    var codeBasePath = x.GetType().Assembly.Location;
-                    var codeBaseFileName = Path.GetFileName(codeBasePath);
-                    return !supportedDLLs.Contains(codeBaseFileName);
+                    var assemblyName = x.GetType().Assembly.GetName().Name;
+                    return !allowedAssemblies.Contains(assemblyName);
                 });
-            return unsupportedComponents.Select(x => new SceneExportViolation(
+
+            return unsupportedMonoBehaviours.Select(x => new SceneExportViolation(
                 SceneExportViolation.Types.CustomScriptFound,
                 true,
-                "Custom scripts/components are not supported. Please remove them from the scene.",
+                "Custom scripts/components are not supported. Please remove or disable the gameobjects on the scene referencing them.",
                 x
             )).ToList();
         }
@@ -161,6 +166,33 @@ namespace MXR.SDK.Editor {
                 "There cannot be an EventSystem on the scene. Please remove them from the scene.",
                 x
             )).ToList();
+        }
+
+        /// <summary>
+        /// Checks and ensures there is one MonoUserAreaProvider on the scene.
+        /// </summary>
+        /// <returns></returns>
+        private List<SceneExportViolation> GetUserAreaViolations() {
+            var userAreas = Object.FindObjectsOfType<MonoUserAreaProvider>();
+            if (userAreas.Length == 0)
+                return new List<SceneExportViolation> {
+                    new SceneExportViolation (
+                        SceneExportViolation.Types.NoUserAreaProviderFound,
+                        true,
+                        "No MonoUserAreaProvider component found on the scene.",
+                        null
+                    )
+                };
+            else if (userAreas.Length > 1) {
+                return userAreas.Select(x => new SceneExportViolation(
+                    SceneExportViolation.Types.MultipleUserAreaProvidersFound,
+                    true,
+                    "Multiple MonoUserAreaProvider components found on the scene. Ensure only one is present.",
+                    x
+                ))
+                .ToList();
+            }
+            return null;
         }
     }
 }
