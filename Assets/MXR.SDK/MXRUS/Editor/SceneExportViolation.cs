@@ -42,12 +42,12 @@ namespace MXR.SDK.Editor {
             EventSystemFound,
 
             /// <summary>
-            /// The the scene doesn't have any defined user area
+            /// If the scene doesn't have any user area provider
             /// </summary>
             NoUserAreaProviderFound,
 
             /// <summary>
-            /// If multiple user areas are defined in the scene.
+            /// If the scene has multiple user area providers
             /// </summary>
             MultipleUserAreaProvidersFound
         }

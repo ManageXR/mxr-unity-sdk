@@ -1,9 +1,6 @@
 {
-    "name": "com.mxr.unity.sdk.mxrus.editor",
-    "references": [
-        "GUID:0a6056b72db1f26499a3860e9a71e042",
-        "GUID:1af6960767f2322479cb09771bdaefa6"
-    ],
+    "name": "com.mxr.unity.sdk.mxrus.embeddings",
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
