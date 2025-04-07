@@ -14,8 +14,8 @@ Shader "Universal Render Pipeline/MXR/Tall Tree Branches" {
         [Header(Wind)]
         [Space(10)]
         _WindFrequency("Frequency", Float) = 0.1
-        _WindX("Strength X", Range(0, 10)) = 0.1
-        _WindZ("Strength Z", Range(0, 10)) = 0.1
+        _WindX("Strength X", Range(0, 1)) = 0.1
+        _WindZ("Strength Z", Range(0, 1)) = 0.1
         _WindSync("Sync", Range(0.0, 1.0)) = 0.9
 
         [Space(10)]
