@@ -41,7 +41,7 @@ public class AdminAppMessengerManager {
     private Context context;
     private AdminAppMessengerListener listener;
 
-    private int checkBindingFrequency = 60 * 1000; // 1 minute
+    private int checkBindingFrequency = 10_000; // 10 seconds
     private Handler checkBindingHandler = new Handler();
 
     public AdminAppMessengerManager(Context _context, AdminAppMessengerListener _listener) {
