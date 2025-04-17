@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 
 namespace MXR.SDK {
     /// <summary>
@@ -71,6 +72,32 @@ namespace MXR.SDK {
                     Debug.unityLogger.LogWarning(TAG, "Not running on a Pico device. MXRPicoUtils.IsPUI4 returning false");
                     return false;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Returns if current Pico UI version requires reboot on kiosk app change,
+        ///  meaning it is between 5.0.0 and 5.11.0
+        /// Always returns false on non Pico device
+        /// </summary>
+        public static bool IsKioskRebootRequiredForPUI {
+            get {
+                if (!MXRAndroidUtils.IsPicoDevice) {
+                    Debug.unityLogger.LogWarning(TAG, "Not running on a Pico device. MXRPicoUtils.IsKioskRebootRequiredforPUI returning false");
+                    return false;
+                }
+
+                if (IsPUI4) return false;
+
+                // PUI versions are Semver, or sometimes have a revision (5.9.5.0). Parsing directly
+                // should consistently handle this case. If it doesn't, we'd rather return false because
+                // of how we rely on these functions downstream.
+                if (Version.TryParse(PUIVersion, out var version)) {
+                    if (version.Major == 5 && version.Minor < 11)
+                        return true;
+                }
+
+                return false;
             }
         }
 
