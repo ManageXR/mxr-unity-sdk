@@ -348,13 +348,13 @@ namespace MXR.SDK {
         /// <summary>
         /// The type of the environment file
         /// </summary>
-        public EnvironmentType type = EnvironmentType.MXRUS;
+        public EnvironmentFileType fileType = EnvironmentFileType.MXRUS;
     }
 
     /// <summary>
     /// The environment file type
     /// </summary>
-    public enum EnvironmentType {
+    public enum EnvironmentFileType {
         /// <summary>
         /// The ManageXR .mxrus file based on AssetBundle
         /// </summary>
