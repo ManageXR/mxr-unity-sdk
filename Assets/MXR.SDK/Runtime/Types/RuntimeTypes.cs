@@ -316,11 +316,6 @@ namespace MXR.SDK {
         /// The theme to be used for the homescreen
         /// </summary>
         public CustomHomeScreenColors colors = new CustomHomeScreenColors();
-
-        /// <summary>
-        /// The environment deployed with the configuration to be used in the homescreen, if any.
-        /// </summary>
-        public EnvironmentFile environmentFile;
     }
 
     /// <summary>
@@ -403,6 +398,11 @@ namespace MXR.SDK {
     /// </summary>
     [Serializable]
     public class BackgroundSettings {
+        /// <summary>
+        /// The environment deployed with the configuration to be used in the homescreen, if any.
+        /// </summary>
+        public EnvironmentFile environmentFile;
+
         /// <summary>
         /// Whether the user should be forced into passthrough mode.
         /// </summary>
