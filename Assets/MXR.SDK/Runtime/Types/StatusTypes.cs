@@ -177,7 +177,7 @@ namespace MXR.SDK {
 
         [System.Serializable]
         public enum ManagedFileType {
-            FILE, ICON, BRANDING, VIDEO
+            FILE, ICON, BRANDING, VIDEO, ENVIRONMENT
         }
 
         public Status status;
