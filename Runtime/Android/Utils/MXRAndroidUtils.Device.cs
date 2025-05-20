@@ -188,6 +188,12 @@ namespace MXR.SDK {
 
         // OCULUS DEVICE DETECTION
         /// <summary>
+        /// Returns true if the current device is Oculus Quest 1
+        /// </summary>
+        public static bool IsQuest1 =>
+            !Application.isEditor && (DeviceProduct.Equals("vr_monterey", StringComparison.OrdinalIgnoreCase));
+
+        /// <summary>
         /// Returns true if the current device is Oculus Quest 2
         /// </summary>
         public static bool IsQuest2 =>
@@ -237,7 +243,7 @@ namespace MXR.SDK {
         /// </summary>
         public static bool IsHeadset6DOF =>
             // Oculus headsets
-            IsQuestPro || IsQuest2 || IsQuest3 || IsQuest3S ||
+            IsQuestPro || IsQuest1 || IsQuest2 || IsQuest3 || IsQuest3S ||
 
             // Pico headsets
             IsPico4Ultra || IsPico4 || IsPicoNeo3 || IsPicoNeo2 ||
