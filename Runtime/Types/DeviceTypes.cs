@@ -10,5 +10,6 @@ namespace MXR.SDK {
         public string firmwareVersion;
         public string model;
         public string manufacturer;
+        public ControllerData controllerData;
     }
 }
