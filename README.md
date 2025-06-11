@@ -1,6 +1,10 @@
 > ⚠️ This SDK is in beta testing. We appreciate your patience while we continue to improve this SDK. Please report any issues via GitHub.
 
 # ManageXR Unity SDK
+
+[![openupm](https://img.shields.io/npm/v/com.mxr.unity.sdk?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.mxr.unity.sdk/)
+[![openupm](https://img.shields.io/badge/dynamic/json?color=brightgreen&label=downloads&query=%24.downloads&suffix=%2Fmonth&url=https%3A%2F%2Fpackage.openupm.com%2Fdownloads%2Fpoint%2Flast-month%2Fcom.mxr.unity.sdk)](https://openupm.com/packages/com.mxr.unity.sdk/)
+
 The ManageXR Unity SDK enables developers to query device status information from the ManageXR Admin App running on your device, including:
 - Device Serial Number
 - Device Name, Configuration, Tags, etc.
