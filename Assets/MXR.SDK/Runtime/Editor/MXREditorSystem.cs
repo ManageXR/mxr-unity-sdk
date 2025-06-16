@@ -211,6 +211,16 @@ namespace MXR.SDK {
                 Debug.unityLogger.Log(LogType.Log, TAG, "Restarted App");
         }
 
+        public void Shutdown() {
+            if (LoggingEnabled)
+                Debug.unityLogger.Log(LogType.Log, TAG, "Shutdown device");
+        }
+
+        public void Reboot() {
+            if (LoggingEnabled)
+                Debug.unityLogger.Log(LogType.Log, TAG, "Reboot device");
+        }
+
         public void EnableWifi() {
             try {
                 if (WifiConnectionStatus.wifiIsEnabled) return;
