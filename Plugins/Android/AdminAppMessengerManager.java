@@ -159,6 +159,14 @@ public class AdminAppMessengerManager {
         return sendMessage(AdminAppMessageTypes.RESTART_APP, "{\"packageName\":\""+packageName+"\"}");
     }
 
+    public boolean shutdown() {
+        return sendMessage(AdminAppMessageTypes.POWER_OFF);
+    }
+
+    public boolean reboot() {
+        return sendMessage(AdminAppMessageTypes.REBOOT);
+    }
+
     public boolean checkDbAsync() {
         return sendMessage(AdminAppMessageTypes.CHECK_DB);
     }
