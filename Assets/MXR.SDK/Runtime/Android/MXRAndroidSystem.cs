@@ -488,6 +488,26 @@ namespace MXR.SDK {
                 Debug.unityLogger.Log(LogType.Warning, TAG, "restartApp ignored. System is not available (not bound to messenger).");
         }
 
+        public void Shutdown() {
+            if (messenger.IsBoundToService) {
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Log, TAG, "Shutdown called. Invoking over JNI: shutdown");
+                messenger.Call<bool>("shutdown");
+            }
+            else if (LoggingEnabled)
+                Debug.unityLogger.Log(LogType.Warning, TAG, "Shutdown ignored. System is not available (not bound to messenger).");
+        }
+
+        public void Reboot() {
+            if (messenger.IsBoundToService) {
+                if (LoggingEnabled)
+                    Debug.unityLogger.Log(LogType.Log, TAG, "Reboot called. Invoking over JNI: reboot");
+                messenger.Call<bool>("reboot");
+            }
+            else if (LoggingEnabled)
+                Debug.unityLogger.Log(LogType.Warning, TAG, "Reboot ignored. System is not available (not bound to messenger).");
+        }
+
         public void Sync() {
             if (messenger.IsBoundToService) {
                 if (LoggingEnabled)

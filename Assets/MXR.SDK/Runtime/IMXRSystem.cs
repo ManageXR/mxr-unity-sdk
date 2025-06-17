@@ -143,6 +143,16 @@ namespace MXR.SDK {
         void RestartApp(string packageName);
 
         /// <summary>
+        /// Powers off the device.
+        /// </summary>
+        void Shutdown();
+        
+        /// <summary>
+        /// Restarts the device.
+        /// </summary>
+        void Reboot();
+
+        /// <summary>
         /// Syncs the device with the configuration
         /// on the ManageXR dashboard
         /// </summary>
