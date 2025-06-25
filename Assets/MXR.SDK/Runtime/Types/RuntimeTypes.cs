@@ -316,6 +316,12 @@ namespace MXR.SDK {
         /// The theme to be used for the homescreen
         /// </summary>
         public CustomHomeScreenColors colors = new CustomHomeScreenColors();
+        
+        /// <summary>
+        /// If true, the Library Panel will follow the users head, staying in your field of view.
+        /// Otherwise, the Library Panel will stay in a fixed location and the user will need to recenter manually.
+        /// </summary>
+        public bool autoCenterLibraryPanel;
     }
 
     /// <summary>
