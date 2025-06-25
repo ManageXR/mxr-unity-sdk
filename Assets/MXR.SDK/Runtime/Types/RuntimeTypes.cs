@@ -404,6 +404,12 @@ namespace MXR.SDK {
         public EnvironmentFile environmentFile;
 
         /// <summary>
+        /// The volume of the AudioSources in <see cref="environmentFile"/>
+        /// Range: [0, 100]
+        /// </summary>
+        public int environmentAudioVolume = 100;
+
+        /// <summary>
         /// Whether the user should be forced into passthrough mode.
         /// </summary>
         public bool forcePassthrough;
