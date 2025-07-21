@@ -296,4 +296,10 @@ namespace MXR.SDK {
         public long nanoseconds;
         public long seconds;
     }
+
+    [Serializable]
+    public class StreamingCodeStatus {
+        public string code;
+        public string errorMessage;
+    }
 }
