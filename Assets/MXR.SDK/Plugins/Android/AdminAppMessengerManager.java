@@ -203,6 +203,10 @@ public class AdminAppMessengerManager {
     public boolean sendHomeScreenState(String stateJson) {
         return sendMessage(AdminAppMessageTypes.HOME_SCREEN_STATE, stateJson);
     }
+    
+    public boolean requestStreamingCodeAsync() {
+        return sendMessage(AdminAppMessageTypes.GET_STREAMING_CODE);
+    }
 
     public boolean sendMessage(int what) {
         return sendMessage(what, null);

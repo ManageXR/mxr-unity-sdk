@@ -149,6 +149,7 @@ namespace MXR.SDK {
         public RuntimeSettingsSummary RuntimeSettingsSummary { get; private set; }
         public WifiConnectionStatus WifiConnectionStatus { get; private set; }
         public List<ScannedWifiNetwork> WifiNetworks { get; private set; }
+        public StreamingCodeStatus StreamingCodeStatus { get; private set; }
 
         // INTERFACE EVENTS
         public event Action<bool> OnAvailabilityChange;
@@ -161,6 +162,7 @@ namespace MXR.SDK {
         public event Action<PlayVideoCommandData> OnPlayVideoCommand;
         public event Action<PauseVideoCommandData> OnPauseVideoCommand;
         public event Action<ResumeVideoCommandData> OnResumeVideoCommand;
+        public event Action<StreamingCodeStatus> OnStreamingCodeStatusChanged;
         public event Action OnHomeScreenStateRequest;
 
         // INTERFACE METHODS
@@ -436,6 +438,12 @@ namespace MXR.SDK {
             if (LoggingEnabled)
                 Debug.unityLogger.Log(LogType.Log, TAG, "Editor mode doesn't support ExitLauncher(). Safely ignored...");
         }
+
+        public void RequestStreamingCode() {
+            StreamingCodeStatus = new StreamingCodeStatus(){code = "123ABC", errorMessage = ""};
+            OnStreamingCodeStatusChanged?.Invoke(StreamingCodeStatus);
+        }
+
         #endregion
 
         // ================================================
