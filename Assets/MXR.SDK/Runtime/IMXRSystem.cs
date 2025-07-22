@@ -60,7 +60,12 @@ namespace MXR.SDK {
         /// WiFi network currently connected to (if any)
         /// </summary>
         ScannedWifiNetwork CurrentNetwork { get; }
-
+        
+        /// <summary>
+        /// The current status of a Streaming Code request.
+        /// </summary>
+        public StreamingCodeStatus StreamingCodeStatus { get; }
+        
         /// <summary>
         /// Fired when the availability of system changes.
         /// </summary>
@@ -110,6 +115,13 @@ namespace MXR.SDK {
         /// Event fired when a Resume Video command is received
         /// </summary>
         event Action<ResumeVideoCommandData> OnResumeVideoCommand;        
+        
+        /// <summary>
+        /// Event fired when the streaming code status updates.
+        /// This could be either a valid code, or an error message.
+        /// </summary>
+        public event Action<StreamingCodeStatus> OnStreamingCodeStatusChanged;
+
 
         /// <summary>
         /// Event fired when the admin app requests for 
@@ -235,5 +247,12 @@ namespace MXR.SDK {
         /// Exit the launcher
         /// </summary>
         void ExitLauncher();
+
+
+        /// <summary>
+        /// Makes a request to the Admin App for a Streaming Code.
+        /// A response will be received via the <see cref="OnStreamingCodeStatusChanged"/> event.
+        /// </summary>
+        void RequestStreamingCode();
     }
 }

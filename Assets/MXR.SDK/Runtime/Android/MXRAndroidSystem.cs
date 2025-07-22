@@ -52,6 +52,7 @@ namespace MXR.SDK {
         public RuntimeSettingsSummary RuntimeSettingsSummary { get; private set; }
         public List<ScannedWifiNetwork> WifiNetworks { get; private set; }
         public WifiConnectionStatus WifiConnectionStatus { get; private set; }
+        public StreamingCodeStatus StreamingCodeStatus { get; private set; }
 
         public event Action<bool> OnAvailabilityChange;
         public event Action<DeviceData> OnDeviceDataChange;
@@ -63,6 +64,7 @@ namespace MXR.SDK {
         public event Action<PauseVideoCommandData> OnPauseVideoCommand;
         public event Action<ResumeVideoCommandData> OnResumeVideoCommand;
         public event Action<LaunchMXRHomeScreenCommandData> OnLaunchMXRHomeScreenCommand;
+        public event Action<StreamingCodeStatus> OnStreamingCodeStatusChanged;
         public event Action OnHomeScreenStateRequest;
 
         string lastWifiNetworksJSON = string.Empty;
@@ -70,6 +72,7 @@ namespace MXR.SDK {
         string lastRuntimeSettingsSummaryJSON = string.Empty;
         string lastDeviceStatusJSON = string.Empty;
         string lastDeviceDataJSON = string.Empty;
+        private string lastStreamingcodeJSON = string.Empty;
 
         string _cachedJsonDirectory = Path.Combine(Application.persistentDataPath, "ManageXR");
 
@@ -113,6 +116,7 @@ namespace MXR.SDK {
             int DEVICE_STATUS = 5000;
             int HANDLE_COMMAND = 6000;
             int GET_HOME_SCREEN_STATE = 15000;
+            int STREAMING_CODE = 21000;
 
             // Subscribe to application focus change event and 
             // execute any command passed in extra strings
@@ -197,6 +201,23 @@ namespace MXR.SDK {
                         OnDeviceDataChange?.Invoke(data);
                         if (LoggingEnabled)
                             Debug.unityLogger.Log(LogType.Log, TAG, "DeviceData updated.");
+                    }
+                }
+                else if (what == STREAMING_CODE) {
+                    if (json.Equals(lastStreamingcodeJSON)) {
+                        return;
+                    }
+
+                    var streamingCodeData = JsonConvert.DeserializeObject<StreamingCodeStatus>(json);
+                    if (streamingCodeData == null) {
+                        return;
+                    }
+                    
+                    lastStreamingcodeJSON = json;
+                    StreamingCodeStatus = streamingCodeData;
+                    OnStreamingCodeStatusChanged?.Invoke(streamingCodeData);
+                    if (LoggingEnabled) {
+                        Debug.unityLogger.Log(LogType.Log, TAG, "StreamingCodeStatus updated.");
                     }
                 }
                 else if (what == HANDLE_COMMAND) {
@@ -542,6 +563,20 @@ namespace MXR.SDK {
             }
             else if (LoggingEnabled)
                 Debug.unityLogger.Log(LogType.Warning, TAG, "ExitLauncher ignored. System is not available (not bound to messenger.");
+        }
+
+        public void RequestStreamingCode() {
+            if (messenger.IsBoundToService) {
+                if (LoggingEnabled) {
+                    Debug.unityLogger.Log(LogType.Log, TAG,
+                        "RequestStreamingCode called. Invoking over JNI: requestStreamingCodeAsync");
+                }
+
+                messenger.Call<bool>("requestStreamingCodeAsync");
+            } else if (LoggingEnabled) {
+                Debug.unityLogger.Log(LogType.Warning, TAG,
+                    "RequestStreamingCode ignored. System is not available (not bound to messenger.");
+            }
         }
 
         #region INITIALIZATION 
