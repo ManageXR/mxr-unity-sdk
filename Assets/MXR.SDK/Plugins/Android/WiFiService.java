@@ -61,10 +61,15 @@ public class WiFiService extends BroadcastReceiver {
     }
 
     public boolean connectToWiFi(String ssid, String key, String networkType) {
+        return connectToWiFi(ssid, key, networkType, false);
+    }
+
+    public boolean connectToWiFi(String ssid, String key, String networkType, boolean hidden) {
         if (wifiManager == null) return false;
 
         WifiConfiguration conf = new WifiConfiguration();
         conf.SSID = String.format("\"%s\"", ssid);
+        conf.hiddenSSID = hidden;
 
         if ("OPEN".equals(networkType)) {
             conf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);

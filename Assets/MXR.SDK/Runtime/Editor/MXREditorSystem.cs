@@ -261,13 +261,17 @@ namespace MXR.SDK {
         }
 
         public void ConnectToWifiNetwork(string ssid, string password) {
+            ConnectToWifiNetwork(ssid, password, false);
+        }
+
+        public void ConnectToWifiNetwork(string ssid, string password, bool hidden) {
             // Escape JSON string. Ref: https://stackoverflow.com/a/26152046
             // Then get rid of the encosing double quotes (") using substring
             ssid = JsonConvert.ToString(ssid);
             ssid = ssid.Substring(1, ssid.Length - 2);
 
             if (LoggingEnabled)
-                Debug.unityLogger.Log(LogType.Log, TAG, "Connecting to Wifi Network with SSID " + ssid + " using password " + password);
+                Debug.unityLogger.Log(LogType.Log, TAG, "Connecting to Wifi Network with SSID " + ssid + " using password " + password + " (hidden: " + hidden + ")");
 
             // If a network with the given SSID is available
             // just set it as the current network
@@ -276,7 +280,14 @@ namespace MXR.SDK {
                     CurrentNetwork = network;
                     if (LoggingEnabled)
                         Debug.unityLogger.Log(LogType.Log, TAG, "Connected to Wifi Network with SSID " + ssid);
+                    return;
                 }
+            }
+
+            // For hidden networks in editor, we won't find them in the scan results
+            // so we'll simulate a successful connection if hidden is true
+            if (hidden && LoggingEnabled) {
+                Debug.unityLogger.Log(LogType.Log, TAG, "Simulated connection to hidden network with SSID " + ssid);
             }
         }
 

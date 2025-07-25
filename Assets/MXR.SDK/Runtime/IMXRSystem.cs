@@ -199,6 +199,14 @@ namespace MXR.SDK {
         /// <param name="password">The password to use to attempt to connect</param>
         void ConnectToWifiNetwork(string ssid, string password);
 
+        /// <summary>
+        /// Connects to a wifi network with optional hidden network support
+        /// </summary>
+        /// <param name="ssid">The SSID of the network to connect to</param>
+        /// <param name="password">The password to use to attempt to connect</param>
+        /// <param name="hidden">Whether the network is hidden (not broadcasting its SSID)</param>
+        void ConnectToWifiNetwork(string ssid, string password, bool hidden);
+
         ///// <summary>
         ///// Connects to an Enterpirse wifi network
         ///// </summary>
