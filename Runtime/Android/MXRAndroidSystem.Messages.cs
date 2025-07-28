@@ -143,16 +143,11 @@ namespace MXR.SDK {
         }
 
         private void HandleStreamingCode(string json) {
-            if (json.Equals(lastStreamingcodeJSON)) {
-                return;
-            }
-
             var streamingCodeData = JsonConvert.DeserializeObject<StreamingCodeStatus>(json);
             if (streamingCodeData == null) {
                 return;
             }
 
-            lastStreamingcodeJSON = json;
             StreamingCodeStatus = streamingCodeData;
             OnStreamingCodeStatusChanged?.Invoke(streamingCodeData);
             LogIfEnabled(LogType.Log, "StreamingCodeStatus updated.");
