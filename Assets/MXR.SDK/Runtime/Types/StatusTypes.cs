@@ -85,6 +85,12 @@ namespace MXR.SDK {
         /// </summary>
         public bool micMuted;
 
+        /// <summary>
+        /// A collection of <see cref="ScreenCast"/> types, that track the lifecycle of all MXR Casting methods.
+        /// Key is the ID of the ScreenCast, value is the ScreenCast object that tracks casting lifecycle.
+        /// </summary>
+        public Dictionary<string, ScreenCast> screenCasts = new();
+
         public Dictionary<string, NetworkErrorCodeFrequency> networkErrorCodeFrequency = new Dictionary<string, NetworkErrorCodeFrequency>();
 
         /// <summary>
@@ -302,5 +308,31 @@ namespace MXR.SDK {
         public string code;
         public long expireAt;
         public string errorMessage;
+    }
+
+    /// <summary>
+    /// Tracks the lifecycle of an MXR Casting method.
+    /// </summary>
+    [Serializable]
+    public class ScreenCast {
+        public enum Type {
+            UNKNOWN,
+            NATIVE,
+            WEB_CONSOLE,
+            CODE_BASED
+        }
+
+        public enum State {
+            INITIATED,
+            REQUESTING_PERMS,
+            CANCELLED,
+            ACTIVE,
+            FINISHED
+        }
+        
+        
+        public string id;
+        public Type type;
+        public State state;
     }
 }
