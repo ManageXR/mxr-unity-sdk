@@ -207,6 +207,10 @@ public class AdminAppMessengerManager {
     public boolean requestStreamingCodeAsync() {
         return sendMessage(AdminAppMessageTypes.GET_STREAMING_CODE);
     }
+    
+    public boolean stopStreamingAsync() {
+        return sendMessage(AdminAppMessageTypes.STOP_STREAMING);
+    }
 
     public boolean sendMessage(int what) {
         return sendMessage(what, null);

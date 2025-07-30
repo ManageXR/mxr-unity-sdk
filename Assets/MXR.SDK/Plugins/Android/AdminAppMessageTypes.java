@@ -52,4 +52,6 @@ public class AdminAppMessageTypes {
 
     public static final int GET_STREAMING_CODE = 21;
     public static final int STREAMING_CODE = 21000;
+    
+    public static final int STOP_STREAMING = 22;
 }

@@ -390,6 +390,16 @@ namespace MXR.SDK {
             }
         }
 
+        public void StopStreaming() {
+            if (_messenger.IsBoundToService) {
+                LogIfEnabled(LogType.Log, "StopStreaming called. Invoking over JNI: stopStreamingAsync");
+                _messenger.Call<bool>("stopStreamingAsync");
+            } else {
+                LogIfEnabled(LogType.Warning,
+                    "StopStreaming ignored. System is not available (not bound to messenger.");
+            }
+        }
+
         /// <summary>
         /// Returns whether the SDK can read external files, taking into account
         /// whether we need any permissions for it or not.
