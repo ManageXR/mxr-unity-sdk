@@ -254,5 +254,10 @@ namespace MXR.SDK {
         /// A response will be received via the <see cref="OnStreamingCodeStatusChanged"/> event.
         /// </summary>
         void RequestStreamingCode();
+
+        /// <summary>
+        /// Stops a currently active stream.
+        /// </summary>
+        void StopStreaming();
     }
 }

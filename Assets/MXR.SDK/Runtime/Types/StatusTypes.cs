@@ -85,6 +85,11 @@ namespace MXR.SDK {
         /// </summary>
         public bool micMuted;
 
+        /// <summary>
+        /// Whether the device is currently utilizng and MXR Streaming method.
+        /// </summary>
+        public bool isMxrStreaming;
+
         public Dictionary<string, NetworkErrorCodeFrequency> networkErrorCodeFrequency = new Dictionary<string, NetworkErrorCodeFrequency>();
 
         /// <summary>
@@ -300,7 +305,7 @@ namespace MXR.SDK {
     [Serializable]
     public class StreamingCodeStatus {
         public string code;
+        public long expireAt;
         public string errorMessage;
-        public int expireAt;
     }
 }
