@@ -300,7 +300,7 @@ namespace MXR.SDK {
     [Serializable]
     public class StreamingCodeStatus {
         public string code;
+        public long expireAt;
         public string errorMessage;
-        public int expireAt;
     }
 }
