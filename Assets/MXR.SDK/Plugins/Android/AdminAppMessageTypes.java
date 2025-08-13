@@ -50,8 +50,8 @@ public class AdminAppMessageTypes {
 
     public static final int OVERRIDE_KIOSK_APP = 20;
 
-    public static final int GET_STREAMING_CODE = 21;
-    public static final int STREAMING_CODE = 21000;
+    public static final int GET_CASTING_CODE = 21;
+    public static final int CASTING_CODE = 21000;
     
-    public static final int STOP_STREAMING = 22;
+    public static final int STOP_CASTING = 22;
 }

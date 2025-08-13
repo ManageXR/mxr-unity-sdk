@@ -204,12 +204,12 @@ public class AdminAppMessengerManager {
         return sendMessage(AdminAppMessageTypes.HOME_SCREEN_STATE, stateJson);
     }
     
-    public boolean requestStreamingCodeAsync() {
-        return sendMessage(AdminAppMessageTypes.GET_STREAMING_CODE);
+    public boolean requestCastingCodeAsync() {
+        return sendMessage(AdminAppMessageTypes.GET_CASTING_CODE);
     }
     
-    public boolean stopStreamingAsync() {
-        return sendMessage(AdminAppMessageTypes.STOP_STREAMING);
+    public boolean stopCastingAsync() {
+        return sendMessage(AdminAppMessageTypes.STOP_CASTING);
     }
 
     public boolean sendMessage(int what) {
