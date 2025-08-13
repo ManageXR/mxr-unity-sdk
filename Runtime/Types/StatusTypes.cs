@@ -304,7 +304,7 @@ namespace MXR.SDK {
     }
 
     [Serializable]
-    public class StreamingCodeStatus {
+    public class CastingCodeStatus {
         public string code;
         public long expireAt;
         public string errorMessage;

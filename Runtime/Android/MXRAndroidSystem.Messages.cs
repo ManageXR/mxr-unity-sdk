@@ -22,7 +22,7 @@ namespace MXR.SDK {
             public const int DEVICE_STATUS = 5000;
             public const int HANDLE_COMMAND = 6000;
             public const int GET_HOME_SCREEN_STATE = 15000;
-            public const int STREAMING_CODE = 21000;
+            public const int CASTING_CODE = 21000;
         }
 
         private void OnMessageFromAdminApp(int what, string json) {
@@ -44,8 +44,8 @@ namespace MXR.SDK {
                 case AdminAppMessageTypes.DEVICE_DATA:
                     HandleDeviceData(json);
                     break;
-                case AdminAppMessageTypes.STREAMING_CODE:
-                    HandleStreamingCode(json);
+                case AdminAppMessageTypes.CASTING_CODE:
+                    HandleCastingCode(json);
                     break;
                 case AdminAppMessageTypes.HANDLE_COMMAND:
                     ProcessCommandJson(json);
@@ -142,15 +142,15 @@ namespace MXR.SDK {
             LogIfEnabled(LogType.Log, "DeviceData updated.");
         }
 
-        private void HandleStreamingCode(string json) {
-            var streamingCodeData = JsonConvert.DeserializeObject<StreamingCodeStatus>(json);
-            if (streamingCodeData == null) {
+        private void HandleCastingCode(string json) {
+            var castingCodeData = JsonConvert.DeserializeObject<CastingCodeStatus>(json);
+            if (castingCodeData == null) {
                 return;
             }
 
-            StreamingCodeStatus = streamingCodeData;
-            OnStreamingCodeStatusChanged?.Invoke(streamingCodeData);
-            LogIfEnabled(LogType.Log, "StreamingCodeStatus updated.");
+            CastingCodeStatus = castingCodeData;
+            OnCastingCodeStatusChanged?.Invoke(castingCodeData);
+            LogIfEnabled(LogType.Log, "CastingCodeStatus updated.");
         }
     }
 }

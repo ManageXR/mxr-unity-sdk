@@ -62,9 +62,9 @@ namespace MXR.SDK {
         ScannedWifiNetwork CurrentNetwork { get; }
         
         /// <summary>
-        /// The current status of a Streaming Code request.
+        /// The current status of a Casting Code request.
         /// </summary>
-        public StreamingCodeStatus StreamingCodeStatus { get; }
+        public CastingCodeStatus CastingCodeStatus { get; }
         
         /// <summary>
         /// Fired when the availability of system changes.
@@ -117,10 +117,10 @@ namespace MXR.SDK {
         event Action<ResumeVideoCommandData> OnResumeVideoCommand;        
         
         /// <summary>
-        /// Event fired when the streaming code status updates.
+        /// Event fired when the casting code status updates.
         /// This could be either a valid code, or an error message.
         /// </summary>
-        public event Action<StreamingCodeStatus> OnStreamingCodeStatusChanged;
+        public event Action<CastingCodeStatus> OnCastingCodeStatusChanged;
 
 
         /// <summary>
@@ -248,16 +248,15 @@ namespace MXR.SDK {
         /// </summary>
         void ExitLauncher();
 
+        /// <summary>
+        /// Makes a request to the Admin App for a Casting Code.
+        /// A response will be received via the <see cref="OnCastingCodeStatusChanged"/> event.
+        /// </summary>
+        void RequestCastingCode();
 
         /// <summary>
-        /// Makes a request to the Admin App for a Streaming Code.
-        /// A response will be received via the <see cref="OnStreamingCodeStatusChanged"/> event.
+        /// Stops a currently active casting session.
         /// </summary>
-        void RequestStreamingCode();
-
-        /// <summary>
-        /// Stops a currently active stream.
-        /// </summary>
-        void StopStreaming();
+        void StopCasting();
     }
 }

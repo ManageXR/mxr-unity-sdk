@@ -149,7 +149,7 @@ namespace MXR.SDK {
         public RuntimeSettingsSummary RuntimeSettingsSummary { get; private set; }
         public WifiConnectionStatus WifiConnectionStatus { get; private set; }
         public List<ScannedWifiNetwork> WifiNetworks { get; private set; }
-        public StreamingCodeStatus StreamingCodeStatus { get; private set; }
+        public CastingCodeStatus CastingCodeStatus { get; private set; }
 
         // INTERFACE EVENTS
         public event Action<bool> OnAvailabilityChange;
@@ -162,7 +162,7 @@ namespace MXR.SDK {
         public event Action<PlayVideoCommandData> OnPlayVideoCommand;
         public event Action<PauseVideoCommandData> OnPauseVideoCommand;
         public event Action<ResumeVideoCommandData> OnResumeVideoCommand;
-        public event Action<StreamingCodeStatus> OnStreamingCodeStatusChanged;
+        public event Action<CastingCodeStatus> OnCastingCodeStatusChanged;
         public event Action OnHomeScreenStateRequest;
 
         // INTERFACE METHODS
@@ -439,14 +439,14 @@ namespace MXR.SDK {
                 Debug.unityLogger.Log(LogType.Log, TAG, "Editor mode doesn't support ExitLauncher(). Safely ignored...");
         }
 
-        public void RequestStreamingCode() {
+        public void RequestCastingCode() {
             var expireAt = DateTimeOffset.UtcNow.AddMinutes(1.5).ToUnixTimeMilliseconds();
             var code = UnityEngine.Random.Range(100000, 999999).ToString();
-            StreamingCodeStatus = new StreamingCodeStatus(){code = code, errorMessage = "", expireAt = expireAt};
-            OnStreamingCodeStatusChanged?.Invoke(StreamingCodeStatus);
+            CastingCodeStatus = new CastingCodeStatus(){code = code, errorMessage = "", expireAt = expireAt};
+            OnCastingCodeStatusChanged?.Invoke(CastingCodeStatus);
         }
 
-        public void StopStreaming() {
+        public void StopCasting() {
             // No-op
         }
 
