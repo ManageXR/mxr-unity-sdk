@@ -440,8 +440,14 @@ namespace MXR.SDK {
         }
 
         public void RequestStreamingCode() {
-            StreamingCodeStatus = new StreamingCodeStatus(){code = "123ABC", errorMessage = ""};
+            var expireAt = DateTimeOffset.UtcNow.AddMinutes(1.5).ToUnixTimeMilliseconds();
+            var code = UnityEngine.Random.Range(100000, 999999).ToString();
+            StreamingCodeStatus = new StreamingCodeStatus(){code = code, errorMessage = "", expireAt = expireAt};
             OnStreamingCodeStatusChanged?.Invoke(StreamingCodeStatus);
+        }
+
+        public void StopStreaming() {
+            // No-op
         }
 
         #endregion
