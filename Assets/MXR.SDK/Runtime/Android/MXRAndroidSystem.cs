@@ -64,7 +64,7 @@ namespace MXR.SDK {
         public RuntimeSettingsSummary RuntimeSettingsSummary { get; private set; }
         public List<ScannedWifiNetwork> WifiNetworks { get; private set; }
         public WifiConnectionStatus WifiConnectionStatus { get; private set; }
-        public StreamingCodeStatus StreamingCodeStatus { get; private set; }
+        public CastingCodeStatus CastingCodeStatus { get; private set; }
 
         public event Action<bool> OnAvailabilityChange;
         public event Action<DeviceData> OnDeviceDataChange;
@@ -75,7 +75,7 @@ namespace MXR.SDK {
         public event Action<PlayVideoCommandData> OnPlayVideoCommand;
         public event Action<PauseVideoCommandData> OnPauseVideoCommand;
         public event Action<ResumeVideoCommandData> OnResumeVideoCommand;
-        public event Action<StreamingCodeStatus> OnStreamingCodeStatusChanged;
+        public event Action<CastingCodeStatus> OnCastingCodeStatusChanged;
         public event Action<LaunchMXRHomeScreenCommandData> OnLaunchMXRHomeScreenCommand;
         public event Action OnHomeScreenStateRequest;
 
@@ -380,23 +380,23 @@ namespace MXR.SDK {
             }
         }
 
-        public void RequestStreamingCode() {
+        public void RequestCastingCode() {
             if (_messenger.IsBoundToService) {
-                LogIfEnabled(LogType.Log, "RequestStreamingCode called. Invoking over JNI: requestStreamingCodeAsync");
-                _messenger.Call<bool>("requestStreamingCodeAsync");
+                LogIfEnabled(LogType.Log, "RequestCastingCode called. Invoking over JNI: requestCastingCodeAsync");
+                _messenger.Call<bool>("requestCastingCodeAsync");
             } else {
                 LogIfEnabled(LogType.Warning,
-                    "RequestStreamingCode ignored. System is not available (not bound to messenger.");
+                    "RequestCastingCode ignored. System is not available (not bound to messenger.");
             }
         }
 
-        public void StopStreaming() {
+        public void StopCasting() {
             if (_messenger.IsBoundToService) {
-                LogIfEnabled(LogType.Log, "StopStreaming called. Invoking over JNI: stopStreamingAsync");
-                _messenger.Call<bool>("stopStreamingAsync");
+                LogIfEnabled(LogType.Log, "StopCasting called. Invoking over JNI: stopCastingAsync");
+                _messenger.Call<bool>("stopCastingAsync");
             } else {
                 LogIfEnabled(LogType.Warning,
-                    "StopStreaming ignored. System is not available (not bound to messenger.");
+                    "StopCasting ignored. System is not available (not bound to messenger.");
             }
         }
 
