@@ -398,6 +398,7 @@ namespace MXR.SDK {
         public bool brightness;
         public bool screenRecording;
         public bool adminSettings;
+        public bool ipdAdjustment;
     }
     /// <summary>
     /// Settings used to configure Background Settings.
