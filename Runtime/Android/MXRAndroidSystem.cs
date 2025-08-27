@@ -141,15 +141,21 @@ namespace MXR.SDK {
         /// Ref: https://stackoverflow.com/a/26406504
         /// </summary>
         private static string UnescapeJsonIfNeeded(string json) {
-            if (!json.StartsWith("\"")) {
+            try {
+                if (string.IsNullOrEmpty(json) || !json.StartsWith("\"")) {
+                    return json;
+                }
+
+                var token = JToken.Parse(json);
+                var obj = JObject.Parse((string)token);
+                json = obj.ToString();
+
+                return json;
+            } catch (Exception ex) {
+                Debug.unityLogger.LogError("MXRAndroidSystem",
+                    $"Failed to unescape JSON: {ex.GetType().Name}: {ex.Message}. Returning original JSON.");
                 return json;
             }
-
-            var token = JToken.Parse(json);
-            var obj = JObject.Parse((string)token);
-            json = obj.ToString();
-
-            return json;
         }
 
         private void LogIfEnabled(LogType logType, string message) {
