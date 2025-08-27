@@ -8,6 +8,8 @@ namespace MXR.SDK {
     /// between Unity and the ManageXR Android Admin App.
     /// </summary>
     public class AdminAppMessengerManager {
+        private const string TAG = nameof(AdminAppMessengerManager);
+        
         /// <summary>
         /// Whether the instance is bound to the native service
         /// </summary>
@@ -126,7 +128,12 @@ namespace MXR.SDK {
             /// <param name="what">The message type</param>
             /// <param name="json">Message data</param>
             public void onMessageFromAdminApp(int what, string json) {
-                messenger.OnMessageFromAdminApp?.Invoke(what, json);
+                try {
+                    messenger.OnMessageFromAdminApp?.Invoke(what, json);
+                } catch (Exception ex) {
+                    Debug.unityLogger.LogError(TAG, 
+                        $"Exception in onMessageFromAdminApp (messageType: {what}): {ex.GetType().Name}: {ex.Message}\nStackTrace: {ex.StackTrace}");
+                }
             }
         }
     }
