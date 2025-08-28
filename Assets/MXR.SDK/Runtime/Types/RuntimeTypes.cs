@@ -149,6 +149,11 @@ namespace MXR.SDK {
         public bool disableGazeInput = false;
 
         /// <summary>
+        /// Whether the device is on an organization with access to premium features.
+        /// </summary>
+        public bool isPremium = false;
+
+        /// <summary>
         /// Helper property for whether the guardian settings are hidden
         /// </summary>
         [JsonIgnore]
