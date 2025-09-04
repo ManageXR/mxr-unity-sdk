@@ -64,7 +64,7 @@ namespace MXR.SDK {
         /// <summary>
         /// The current status of a Casting Code request.
         /// </summary>
-        public CastingCodeStatus CastingCodeStatus { get; }
+        CastingCodeStatus CastingCodeStatus { get; }
         
         /// <summary>
         /// Fired when the availability of system changes.
@@ -120,8 +120,7 @@ namespace MXR.SDK {
         /// Event fired when the casting code status updates.
         /// This could be either a valid code, or an error message.
         /// </summary>
-        public event Action<CastingCodeStatus> OnCastingCodeStatusChanged;
-
+        event Action<CastingCodeStatus> OnCastingCodeStatusChanged;
 
         /// <summary>
         /// Event fired when the admin app requests for 

@@ -327,6 +327,13 @@ namespace MXR.SDK {
         /// Otherwise, the UI will stay in a fixed location and the user will need to recenter manually.
         /// </summary>
         public bool autoCenterUI;
+
+        /// <summary>
+        /// The order in which categories would be displayed in the homescreen.
+        /// If a category is not included in this array but is associated with a content,
+        /// that content would not be shown.
+        /// </summary>
+        public string[] orderedCategories;
     }
 
     /// <summary>
