@@ -23,7 +23,7 @@ namespace MXR.SDK {
         // in the intent bundle and then create a command object as a dictionary,
         // serialize it to json, and send it for processing. We attempt to read the
         // "playFromBeginning" boolean, but if not found, we default to true.
-        private readonly HashSet<string> executedIntentIds = new();
+        private readonly HashSet<string> executedIntentIds = new HashSet<string>();
 
         private void TryExecuteIntentCommands() {
             LogIfEnabled(LogType.Log, "Checking for intent commands");

@@ -89,7 +89,7 @@ namespace MXR.SDK {
         /// A collection of <see cref="ScreenCast"/> types, that track the lifecycle of all MXR Casting methods.
         /// Key is the ID of the ScreenCast, value is the ScreenCast object that tracks casting lifecycle.
         /// </summary>
-        public Dictionary<string, ScreenCast> screenCasts = new();
+        public Dictionary<string, ScreenCast> screenCasts = new Dictionary<string, ScreenCast>();
 
         public Dictionary<string, NetworkErrorCodeFrequency> networkErrorCodeFrequency = new Dictionary<string, NetworkErrorCodeFrequency>();
 
