@@ -54,4 +54,6 @@ public class AdminAppMessageTypes {
     public static final int CASTING_CODE = 21000;
     
     public static final int STOP_CASTING = 22;
+    
+    public static final int UPLOAD_DEVICE_LOGS = 23;
 }

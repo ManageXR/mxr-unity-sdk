@@ -211,6 +211,10 @@ public class AdminAppMessengerManager {
     public boolean stopCastingAsync() {
         return sendMessage(AdminAppMessageTypes.STOP_CASTING);
     }
+    
+    public boolean uploadDeviceLogsAsync() {
+        return sendMessage(AdminAppMessageTypes.UPLOAD_DEVICE_LOGS);
+    }
 
     public boolean sendMessage(int what) {
         return sendMessage(what, null);
