@@ -412,7 +412,7 @@ namespace MXR.SDK {
                 _messenger.Call<bool>("uploadDeviceLogsAsync");
             } else {
                 LogIfEnabled(LogType.Warning,
-                    "UploadDeviceLogs ignored. System is not available (not bound to messenger.");
+                    "UploadDeviceLogs ignored. System is not available (not bound to messenger.)");
             }
         }
 
