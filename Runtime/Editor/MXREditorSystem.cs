@@ -200,7 +200,7 @@ namespace MXR.SDK {
 
         public void UploadDeviceLogs()
         { 
-            Debug.unityLogger.Log(LogType.Log, TAG, "Upload Device logs involked, ignoring in editor");
+            Debug.unityLogger.Log(LogType.Log, TAG, "Upload Device logs invoked, ignoring in editor");
             //send logs
         }
 
