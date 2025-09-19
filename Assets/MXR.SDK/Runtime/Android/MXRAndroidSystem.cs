@@ -406,6 +406,16 @@ namespace MXR.SDK {
             }
         }
 
+        public void UploadDeviceLogs() {
+            if (_messenger.IsBoundToService) {
+                LogIfEnabled(LogType.Log, "UploadDeviceLogs called. Invoking over JNI: uploadDeviceLogsAsync");
+                _messenger.Call<bool>("uploadDeviceLogsAsync");
+            } else {
+                LogIfEnabled(LogType.Warning,
+                    "UploadDeviceLogs ignored. System is not available (not bound to messenger.)");
+            }
+        }
+
         /// <summary>
         /// Returns whether the SDK can read external files, taking into account
         /// whether we need any permissions for it or not.

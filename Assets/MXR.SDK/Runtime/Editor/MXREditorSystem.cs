@@ -198,7 +198,15 @@ namespace MXR.SDK {
             }
         }
 
-        public void OverrideKioskApp(string packageName) {
+        public void UploadDeviceLogs()
+        { 
+            if (LoggingEnabled)
+                Debug.unityLogger.Log(LogType.Log, TAG, "Upload Device logs invoked, ignoring in editor");
+            //send logs
+        }
+
+        public void OverrideKioskApp(string packageName)
+        {
             if (LoggingEnabled)
                 Debug.unityLogger.Log(LogType.Log, TAG, "Kiosk App set");
         }
