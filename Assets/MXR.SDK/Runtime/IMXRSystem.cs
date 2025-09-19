@@ -6,8 +6,7 @@ namespace MXR.SDK {
     /// Exposes properties, events and methods to the ManageXR 
     /// admin/system application
     /// </summary>
-    public interface IMXRSystem
-    {
+    public interface IMXRSystem {
         /// <summary>
         /// Whether the system will log messages to the Unity console
         /// </summary>
@@ -259,6 +258,9 @@ namespace MXR.SDK {
         /// </summary>
         void StopCasting();
 
+        /// <summary>
+        /// Sends logs from the headset to the web console.
+        /// </summary>
         void UploadDeviceLogs();
     }
 }
