@@ -6,7 +6,8 @@ namespace MXR.SDK {
     /// Exposes properties, events and methods to the ManageXR 
     /// admin/system application
     /// </summary>
-    public interface IMXRSystem {
+    public interface IMXRSystem
+    {
         /// <summary>
         /// Whether the system will log messages to the Unity console
         /// </summary>
@@ -60,12 +61,12 @@ namespace MXR.SDK {
         /// WiFi network currently connected to (if any)
         /// </summary>
         ScannedWifiNetwork CurrentNetwork { get; }
-        
+
         /// <summary>
         /// The current status of a Casting Code request.
         /// </summary>
         CastingCodeStatus CastingCodeStatus { get; }
-        
+
         /// <summary>
         /// Fired when the availability of system changes.
         /// </summary>
@@ -100,7 +101,7 @@ namespace MXR.SDK {
         /// Event fired when a Launch App command is received, specific to the MXR Home Screen.
         /// </summary>
         event Action<LaunchMXRHomeScreenCommandData> OnLaunchMXRHomeScreenCommand;
-        
+
         /// <summary>
         /// Event fired when a Play Video command is received
         /// </summary>
@@ -114,8 +115,8 @@ namespace MXR.SDK {
         /// <summary>
         /// Event fired when a Resume Video command is received
         /// </summary>
-        event Action<ResumeVideoCommandData> OnResumeVideoCommand;        
-        
+        event Action<ResumeVideoCommandData> OnResumeVideoCommand;
+
         /// <summary>
         /// Event fired when the casting code status updates.
         /// This could be either a valid code, or an error message.
@@ -157,7 +158,7 @@ namespace MXR.SDK {
         /// Powers off the device.
         /// </summary>
         void Shutdown();
-        
+
         /// <summary>
         /// Restarts the device.
         /// </summary>
@@ -257,5 +258,7 @@ namespace MXR.SDK {
         /// Stops a currently active casting session.
         /// </summary>
         void StopCasting();
+
+        void UploadDeviceLogs();
     }
 }
