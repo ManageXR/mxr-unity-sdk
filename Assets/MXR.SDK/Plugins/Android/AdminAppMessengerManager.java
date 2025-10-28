@@ -17,6 +17,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
@@ -35,14 +36,14 @@ public class AdminAppMessengerManager {
 
     private final static String ADMIN_SERVICE_CLASS_NAME = "com.mightyimmersion.mightyplatform.AdminService";
 
-    private final Messenger incomingMessenger = new Messenger(new IncomingMessageHandler());
+    private final Messenger incomingMessenger = new Messenger(new IncomingMessageHandler(Looper.getMainLooper()));
     private Messenger outgoingMessenger;
     private boolean bound;
     private Context context;
     private AdminAppMessengerListener listener;
 
     private int checkBindingFrequency = 10_000; // 10 seconds
-    private Handler checkBindingHandler = new Handler();
+    private Handler checkBindingHandler = new Handler(Looper.getMainLooper());
 
     public AdminAppMessengerManager(Context _context, AdminAppMessengerListener _listener) {
         context = _context;
@@ -81,6 +82,10 @@ public class AdminAppMessengerManager {
     }
 
     class IncomingMessageHandler extends Handler {
+        IncomingMessageHandler(Looper looper) {
+            super(looper);
+        }
+
         @Override
         public void handleMessage(Message msg) {
             Bundle bundle = msg.getData();
