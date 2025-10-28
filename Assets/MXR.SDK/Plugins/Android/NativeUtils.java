@@ -4,21 +4,15 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.util.Log;
-import android.os.Bundle;
-import android.os.Build;
 import android.app.ActivityManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.Canvas;
 
-import com.unity3d.player.UnityPlayer;
-import com.unity3d.player.UnityPlayerActivity;
 import java.util.*;
 import java.io.ByteArrayOutputStream;
-import android.util.TimingLogger;
 import android.util.Log;
 import android.net.Uri;
 
