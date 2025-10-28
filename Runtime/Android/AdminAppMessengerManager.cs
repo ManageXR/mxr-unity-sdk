@@ -115,11 +115,14 @@ namespace MXR.SDK {
             /// </summary>
             /// <param name="bound">New bound status</param>
             public void onBindStatusToAdminAppChanged(bool bound) {
-                if (messenger.IsBoundToService != bound) {
-                    Debug.unityLogger.Log(LogType.Log, "AdminAppMessengerManager bind state changed to: " + bound);
-                    messenger.IsBoundToService = bound;
-                    messenger.OnBoundStatusToAdminAppChanged?.Invoke(bound);
-                }
+                // Dispatch to Unity main thread since this is called from Android main thread
+                Dispatcher.RunOnMainThread(0) => {
+                    if (messenger.IsBoundToService != bound) {
+                        Debug.unityLogger.Log(LogType.Log, "AdminAppMessengerManager bind state changed to: " + bound);
+                        messenger.IsBoundToService = bound;
+                        messenger.OnBoundStatusToAdminAppChanged?.Invoke(bound);
+                    }
+                });
             }
 
             /// <summary>
@@ -128,14 +131,16 @@ namespace MXR.SDK {
             /// <param name="what">The message type</param>
             /// <param name="json">Message data</param>
             public void onMessageFromAdminApp(int what, string json) {
-                try {
-                    messenger.OnMessageFromAdminApp?.Invoke(what, json);
-                } catch (Exception ex) {
-                    Debug.unityLogger.LogError(TAG, 
-                        $"Exception in onMessageFromAdminApp (messageType: {what}): {ex.GetType().Name}: {ex.Message}\nStackTrace: {ex.StackTrace}");
-                }
+                // Dispatch to Unity main thread since this is called from Android main thread
+                Dispatcher.RunOnMainThread(0) => {
+                    try {
+                        messenger.OnMessageFromAdminApp?.Invoke(what, json);
+                    } catch (Exception ex) {
+                        Debug.unityLogger.LogError(TAG, 
+                            $"Exception in onMessageFromAdminApp (messageType: {what}): {ex.GetType().Name}: {ex.Message}\nStackTrace: {ex.StackTrace}");
+                    }
+                });
             }
         }
     }
-
 }
