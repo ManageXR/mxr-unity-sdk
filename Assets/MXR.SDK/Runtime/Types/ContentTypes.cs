@@ -3,6 +3,7 @@ using System.IO;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using UnityEngine;
 
 namespace MXR.SDK {
     /// <summary>
@@ -157,6 +158,10 @@ namespace MXR.SDK {
         public string videoPath;
 
         public string GetFullVideoFilePath() {
+            if (Application.isEditor) {
+                return MXRStorage.GetFullPath("/MightyImmersion/videos/sample.mp4");
+            }
+            
             if (string.IsNullOrEmpty(videoPath)) {
                 return null;
             }
