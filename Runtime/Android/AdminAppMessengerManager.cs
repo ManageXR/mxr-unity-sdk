@@ -116,7 +116,7 @@ namespace MXR.SDK {
             /// <param name="bound">New bound status</param>
             public void onBindStatusToAdminAppChanged(bool bound) {
                 // Dispatch to Unity main thread since this is called from Android main thread
-                Dispatcher.RunOnMainThread(0) => {
+                Dispatcher.RunOnMainThread(() => {
                     if (messenger.IsBoundToService != bound) {
                         Debug.unityLogger.Log(LogType.Log, "AdminAppMessengerManager bind state changed to: " + bound);
                         messenger.IsBoundToService = bound;
@@ -132,7 +132,7 @@ namespace MXR.SDK {
             /// <param name="json">Message data</param>
             public void onMessageFromAdminApp(int what, string json) {
                 // Dispatch to Unity main thread since this is called from Android main thread
-                Dispatcher.RunOnMainThread(0) => {
+                Dispatcher.RunOnMainThread(() => {
                     try {
                         messenger.OnMessageFromAdminApp?.Invoke(what, json);
                     } catch (Exception ex) {
