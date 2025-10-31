@@ -24,6 +24,7 @@ namespace MXR.SDK {
             public const int HANDLE_COMMAND = 6000;
             public const int GET_HOME_SCREEN_STATE = 15000;
             public const int CASTING_CODE = 21000;
+            public const int PREPARE_FOR_TERMINATION = 24000;
         }
 
         private void OnMessageFromAdminApp(int what, string json) {
@@ -60,6 +61,14 @@ namespace MXR.SDK {
                         OnHomeScreenStateRequest?.Invoke();
                     } catch (Exception ex) {
                         LogIfEnabled(LogType.Error, $"Exception in OnHomeScreenStateRequest event: {ex.GetType().Name}: {ex.Message}");
+                    }
+                    break;
+                case AdminAppMessageTypes.PREPARE_FOR_TERMINATION:
+                    LogIfEnabled(LogType.Log, $"Termination Notification Received");
+                    try {
+                        OnTerminationNotification?.Invoke();
+                    } catch (Exception ex) {
+                        LogIfEnabled(LogType.Error, $"Exception in OnTerminationNotificatiocln event: {ex.GetType().Name}: {ex.Message}");
                     }
                     break;
                 default:
@@ -202,5 +211,6 @@ namespace MXR.SDK {
                 LogIfEnabled(LogType.Error, $"Unexpected error in HandleCastingCode: {ex.GetType().Name}: {ex.Message}");
             }
         }
+
     }
 }

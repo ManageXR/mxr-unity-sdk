@@ -56,4 +56,6 @@ public class AdminAppMessageTypes {
     public static final int STOP_CASTING = 22;
     
     public static final int UPLOAD_DEVICE_LOGS = 23;
+    
+    public static final int PREPARE_FOR_TERMINATION = 24000;
 }
