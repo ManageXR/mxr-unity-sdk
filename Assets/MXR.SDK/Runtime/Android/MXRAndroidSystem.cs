@@ -78,6 +78,7 @@ namespace MXR.SDK {
         public event Action<CastingCodeStatus> OnCastingCodeStatusChanged;
         public event Action<LaunchMXRHomeScreenCommandData> OnLaunchMXRHomeScreenCommand;
         public event Action OnHomeScreenStateRequest;
+        public event Action OnTerminationNotification;
 
         private string lastWifiNetworksJSON = string.Empty;
         private string lastWifiConnectionStatusJSON = string.Empty;

@@ -127,6 +127,12 @@ namespace MXR.SDK {
         /// <see cref="HomeScreenState"/> 
         /// </summary>
         event Action OnHomeScreenStateRequest;
+        
+        /// <summary>
+        /// Event fired when the admin app is about to force close the application.
+        /// Use this to avoid hard crash notifications in error reporting.
+        /// </summary>
+        event Action OnTerminationNotification;
 
         /// <summary>
         /// Disable Kiosk mode on the device
