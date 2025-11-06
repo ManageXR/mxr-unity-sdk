@@ -164,6 +164,7 @@ namespace MXR.SDK {
         public event Action<ResumeVideoCommandData> OnResumeVideoCommand;
         public event Action<CastingCodeStatus> OnCastingCodeStatusChanged;
         public event Action OnHomeScreenStateRequest;
+        public event Action OnTerminationNotification;
 
         // INTERFACE METHODS
         public void DisableKioskMode() {
