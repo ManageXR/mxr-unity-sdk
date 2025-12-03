@@ -216,7 +216,8 @@ namespace MXR.SDK {
         /// Returns true if the current device is Oculus Quest 3s
         /// </summary>
         public static bool IsQuest3S =>
-            Application.isEditor ? false : DeviceProduct.Equals("panther", StringComparison.OrdinalIgnoreCase);
+            !Application.isEditor && (DeviceProduct.Equals("panther", StringComparison.OrdinalIgnoreCase)
+                                      || DeviceProduct.Equals("onca", StringComparison.OrdinalIgnoreCase));
 
         /// <summary>
         /// Returns true if the current device is Oculus Go
