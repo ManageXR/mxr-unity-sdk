@@ -31,9 +31,15 @@ namespace MXR.SDK {
         public static string MXRRootDirectory => Path.Combine(ExternalStorageDirectory, "MightyImmersion");
 
         /// <summary>
-        /// Returns the full path to a sub path inside <see cref="ExternalStorageDirectory"/>
+        /// Returns the full path to a sub path inside <see cref="ExternalStorageDirectory"/>.
+        /// Returns null if the provided path is null or empty.
         /// </summary>
+        /// <param name="path">The relative path to convert to a full path. May be null or empty.</param>
+        /// <returns>The full path, or null if the input path is null or empty.</returns>
         public static string GetFullPath(string path) {
+            if (string.IsNullOrEmpty(path))
+                return null;
+
             path = TryRemoveLeadingSpash(path);
             return Path.Combine(ExternalStorageDirectory, path);
         }
