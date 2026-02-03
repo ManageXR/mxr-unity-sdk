@@ -31,6 +31,11 @@ namespace MXR.SDK.Samples {
         /// <param name="onSuccess">Callback invoked when the load is successful.</param>
         /// <param name="onError">Callback invoked when the load fails.</param>
         public void Load(string location, TextureFormat format, bool mipMap, Action<Texture2D> onSuccess, Action<Exception> onError) {
+            if (string.IsNullOrEmpty(location)) {
+                onError?.Invoke(new Exception("Cannot load image from null or empty location"));
+                return;
+            }
+
             // If the location is a URL, we use the remote download method
             if (location.Contains("http://") || location.Contains("https://"))
                 LoadFromURL(location, format, mipMap, onSuccess, onError);
