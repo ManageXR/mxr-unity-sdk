@@ -11,5 +11,7 @@ namespace MXR.SDK {
         public string model;
         public string manufacturer;
         public ControllerData controllerData;
+        public bool batteryIsCharging;
+        public int batteryLevel;
     }
 }
