@@ -1,0 +1,42 @@
+[
+    {
+        "ssid": "Managed Normal Network 1",
+        "capabilities": "",
+        "signalStrength": 75,
+        "isSaved": false,
+        "isManaged": true,
+        "networkSecurityType": 2
+    },
+    {
+        "ssid": "Managed Enterprise Network 1",
+        "capabilities": "",
+        "signalStrength": 75,
+        "isSaved": false,
+        "isManaged": true,
+        "networkSecurityType": 5
+    },
+    {
+        "ssid": "Open Network 1",
+        "capabilities": "",
+        "signalStrength": 100,
+        "isSaved": false,
+        "isManaged": false,
+        "networkSecurityType": 0
+    },
+    {
+        "ssid": "Managed Enterprise Network 2",
+        "capabilities": "",
+        "signalStrength": 99,
+        "isSaved": false,
+        "isManaged": true,
+        "networkSecurityType": 5
+    },
+    {
+        "ssid": "Unmanaged Normal Network 1",
+        "capabilities": "",
+        "signalStrength": 22,
+        "isSaved": false,
+        "isManaged": false,
+        "networkSecurityType": 1
+    }
+]
