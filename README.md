@@ -37,27 +37,10 @@ If you want to move to a different SDK version (for example, when a new version 
 ## Samples  
 The repository includes samples that demonstrate basic integration with the Content API, Status API, Wifi API and SDK Commands.
 
-### Installation
-First, ensure that the ManageXR SDK is installed by checking your Package Manager window. Select the ManageXR Unity SDK in the Package Manager window, expand the Samples section, then click on the Import button. The samples will be imported under `Assets/Samples` in your Unity project.
-
-### Files  
-Sample Files allow you to simulate SDK operations in the editor.  
-- After installation, go to `Library/PackageCache/com.mxr.unity.sdk@x.x.x/` directory in your Unity project and extract `Files.zip` to the root of your Unity project. Your project structure should then look like this:  
-
-```
-
-<Unity Project Directory>  
-└── Assets
-└── Files  
-      └── MightyImmersion  
-└── Library  
-└── ...
-
-```
-
-It is recommended that you extract Files.zip in required location this every time you upgrade or downgrade the package version so the files inside remain relevant to the SDK version.  
-
-Please refer to `README.txt` inside the samples directory for further information about running samples in the Unity editor.
+To import them 
+* Go to Package Manager 
+* Select the ManageXR Unity SDK package
+* Select the Samples tab and click on the Import button
 
 ## Usage  
 The SDK uses `IMXRSystem` to communicate with the system layer. It provides methods, events, properties to observe, query and invoke operations in the ManageXR Admin/System.
