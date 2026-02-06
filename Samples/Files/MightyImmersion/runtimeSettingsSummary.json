@@ -1,0 +1,273 @@
+{
+    "isPasscodeEnabled": false,
+    "forceAndroid12PermissionsAccept": false,
+    "hasAndroidDataPermission" : false,
+    "hasAndroidObbPermission" : false,
+    "requiresAndroidDataPermission": false,
+    "requiresAndroidObbPermission": false,
+    
+    "deviceExperienceMode": "HOME_SCREEN",
+    "enableKioskShortcutMenu":true,
+    "androidDeviceGlobalSettings": {},
+    "androidDeviceSecureSettings": {},
+    "androidDeviceSystemSettings": {},
+    "androidUserRestrictions": {},
+    "blocklistApps": [],
+    "certificates": {},
+    "configuration": {
+        "id": "VthKByCv5LAv7TsMXuED",
+        "name": "Sample Config"
+    },
+    "kioskVideoSettings": {
+        "loopKioskVideo": false,
+        "restartVideoAfterHmdOff": false,
+        "restartVideoAfterHmdOffDelay": 10
+    },
+    "kioskVideoId" : "",
+    "kioskVideo" : "",
+    "KioskVideoIsReady" : false,
+    "kioskModeEnabled": true,
+    "organization": {
+        "id": "testOrg",
+        "name": "MXR Test Org"
+    },
+    "systemProperties": {},
+    "systemUpdateType": "USER_INITIATED",
+    "customLauncherSettings": {
+        "adminPin": "5112",
+        "disableShortcutMenu":false,
+        "displayLanguage" :"enUS",
+        "backgroundFile": {
+            "id": "ynFFjtR8dAWVA2pmHuYj8/r8cLq326oLWxu3C4aHY0A\u003d",
+            "name": "Custom Launcher Background Image",
+            "path": "/MightyImmersion/branding/background",
+            "type": "BRANDING"
+        },
+        "librarySettings" : {
+            "cardSettings" : {
+                "showTitle" : true,
+                "showContentType" : true,
+                "cardStyle" : "PADDING",
+                "horizontalTextAlignment" : "LEFT"
+            },
+            "panelSettings" : {
+                "categoriesPosition" : "TOP"
+            },
+            "gridSettings" : {
+                "cardsPerRow" : 5,
+                "horizontalAlignment" : "RIGHT",
+                "verticalAlignment" : "CENTER"
+            }
+        },
+        "shortcutMenuBackgroundFile": {
+            "id": "dsFFjtR8d98eg23mHuYj8/r8cLq29e7guidf84aHY0A\u003d",
+            "name": "Custom Launcher Shortcut Menu Background Image",
+            "path": "/MightyImmersion/branding/shortcutMenuBackground",
+            "type": "BRANDING"
+        },
+        "topLogoFile": {
+            "id": "At6Hus5l4qlAjA5hbtkNgbFEs+9D8ZEo02xh7JoCnIo\u003d",
+            "name": "Custom Launcher Top Logo Image",
+            "path": "/MightyImmersion/branding/topLogo",
+            "type": "BRANDING"
+        },
+        "bottomLogoFile": {
+            "id": "QdPU6fcVBHMwYeV3CEvYqK0OK5x88cEgAczz+UaU7ts\u003d",
+            "name": "Custom Launcher Bottom Logo Image",
+            "path": "/MightyImmersion/branding/bottomLogo",
+            "type": "BRANDING"
+        },
+        "colors": {
+            "input": "#D8DAFF",
+            "buttonPrimary": "#D188E1",
+            "alert": "#FF746B",
+            "success": "#9FEC7C",
+            "buttonPrimaryText": "#ffffff",
+            "menuBackground": "#8081A7",
+            "inputText": "#404053",
+            "buttonSecondary": "#79BFE0",
+            "buttonSecondaryText": "#FFFFFF",
+            "menuText": "#F9F9FF"
+        },
+        "hiddenSettings": {
+            "bluetooth":false,
+            "cast":false,
+            "controller":false,
+            "guardian":false,
+            "wifi":false,
+            "passthrough":false,
+            "brightness":false
+        },
+        "backgroundSettings": {
+            "forcePassthrough":false
+        },
+        "autoCenterUI":false,
+        "orderedCategories": ["Test", "vid"]
+    },
+    "deviceName": "Sample Device",
+    "featureFlags": ["SHOW_BRIGHTNESS_TOOLBAR_ITEM","ENABLE_NETWORK_ERRORS", "ENABLE_AUTO_CENTER_MENU_SUPPORT"],
+    "mappedFeatureFlags": {
+        "THRESHOLD_CONNECTIVITY_FLIPPED_COUNT": 5.0,
+        "THRESHOLD_ENDPOINT_FAILURE_RATE": 0.1
+    },
+    "files": {},
+    "firstTimeUseFilePaths": [],
+    "firstTimeUseModeEnabled": false,
+    "id": "aNqI7W5ariXaNuZqbX0JtQTjCdx2",
+    "kioskApp": {
+        "autoGrantPermissions": true,
+        "categories": [],
+        "description": "",
+        "forceInstall": false,
+        "hidden": true,
+        "iconUrl": "https://firebasestorage.googleapis.com/v0/b/mighty-platform-prod.appspot.com/o/public%2FdefaultIcon.png?alt\u003dmedia\u0026token\u003d6d588e59-0ec4-4ffc-bf16-0764cd70f89a",
+        "id": "com.mightyimmersion.demovr.a",
+        "launchParams": {},
+        "organizationId": "testOrg",
+        "sortOrder": 99999,
+        "sortPriority": 0,
+        "title": "ManageXR Demo App",
+        "versionCode": 20604,
+        "versionName": "2.6.4",
+        "packageName": "com.mightyimmersion.demovr.a",
+        "iconPath": "/MightyImmersion/icons/com.mightyimmersion.demovr.a",
+        "blockLaunchWhileUpdating":false,
+        "internetRequired":"optional",
+        "controllersRequired":"optional"
+    },
+    "apps": {
+        "com.mightyimmersion.demovr.a": {
+            "blockLaunchWhileUpdating":false,
+            "internetRequired":"optional",
+            "controllersRequired":"optional",
+            "autoGrantPermissions": true,
+            "categories": [ "Tools" ],
+            "forceInstall": false,
+            "hidden": false,
+            "iconUrl": "https://firebasestorage.googleapis.com/v0/b/mighty-platform-dev.appspot.com/o/organizations%2FtestOrg%2Fapps%2Fcom.mightyimmersion.demovr.a%2Ficons%2Ficon_1641770825860.png?alt\u003dmedia\u0026token\u003d8f895181-ee07-4905-b341-29f1ad4af906",
+            "id": "GXf7rDxlmQJjokoSu837",
+            "launchParams": {},
+            "organizationId": "testOrg",
+            "sortOrder": 1,
+            "sortPriority": 0,
+            "title": "Demo App A (Pico)",
+            "versionCode": 100,
+            "versionName": "1.0",
+            "packageName": "com.mightyimmersion.demovr.a",
+            "iconPath": "/MightyImmersion/icons/com.mightyimmersion.demovr.a",
+            "isExpired" : false,
+            "expirationBehavior":"NONE",
+            "expirationTimestamp":"1762888271000"
+        },
+        "com.mightyimmersion.demovr.b": {
+            "blockLaunchWhileUpdating":false,
+            "internetRequired":"optional",
+            "controllersRequired":"optional",
+            "autoGrantPermissions": true,
+            "categories": [ "Tools" ],
+            "forceInstall": false,
+            "hidden": false,
+            "iconUrl": "https://firebasestorage.googleapis.com/v0/b/mighty-platform-dev.appspot.com/o/organizations%2FtestOrg%2Fapps%2Fcom.mightyimmersion.demovr.b%2Ficons%2Ficon_1641771626147.png?alt\u003dmedia\u0026token\u003d1db9141b-42d8-4093-9533-96ba037c058a",
+            "id": "AzQlXv74eXFCDxPfQOpT",
+            "launchParams": {},
+            "organizationId": "testOrg",
+            "sortOrder": 0,
+            "sortPriority": 0,
+            "title": "Demo App B (Pico)",
+            "versionCode": 100,
+            "versionName": "1.0",
+            "packageName": "com.mightyimmersion.demovr.b",
+            "iconPath": "/MightyImmersion/icons/com.mightyimmersion.demovr.b",
+            "isExpired" : false,
+            "expirationBehavior":"NONE",
+            "expirationTimestamp":"1762888271000"
+        }
+    },
+    "videos": {
+        "pCJ0dOH0ELMPlOLirMBp": {
+            "display": "MONO",
+            "packing": "NONE",
+            "type": "_2D",
+            "categories": [ "Kids" ],
+            "hidden": false,
+            "iconUrl": "https://firebasestorage.googleapis.com/v0/b/mighty-platform-dev.appspot.com/o/organizations%2FtestOrg%2Fvideos%2FpCJ0dOH0ELMPlOLirMBp%2Ficons%2Ficon_1652992421781.png?alt\u003dmedia\u0026token\u003dfccb1799-9824-4ba7-94c4-5ce526b1151d",
+            "id": "pCJ0dOH0ELMPlOLirMBp",
+            "organizationId": "testOrg",
+            "sortOrder": 9,
+            "title": "Big Buck Bunny 2D",
+            "videoPath": "/MightyImmersion/videos/pCJ0dOH0ELMPlOLirMBp",
+            "iconPath": "/MightyImmersion/icons/video_pCJ0dOH0ELMPlOLirMBp",
+            "blockLaunchWhileUpdating":false,
+            "internetRequired":"optional",
+            "controllersRequired":"optional"
+        },
+        "eHtnJ48lW8yJPajsQdwi": {
+            "display": "MONO",
+            "mapping": "EQUIRECTANGULAR",
+            "packing": "NONE",
+            "type": "_180",
+            "categories": [ "Lifestyle" ],
+            "hidden": false,
+            "iconUrl": "https://firebasestorage.googleapis.com/v0/b/mighty-platform-dev.appspot.com/o/organizations%2FtestOrg%2Fvideos%2FeHtnJ48lW8yJPajsQdwi%2Ficons%2Ficon_1653680186250.jpeg?alt\u003dmedia\u0026token\u003d60813036-2741-45f4-9915-d9069a6322c2",
+            "id": "eHtnJ48lW8yJPajsQdwi",
+            "organizationId": "testOrg",
+            "sortOrder": 10,
+            "title": "Venice 180 ERP",
+            "videoPath": "/MightyImmersion/videos/eHtnJ48lW8yJPajsQdwi",
+            "iconPath": "/MightyImmersion/icons/video_eHtnJ48lW8yJPajsQdwi",
+            "blockLaunchWhileUpdating":false,
+            "internetRequired":"optional",
+            "controllersRequired":"optional"
+        },
+        "Imh0OKqIoYQLxTBizO8a": {
+            "display": "MONO",
+            "mapping": "EQUIRECTANGULAR",
+            "packing": "NONE",
+            "type": "_360",
+            "categories": [ "Lifestyle" ],
+            "hidden": false,
+            "iconUrl": "https://firebasestorage.googleapis.com/v0/b/mighty-platform-dev.appspot.com/o/organizations%2FtestOrg%2Fvideos%2FImh0OKqIoYQLxTBizO8a%2Ficons%2Ficon_1652992442713.png?alt\u003dmedia\u0026token\u003d6a92ef32-288d-4de5-9383-a4a033514ffb",
+            "id": "Imh0OKqIoYQLxTBizO8a",
+            "organizationId": "testOrg",
+            "sortOrder": 7,
+            "title": "Martian Arts 360 ERP",
+            "videoPath": "/MightyImmersion/videos/Imh0OKqIoYQLxTBizO8a",
+            "iconPath": "/MightyImmersion/icons/video_Imh0OKqIoYQLxTBizO8a",
+            "blockLaunchWhileUpdating":false,
+            "internetRequired":"optional",
+            "controllersRequired":"optional"
+        }
+    },
+    "webXRApps": {
+        "c7cNAkgJaWXvUCsOv3rr": {
+            "url": "https://brushworkvr.com/paint",
+            "categories": [ "Kids" ],
+            "description": "A web XR App for testing",
+            "hidden": false,
+            "iconUrl": "https://firebasestorage.googleapis.com/v0/b/mighty-platform-dev.appspot.com/o/organizations%2FtestOrg%2Fweb-xr-apps%2Fc7cNAkgJaWXvUCsOv3rr%2Ficons%2Ficon_1652992472350.png?alt\u003dmedia\u0026token\u003dbfc4a3c6-53f2-44dc-a5d8-bca0be30d0fe",
+            "id": "c7cNAkgJaWXvUCsOv3rr",
+            "organizationId": "testOrg",
+            "sortOrder": 99999,
+            "title": "brushwork VR",
+            "iconPath": "/MightyImmersion/icons/webxrapp_c7cNAkgJaWXvUCsOv3rr",
+            "blockLaunchWhileUpdating":false,
+            "internetRequired":"optional",
+            "controllersRequired":"optional"
+        },
+        "zumD8VBwcfg5y3aAPVaD": {
+            "url": "https://www.youtube.com/watch?v\u003dbqW2qm02jwI\u0026t\u003d1s",
+            "categories": [ "Lifestyle" ],
+            "hidden": false,
+            "iconUrl": "https://firebasestorage.googleapis.com/v0/b/mighty-platform-dev.appspot.com/o/organizations%2FtestOrg%2Fweb-xr-apps%2FzumD8VBwcfg5y3aAPVaD%2Ficons%2Ficon_1653329619618.png?alt\u003dmedia\u0026token\u003d59a7461a-44b8-49c8-943d-a7d9b116a9e2",
+            "id": "zumD8VBwcfg5y3aAPVaD",
+            "organizationId": "testOrg",
+            "sortOrder": 11,
+            "title": "The Peoples House",
+            "iconPath": "/MightyImmersion/icons/webxrapp_zumD8VBwcfg5y3aAPVaD",
+            "blockLaunchWhileUpdating":false,
+            "internetRequired":"optional",
+            "controllersRequired":"optional"
+        }
+    },
+    "wifiNetworks": {}
+}

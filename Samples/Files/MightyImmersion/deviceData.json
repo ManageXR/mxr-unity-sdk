@@ -1,0 +1,26 @@
+{
+    "availableStorage": 96050012160,
+    "batteryIsCharging": true,
+    "batteryLevel": 72,
+    "controllerData": {
+        "controller0": {
+            "batteryLevel": -1,
+            "version": "0215"
+        },
+        "controller1": {
+            "batteryLevel": -1,
+            "version": "0147"
+        },
+        "lastUpdated": {
+            "nanoseconds": 10000000,
+            "seconds": 1770315521
+        },
+        "station": {
+            "version": "0149"
+        }
+    },
+    "isOemKiosk": false,
+    "isQfbDevice": false,
+    "manufacturer": "Pico",
+    "model": "Pico 4 Consumer",
+}
