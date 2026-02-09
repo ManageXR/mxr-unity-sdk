@@ -512,7 +512,7 @@ namespace MXR.SDK {
         string GetFilePath(string fileName) {
             var mightyDir = Path.Combine(MXRStorage.ExternalStorageDirectory, "MightyImmersion");
             if (!Directory.Exists(mightyDir))
-                throw new DirectoryNotFoundException("Ensure Files/MightyImmersion directory inside Unity project");
+                throw new DirectoryNotFoundException("Ensure MightyImmersion directory exists in ManageXR Unity SDK Samples");
             return Path.Combine(mightyDir, fileName);
         }
 
