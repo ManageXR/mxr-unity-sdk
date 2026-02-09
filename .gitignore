@@ -3,11 +3,10 @@
 [Oo]bj/
 [Bb]uild/
 [Bb]uilds/
-[Ff]iles/
+/[Ff]iles/
 Assets/AssetStoreTools*
 Assets/MXR.SDK/Runtime/Experiments/
 Assets/MXR.SDK/Runtime/Experiments.meta
-
 # Visual Studio cache directory
 .vs/
 

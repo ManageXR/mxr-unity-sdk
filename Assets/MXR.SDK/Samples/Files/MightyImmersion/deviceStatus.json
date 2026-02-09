@@ -1,0 +1,205 @@
+{   
+    "locked":false,
+    "requiresAndroidDataPermission": false,
+    "hasAndroidDataPermission" : false,
+    "requiresAndroidObbPermission": false,
+    "hasAndroidObbPermission" : false,
+    "appStatuses": {
+        "com.mightyimmersion.demovr.a": {
+            "currentVersion": 10000,
+            "currentVersionName": "1.0.0",
+            "errorCode": 0,
+            "id": "lOsnQ7MrvMfPt7ccrSMl",
+            "message": "Downloading.",
+            "nextVersion": 10001,
+            "nextVersionName": "1.0.1",
+            "packageName": "com.mightyimmersion.demovr.a",
+            "progress": 5,
+            "status": "DOWNLOADING",
+            "timestamp": {
+                "nanoseconds": 406000000,
+                "seconds": 1655173182
+            },
+            "totalBytesDownloaded": 0,
+            "totalDownloadSize": 0
+        }
+    },
+    "currentForegroundApp": null,
+    "deviceSystemVersionStatus": {
+        "currentVersion": "4.5.30",
+        "errorCode": 0,
+        "progress": 0,
+        "status": "UP_TO_DATE",
+        "totalBytesDownloaded": 0,
+        "totalDownloadSize": 0
+    },
+    "fileStatuses": {},
+    "lastCheckIn": {
+        "nanoseconds": 388000000,
+        "seconds": 1655173182
+    },
+    "lastUpdate": {
+        "nanoseconds": 785000000,
+        "seconds": 1655173202
+    },
+    "networkErrorCodeFrequency": {
+        "Open Network 1": {
+          "connectivityFlippedCount": 22,
+          "networkErrorStatistics": [
+            {
+              "endpointName": "https://shouldNotTriggerGeneric-thresold.below.net",
+              "errorCount": 222,
+              "isBlocked": false,
+              "successCount": 19
+            },
+            {
+              "endpointName": "https://shouldTriggerGeneric-thresold.exceeds.net",
+              "errorCount": 0,
+              "isBlocked": false,
+              "successCount": 18
+            },
+            {
+              "endpointName": "https://mighty-platform-dev.appspot.com",
+              "errorCount": 2,
+              "isBlocked": false,
+              "successCount": 55
+            },
+            {
+              "endpointName": "https://firebasestorage.googleapis.com",
+              "errorCount": 0,
+              "isBlocked": false,
+              "successCount": 1
+            },
+            {
+              "endpointName": "https://storage.googleapis.com",
+              "errorCount": 0,
+              "isBlocked": false,
+              "successCount": 6
+            },
+            {
+              "endpointName": "https://fakeEndpoint.com",
+              "errorCount": 0,
+              "isBlocked": false,
+              "successCount": 6
+            },
+            {
+              "endpointName": "https://storage.fakeEndpoint.com",
+              "errorCount": 0,
+              "isBlocked": false,
+              "successCount": 6
+            },
+            {
+              "endpointName": "https://storage.fakeStorage.com",
+              "errorCount": 0,
+              "isBlocked": false,
+              "successCount": 6
+            },
+            {
+              "endpointName": "https://realfakedoors.com",
+              "errorCount": 0,
+              "isBlocked": false,
+              "successCount": 6
+            },
+            {
+              "endpointName": "https://storage.fakingIt.com",
+              "errorCount": 0,
+              "isBlocked": false,
+              "successCount": 6
+            }
+            
+          ]
+        },
+        "Managed Normal Network 1": {
+          "connectivityFlippedCount": 2,
+          "networkErrorStatistics": [
+            {
+              "endpointName": "https://Enterprise Network 22-thresold.below.net",
+              "errorCount": 0,
+              "isBlocked": true,
+              "successCount": 19
+            },
+            {
+              "endpointName": "https://shouldTriggerGeneric-thresold.exceeds.net",
+              "errorCount": 0,
+              "isBlocked": false,
+              "successCount": 18
+            },
+            {
+              "endpointName": "https://mighty-platform-dev.appspot.com",
+              "errorCount": 2,
+              "isBlocked": false,
+              "successCount": 55
+            },
+            {
+              "endpointName": "https://firebasestorage.googleapis.com",
+              "errorCount": 0,
+              "isBlocked": false,
+              "successCount": 1
+            },
+            {
+              "endpointName": "https://storage.googleapis.com",
+              "errorCount": 0,
+              "isBlocked": false,
+              "successCount": 6
+            },
+            {
+              "endpointName": "https://fakeEndpoint.com",
+              "errorCount": 0,
+              "isBlocked": false,
+              "successCount": 6
+            },
+            {
+              "endpointName": "https://storage.fakeEndpoint.com",
+              "errorCount": 0,
+              "isBlocked": false,
+              "successCount": 6
+            },
+            {
+              "endpointName": "https://storage.fakeStorage.com",
+              "errorCount": 0,
+              "isBlocked": false,
+              "successCount": 6
+            },
+            {
+              "endpointName": "https://realfakedoors.com",
+              "errorCount": 0,
+              "isBlocked": false,
+              "successCount": 6
+            },
+            {
+              "endpointName": "https://storage.fakingIt.com",
+              "errorCount": 0,
+              "isBlocked": false,
+              "successCount": 6
+            }
+            
+          ]
+        }
+      },
+    "picoCvControllerUpdateAvailable": false,
+    "picoGuardianHasBeenOpened": true,
+    "previousForegroundApp": {
+        "className": "com.pvr.home.RecActivity",
+        "packageName": "com.pvr.home"
+    },
+    "serial": "PA7H10DGF4140021W",
+    "videoStatuses": {
+        "eHtnJ48lW8yJPajsQdwi": {
+            "downloadSpeed": 0,
+            "errorCode": 0,
+            "id": "eHtnJ48lW8yJPajsQdwi",
+            "managedFileType": "VIDEO",
+            "name": "180 Video",
+            "path": "/MightyImmersion/videos/eHtnJ48lW8yJPajsQdwi",
+            "progress": 4,
+            "status": "DOWNLOADING",
+            "timeRemaining": 0,
+            "timestamp": {
+                "nanoseconds": 582000000,
+                "seconds": 1665697109
+            },
+            "totalBytesDownloaded": 5,
+            "totalDownloadSize": 100
+        }
+    }
+}
