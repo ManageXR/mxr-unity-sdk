@@ -14,6 +14,8 @@ namespace MXR.SDK {
             get {
                 if (Application.isEditor) {
                     var samplesPath = Path.Combine(Application.dataPath, "Samples", "ManageXR Unity SDK");
+                    if (!Directory.Exists(samplesPath))
+                        throw new System.Exception($"No ManageXR Unity SDK Samples found in the project");
                     var dirs = Directory.GetDirectories(samplesPath, "*", SearchOption.TopDirectoryOnly);
 
                     foreach(var dir in dirs) {
