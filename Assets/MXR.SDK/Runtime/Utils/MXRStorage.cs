@@ -12,8 +12,20 @@ namespace MXR.SDK {
         /// </summary>
         public static string ExternalStorageDirectory {
             get {
-                if (Application.isEditor) 
-                    return Application.dataPath.Replace("Assets", "Files");
+                if (Application.isEditor) {
+                    var samplesPath = Path.Combine(Application.dataPath, "Samples", "ManageXR Unity SDK");
+                    if (!Directory.Exists(samplesPath))
+                        throw new System.Exception($"No ManageXR Unity SDK Samples found in the project");
+                    var dirs = Directory.GetDirectories(samplesPath, "*", SearchOption.TopDirectoryOnly);
+
+                    foreach(var dir in dirs) {
+                        var target = Path.Combine(dir, "Samples", "Files");
+                        if (Directory.Exists(target))  {
+                            return target;
+                        }
+                    }
+                    throw new System.Exception($"No ManageXR Unity SDK Samples found in the project");
+                }
                 else {
                     var path = new AndroidJavaClass("android.os.Environment")
                         .SafeCallStatic<AndroidJavaObject>("getExternalStorageDirectory")
