@@ -68,6 +68,38 @@ public class NativeUtils {
         }
     }
 
+    public boolean resumeApp(String packageName) {
+        try {
+            Intent intent = mContext.getPackageManager().getLaunchIntentForPackage(packageName);
+            if (intent == null) {
+                return false;
+            }
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            mContext.startActivity(intent);
+            return true;
+        } catch (Exception e) {
+            Log.e("NativeUtils", e.toString());
+            return false;
+        }
+    }
+
+    public boolean resumeAppWithClass(String packageName, String className) {
+        try {
+            if (!isAppInstalled(packageName)) {
+                return false;
+            }
+
+            Intent i = new Intent();
+            i.setClassName(packageName, className);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            mContext.startActivity(i);
+            return true;
+        } catch (Exception e) {
+            Log.e("NativeUtils", e.toString());
+            return false;
+        }
+    }
+
     public boolean launchOculusSystemUx(String dataUri) {
         try {
             Intent i = new Intent(Intent.ACTION_VIEW);

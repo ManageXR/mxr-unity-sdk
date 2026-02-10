@@ -94,6 +94,19 @@ namespace MXR.SDK {
         public static void LaunchAppWithPackageAndClassNames(string packageName, string className) =>
             NativeUtils.SafeCall<bool>("launchAppWithClass", packageName, className);
 
+        public static void ResumeRuntimeApp(RuntimeApp app) {
+            if (string.IsNullOrEmpty(app.className))
+                ResumeAppWithPackageName(app.packageName);
+            else
+                ResumeAppWithPackageAndClassNames(app.packageName, app.className);
+        }
+
+        public static void ResumeAppWithPackageName(string packageName) =>
+            NativeUtils.SafeCall<bool>("resumeApp", packageName);
+
+        public static void ResumeAppWithPackageAndClassNames(string packageName, string className) =>
+            NativeUtils.SafeCall<bool>("resumeAppWithClass", packageName, className);
+
         public static void LaunchIntentAction(string intentAction) =>
             NativeUtils.SafeCall<bool>("launchIntentAction", intentAction);
 
