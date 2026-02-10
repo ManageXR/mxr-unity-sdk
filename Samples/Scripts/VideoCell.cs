@@ -18,10 +18,12 @@ namespace MXR.SDK.Samples {
         public void Refresh() {
             title.text = video.title;
 
-            // Instead of MXRStorage.GetFullPath(video.iconPath) you can also use
-            // video.iconUrl to download the icon from a URL, like this:
-            //new ImageDownloader().Load(video.iconUrl, TextureFormat.ARGB32, true, result =>{}, error =>{});
-            new ImageDownloader().Load(MXRStorage.GetFullPath(video.iconPath), TextureFormat.ARGB32, true,
+            // Try local path first, fall back to remote URL if not available
+            string iconLocation = string.IsNullOrEmpty(video.iconPath)
+                ? video.iconUrl
+                : MXRStorage.GetFullPath(video.iconPath);
+
+            new ImageDownloader().Load(iconLocation, TextureFormat.ARGB32, true,
                 result => {
                     if (isBeingDestroyed) return;
 
