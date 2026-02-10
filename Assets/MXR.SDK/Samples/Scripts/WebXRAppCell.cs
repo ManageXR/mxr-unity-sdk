@@ -14,11 +14,12 @@ namespace MXR.SDK.Samples {
         public void Refresh() {
             title.text = webXRApp.title;
 
-            // Instead of MXRStorage.GetFullPath(webXRApp.iconPath) you can also use
-            // webXRApp.iconUrl to download the icon from a URL, like this:
-            //new ImageDownloader().Load(webXRApp.iconUrl, TextureFormat.ARGB32, true, result =>{}, error =>{});
+            // Try local path first, fall back to remote URL if not available
+            string iconLocation = string.IsNullOrEmpty(webXRApp.iconPath)
+                ? webXRApp.iconUrl
+                : MXRStorage.GetFullPath(webXRApp.iconPath);
 
-            new ImageDownloader().Load(MXRStorage.GetFullPath(webXRApp.iconPath), TextureFormat.ARGB32, true,
+            new ImageDownloader().Load(iconLocation, TextureFormat.ARGB32, true,
                 result => {
                     if (isBeingDestroyed) return;
 
