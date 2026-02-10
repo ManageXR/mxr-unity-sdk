@@ -1,201 +1,29 @@
-                                 Apache License
-                           Version 2.0, January 2004
-                        http://www.apache.org/licenses/
-
-   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
-
-   1. Definitions.
-
-      "License" shall mean the terms and conditions for use, reproduction,
-      and distribution as defined by Sections 1 through 9 of this document.
-
-      "Licensor" shall mean the copyright owner or entity authorized by
-      the copyright owner that is granting the License.
-
-      "Legal Entity" shall mean the union of the acting entity and all
-      other entities that control, are controlled by, or are under common
-      control with that entity. For the purposes of this definition,
-      "control" means (i) the power, direct or indirect, to cause the
-      direction or management of such entity, whether by contract or
-      otherwise, or (ii) ownership of fifty percent (50%) or more of the
-      outstanding shares, or (iii) beneficial ownership of such entity.
-
-      "You" (or "Your") shall mean an individual or Legal Entity
-      exercising permissions granted by this License.
-
-      "Source" form shall mean the preferred form for making modifications,
-      including but not limited to software source code, documentation
-      source, and configuration files.
-
-      "Object" form shall mean any form resulting from mechanical
-      transformation or translation of a Source form, including but
-      not limited to compiled object code, generated documentation,
-      and conversions to other media types.
-
-      "Work" shall mean the work of authorship, whether in Source or
-      Object form, made available under the License, as indicated by a
-      copyright notice that is included in or attached to the work
-      (an example is provided in the Appendix below).
-
-      "Derivative Works" shall mean any work, whether in Source or Object
-      form, that is based on (or derived from) the Work and for which the
-      editorial revisions, annotations, elaborations, or other modifications
-      represent, as a whole, an original work of authorship. For the purposes
-      of this License, Derivative Works shall not include works that remain
-      separable from, or merely link (or bind by name) to the interfaces of,
-      the Work and Derivative Works thereof.
-
-      "Contribution" shall mean any work of authorship, including
-      the original version of the Work and any modifications or additions
-      to that Work or Derivative Works thereof, that is intentionally
-      submitted to Licensor for inclusion in the Work by the copyright owner
-      or by an individual or Legal Entity authorized to submit on behalf of
-      the copyright owner. For the purposes of this definition, "submitted"
-      means any form of electronic, verbal, or written communication sent
-      to the Licensor or its representatives, including but not limited to
-      communication on electronic mailing lists, source code control systems,
-      and issue tracking systems that are managed by, or on behalf of, the
-      Licensor for the purpose of discussing and improving the Work, but
-      excluding communication that is conspicuously marked or otherwise
-      designated in writing by the copyright owner as "Not a Contribution."
-
-      "Contributor" shall mean Licensor and any individual or Legal Entity
-      on behalf of whom a Contribution has been received by Licensor and
-      subsequently incorporated within the Work.
-
-   2. Grant of Copyright License. Subject to the terms and conditions of
-      this License, each Contributor hereby grants to You a perpetual,
-      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
-      copyright license to reproduce, prepare Derivative Works of,
-      publicly display, publicly perform, sublicense, and distribute the
-      Work and such Derivative Works in Source or Object form.
-
-   3. Grant of Patent License. Subject to the terms and conditions of
-      this License, each Contributor hereby grants to You a perpetual,
-      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
-      (except as stated in this section) patent license to make, have made,
-      use, offer to sell, sell, import, and otherwise transfer the Work,
-      where such license applies only to those patent claims licensable
-      by such Contributor that are necessarily infringed by their
-      Contribution(s) alone or by combination of their Contribution(s)
-      with the Work to which such Contribution(s) was submitted. If You
-      institute patent litigation against any entity (including a
-      cross-claim or counterclaim in a lawsuit) alleging that the Work
-      or a Contribution incorporated within the Work constitutes direct
-      or contributory patent infringement, then any patent licenses
-      granted to You under this License for that Work shall terminate
-      as of the date such litigation is filed.
-
-   4. Redistribution. You may reproduce and distribute copies of the
-      Work or Derivative Works thereof in any medium, with or without
-      modifications, and in Source or Object form, provided that You
-      meet the following conditions:
-
-      (a) You must give any other recipients of the Work or
-          Derivative Works a copy of this License; and
-
-      (b) You must cause any modified files to carry prominent notices
-          stating that You changed the files; and
-
-      (c) You must retain, in the Source form of any Derivative Works
-          that You distribute, all copyright, patent, trademark, and
-          attribution notices from the Source form of the Work,
-          excluding those notices that do not pertain to any part of
-          the Derivative Works; and
-
-      (d) If the Work includes a "NOTICE" text file as part of its
-          distribution, then any Derivative Works that You distribute must
-          include a readable copy of the attribution notices contained
-          within such NOTICE file, excluding those notices that do not
-          pertain to any part of the Derivative Works, in at least one
-          of the following places: within a NOTICE text file distributed
-          as part of the Derivative Works; within the Source form or
-          documentation, if provided along with the Derivative Works; or,
-          within a display generated by the Derivative Works, if and
-          wherever such third-party notices normally appear. The contents
-          of the NOTICE file are for informational purposes only and
-          do not modify the License. You may add Your own attribution
-          notices within Derivative Works that You distribute, alongside
-          or as an addendum to the NOTICE text from the Work, provided
-          that such additional attribution notices cannot be construed
-          as modifying the License.
-
-      You may add Your own copyright statement to Your modifications and
-      may provide additional or different license terms and conditions
-      for use, reproduction, or distribution of Your modifications, or
-      for any such Derivative Works as a whole, provided Your use,
-      reproduction, and distribution of the Work otherwise complies with
-      the conditions stated in this License.
-
-   5. Submission of Contributions. Unless You explicitly state otherwise,
-      any Contribution intentionally submitted for inclusion in the Work
-      by You to the Licensor shall be under the terms and conditions of
-      this License, without any additional terms or conditions.
-      Notwithstanding the above, nothing herein shall supersede or modify
-      the terms of any separate license agreement you may have executed
-      with Licensor regarding such Contributions.
-
-   6. Trademarks. This License does not grant permission to use the trade
-      names, trademarks, service marks, or product names of the Licensor,
-      except as required for reasonable and customary use in describing the
-      origin of the Work and reproducing the content of the NOTICE file.
-
-   7. Disclaimer of Warranty. Unless required by applicable law or
-      agreed to in writing, Licensor provides the Work (and each
-      Contributor provides its Contributions) on an "AS IS" BASIS,
-      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
-      implied, including, without limitation, any warranties or conditions
-      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
-      PARTICULAR PURPOSE. You are solely responsible for determining the
-      appropriateness of using or redistributing the Work and assume any
-      risks associated with Your exercise of permissions under this License.
-
-   8. Limitation of Liability. In no event and under no legal theory,
-      whether in tort (including negligence), contract, or otherwise,
-      unless required by applicable law (such as deliberate and grossly
-      negligent acts) or agreed to in writing, shall any Contributor be
-      liable to You for damages, including any direct, indirect, special,
-      incidental, or consequential damages of any character arising as a
-      result of this License or out of the use or inability to use the
-      Work (including but not limited to damages for loss of goodwill,
-      work stoppage, computer failure or malfunction, or any and all
-      other commercial damages or losses), even if such Contributor
-      has been advised of the possibility of such damages.
-
-   9. Accepting Warranty or Additional Liability. While redistributing
-      the Work or Derivative Works thereof, You may choose to offer,
-      and charge a fee for, acceptance of support, warranty, indemnity,
-      or other liability obligations and/or rights consistent with this
-      License. However, in accepting such obligations, You may act only
-      on Your own behalf and on Your sole responsibility, not on behalf
-      of any other Contributor, and only if You agree to indemnify,
-      defend, and hold each Contributor harmless for any liability
-      incurred by, or claims asserted against, such Contributor by reason
-      of your accepting any such warranty or additional liability.
-
-   END OF TERMS AND CONDITIONS
-
-   APPENDIX: How to apply the Apache License to your work.
-
-      To apply the Apache License to your work, attach the following
-      boilerplate notice, with the fields enclosed by brackets "[]"
-      replaced with your own identifying information. (Don't include
-      the brackets!)  The text should be enclosed in the appropriate
-      comment syntax for the file format. We also recommend that a
-      file or class name and description of purpose be included on the
-      same "printed page" as the copyright notice for easier
-      identification within third-party archives.
-
-   Copyright 2026 MIGHTY IMMERSION, INC. ("MIGHTY IMMERSION")
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+SDK LICENSE AGREEMENT
+PLEASE CAREFULLY READ THE TERMS OF THIS SDK LICENSE AGREEMENT ("AGREEMENT"). BY INSTALLING, ACCESSING AND/OR USING THE SOFTWARE (AS DEFINED BELOW), YOU EXPRESSLY ACKNOWLEDGE AND AGREE THAT YOU, OR THE COMPANY YOU REPRESENT, ("YOU" OR "LICENSEE") ARE ENTERING INTO A LEGAL AGREEMENT WITH MIGHTY IMMERSION, INC. (“MIGHTY IMMERSION”).   YOU HEREBY AGREE TO COMPLY WITH, AND BE LEGALLY BOUND BY, THE TERMS AND CONDITIONS OF THIS AGREEMENT. YOU HEREBY WAIVE ANY RIGHTS OR REQUIREMENTS UNDER ANY LAWS OR REGULATIONS IN ANY JURISDICTION WHICH REQUIRE AN ORIGINAL (NON-ELECTRONIC) SIGNATURE OR DELIVERY OR RETENTION OF NON-ELECTRONIC RECORDS, TO THE EXTENT PERMITTED UNDER APPLICABLE LAW.  IF YOU DO NOT WISH TO BE BOUND BY THIS AGREEMENT, PLEASE EXIT, UNINSTALL AND/OR CEASE ALL USE OF THE SOFTWARE NOW.
+If you are entering into this agreement on behalf of an Organization, company or other legal entity, you represent that you have the authority to bind such entity, its affiliates and all users who access the SOFTWARE this Agreement, in which case the terms "you" or "LICENSEE" shall refer to such entity, its affiliates, employees and users associated with it.  If You do not have such authority, or if You do not agree with this Agreement, You may not access nor use the SOFTWARE.
+1.   Definitions. For purposes of this Agreement, the following capitalized terms shall have the following meaning: 
+1.1  “Application” means Your own software or application that relates to or is used in connection with virtual reality or similar devices and that is capable of integrating or interoperating with the ManageXR Platform.  
+1.2  "Documentation" means any user guides, documentation and technical manuals delivered or made available by Mighty Immersion to Licensee. 
+1.43 "Feedback" means code, suggestions, comments, or feedback (whether provided orally or in writing) with respect to the Software or ManageXR Platform, including without limitation, feedback on features or functionality, usability, and specifications therefor, and may also include suggestions or ideas for improvements or enhancements to the Software and/or ManageXR Platform.
+1.4  "Intellectual Property Rights" means all intangible legal rights, titles and interests evidenced by or embodied in all: (i) inventions (regardless of patentability and whether or not reduced to practice), improvements thereto, patents, patent applications, patent disclosures, together with all reissuances, continuations, continuations in part, revisions, extensions and reexaminations thereof; (ii) trademarks, service marks, trade dress, logos, trade names, corporate names, together with translations, adaptations, derivations and combinations thereof, including goodwill associated therewith, and applications, registrations, and renewals in connection therewith; (iii) any work of authorship (regardless of whether copyrightable), copyrightable works, copyrights (including moral rights), and applications, registrations and renewals in connection therewith; (iv) mask works and applications, registrations and renewals in connection therewith; (v) trade secrets and Confidential Information; and (vi) other proprietary rights and any other similar rights, in each case on a worldwide basis, and copies and tangible embodiments thereof, in whatever form or medium. 
+1.5  "License" means the right to use the Software pursuant to Section ‎2.1 to this Agreement. 
+1.6  “ManageXR Platform” means Mighty Immersion’s software-as-a-service (SaaS) platform and related technology known as the ManageXR Platform, which enables customers to track, manage and customize their enterprise mobile virtual reality devices, together with any related data, APIs, software, technology, programs and/or software and platform specific related services or functions that Mighty Immersion may provide or make available from time-to-time in connection therewith.   
+1.7  "Software" means Mighty Immersion’s software development kit software in object or source code version, Documentation and any updates and upgrades thereto (to the extent delivered) and Support (as defined below and to the extent provided), all as provided by Mighty Immersion to Licensee. 
+2.  License
+2.1  Grant of License. Subject to the terms and conditions of this Agreement, Mighty Immersion grants Licensee, during the Term, a limited, non-exclusive, non-sublicensable, non-transferable, revocable license to use the Software solely for Licensee’s own internal business purposes to integrate the ManageXR Platform services with and into Licensee’s Application. 
+2.2  Documentation. Mighty Immersion may make available Documentation to Licensee for Licensee to use solely in connection with Licensee's use of the Software during the Term.  Licensee may print or copy the Documentation as needed for its own purposes provided that all copyright notices are included therein. 
+2.3  Reservation of Rights; Use Restrictions. Other than the rights explicitly granted in this Agreement, Licensee shall have no other rights, express or implied, in the Software. Without limiting the generality of the foregoing, Licensee agrees it shall not: (i) allow any third party to use the Software in any manner, including but not limited to, sell, lease, market, transfer, assign the right to use, sublicense or distribute the Software, or any part thereof; (ii) modify, revise, or alter the Software or reverse engineer, decompile, disassemble or otherwise reduce to human-perceivable form the Software's source code; (iii) copy or allow copies of the Software to be made except strictly as needed to use the Software consistent with the terms of this Agreement; (iv) remove, alter or obscure any proprietary notice or identification, including copyright, trademark, patent or other notices, contained in or displayed on or via the Software; (v) use the Software to violate any applicable laws, rules, regulations, or third party privacy, confidentiality or intellectual property rights, or for any unlawful, harmful, irresponsible, or inappropriate purpose, or in any manner that breaches this Agreement, or for any purpose not otherwise consistent with its intended use; (vi) use the Software to harvest, collect, process or otherwise gain access to any personal information or personal data as defined by any applicable privacy law, without the prior written consent of the applicable device owners and/or device users, and in each case only as permitted by and consistent with applicable law; (vii) use any data and information collected from a device via the Software for purposes inconsistent with its intended use and/or in violation of applicable law (including privacy laws); (viii) violate the security of any Mighty Immersion or third party networks, systems or devices; (ix) use the Software for illegal, criminal or any unintended purposes, including to distribute viruses or any other technologies that may harm or negatively impact Mighty Immersion or any devices or device users; (x) use the Software for competitive purposes, including, without limitation, to create or develop products or services competitive with ManageXR Platform; and/or (xi) represent that it possesses any proprietary interest in the Software. 
+2.4  Third Party Software.  Licensee acknowledges and agrees that the Software may link to, integrate or interoperate with, or require the use of certain third party software, technology and/or materials (“Third Party Software”).  Third Party Software will not be provided directly by Mighty Immersion.  Licensee is solely responsible for procuring, licensing and maintaining any required or optional Third Party Software (e.g., Android operating system, Unity applications).  Some of the Third Party Software may consist of open source code software and related materials.  All Third Party Software shall be subject to their respective license terms, terms of service or other legal terms applicable to the use thereof ("Third Party Software Licenses"), including, in the case of open source software, applicable open source software licenses.  Such Third Party Software Licenses may contain conditions or requirements with respect to warranty, copyright policy and other provisions. By entering into this Agreement, Licensee undertakes to strictly comply with the terms and conditions of the Third Party Software Licenses, as may be amended from time to time. In order to comply with the Third Party Software Licenses, Licensee shall read the respective licenses or notices.  You acknowledge that use of any Third Party Software is at Your own risk and Mighty Immersion is not liable for any losses or damages which may occur resulting from the use of any Third Party Software.  Mighty Immersion does not possess any proprietary interest in such Third Party Software.
+3.  Ownership. The Documentation, Software (excluding any Third Party Software therein which are owned by their respective licensors) and/or any copies thereof, including without limitation any derivative works made (regardless of whether such derivative works were made and/or developed pursuant to the request and/or specifications of Licensee, and irrespective of any support and/or assistance Mighty Immersion may, will or had received from Licensee, or any third party on its behalf, with respect thereto), as well as any updates or upgrades thereto, if provided by Mighty Immersion pursuant to this Agreement, shall remain Mighty Immersion's sole and exclusive property. All Intellectual Property Rights evidenced by or embodied in and/or attached/connected/related to the Software and/or the Documentation, or part thereof, are and shall be owned solely and exclusively by Mighty Immersion. Nothing in this Agreement shall constitute a waiver of Mighty Immersion's Intellectual Property Rights under any law, or be in any way construed or interpreted as such. 
+4.  Feedback.  It is further agreed that to the extent Licensee provides Mighty Immersion with Feedback, Licensee acknowledges that any and all rights, including Intellectual Property Rights, in such Feedback shall belong exclusively to Mighty Immersion and Licensee hereby irrevocably and unconditionally transfers and assigns to Mighty Immersion all Intellectual Property Rights in and to such Feedback and waives any and all moral rights that Licensee may have in respect thereto. It is further understood that use of Feedback, if any, may be made by Mighty Immersion at its sole discretion, and that Mighty Immersion in no way shall be obliged to make use of any of the Feedback or part thereof. If, notwithstanding the assignment of Feedback set forth above, Licensee retains ownership of any Feedback, Licensee hereby grants to Mighty Immersion a nonexclusive, perpetual, irrevocable, worldwide, royalty-free right and license to use, disclose and exploit such Feedback without restriction, including, without limitation, to use the Feedback for its business and commercial purposes and to reproduce, modify, create derivative works of, license, distribute and otherwise commercialize the Feedback as part of any Mighty Immersion’s offerings.  
+5.  Confidential Information.
+5.1   “Confidential Information” means: (a) the Software, the Documentation and the ManageXR Platform and all technical information relating thereto; and (b) any business or technical information of Mighty Immersion, including, but not limited to, any information relating to Mighty Immersion’s product plans, designs, costs, product prices and names, finances, marketing plans, business opportunities, personnel, research, development or know-how.
+5.2  Restrictions. Licensee will not use or disclose any Confidential Information, except as necessary for the exercise of its rights under this Agreement. Licensee will use all reasonable efforts to protect Confidential Information from unauthorized use or disclosure, but in no event less than the efforts that it ordinarily uses with respect to its own confidential information of similar importance. Licensee may disclose Confidential Information only to those of its employees and contractors who need to know such Confidential Information for the exercise of Licensee’s rights under this Agreement; provided, that each such employee and contractor first is bound by a written agreement that contains use and nondisclosure restrictions at least as protective of the Confidential Information as those set forth in this Agreement.
+5.3  Exclusions. The obligations in Section 5.2 will not apply to the extent any information: (a) is or becomes generally known to the public through no fault or breach of this Agreement by Licensee; (b) is rightfully known by Licensee at the time of disclosure without an obligation of confidentiality; (c) is independently developed by Licensee without access to or use of any Confidential Information; or (d) is rightfully obtained by Licensee from a third party without restriction on use or disclosure.
+6.  Warranty Disclaimers. THE SOFTWARE IS PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS WITHOUT WARRANTIES OF ANY KIND INCLUDING, WITHOUT LIMITATION, REPRESENTATIONS, WARRANTIES AND CONDITIONS OF MERCHANTABILITY, FITNESS FOR INTENDED OR PARTICULAR PURPOSE, TITLE, NON-INFRINGEMENT, AND/OR THOSE ARISING BY STATUTE OR FROM A COURSE OF DEALING OR USAGE OF TRADE.   MIGHTY IMMERSION MAKES NO WARRANTY OF ANY KIND THAT THE SOFTWARE, OR ANY PRODUCTS OR RESULTS ARISING FROM THE USE THEREOF, WILL MEET YOUR OR ANY OTHER PERSON'S REQUIREMENTS, OPERATE WITHOUT INTERRUPTION, ACHIEVE ANY INTENDED RESULT, BE COMPATIBLE OR WORK WITH ANY OF YOUR OR ANY THIRD PARTY'S SOFTWARE, SYSTEM, DEVICE OR OTHER SERVICES, OR BE SECURE, ACCURATE, COMPLETE, FREE OF HARMFUL CODE, OR ERROR-FREE, OR THAT ANY ERRORS OR DEFECTS CAN OR WILL BE CORRECTED.
+7.  Indemnity. You agree that Mighty Immersion shall have no liability whatsoever for any use of the Software or any Third Party Software by You or any third party. You hereby agree to defend, indemnify and hold harmless Mighty Immersion and its affiliates and their respective officers, directors, agents and employees from any and all claims, damages, liabilities, costs, and expenses (including attorney's fees) arising from claims related to, connected with or arising out of (i) Your use or misuse of the Software, ManageXR Platform and/or any Third Party Software, (ii) Your Application, and/or (iii)  arising from from Your breach of or failure to comply with this Agreement or any of Your acts or omissions related to the Software or ManageXR Platform. 
+8.  Limitation of Liability. UNDER NO CIRCUMSTANCES SHALL MIGHTY IMMERSION BE LIABLE FOR ANY SPECIAL, INDIRECT, INCIDENTAL, PUNITIVE OR CONSEQUENTIAL DAMAGES, OR FOR ANY LOSS OF DATA, REVENUE, BUSINESS OR REPUTATION, THAT ARISES UNDER OR IN CONNECTION WITH THIS AGREEMENT, OR THAT RESULTS FROM THE USE OF, OR THE INABILITY TO USE, THE SOFTWARE. MIGHTY IMMERSION'S TOTAL AGGREGATE LIABILITY FOR ANY AND ALL DIRECT DAMAGES AND LOSSES THAT ARISE UNDER OR IN CONNECTION WITH THIS AGREEMENT SHALL NOT IN ANY CIRCUMSTANCE EXCEED THE AMOUNT OF $100.00 (ONE HUNDRED) UNITED STATES DOLLARS. THE FOREGOING LIMITATIONS AND EXCLUSIONS IN THIS SECTION ‎SHALL APPLY: (I) EVEN IF MIGHTY IMMERSION HAS BEEN ADVISED OF THE POSSIBILITY OF ANY DAMAGES OR LOSSES; (II) EVEN IF ANY REMEDY SET FORTH HEREIN FAILS OF ITS ESSENTIAL PURPOSE; AND (III) REGARDLESS OF THE BASIS OR THEORY OF LIABILITY.   MIGHTY IMMERSION SHALL HAVE NO LIABILITY OF ANY NATURE WHATSOEVER FOR LICENSEE’S COMPLIANCE WITH OR BREACH OF ANY LICENSE OR TERMS AND CONDITIONS OF ANY THIRD PARTIES OR THIRD-PARTY SERVICES.  
+9.  Term and Termination. This Agreement shall continue until terminated as set forth in this section (the "Term"). You may terminate this Agreement at any time by removing the Software from Your system and destroying all copies of the Software and Documentation. Unauthorized copying of the Software or otherwise failing to comply with this Agreement will result in automatic immediate termination of this Agreement and Mighty Immersion reserves the right to exercise any and all legal remedies with respect thereto. Mighty Immersion reserves the right to terminate this Agreement and the License at any time and without notice. Upon termination of this Agreement, the License will terminate and You: (i) will cease any and all  further use of the Software, and (ii) will remove the Software from all hard drives, networks and other storage media and destroy all copies of the Software and Documentation in Your possession or under Your control. The provisions of Sections ‎2.3, ‎2.4, ‎2.5, and 3 through 12 shall survive the termination, expiration or other ending of this Agreement. 
+10.  Entire Agreement; Customer Agreement.  This Agreement represents the complete agreement concerning the Software between You and Mighty Immersion and supersedes all prior agreements and representations between You and Mighty Immersion; provided, however, that if You enter into a written agreement with Mighty Immersion related to the ManageXR Platform (a “Customer Agreement”), the terms of such Customer Agreement shall govern and control as long as such Customer Agreement includes the use of the Software as part of such Customer Agreement.  This Agreement does not convey any rights to access or use the ManageXR Platform and all use of the ManageXR Platform shall be subject to a separate Customer Agreement.
+11.  Support; Upgrades.  Mighty Immersion is not obligated to provide any technical or other support (“Support”) for the Software. However, if Mighty Immersion chooses to provide any Support to You, Your use of such Support will be governed by then-current Mighty Immersion policies.  Mighty Immersion is not obligated to provide any upgrades or future versions of the Software.  Mighty Immersion reserves the right to discontinue offering the Software, or to modify the Software at any time, in its sole discretion. If You are dissatisfied with any aspect of the Software at any time, Your sole and exclusive remedy is to cease using the Software.
+12.	Miscellaneous. The relationship between the parties is that of independent contractors.  This Agreement will not create or be deemed to create any agency, partnership or joint venture between the parties.  Mighty Immersion may update this Agreement in its discretion from time to time and such revised Agreement shall apply to any newly provided versions of the Software or when You receive notice that it is updated.  In the event any provision of this Agreement is found to be legally unenforceable, such unenforceability shall not prevent enforcement of any other provision of this Agreement.  This Agreement shall be governed by the laws of the State of New York without giving effect to its principles of conflict of laws.  The parties hereby irrevocably and unconditionally submit to the jurisdiction of state and federal courts in San Francisco, California. Licensee shall not assign this Agreement, or assign or delegate any of its rights or obligations pursuant to this Agreement without the prior written consent of Mighty Immersion, whether expressly or by operation of law, including in connection with a merger or change of control, and any such attempted assignment shall be void and of no effect.  Mighty Immersion may freely assign or novate this Agreement or delegate or subcontract any rights or obligations hereunder.  Mighty Immersion shall not be responsible for any delay or failure in performance of any part of this Agreement to the extent that such delay is caused by reason of acts of God, wars, terrorism, revolution, civil commotion, acts of public enemy, embargo, acts of government in its sovereign capacity, or any other circumstances beyond the reasonable control and not involving any fault or negligence of the Provider.  The terms “including” shall mean “including, without limitation” unless the context clearly requires others.  For the purposes of 11 U.S.C. § 365(n), the parties acknowledge and agree that this Agreement constitutes a license grant of intellectual property in software form to Licensee by Mighty Immersion.  Licensee may not remove or export from the United States or allow the export or re-export of the Software, or anything related thereto, or any direct product thereof in violation of any restrictions, laws or regulations of the United States Department of Commerce, the United States Department of Treasury Office of Foreign Assets Control, or any other United States or foreign agency or authority.  As defined in FAR section 2.101, the Software and documentation are “commercial items” and according to DFAR section 252.2277014(a)(1) and (5) are deemed to be “commercial computer software” and “commercial computer software documentation.”  Consistent with DFAR section 227.7202 and FAR section 12.212, any use modification, reproduction, release, performance, display, or disclosure of such commercial software or commercial software documentation by the U.S. Government will be governed solely by the terms of this Agreement and will be prohibited except to the extent expressly permitted by the terms of this Agreement.
