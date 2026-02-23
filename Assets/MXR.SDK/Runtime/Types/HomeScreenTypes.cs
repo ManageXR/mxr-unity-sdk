@@ -28,6 +28,7 @@ namespace MXR.SDK {
     /// The different view types recognised by the SDK. 
     /// </summary>
     [Serializable]
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum HomeScreenView {
         LIBRARY,
         VIDEO_PLAYER,
@@ -75,6 +76,7 @@ namespace MXR.SDK {
     /// State of video playback
     /// </summary>
     [Serializable]
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum HomeScreenVideoState {
         /// <summary>
         /// Whether a video is currently playing
