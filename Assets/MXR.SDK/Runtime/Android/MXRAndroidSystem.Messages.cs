@@ -130,7 +130,14 @@ namespace MXR.SDK {
                 }
 
                 File.WriteAllText(_cachedRuntimeSettingsSummaryPath, json);
-                var summary = JsonConvert.DeserializeObject<RuntimeSettingsSummary>(json);
+                var settings = new JsonSerializerSettings {
+                    Error = (sender, args) => {
+                        LogIfEnabled(LogType.Warning,
+                            $"JSON deserialization warning in HandleRuntimeSettingsSummary: Failed to deserialize field '{args.ErrorContext.Path}': {args.ErrorContext.Error.Message}");
+                        args.ErrorContext.Handled = true;
+                    }
+                };
+                var summary = JsonConvert.DeserializeObject<RuntimeSettingsSummary>(json, settings);
                 if (summary == null) {
                     LogIfEnabled(LogType.Warning, "Failed to deserialize RuntimeSettingsSummary: result was null");
                     return;
@@ -154,7 +161,14 @@ namespace MXR.SDK {
                 }
 
                 File.WriteAllText(_cachedDeviceStatusPath, json);
-                var status = JsonConvert.DeserializeObject<DeviceStatus>(json);
+                var settings = new JsonSerializerSettings {
+                    Error = (sender, args) => {
+                        LogIfEnabled(LogType.Warning,
+                            $"JSON deserialization warning in HandleDeviceStatus: Failed to deserialize field '{args.ErrorContext.Path}': {args.ErrorContext.Error.Message}");
+                        args.ErrorContext.Handled = true;
+                    }
+                };
+                var status = JsonConvert.DeserializeObject<DeviceStatus>(json, settings);
                 if (status == null) {
                     LogIfEnabled(LogType.Warning, "Failed to deserialize DeviceStatus: result was null");
                     return;
