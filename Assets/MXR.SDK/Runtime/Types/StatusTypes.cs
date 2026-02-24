@@ -2,6 +2,9 @@
 using System;
 using System.ComponentModel;
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
 namespace MXR.SDK {
     /// <summary>
     /// The runtime status of the ManageXR managed device. This class contains
@@ -177,11 +180,13 @@ namespace MXR.SDK {
     [System.Serializable]
     public class FileInstallStatus {
         [System.Serializable]
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum Status {
             QUEUED, DOWNLOADING, COMPLETE, ERROR
         }
 
         [System.Serializable]
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum ManagedFileType {
             FILE, ICON, BRANDING, VIDEO, ENVIRONMENT
         }
@@ -219,6 +224,7 @@ namespace MXR.SDK {
     /// </summary>
     [System.Serializable]
     public class AppInstallStatus {
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum Status {
             QUEUED,
             SETUP,
@@ -231,6 +237,7 @@ namespace MXR.SDK {
             ERROR,
             NO_STATUS
         }
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum InstallMethod {
             PATCH_INSTALL,
             FULL_INSTALL,
@@ -279,6 +286,7 @@ namespace MXR.SDK {
 
     [System.Serializable]
     public class DeviceSystemVersionInstallStatus {
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum Status {
             UP_TO_DATE,
             DOWNLOADING,
@@ -315,6 +323,7 @@ namespace MXR.SDK {
     /// </summary>
     [Serializable]
     public class ScreenCast {
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum Type {
             UNKNOWN,
             NATIVE,
@@ -322,6 +331,7 @@ namespace MXR.SDK {
             CODE_BASED
         }
 
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum State {
             INITIATED,
             REQUESTING_PERMS,

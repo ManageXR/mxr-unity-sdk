@@ -14,6 +14,7 @@ namespace MXR.SDK {
         /// <summary>
         /// Represents a requirement for the content
         /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum Requirement {
             /// <summary>
             /// Represents a requirement that is undefined
@@ -180,23 +181,27 @@ namespace MXR.SDK {
             return File.Exists(fullVideoPath);
         }
 
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum VideoType {
             _360,
             _180,
             _2D,
         }
 
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum VideoMapping {
             NONE,
             EQUIRECTANGULAR,
             CUBEMAP,
         }
 
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum VideoDisplay {
             MONO,
             STEREO,
         }
 
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum VideoPacking {
             NONE,
             TOP_BOTTOM,

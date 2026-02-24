@@ -10,6 +10,7 @@ namespace MXR.SDK {
     /// Network types.
     /// </summary>
     [Serializable]
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum NetworkType {
         /// <summary>
         /// Does not require a password
@@ -66,6 +67,7 @@ namespace MXR.SDK {
         /// State type for the status. 1-1 Mapping with Android native type
         /// </summary>
         [Serializable]
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum State {
             /// <summary>
             /// Ready to start data connection setup.
@@ -300,6 +302,7 @@ namespace MXR.SDK {
         public bool IsOpen => networkSecurityType == NetworkType.OPEN;
     }
 
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum EapMethod
     {
         PEAP,
@@ -307,6 +310,7 @@ namespace MXR.SDK {
         PWD,
     }
 
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum Phase2Method
     {
         PAP,
@@ -354,6 +358,7 @@ namespace MXR.SDK {
         }
     }
 
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum WifiAuthenticationError {
         TIMEOUT,
         WRONG_PASSWORD,
