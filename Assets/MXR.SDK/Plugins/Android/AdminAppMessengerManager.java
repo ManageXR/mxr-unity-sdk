@@ -12,8 +12,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,8 +22,6 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.util.Log;
 
-import java.util.List;
-
 public class AdminAppMessengerManager {
     public interface  AdminAppMessengerListener {
         void onBindStatusToAdminAppChanged(boolean bound);
@@ -34,21 +30,21 @@ public class AdminAppMessengerManager {
 
     static final String TAG = "AdminAppMessengerManager";
 
-    private final static String ADMIN_SERVICE_CLASS_NAME = "com.mightyimmersion.mightyplatform.AdminService";
-
     private final Messenger incomingMessenger = new Messenger(new IncomingMessageHandler(Looper.getMainLooper()));
     private Messenger outgoingMessenger;
     private boolean bound;
     private Context context;
     private AdminAppMessengerListener listener;
+    private NativeUtils nativeUtils;
 
     private int checkBindingFrequency = 10_000; // 10 seconds
     private Handler checkBindingHandler = new Handler(Looper.getMainLooper());
 
-    public AdminAppMessengerManager(Context _context, AdminAppMessengerListener _listener) {
+    public AdminAppMessengerManager(Context _context, AdminAppMessengerListener _listener, NativeUtils _nativeUtils) {
         context = _context;
         listener = _listener;
-        startBindToAdminServiceLoop();
+        nativeUtils = _nativeUtils;
+        checkBindingHandler.post(this::startBindToAdminServiceLoop);
     }
 
     public void startBindToAdminServiceLoop() {
@@ -66,7 +62,7 @@ public class AdminAppMessengerManager {
 
         ComponentName adminServiceComponent = getInstalledAdminServiceComponent();
         if (adminServiceComponent != null) {
-            launchAdminAppServiceIfNeeded(adminServiceComponent.getPackageName());
+            launchAdminAppServiceIfNeeded(adminServiceComponent);
             Intent bindIntent = new Intent();
             bindIntent.setComponent(adminServiceComponent);
             // This will bind to the service whether or not it is running. As soon as the service is started
@@ -250,21 +246,13 @@ public class AdminAppMessengerManager {
     }
 
     private ComponentName getInstalledAdminServiceComponent() {
-        PackageManager pm = context.getPackageManager();
-        List<PackageInfo> packages = pm.getInstalledPackages(0);
-
-        for (PackageInfo packageInfo : packages) {
-            if (packageInfo.packageName.startsWith("com.mightyimmersion.mightyplatform.adminapp") && !packageInfo.packageName.contains("preload") && !packageInfo.packageName.contains("test")) {
-                return new ComponentName(packageInfo.packageName, ADMIN_SERVICE_CLASS_NAME);
-            }
-        }
-        return null;
+        return nativeUtils.getAdminServiceComponentName();
     }
 
 
-    private void launchAdminAppServiceIfNeeded(String packageName) {
+    private void launchAdminAppServiceIfNeeded(ComponentName component) {
         Intent intent = new Intent();
-        intent.setClassName(packageName, ADMIN_SERVICE_CLASS_NAME);
+        intent.setComponent(component);
         if (Build.VERSION.SDK_INT >= 26) {
             context.startForegroundService(intent);
         } else {
