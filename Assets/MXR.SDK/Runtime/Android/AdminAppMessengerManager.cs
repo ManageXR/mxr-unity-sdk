@@ -35,9 +35,10 @@ namespace MXR.SDK {
         /// </summary>
         public AdminAppMessengerManager() {
             native = new AndroidJavaObject(
-                "com.mightyimmersion.customlauncher.AdminAppMessengerManager", 
-                MXRAndroidUtils.ApplicationContext, 
-                new AdminAppMessengerListener(this)
+                "com.mightyimmersion.customlauncher.AdminAppMessengerManager",
+                MXRAndroidUtils.ApplicationContext,
+                new AdminAppMessengerListener(this),
+                MXRAndroidUtils.NativeUtils
             );
             Debug.unityLogger.Log(LogType.Log, "AdminAppMessengerManager JNI bridge created.");
             if(!IsBoundToService)
