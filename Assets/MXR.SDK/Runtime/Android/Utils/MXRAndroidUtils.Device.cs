@@ -71,7 +71,15 @@ namespace MXR.SDK {
         }
         static string deviceProduct;
 
+
         // MANUFACTURER DETECTION
+        
+        /// <summary>
+        /// Returns true if the current device is a Samsung device
+        /// </summary>
+        public static bool IsSamsungDevice =>
+            Application.isEditor ? false : DeviceManufacturer.Equals("Samsung", StringComparison.OrdinalIgnoreCase);
+        
         /// <summary>
         /// Returns true if the current device is a Pico device
         /// </summary>
@@ -101,6 +109,14 @@ namespace MXR.SDK {
         /// </summary>
         public static bool IsDPVRDevice =>
             Application.isEditor ? false : DeviceManufacturer.Equals("Lexiang Inc.", StringComparison.OrdinalIgnoreCase);
+        
+        // AndroidXR DEVICE DETECTION
+        
+        /// <summary>
+        /// Returns true if the current device is a Samsung GalaxyXR
+        /// </summary>
+        public static bool IsGalaxyXR =>
+           Application.isEditor ? false : DeviceModel.Equals("SM-I610", StringComparison.OrdinalIgnoreCase);
 
         // HTC DEVICE DETECTION
         /// <summary>
