@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 using UnityEngine;
+using UnityEngine.Scripting;
 
 namespace MXR.SDK {
     /// <summary>
@@ -13,7 +14,9 @@ namespace MXR.SDK {
     /// This provides forward-compatibility when the API introduces new enum values that
     /// older SDK builds don't have.
     /// </summary>
+    [Preserve]
     public class TolerantStringEnumConverter : StringEnumConverter {
+        [Preserve]
         public TolerantStringEnumConverter() { }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer) {
