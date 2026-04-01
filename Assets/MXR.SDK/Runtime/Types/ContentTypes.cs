@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.IO;
 
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using UnityEngine;
 
 namespace MXR.SDK {
@@ -14,7 +13,7 @@ namespace MXR.SDK {
         /// <summary>
         /// Represents a requirement for the content
         /// </summary>
-        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(TolerantStringEnumConverter))]
         public enum Requirement {
             /// <summary>
             /// Represents a requirement that is undefined
@@ -181,27 +180,29 @@ namespace MXR.SDK {
             return File.Exists(fullVideoPath);
         }
 
-        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(TolerantStringEnumConverter))]
         public enum VideoType {
+            UNKNOWN,
             _360,
             _180,
             _2D,
         }
 
-        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(TolerantStringEnumConverter))]
         public enum VideoMapping {
             NONE,
             EQUIRECTANGULAR,
             CUBEMAP,
         }
 
-        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(TolerantStringEnumConverter))]
         public enum VideoDisplay {
+            UNKNOWN,
             MONO,
             STEREO,
         }
 
-        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(TolerantStringEnumConverter))]
         public enum VideoPacking {
             NONE,
             TOP_BOTTOM,
@@ -257,7 +258,7 @@ namespace MXR.SDK {
         /// The expiration behavior of a shared app
         /// An apps expiration behavior can be NONE,  DISABLE_APP and DELETED_APP
         /// </summary>
-        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(TolerantStringEnumConverter))]
         public ExpirationBehavior expirationBehavior = ExpirationBehavior.NONE;
 
         /// <summary>
