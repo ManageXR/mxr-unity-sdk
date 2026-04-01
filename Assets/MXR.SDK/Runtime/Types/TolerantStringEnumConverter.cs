@@ -14,6 +14,8 @@ namespace MXR.SDK {
     /// older SDK builds don't have.
     /// </summary>
     public class TolerantStringEnumConverter : StringEnumConverter {
+        public TolerantStringEnumConverter() { }
+
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer) {
             var enumType = Nullable.GetUnderlyingType(objectType) ?? objectType;
 
