@@ -109,6 +109,15 @@ namespace MXR.SDK {
                         }
 
                         break;
+                    case Command.STOP_VIDEO_ACTION:
+                        var stopVideoCommandData = JsonUtility.FromJson<StopVideoCommandData>(data);
+                        if (stopVideoCommandData != null) {
+                            OnStopVideoCommand?.Invoke(stopVideoCommandData);
+                        } else {
+                            LogIfEnabled(LogType.Error, "Could not deserialize command data string.");
+                        }
+
+                        break;
                     case Command.RESUME_VIDEO_ACTION:
                         var resumeVideoCommandData = JsonUtility.FromJson<ResumeVideoCommandData>(data);
                         if (resumeVideoCommandData != null) {

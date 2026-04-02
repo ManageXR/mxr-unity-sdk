@@ -19,6 +19,11 @@ namespace MXR.SDK {
         public const string PAUSE_VIDEO_ACTION = "PAUSE_VIDEO";
 
         /// <summary>
+        /// The action string used for Stop Video commands
+        /// </summary>
+        public const string STOP_VIDEO_ACTION = "STOP_VIDEO";
+
+        /// <summary>
         /// The action string used for Resume Video commands
         /// </summary>
         public const string RESUME_VIDEO_ACTION = "RESUME_VIDEO";
@@ -51,14 +56,21 @@ namespace MXR.SDK {
     }
 
     /// <summary>
-    /// The data associated with a command when the 
+    /// The data associated with a command when the
     /// action is <see cref="Command.PAUSE_VIDEO_ACTION"/>
     /// </summary>
     [Serializable]
     public class PauseVideoCommandData { }
 
     /// <summary>
-    /// The data associated with a command when the 
+    /// The data associated with a command when the
+    /// action is <see cref="Command.STOP_VIDEO_ACTION"/>
+    /// </summary>
+    [Serializable]
+    public class StopVideoCommandData { }
+
+    /// <summary>
+    /// The data associated with a command when the
     /// action is <see cref="Command.RESUME_VIDEO_ACTION"/>
     /// </summary>
     [Serializable]

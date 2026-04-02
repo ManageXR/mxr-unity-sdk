@@ -112,6 +112,11 @@ namespace MXR.SDK {
         event Action<PauseVideoCommandData> OnPauseVideoCommand;
 
         /// <summary>
+        /// Event fired when a Stop Video command is received
+        /// </summary>
+        event Action<StopVideoCommandData> OnStopVideoCommand;
+
+        /// <summary>
         /// Event fired when a Resume Video command is received
         /// </summary>
         event Action<ResumeVideoCommandData> OnResumeVideoCommand;
