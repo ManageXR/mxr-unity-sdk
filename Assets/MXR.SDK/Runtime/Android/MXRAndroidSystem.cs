@@ -74,6 +74,7 @@ namespace MXR.SDK {
         public event Action<List<ScannedWifiNetwork>> OnWifiNetworksChange;
         public event Action<PlayVideoCommandData> OnPlayVideoCommand;
         public event Action<PauseVideoCommandData> OnPauseVideoCommand;
+        public event Action<StopVideoCommandData> OnStopVideoCommand;
         public event Action<ResumeVideoCommandData> OnResumeVideoCommand;
         public event Action<CastingCodeStatus> OnCastingCodeStatusChanged;
         public event Action<LaunchMXRHomeScreenCommandData> OnLaunchMXRHomeScreenCommand;
