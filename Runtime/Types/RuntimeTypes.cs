@@ -1,5 +1,4 @@
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 using System;
 using System.Collections.Generic;
@@ -246,8 +245,9 @@ namespace MXR.SDK {
         /// The different language types recognised by the SDK. 
         /// </summary>
         [Serializable]
-        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(TolerantStringEnumConverter))]
         public enum DisplayLanguage {
+            UNKNOWN,
             enUS,
             frFR,
             deDE,
@@ -374,8 +374,10 @@ namespace MXR.SDK {
     /// <summary>
     /// The environment file type
     /// </summary>
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(TolerantStringEnumConverter))]
     public enum EnvironmentFileType {
+        UNKNOWN,
+
         /// <summary>
         /// The ManageXR .mxrus file based on AssetBundle
         /// </summary>
@@ -500,7 +502,7 @@ namespace MXR.SDK {
     /// Types of stereo packing supported
     /// </summary>
     [Serializable]
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(TolerantStringEnumConverter))]
     public enum StereoscopicPacking {
         /// <summary>
         /// No packing, i.e. Mono
@@ -519,16 +521,18 @@ namespace MXR.SDK {
     }
 
     [Serializable]
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(TolerantStringEnumConverter))]
     public enum VerticalCardAlignment {
+        UNKNOWN,
         TOP,
         CENTER,
         BOTTOM
     }
 
     [Serializable]
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(TolerantStringEnumConverter))]
     public enum HorizontalCardAlignment {
+        UNKNOWN,
         LEFT,
         CENTER,
         RIGHT
@@ -536,16 +540,18 @@ namespace MXR.SDK {
 
 
     [Serializable]
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(TolerantStringEnumConverter))]
     public enum CardStyle {
+        UNKNOWN,
         PADDING,
         NO_PADDING,
         NO_BACKGROUND
     }
 
     [Serializable]
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(TolerantStringEnumConverter))]
     public enum HorizontalTextAlignment  {
+        UNKNOWN,
         LEFT,
         CENTER,
         RIGHT
@@ -589,7 +595,7 @@ namespace MXR.SDK {
     /// The location of categories in the library panel
     /// </summary>
     [Serializable]
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(TolerantStringEnumConverter))]
     public enum CategoriesPosition {
         /// <summary>
         /// Categories are not shown in the library panel
@@ -611,7 +617,7 @@ namespace MXR.SDK {
     /// Represents the mode the device/homescreen app is in.
     /// </summary>
     [Serializable]
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(TolerantStringEnumConverter))]
     public enum DeviceExperienceMode {
         /// <summary>
         /// When the home screen has been disabled via the ManageXR web dashboard.
@@ -663,10 +669,10 @@ namespace MXR.SDK {
     /// Represents the current expiration behavior for the app.
     /// </summary>
     [Serializable]
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(TolerantStringEnumConverter))]
     public enum ExpirationBehavior {
         /// <summary>
-        /// When the app is not disabled or deleted 
+        /// When the app is not disabled or deleted
         /// </summary>
         NONE,
 

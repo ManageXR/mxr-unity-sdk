@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.ComponentModel;
 
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace MXR.SDK {
     /// <summary>
     /// Network types.
     /// </summary>
     [Serializable]
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(TolerantStringEnumConverter))]
     public enum NetworkType {
+        /// <summary>
+        /// Unknown network type.
+        /// </summary>
+        UNKNOWN,
+
         /// <summary>
         /// Does not require a password
         /// </summary>
@@ -50,12 +54,7 @@ namespace MXR.SDK {
         /// <summary>
         /// Requires advanced enterprise authentication
         /// </summary>
-        WPA3_ENTERPRISE,
-
-        /// <summary>
-        /// Unknown network type.
-        /// </summary>
-        UNKNOWN
+        WPA3_ENTERPRISE
     }
 
     /// <summary>
@@ -67,8 +66,13 @@ namespace MXR.SDK {
         /// State type for the status. 1-1 Mapping with Android native type
         /// </summary>
         [Serializable]
-        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(TolerantStringEnumConverter))]
         public enum State {
+            /// <summary>
+            /// Unknown state from an unrecognized value.
+            /// </summary>
+            UNKNOWN,
+
             /// <summary>
             /// Ready to start data connection setup.
             /// </summary>
@@ -229,7 +233,7 @@ namespace MXR.SDK {
         /// Authentication error whlie trying to connect to a network.
         /// If no error is encountered, this field is null.
         /// </summary>
-        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(TolerantStringEnumConverter))]
         public WifiAuthenticationError? authenticationError;
 
         /// <summary>
@@ -302,17 +306,19 @@ namespace MXR.SDK {
         public bool IsOpen => networkSecurityType == NetworkType.OPEN;
     }
 
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(TolerantStringEnumConverter))]
     public enum EapMethod
     {
+        UNKNOWN,
         PEAP,
         TTLS,
         PWD,
     }
 
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(TolerantStringEnumConverter))]
     public enum Phase2Method
     {
+        UNKNOWN,
         PAP,
         MSCHAP,
         MSCHAPV2,
@@ -358,8 +364,9 @@ namespace MXR.SDK {
         }
     }
 
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(TolerantStringEnumConverter))]
     public enum WifiAuthenticationError {
+        UNKNOWN,
         TIMEOUT,
         WRONG_PASSWORD,
         EAP_FAILURE,

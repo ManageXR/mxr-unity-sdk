@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 using System;
 
@@ -14,7 +13,7 @@ namespace MXR.SDK {
         /// <summary>
         /// The current view of the homescreen
         /// </summary>
-        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(TolerantStringEnumConverter))]
         public HomeScreenView view;
 
         /// <summary>
@@ -28,8 +27,9 @@ namespace MXR.SDK {
     /// The different view types recognised by the SDK. 
     /// </summary>
     [Serializable]
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(TolerantStringEnumConverter))]
     public enum HomeScreenView {
+        UNKNOWN,
         LIBRARY,
         VIDEO_PLAYER,
         WIFI,
@@ -68,7 +68,7 @@ namespace MXR.SDK {
         /// <summary>
         /// The current state of video playback
         /// </summary>
-        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(TolerantStringEnumConverter))]
         public HomeScreenVideoState videoState;
     }
 
@@ -76,8 +76,10 @@ namespace MXR.SDK {
     /// State of video playback
     /// </summary>
     [Serializable]
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(TolerantStringEnumConverter))]
     public enum HomeScreenVideoState {
+        UNKNOWN,
+
         /// <summary>
         /// Whether a video is currently playing
         /// </summary>
