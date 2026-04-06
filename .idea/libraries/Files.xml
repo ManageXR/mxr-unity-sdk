@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Files">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Assets/MXR.SDK/Files.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
