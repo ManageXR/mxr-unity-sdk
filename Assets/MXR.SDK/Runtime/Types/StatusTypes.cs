@@ -3,7 +3,6 @@ using System;
 using System.ComponentModel;
 
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace MXR.SDK {
     /// <summary>
@@ -180,15 +179,15 @@ namespace MXR.SDK {
     [System.Serializable]
     public class FileInstallStatus {
         [System.Serializable]
-        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(TolerantStringEnumConverter))]
         public enum Status {
-            QUEUED, DOWNLOADING, COMPLETE, ERROR
+            UNKNOWN, QUEUED, DOWNLOADING, COMPLETE, ERROR
         }
 
         [System.Serializable]
-        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(TolerantStringEnumConverter))]
         public enum ManagedFileType {
-            FILE, ICON, BRANDING, VIDEO, ENVIRONMENT
+            UNKNOWN, FILE, ICON, BRANDING, VIDEO, ENVIRONMENT
         }
 
         public Status status;
@@ -224,8 +223,9 @@ namespace MXR.SDK {
     /// </summary>
     [System.Serializable]
     public class AppInstallStatus {
-        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(TolerantStringEnumConverter))]
         public enum Status {
+            UNKNOWN,
             QUEUED,
             SETUP,
             DOWNLOADING,
@@ -237,8 +237,9 @@ namespace MXR.SDK {
             ERROR,
             NO_STATUS
         }
-        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(TolerantStringEnumConverter))]
         public enum InstallMethod {
+            UNKNOWN,
             PATCH_INSTALL,
             FULL_INSTALL,
             FORCE_INSTALL
@@ -286,8 +287,9 @@ namespace MXR.SDK {
 
     [System.Serializable]
     public class DeviceSystemVersionInstallStatus {
-        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(TolerantStringEnumConverter))]
         public enum Status {
+            UNKNOWN,
             UP_TO_DATE,
             DOWNLOADING,
             READY_TO_INSTALL,
@@ -323,7 +325,7 @@ namespace MXR.SDK {
     /// </summary>
     [Serializable]
     public class ScreenCast {
-        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(TolerantStringEnumConverter))]
         public enum Type {
             UNKNOWN,
             NATIVE,
@@ -331,8 +333,9 @@ namespace MXR.SDK {
             CODE_BASED
         }
 
-        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(TolerantStringEnumConverter))]
         public enum State {
+            UNKNOWN,
             INITIATED,
             REQUESTING_PERMS,
             CANCELLED,
