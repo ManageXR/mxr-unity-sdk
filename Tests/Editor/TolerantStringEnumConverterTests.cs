@@ -10,7 +10,7 @@ namespace MXR.SDK.Tests {
         // Test enum that uses the converter, mirroring the pattern in the SDK
         [JsonConverter(typeof(TolerantStringEnumConverter))]
         enum TestStatus {
-            UNKNOWN,
+            UNKNOWN = -1,
             ACTIVE,
             INACTIVE
         }

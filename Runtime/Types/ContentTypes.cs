@@ -182,7 +182,7 @@ namespace MXR.SDK {
 
         [JsonConverter(typeof(TolerantStringEnumConverter))]
         public enum VideoType {
-            UNKNOWN,
+            UNKNOWN = -1,
             _360,
             _180,
             _2D,
@@ -197,7 +197,7 @@ namespace MXR.SDK {
 
         [JsonConverter(typeof(TolerantStringEnumConverter))]
         public enum VideoDisplay {
-            UNKNOWN,
+            UNKNOWN = -1,
             MONO,
             STEREO,
         }
