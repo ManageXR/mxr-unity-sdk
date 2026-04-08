@@ -247,7 +247,7 @@ namespace MXR.SDK {
         [Serializable]
         [JsonConverter(typeof(TolerantStringEnumConverter))]
         public enum DisplayLanguage {
-            UNKNOWN,
+            UNKNOWN = -1,
             enUS,
             frFR,
             deDE,
@@ -376,7 +376,7 @@ namespace MXR.SDK {
     /// </summary>
     [JsonConverter(typeof(TolerantStringEnumConverter))]
     public enum EnvironmentFileType {
-        UNKNOWN,
+        UNKNOWN = -1,
 
         /// <summary>
         /// The ManageXR .mxrus file based on AssetBundle
@@ -523,7 +523,7 @@ namespace MXR.SDK {
     [Serializable]
     [JsonConverter(typeof(TolerantStringEnumConverter))]
     public enum VerticalCardAlignment {
-        UNKNOWN,
+        UNKNOWN = -1,
         TOP,
         CENTER,
         BOTTOM
@@ -532,7 +532,7 @@ namespace MXR.SDK {
     [Serializable]
     [JsonConverter(typeof(TolerantStringEnumConverter))]
     public enum HorizontalCardAlignment {
-        UNKNOWN,
+        UNKNOWN = -1,
         LEFT,
         CENTER,
         RIGHT
@@ -542,7 +542,7 @@ namespace MXR.SDK {
     [Serializable]
     [JsonConverter(typeof(TolerantStringEnumConverter))]
     public enum CardStyle {
-        UNKNOWN,
+        UNKNOWN = -1,
         PADDING,
         NO_PADDING,
         NO_BACKGROUND
@@ -551,7 +551,7 @@ namespace MXR.SDK {
     [Serializable]
     [JsonConverter(typeof(TolerantStringEnumConverter))]
     public enum HorizontalTextAlignment  {
-        UNKNOWN,
+        UNKNOWN = -1,
         LEFT,
         CENTER,
         RIGHT

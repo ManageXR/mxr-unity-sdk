@@ -181,13 +181,13 @@ namespace MXR.SDK {
         [System.Serializable]
         [JsonConverter(typeof(TolerantStringEnumConverter))]
         public enum Status {
-            UNKNOWN, QUEUED, DOWNLOADING, COMPLETE, ERROR
+            UNKNOWN = -1, QUEUED, DOWNLOADING, COMPLETE, ERROR
         }
 
         [System.Serializable]
         [JsonConverter(typeof(TolerantStringEnumConverter))]
         public enum ManagedFileType {
-            UNKNOWN, FILE, ICON, BRANDING, VIDEO, ENVIRONMENT
+            UNKNOWN = -1, FILE, ICON, BRANDING, VIDEO, ENVIRONMENT
         }
 
         public Status status;
@@ -225,7 +225,7 @@ namespace MXR.SDK {
     public class AppInstallStatus {
         [JsonConverter(typeof(TolerantStringEnumConverter))]
         public enum Status {
-            UNKNOWN,
+            UNKNOWN = -1,
             QUEUED,
             SETUP,
             DOWNLOADING,
@@ -239,7 +239,7 @@ namespace MXR.SDK {
         }
         [JsonConverter(typeof(TolerantStringEnumConverter))]
         public enum InstallMethod {
-            UNKNOWN,
+            UNKNOWN = -1,
             PATCH_INSTALL,
             FULL_INSTALL,
             FORCE_INSTALL
@@ -289,7 +289,7 @@ namespace MXR.SDK {
     public class DeviceSystemVersionInstallStatus {
         [JsonConverter(typeof(TolerantStringEnumConverter))]
         public enum Status {
-            UNKNOWN,
+            UNKNOWN = -1,
             UP_TO_DATE,
             DOWNLOADING,
             READY_TO_INSTALL,
@@ -327,7 +327,7 @@ namespace MXR.SDK {
     public class ScreenCast {
         [JsonConverter(typeof(TolerantStringEnumConverter))]
         public enum Type {
-            UNKNOWN,
+            UNKNOWN = -1,
             NATIVE,
             WEB_CONSOLE,
             CODE_BASED
@@ -335,7 +335,7 @@ namespace MXR.SDK {
 
         [JsonConverter(typeof(TolerantStringEnumConverter))]
         public enum State {
-            UNKNOWN,
+            UNKNOWN = -1,
             INITIATED,
             REQUESTING_PERMS,
             CANCELLED,

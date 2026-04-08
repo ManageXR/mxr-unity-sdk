@@ -29,7 +29,7 @@ namespace MXR.SDK {
     [Serializable]
     [JsonConverter(typeof(TolerantStringEnumConverter))]
     public enum HomeScreenView {
-        UNKNOWN,
+        UNKNOWN = -1,
         LIBRARY,
         VIDEO_PLAYER,
         WIFI,
@@ -78,7 +78,7 @@ namespace MXR.SDK {
     [Serializable]
     [JsonConverter(typeof(TolerantStringEnumConverter))]
     public enum HomeScreenVideoState {
-        UNKNOWN,
+        UNKNOWN = -1,
 
         /// <summary>
         /// Whether a video is currently playing

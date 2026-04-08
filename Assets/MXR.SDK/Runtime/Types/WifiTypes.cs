@@ -14,7 +14,7 @@ namespace MXR.SDK {
         /// <summary>
         /// Unknown network type.
         /// </summary>
-        UNKNOWN,
+        UNKNOWN = -1,
 
         /// <summary>
         /// Does not require a password
@@ -71,7 +71,7 @@ namespace MXR.SDK {
             /// <summary>
             /// Unknown state from an unrecognized value.
             /// </summary>
-            UNKNOWN,
+            UNKNOWN = -1,
 
             /// <summary>
             /// Ready to start data connection setup.
@@ -309,7 +309,7 @@ namespace MXR.SDK {
     [JsonConverter(typeof(TolerantStringEnumConverter))]
     public enum EapMethod
     {
-        UNKNOWN,
+        UNKNOWN = -1,
         PEAP,
         TTLS,
         PWD,
@@ -318,7 +318,7 @@ namespace MXR.SDK {
     [JsonConverter(typeof(TolerantStringEnumConverter))]
     public enum Phase2Method
     {
-        UNKNOWN,
+        UNKNOWN = -1,
         PAP,
         MSCHAP,
         MSCHAPV2,
@@ -366,7 +366,7 @@ namespace MXR.SDK {
 
     [JsonConverter(typeof(TolerantStringEnumConverter))]
     public enum WifiAuthenticationError {
-        UNKNOWN,
+        UNKNOWN = -1,
         TIMEOUT,
         WRONG_PASSWORD,
         EAP_FAILURE,
