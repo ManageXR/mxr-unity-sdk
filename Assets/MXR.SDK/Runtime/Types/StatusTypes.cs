@@ -174,6 +174,26 @@ namespace MXR.SDK {
     }
 
     /// <summary>
+    /// Categorizes a download/install error to drive retry UX decisions.
+    /// Populated on <see cref="AppInstallStatus"/> and <see cref="FileInstallStatus"/>
+    /// when the status transitions to ERROR. UNKNOWN is the tolerant fallback for
+    /// categories the SDK doesn't yet recognize (forward-compat with newer admin apps).
+    /// </summary>
+    [System.Serializable]
+    [JsonConverter(typeof(TolerantStringEnumConverter))]
+    public enum ErrorCategory {
+        UNKNOWN = -1,
+        /// <summary>No error has been classified. Valid while the status is not ERROR.</summary>
+        NONE,
+        /// <summary>Retry is in flight or could still fire. Treat as recoverable.</summary>
+        TRANSIENT,
+        /// <summary>Automatic retry budget exhausted. A user-triggered retry may still succeed.</summary>
+        TERMINAL_RETRY_EXHAUSTED,
+        /// <summary>Non-retriable (bad URL, invalid checksum, etc.). Retry will not help.</summary>
+        TERMINAL_NO_RETRY
+    }
+
+    /// <summary>
     /// Represents the status of a file on the device
     /// </summary>
     [System.Serializable]
@@ -201,6 +221,12 @@ namespace MXR.SDK {
         public string message;
         public int errorCode;
         public ManagedFileType managedFileType;
+
+        // Retry state surfaced by the admin app for HS retry UX. Populated by a
+        // follow-up release; defaults here are safe placeholders.
+        public int retryCount;
+        public bool isRetrying;
+        public ErrorCategory errorCategory = ErrorCategory.NONE;
     }
 
     [System.Serializable]
@@ -258,6 +284,12 @@ namespace MXR.SDK {
         public int errorCode;
         public string message;
         public Timestamp timestamp = new Timestamp();
+
+        // Retry state surfaced by the admin app for HS retry UX. Populated by a
+        // follow-up release; defaults here are safe placeholders.
+        public int retryCount;
+        public bool isRetrying;
+        public ErrorCategory errorCategory = ErrorCategory.NONE;
 
         /// <summary>
         /// Whether we're currently in an update phase
