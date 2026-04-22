@@ -195,6 +195,7 @@ namespace MXR.SDK {
         public string path;
         public string name;
         public int progress;
+        public long timeRemaining;
         public long totalBytesDownloaded;
         public long totalDownloadSize;
         public Timestamp timestamp = new Timestamp();
@@ -249,6 +250,7 @@ namespace MXR.SDK {
         public InstallMethod installMethod;
         public string packageName;
         public long progress;
+        public long timeRemaining;
         public long totalBytesDownloaded;
         public long totalDownloadSize;
         public long currentVersion;
