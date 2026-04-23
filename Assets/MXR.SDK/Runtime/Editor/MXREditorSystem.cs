@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
@@ -103,7 +103,7 @@ namespace MXR.SDK {
             set => loggingEnabled = value;
         }
 
-        public bool IsAdminAppInstalled => 
+        public bool IsAdminAppInstalled =>
             Directory.Exists(Path.Combine(MXRStorage.ExternalStorageDirectory, "MightyImmersion"));
 
         public bool IsConnectedToAdminApp => IsAvailable;
@@ -171,7 +171,7 @@ namespace MXR.SDK {
         public void DisableKioskMode() {
             try {
                 if (RuntimeSettingsSummary.kioskModeEnabled == false) return;
-                
+
                 RuntimeSettingsSummary.kioskModeEnabled = false;
                 WriteRuntimeSettings();
                 if (LoggingEnabled)
@@ -216,6 +216,16 @@ namespace MXR.SDK {
         public void KillApp(string packageName) {
             if (LoggingEnabled)
                 Debug.unityLogger.Log(LogType.Log, TAG, "Killed App");
+        }
+
+        public void RetryAppDownload(string packageName) {
+            if (LoggingEnabled)
+                Debug.unityLogger.Log(LogType.Log, TAG, $"RetryAppDownload({packageName}) invoked, ignoring in editor");
+        }
+
+        public void RetryAppDownloads(IEnumerable<string> packageNames) {
+            if (LoggingEnabled)
+                Debug.unityLogger.Log(LogType.Log, TAG, $"RetryAppDownloads({string.Join(", ", packageNames)}) invoked, ignoring in editor");
         }
 
         public void RestartApp(string packageName) {

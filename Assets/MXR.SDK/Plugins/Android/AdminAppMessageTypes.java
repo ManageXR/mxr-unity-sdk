@@ -58,4 +58,8 @@ public class AdminAppMessageTypes {
     public static final int UPLOAD_DEVICE_LOGS = 23;
     
     public static final int PREPARE_FOR_TERMINATION = 24000;
+
+    public static final int RETRY_APP_DOWNLOAD = 25;
+
+    public static final int RETRY_APP_DOWNLOADS = 26;
 }
