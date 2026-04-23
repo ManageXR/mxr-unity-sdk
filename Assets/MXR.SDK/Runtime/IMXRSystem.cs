@@ -160,6 +160,18 @@ namespace MXR.SDK {
         void KillApp(string packageName);
 
         /// <summary>
+        /// Retry downloading and installing an app
+        /// </summary>
+        /// <param name="packageName">Package name of the app to retry </param>
+        void RetryAppDownload(string packageName);
+
+        /// <summary>
+        /// Retry multiple apps using package names
+        /// </summary>
+        /// <param name="packageNames">Package names of apps to retry</param>
+        void RetryAppDownloads(IEnumerable<string> packageNames);
+
+        /// <summary>
         /// Kills and then restarts the running application with packageName.
         /// </summary>
         void RestartApp(string packageName);

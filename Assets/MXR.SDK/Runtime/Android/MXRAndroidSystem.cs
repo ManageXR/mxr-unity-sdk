@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -323,6 +325,31 @@ namespace MXR.SDK {
                 _messenger.Call<bool>("killApp", packageName);
             } else {
                 LogIfEnabled(LogType.Warning, "KillApp ignored. System is not available (not bound to messenger).");
+            }
+        }
+
+
+        public void RetryAppDownload(string packageName) {
+            packageName = EscapeStringToJsonString(packageName);
+
+            if (_messenger.IsBoundToService) {
+                LogIfEnabled(LogType.Log, "RetryAppDownload called. Invoking over JNI: retryAppDownload");
+                _messenger.Call<bool>("retryAppDownload", packageName);
+            }
+            else {
+                LogIfEnabled(LogType.Warning, "retryAppDownload ignored. System is not available (not bound to messenger).");
+            }
+        }
+
+        public void RetryAppDownloads(IEnumerable<string> packageNames) {
+            packageNames = packageNames.Select(x => EscapeStringToJsonString(x));
+
+            if (_messenger.IsBoundToService) {
+                LogIfEnabled(LogType.Log, "RetryAppDownloads called. Invoking over JNI: retryAppDownloads");
+                _messenger.Call<bool>("retryAppDownloads", packageNames);
+            }
+            else {
+                LogIfEnabled(LogType.Warning, "retryAppDownloads ignored. System is not available (not bound to messenger).");
             }
         }
 

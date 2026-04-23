@@ -21,6 +21,8 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.util.Log;
+import java.util.List;
+import java.lang.StringBuilder;
 
 public class AdminAppMessengerManager {
     public interface  AdminAppMessengerListener {
@@ -154,6 +156,30 @@ public class AdminAppMessengerManager {
 
     public boolean killApp(String packageName) {
         return sendMessage(AdminAppMessageTypes.KILL_APP, "{\"packageName\":\""+packageName+"\"}");
+    }
+
+    public boolean retryAppDownload(String packageName) {
+        return sendMessage(AdminAppMessageTypes.RETRY_APP_DOWNLOAD, "{\"packageName\":\""+packageName+"\"}");
+    }
+
+    public boolean retryAppDownloads(List<String> packageNames) {
+        StringBuilder payload = new StringBuilder();
+        payload.append("{\"packageNames\":[");
+
+        for (int i = 0; i < packageNames.size(); i++) {
+            payload.append("\"").append(packageNames.get(i)).append("\"");
+
+            if (i < packageNames.size() - 1) {
+                payload.append(",");
+            }
+        }
+
+        payload.append("]}");
+
+        return sendMessage(
+            AdminAppMessageTypes.RETRY_APP_DOWNLOADS,
+            payload.toString()
+        );
     }
 
     public boolean restartApp(String packageName) {
