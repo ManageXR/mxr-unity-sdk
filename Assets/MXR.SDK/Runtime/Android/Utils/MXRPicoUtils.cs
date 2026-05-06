@@ -46,11 +46,14 @@ namespace MXR.SDK {
         }
 
         /// <summary>
-        /// Returns if current Pico UI version is 5.x.x 
+        /// Returns if current Pico UI version is 5.x.x
         /// Always returns false on non Pico device
         /// </summary>
         public static bool IsPUI5 {
             get {
+                // Swan reports Build.DISPLAY = "0.x" today but its ToBService is API-compatible
+                // with the 4.3.x AAR line used by PUI 5+ devices. Treat as PUI 5 for routing.
+                if (MXRAndroidUtils.IsPicoSwan) return true;
                 if(MXRAndroidUtils.IsPicoDevice)
                     return PUIVersion.StartsWith("5");
                 else {
@@ -86,6 +89,9 @@ namespace MXR.SDK {
                     Debug.unityLogger.LogWarning(TAG, "Not running on a Pico device. MXRPicoUtils.IsKioskRebootRequiredforPUI returning false");
                     return false;
                 }
+
+                // Swan is ToB-compat with PUI 5.11+ semantics — no reboot required on kiosk toggle.
+                if (MXRAndroidUtils.IsPicoSwan) return false;
 
                 if (IsPUI4) return false;
 

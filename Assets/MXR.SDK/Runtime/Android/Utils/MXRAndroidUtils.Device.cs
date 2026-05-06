@@ -202,6 +202,23 @@ namespace MXR.SDK {
             }
         }
 
+        static readonly List<string> knownPicoSwanDeviceModels = new List<string> {
+            "B3110"
+        };
+        /// <summary>
+        /// Returns true if the current device is Pico Swan
+        /// </summary>
+        public static bool IsPicoSwan {
+            get {
+                if (Application.isEditor) return false;
+                // Mirrors mighty-admin-app PicoModel.SWAN_MODELS / SWAN_PRODUCTS:
+                //   Build.MODEL    = "B3110"
+                //   Build.PRODUCT  = "swan"
+                return knownPicoSwanDeviceModels.Contains(DeviceModel)
+                    || DeviceProduct.Equals("swan", StringComparison.OrdinalIgnoreCase);
+            }
+        }
+
         // OCULUS DEVICE DETECTION
         /// <summary>
         /// Returns true if the current device is Oculus Quest 1
@@ -263,7 +280,7 @@ namespace MXR.SDK {
             IsQuestPro || IsQuest1 || IsQuest2 || IsQuest3 || IsQuest3S ||
 
             // Pico headsets
-            IsPico4Ultra || IsPico4 || IsPicoNeo3 || IsPicoNeo2 ||
+            IsPicoSwan || IsPico4Ultra || IsPico4 || IsPicoNeo3 || IsPicoNeo2 ||
 
             // HTC Headsets
             IsHTCViveFlow || IsHTCViveFocus3 || IsHTCViveFocusPlus || IsHTCViveXRSeries || IsHTCViveFocusVision;
