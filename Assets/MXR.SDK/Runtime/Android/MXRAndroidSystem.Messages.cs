@@ -129,7 +129,7 @@ namespace MXR.SDK {
                     return;
                 }
 
-                File.WriteAllText(_cachedRuntimeSettingsSummaryPath, json);
+                AtomicWriteAllText(_cachedRuntimeSettingsSummaryPath, json);
                 var settings = new JsonSerializerSettings {
                     Error = (sender, args) => {
                         LogIfEnabled(LogType.Warning,
@@ -160,7 +160,7 @@ namespace MXR.SDK {
                     return;
                 }
 
-                File.WriteAllText(_cachedDeviceStatusPath, json);
+                AtomicWriteAllText(_cachedDeviceStatusPath, json);
                 var settings = new JsonSerializerSettings {
                     Error = (sender, args) => {
                         LogIfEnabled(LogType.Warning,
@@ -191,7 +191,7 @@ namespace MXR.SDK {
                     return;
                 }
 
-                File.WriteAllText(_cachedDeviceDataPath, json);
+                AtomicWriteAllText(_cachedDeviceDataPath, json);
 
                 var data = JsonConvert.DeserializeObject<DeviceData>(json);
                 if (data == null) {
@@ -223,6 +223,41 @@ namespace MXR.SDK {
                 LogIfEnabled(LogType.Error, $"JSON deserialization error in HandleCastingCode: {ex.Message}");
             } catch (Exception ex) {
                 LogIfEnabled(LogType.Error, $"Unexpected error in HandleCastingCode: {ex.GetType().Name}: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Writes <paramref name="content"/> to <paramref name="path"/> via a temp-file
+        /// rename pattern. Direct File.WriteAllText truncates the destination to 0 bytes
+        /// before writing the new content; if the process is killed during that window
+        /// (Android OOM kill, force-stop, unclean shutdown) the destination is left
+        /// empty, and HS reads stale/empty cache on next startup. This pattern writes
+        /// to "<path>.tmp" first then moves it into place, so a reader sees either the
+        /// old valid file or the new valid file but never a 0-byte intermediate.
+        ///
+        /// See ENG-2319 / ENG-1990 for context.
+        /// </summary>
+        private void AtomicWriteAllText(string path, string content) {
+            string tmp = path + ".tmp";
+            try {
+                File.WriteAllText(tmp, content);
+                // File.Move does not overwrite existing files in older .NET runtimes,
+                // so delete-then-move. The race window between Delete and Move is
+                // microseconds and several orders of magnitude smaller than the
+                // truncate-then-write window in direct File.WriteAllText.
+                if (File.Exists(path)) {
+                    File.Delete(path);
+                }
+                File.Move(tmp, path);
+            } catch (Exception ex) {
+                LogIfEnabled(LogType.Error, $"AtomicWriteAllText failed for {path}: {ex.GetType().Name}: {ex.Message}");
+                // Best-effort cleanup of the temp file so we don't leak it.
+                try {
+                    if (File.Exists(tmp)) File.Delete(tmp);
+                } catch {
+                    // Swallow — the only way this can fail is a permissions issue we
+                    // can't recover from, and there is nothing useful to do here.
+                }
             }
         }
 
