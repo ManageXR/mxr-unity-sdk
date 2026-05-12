@@ -172,7 +172,32 @@ namespace MXR.SDK {
                 }
 
                 contents = File.ReadAllText(filePath);
+
+                // ENG-2351: Newtonsoft's JsonConvert.DeserializeObject<T>("")
+                // returns null without throwing, so the catch below never fires
+                // and DeserializeFromFile would return true with value = null.
+                // Treat empty contents as a cache miss so the caller falls
+                // through to the IPC RefreshDeviceData/Status/RuntimeSettings
+                // path. This is the dominant ENG-1990 customer hang trigger:
+                // a 0-byte cache file existing on disk (left behind by an
+                // unclean shutdown mid-write, etc.) was being accepted as a
+                // successful init, locking the SDK with null state forever.
+                if (string.IsNullOrWhiteSpace(contents)) {
+                    contents = null;
+                    value = default;
+                    return false;
+                }
+
                 value = JsonConvert.DeserializeObject<T>(contents);
+
+                // Defense in depth: even with non-empty contents, Newtonsoft
+                // may produce null for malformed-but-recoverable input (e.g.
+                // "null", "  "). Same recovery path.
+                if (value == null) {
+                    contents = null;
+                    return false;
+                }
+
                 return true;
             } catch (Exception e) {
                 LogIfEnabled(e);
