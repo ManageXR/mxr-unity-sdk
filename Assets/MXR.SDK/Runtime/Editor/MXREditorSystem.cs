@@ -166,6 +166,7 @@ namespace MXR.SDK {
         public event Action<CastingCodeStatus> OnCastingCodeStatusChanged;
         public event Action OnHomeScreenStateRequest;
         public event Action OnTerminationNotification;
+        public event Action<UserIdentityRequest> OnUserIdentityRequest;
 
         // INTERFACE METHODS
         public void DisableKioskMode() {
@@ -452,6 +453,12 @@ namespace MXR.SDK {
             if (LoggingEnabled)
                 Debug.unityLogger.Log(LogType.Warning, TAG, "SendHomeScreenState " + JsonUtility.ToJson(state) +
                     "\nEditor mode doesn't send HomeScreenState anywhere, only prints it to console.");
+        }
+
+        public void SendUserIdentity(UserIdentityResponse response) {
+            if (LoggingEnabled)
+                Debug.unityLogger.Log(LogType.Warning, TAG, "SendUserIdentity " + JsonUtility.ToJson(response) +
+                    "\nEditor mode doesn't send UserIdentity anywhere, only prints it to console.");
         }
 
         public void ExitLauncher() {

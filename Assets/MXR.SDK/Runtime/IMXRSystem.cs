@@ -139,6 +139,9 @@ namespace MXR.SDK {
         /// </summary>
         event Action OnTerminationNotification;
 
+        /// <summary>Fired when the Admin App asks the Home Screen to collect a self-reported identity.</summary>
+        event Action<UserIdentityRequest> OnUserIdentityRequest;
+
         /// <summary>
         /// Disable Kiosk mode on the device
         /// </summary>
@@ -264,6 +267,9 @@ namespace MXR.SDK {
         /// </summary>
         /// <param name="state">The state to be sent</param>
         void SendHomeScreenState(HomeScreenState state);
+
+        /// <summary>Replies to an <see cref="OnUserIdentityRequest"/> with the collected identity.</summary>
+        void SendUserIdentity(UserIdentityResponse response);
 
         /// <summary>
         /// Exit the launcher

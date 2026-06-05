@@ -25,6 +25,7 @@ namespace MXR.SDK {
             public const int GET_HOME_SCREEN_STATE = 15000;
             public const int CASTING_CODE = 21000;
             public const int PREPARE_FOR_TERMINATION = 24000;
+            public const int REQUEST_USER_IDENTITY = 26000;
         }
 
         private void OnMessageFromAdminApp(int what, string json) {
@@ -70,6 +71,9 @@ namespace MXR.SDK {
                     } catch (Exception ex) {
                         LogIfEnabled(LogType.Error, $"Exception in OnTerminationNotificatiocln event: {ex.GetType().Name}: {ex.Message}");
                     }
+                    break;
+                case AdminAppMessageTypes.REQUEST_USER_IDENTITY:
+                    HandleUserIdentityRequest(json);
                     break;
                 default:
                     LogIfEnabled(LogType.Warning, $"Unknown message type received: {what}");
@@ -206,6 +210,23 @@ namespace MXR.SDK {
                 LogIfEnabled(LogType.Error, $"JSON deserialization error in HandleDeviceData: {ex.Message}");
             } catch (Exception ex) {
                 LogIfEnabled(LogType.Error, $"Unexpected error in HandleDeviceData: {ex.GetType().Name}: {ex.Message}");
+            }
+        }
+
+        private void HandleUserIdentityRequest(string json) {
+            try {
+                var request = JsonConvert.DeserializeObject<UserIdentityRequest>(json);
+                if (request == null) {
+                    LogIfEnabled(LogType.Warning, "Failed to deserialize UserIdentityRequest: result was null");
+                    return;
+                }
+
+                OnUserIdentityRequest?.Invoke(request);
+                LogIfEnabled(LogType.Log, "UserIdentityRequest received.");
+            } catch (JsonException ex) {
+                LogIfEnabled(LogType.Error, $"JSON deserialization error in HandleUserIdentityRequest: {ex.Message}");
+            } catch (Exception ex) {
+                LogIfEnabled(LogType.Error, $"Unexpected error in HandleUserIdentityRequest: {ex.GetType().Name}: {ex.Message}");
             }
         }
 
