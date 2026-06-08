@@ -13,5 +13,6 @@ namespace MXR.SDK {
     [Serializable]
     public class UserIdentityResponse {
         public string userId;
+        public string intentId;
     }
 }

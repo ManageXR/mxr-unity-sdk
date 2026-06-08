@@ -55,20 +55,22 @@ namespace MXR.SDK.Tests {
         }
 
         [Test]
-        public void Response_RoundTrips_UserId() {
-            var original = new UserIdentityResponse { userId = "jane@acme.com" };
+        public void Response_RoundTrips_UserIdAndIntentId() {
+            var original = new UserIdentityResponse { userId = "jane@acme.com", intentId = "intent-42" };
 
             var roundTripped = JsonConvert.DeserializeObject<UserIdentityResponse>(
                 JsonConvert.SerializeObject(original));
 
             Assert.AreEqual(original.userId, roundTripped.userId);
+            Assert.AreEqual(original.intentId, roundTripped.intentId);
         }
 
         [Test]
-        public void Response_SerializesToUserIdField() {
-            var json = JsonConvert.SerializeObject(new UserIdentityResponse { userId = "abc" });
+        public void Response_SerializesUserIdAndIntentId() {
+            var json = JsonConvert.SerializeObject(
+                new UserIdentityResponse { userId = "abc", intentId = "intent-1" });
 
-            Assert.AreEqual("{\"userId\":\"abc\"}", json);
+            Assert.AreEqual("{\"userId\":\"abc\",\"intentId\":\"intent-1\"}", json);
         }
     }
 }
