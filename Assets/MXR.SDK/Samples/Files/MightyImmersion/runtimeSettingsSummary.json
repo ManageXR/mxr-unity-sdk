@@ -27,6 +27,7 @@
     "kioskVideo" : "",
     "KioskVideoIsReady" : false,
     "kioskModeEnabled": true,
+    "isSubscriptionActive": true,
     "organization": {
         "id": "testOrg",
         "name": "MXR Test Org"
