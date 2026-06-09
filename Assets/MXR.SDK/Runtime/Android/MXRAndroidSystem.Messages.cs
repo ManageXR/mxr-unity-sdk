@@ -25,7 +25,7 @@ namespace MXR.SDK {
             public const int GET_HOME_SCREEN_STATE = 15000;
             public const int CASTING_CODE = 21000;
             public const int PREPARE_FOR_TERMINATION = 24000;
-            public const int REQUEST_USER_IDENTITY = 26000;
+            public const int REQUEST_USER_IDENTITY = 26;
         }
 
         private void OnMessageFromAdminApp(int what, string json) {

@@ -422,7 +422,7 @@ namespace MXR.SDK {
             }
         }
 
-        private const int USER_IDENTITY_RESPONSE = 26;
+        private const int USER_IDENTITY_RESPONSE = 26000;
 
         public void ExitLauncher() {
             if (_messenger.IsBoundToService) {
