@@ -154,6 +154,13 @@ namespace MXR.SDK {
         public bool isPremium = false;
 
         /// <summary>
+        /// Whether the device's organization has an active ManageXR subscription.
+        /// False when the organization has churned and churn enforcement is enabled.
+        /// Defaults to true so admin apps that do not send this field are treated as active.
+        /// </summary>
+        public bool isSubscriptionActive = true;
+
+        /// <summary>
         /// Helper property for whether the guardian settings are hidden
         /// </summary>
         [JsonIgnore]
