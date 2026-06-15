@@ -82,6 +82,7 @@ namespace MXR.SDK {
         public event Action<LaunchMXRHomeScreenCommandData> OnLaunchMXRHomeScreenCommand;
         public event Action OnHomeScreenStateRequest;
         public event Action OnTerminationNotification;
+        public event Action<UserIdentityRequest> OnUserIdentityRequest;
 
         private string lastWifiNetworksJSON = string.Empty;
         private string lastWifiConnectionStatusJSON = string.Empty;
@@ -405,6 +406,23 @@ namespace MXR.SDK {
                     "SendHomeScreenState ignored. System is not available (not bound to messenger.");
             }
         }
+
+        public void SendUserIdentity(UserIdentityResponse response) {
+            if (_messenger.IsBoundToService) {
+                try {
+                    var responseJson = JsonConvert.SerializeObject(response);
+                    _messenger.SendMessageToAdminApp(USER_IDENTITY_RESPONSE, responseJson);
+                    LogIfEnabled(LogType.Log, "SendUserIdentity called. Invoking over JNI: sendMessage");
+                } catch (Exception e) {
+                    Debug.LogError("An error occured while trying to send user identity " + e);
+                }
+            } else {
+                LogIfEnabled(LogType.Warning,
+                    "SendUserIdentity ignored. System is not available (not bound to messenger.");
+            }
+        }
+
+        private const int USER_IDENTITY_RESPONSE = 26000;
 
         public void ExitLauncher() {
             if (_messenger.IsBoundToService) {
