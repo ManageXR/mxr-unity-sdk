@@ -411,7 +411,7 @@ namespace MXR.SDK {
             if (_messenger.IsBoundToService) {
                 try {
                     var responseJson = JsonConvert.SerializeObject(response);
-                    _messenger.SendMessageToAdminApp(USER_IDENTITY_RESPONSE, responseJson);
+                    _messenger.SendMessageToAdminApp(AdminAppMessageTypes.USER_IDENTITY_RESPONSE, responseJson);
                     LogIfEnabled(LogType.Log, "SendUserIdentity called. Invoking over JNI: sendMessage");
                 } catch (Exception e) {
                     Debug.LogError("An error occured while trying to send user identity " + e);
@@ -421,8 +421,6 @@ namespace MXR.SDK {
                     "SendUserIdentity ignored. System is not available (not bound to messenger.");
             }
         }
-
-        private const int USER_IDENTITY_RESPONSE = 26000;
 
         public void ExitLauncher() {
             if (_messenger.IsBoundToService) {
