@@ -8,7 +8,7 @@ namespace MXR.SDK.Tests {
         [Test]
         public void Request_RoundTrips_AllFields() {
             var original = new UserIdentityRequest {
-                identifierType = "EMAIL",
+                identifierType = UserIdentifierType.EMAIL,
                 emailDomain = "acme.com",
                 customLabel = null,
                 currentUserId = "jane@acme.com",
