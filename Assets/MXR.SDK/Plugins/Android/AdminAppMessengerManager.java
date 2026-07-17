@@ -243,6 +243,10 @@ public class AdminAppMessengerManager {
         return sendMessage(AdminAppMessageTypes.UPLOAD_DEVICE_LOGS);
     }
 
+    public boolean sendAnalyticsEventAsync(String eventJson) {
+        return sendMessage(AdminAppMessageTypes.LOG_ANALYTICS_EVENT, eventJson);
+    }
+
     public boolean sendMessage(int what) {
         return sendMessage(what, null);
     }

@@ -272,6 +272,24 @@ namespace MXR.SDK {
         void SendUserIdentity(UserIdentityResponse response);
 
         /// <summary>
+        /// Send an analytics event to the Admin App.
+        /// You can build the JSON string with <see cref="AnalyticsEventPayload.ToJson"/>
+        /// </summary>
+        /// <param name="eventJson">
+        /// Analytics event payload as JSON: 
+        /// <c>
+        /// { 
+        ///   "name" : "name", 
+        ///   "properties" : { 
+        ///     "prop1": value,
+        ///     "prop2": value
+        ///   } 
+        /// }
+        /// </c>
+        /// </param>
+        void SendAnalyticsEvent(string eventJson);
+
+        /// <summary>
         /// Exit the launcher
         /// </summary>
         void ExitLauncher();
