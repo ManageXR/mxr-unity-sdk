@@ -422,6 +422,19 @@ namespace MXR.SDK {
             }
         }
 
+        public void SendAnalyticsEvent(string eventJson) {
+            if (_messenger.IsBoundToService) {
+                try {
+                    _messenger.Call<bool>("sendAnalyticsEventAsync", eventJson);
+                    LogIfEnabled(LogType.Log, "SendAnalyticsEvent sent.");
+                } catch (Exception e) {
+                    Debug.LogError($"SendAnalyticsEvent failed: {e}");
+                }
+            } else {
+                LogIfEnabled(LogType.Warning, "SendAnalyticsEvent ignored. Messenger not bound.");
+            }
+        }
+
         public void ExitLauncher() {
             if (_messenger.IsBoundToService) {
                 LogIfEnabled(LogType.Log, "ExitLauncher called. Invoking over JNI: exitLauncherAsync");

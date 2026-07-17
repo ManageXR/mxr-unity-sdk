@@ -461,6 +461,13 @@ namespace MXR.SDK {
                     "\nEditor mode doesn't send UserIdentity anywhere, only prints it to console.");
         }
 
+        public void SendAnalyticsEvent(string eventJson) {
+            if (LoggingEnabled)
+                Debug.unityLogger.Log(LogType.Log, TAG,
+                    "SendAnalyticsEvent " + eventJson +
+                    "\nEditor mode doesn't send analytics events anywhere, only prints the payload to console.");
+        }
+
         public void ExitLauncher() {
             if (LoggingEnabled)
                 Debug.unityLogger.Log(LogType.Log, TAG, "Editor mode doesn't support ExitLauncher(). Safely ignored...");

@@ -62,4 +62,6 @@ public class AdminAppMessageTypes {
     public static final int RETRY_APP_DOWNLOAD = 25;
 
     public static final int RETRY_APP_DOWNLOADS = 26;
+
+    public static final int LOG_ANALYTICS_EVENT = 29;
 }
