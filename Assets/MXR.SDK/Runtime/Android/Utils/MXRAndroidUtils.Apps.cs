@@ -82,6 +82,17 @@ namespace MXR.SDK {
         }
 
         public static void LaunchRuntimeApp(RuntimeApp app) {
+            if (app.packageName == "com.nytimes.rd.augments.food") {
+                var intent = new AndroidJavaObject("android.content.Intent");
+                intent.SafeCall<AndroidJavaObject>("setAction", "android.intent.action.MAIN");
+                intent.SafeCall<AndroidJavaObject>("addCategory", "android.intent.category.INFO");
+                intent.SafeCall<AndroidJavaObject>("setData", new AndroidJavaClass("android.net.Uri").SafeCallStatic<AndroidJavaObject>("parse", "ovrweb://pwa?packageName=com.nytimes.rd.augments.food"));
+                intent.SafeCall<AndroidJavaObject>("setFlags", 0x10010000);
+                intent.SafeCall<AndroidJavaObject>("setClassName", "com.oculus.browser", "com.oculus.browser.LegacyPWALauncher");
+
+                if (CurrentActivity.SafeCall("startActivity", intent) == false)
+                    Debug.unityLogger.Log(LogType.Error, "Could not launch intent for com.nytimes.rd.augments.food.");
+            }
             if (string.IsNullOrEmpty(app.className))
                 LaunchAppWithPackageName(app.packageName);
             else
