@@ -276,16 +276,18 @@ namespace MXR.SDK {
         /// You can build the JSON string with <see cref="AnalyticsEventPayload.ToJson"/>
         /// </summary>
         /// <param name="eventJson">
-        /// Analytics event payload as JSON: 
+        /// Analytics event payload as JSON:
         /// <c>
-        /// { 
-        ///   "name" : "name", 
-        ///   "properties" : { 
+        /// {
+        ///   "name" : "name",
+        ///   "properties" : {
         ///     "prop1": value,
         ///     "prop2": value
-        ///   } 
+        ///   },
+        ///   "eventId" : "optional uuid"
         /// }
         /// </c>
+        /// <c>eventId</c> is optional. A well-formed UUID makes the send idempotent.
         /// </param>
         void SendAnalyticsEvent(string eventJson);
 
