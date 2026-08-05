@@ -99,6 +99,54 @@ namespace MXR.SDK.Tests {
             Assert.AreEqual("video_playback_stopped", payload.name);
             Assert.AreEqual("abc123", payload.properties["videoId"]);
             Assert.AreEqual("paused", payload.properties["endReason"]);
+            Assert.IsNull(payload.eventId);
+        }
+
+        [Test]
+        public void Serialize_OmitsEventId_WhenNotSet() {
+            var json = JsonConvert.SerializeObject(CreateVideoPlaybackStoppedPayload());
+
+            Assert.IsFalse(json.Contains("eventId"));
+        }
+
+        [Test]
+        public void Serialize_IncludesEventId_WhenSet() {
+            var payload = CreateVideoPlaybackStoppedPayload();
+            payload.eventId = "3f2504e0-4f89-11d3-9a0c-0305e82c3301";
+
+            var json = JsonConvert.SerializeObject(payload);
+
+            StringAssert.Contains("\"eventId\":\"3f2504e0-4f89-11d3-9a0c-0305e82c3301\"", json);
+        }
+
+        [Test]
+        public void ToJson_MatchesJsonConvertSerializeObject_WithEventId() {
+            var payload = CreateVideoPlaybackStoppedPayload();
+            payload.eventId = "3f2504e0-4f89-11d3-9a0c-0305e82c3301";
+
+            Assert.AreEqual(JsonConvert.SerializeObject(payload), payload.ToJson());
+        }
+
+        [Test]
+        public void Deserialize_RoundTrips_EventId() {
+            var original = CreateVideoPlaybackStoppedPayload();
+            original.eventId = "3f2504e0-4f89-11d3-9a0c-0305e82c3301";
+            var json = JsonConvert.SerializeObject(original);
+
+            var roundTripped = JsonConvert.DeserializeObject<AnalyticsEventPayload>(json);
+
+            Assert.AreEqual(original.eventId, roundTripped.eventId);
+        }
+
+        [Test]
+        public void Deserialize_FromWireFormatJson_WithEventId() {
+            const string json =
+                "{\"name\":\"video_playback_stopped\",\"properties\":{\"videoId\":\"abc123\"},\"eventId\":\"3f2504e0-4f89-11d3-9a0c-0305e82c3301\"}";
+
+            var payload = JsonConvert.DeserializeObject<AnalyticsEventPayload>(json);
+
+            Assert.AreEqual("video_playback_stopped", payload.name);
+            Assert.AreEqual("3f2504e0-4f89-11d3-9a0c-0305e82c3301", payload.eventId);
         }
     }
 }
