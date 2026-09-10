@@ -161,6 +161,21 @@ namespace MXR.SDK {
         public bool isSubscriptionActive = true;
 
         /// <summary>
+        /// The Quick Boundary Setup state for Pico devices, as set in the ManageXR Web Console.
+        /// When this is ON, Pico places a small default boundary and does not run boundary setup.
+        /// Admin apps that do not send this field leave it UNMANAGED.
+        /// </summary>
+        public PicoSystemSwitch picoFastBoundarySetting = PicoSystemSwitch.UNMANAGED;
+
+        /// <summary>
+        /// Helper property for whether Quick Boundary Setup is on.
+        /// Pico suppresses its boundary setup screen while this is true.
+        /// </summary>
+        [JsonIgnore]
+        public bool IsQuickBoundarySetupEnabled =>
+            TryGet(x => x.picoFastBoundarySetting == PicoSystemSwitch.ON, false);
+
+        /// <summary>
         /// Helper property for whether the guardian settings are hidden
         /// </summary>
         [JsonIgnore]
@@ -618,6 +633,24 @@ namespace MXR.SDK {
         /// Categories are shown on the left side of the library panel
         /// </summary>
         LEFT
+    }
+
+    /// <summary>
+    /// A Pico system setting that the ManageXR Web Console can leave alone or force on or off.
+    /// </summary>
+    [Serializable]
+    [JsonConverter(typeof(TolerantStringEnumConverter))]
+    public enum PicoSystemSwitch {
+        UNKNOWN = -1,
+
+        /// <summary>
+        /// The Web Console does not control this setting. The Admin App writes nothing.
+        /// </summary>
+        UNMANAGED,
+
+        ON,
+
+        OFF
     }
 
     /// <summary>
