@@ -31,7 +31,7 @@ namespace MXR.SDK.Tests {
 
             var request = JsonConvert.DeserializeObject<UserIdentityRequest>(json);
 
-            Assert.AreEqual("NAME", request.identifierType);
+            Assert.AreEqual(UserIdentifierType.NAME, request.identifierType);
             Assert.AreEqual("com.app", request.targetPackage);
         }
 
