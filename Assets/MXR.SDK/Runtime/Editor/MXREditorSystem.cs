@@ -167,6 +167,7 @@ namespace MXR.SDK {
         public event Action OnHomeScreenStateRequest;
         public event Action OnTerminationNotification;
         public event Action<UserIdentityRequest> OnUserIdentityRequest;
+        public event Action<string> OnNetworkTestResults;
 
         // INTERFACE METHODS
         public void DisableKioskMode() {
@@ -478,6 +479,11 @@ namespace MXR.SDK {
             var code = UnityEngine.Random.Range(100000, 999999).ToString();
             CastingCodeStatus = new CastingCodeStatus(){code = code, errorMessage = "", expireAt = expireAt};
             OnCastingCodeStatusChanged?.Invoke(CastingCodeStatus);
+        }
+
+        public void RunNetworkTest(bool forceRerun = false) {
+            if (LoggingEnabled)
+                Debug.unityLogger.Log(LogType.Log, TAG, "RunNetworkTest invoked, ignoring in editor");
         }
 
         public void StopCasting() {
