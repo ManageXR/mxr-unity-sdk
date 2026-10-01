@@ -24,11 +24,24 @@ namespace MXR.SDK.Protocol {
                 throw new ArgumentNullException(nameof(format));
             }
 
-            if (format == JsonEnvelopeCodec.FormatName) {
-                return JsonCodec;
+            if (TryForFormat(format, out var codec)) {
+                return codec;
             }
 
             throw new ArgumentException($"Unsupported envelope format: '{format}'.", nameof(format));
+        }
+
+        /// <summary>
+        /// Returns the shared codec for a negotiated post-handshake format, when this SDK supports it.
+        /// </summary>
+        public static bool TryForFormat(string format, out IEnvelopeCodec codec) {
+            if (format == JsonEnvelopeCodec.FormatName) {
+                codec = JsonCodec;
+                return true;
+            }
+
+            codec = null;
+            return false;
         }
     }
 }
