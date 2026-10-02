@@ -17,6 +17,15 @@ ExportedObj/
 *.csproj
 *.unityproj
 *.sln
+!dotnet/**/*.csproj
+!dotnet/**/*.sln
+
+# Visual Studio writes these next to the solution. Must follow !dotnet/**/*.sln
+# so Backup/*.sln stays ignored.
+dotnet/Backup/
+UpgradeLog*.htm
+UpgradeLog*.XML
+
 *.suo
 *.tmp
 *.user
@@ -26,6 +35,11 @@ ExportedObj/
 *.svd
 *.pdb
 *.opendb
+
+# .NET build output for the protocol test projects
+dotnet/**/bin/
+dotnet/**/obj/
+[Tt]est[Rr]esults/
 
 # Unity3D generated meta files
 *.pidb.meta
