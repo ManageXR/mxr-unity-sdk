@@ -94,7 +94,7 @@ namespace MXR.SDK.Protocol.Tests {
             var result = HandshakeNegotiator.Negotiate(client, server);
 
             Assert.AreEqual(Compatibility.Incompatible, result.Compatibility);
-            Assert.AreEqual(IncompatibleReason.AdminAppTooOld, result.Reason);
+            Assert.AreEqual(IncompatibilityReason.AdminAppTooOld, result.IncompatibilityReason);
             Assert.That(result.Error, Does.Contain("Update the Admin App"));
             Assert.IsNull(result.PostHelloCodec);
         }
@@ -107,7 +107,7 @@ namespace MXR.SDK.Protocol.Tests {
             var result = HandshakeNegotiator.Negotiate(client, server);
 
             Assert.AreEqual(Compatibility.Incompatible, result.Compatibility);
-            Assert.AreEqual(IncompatibleReason.SdkTooOld, result.Reason);
+            Assert.AreEqual(IncompatibilityReason.SdkTooOld, result.IncompatibilityReason);
             Assert.That(result.Error, Does.Contain("Update the SDK"));
             Assert.IsNull(result.PostHelloCodec);
         }
@@ -120,7 +120,7 @@ namespace MXR.SDK.Protocol.Tests {
             var result = HandshakeNegotiator.Negotiate(client, server);
 
             Assert.AreEqual(Compatibility.Incompatible, result.Compatibility);
-            Assert.AreEqual(IncompatibleReason.AdminAppTooOld, result.Reason);
+            Assert.AreEqual(IncompatibilityReason.AdminAppTooOld, result.IncompatibilityReason);
             Assert.That(result.Error, Does.Contain("below its minProtocol"));
         }
 
@@ -170,7 +170,7 @@ namespace MXR.SDK.Protocol.Tests {
             var result = HandshakeNegotiator.Negotiate(client, server);
 
             Assert.AreEqual(Compatibility.Incompatible, result.Compatibility);
-            Assert.AreEqual(IncompatibleReason.NoCommonFormat, result.Reason);
+            Assert.AreEqual(IncompatibilityReason.NoCommonFormat, result.IncompatibilityReason);
             Assert.That(result.Error, Does.StartWith("No common payload format."));
         }
 
@@ -204,7 +204,7 @@ namespace MXR.SDK.Protocol.Tests {
             var result = HandshakeNegotiator.Negotiate(client, server);
 
             Assert.AreEqual(Compatibility.Incompatible, result.Compatibility);
-            Assert.AreEqual(IncompatibleReason.NoCommonFormat, result.Reason);
+            Assert.AreEqual(IncompatibilityReason.NoCommonFormat, result.IncompatibilityReason);
             Assert.That(result.Error, Does.Not.Contain("Parameter"));
         }
 
@@ -216,7 +216,7 @@ namespace MXR.SDK.Protocol.Tests {
             var result = HandshakeNegotiator.Negotiate(client, server);
 
             Assert.AreEqual(Compatibility.Compatible, result.Compatibility);
-            Assert.AreEqual(IncompatibleReason.None, result.Reason);
+            Assert.AreEqual(IncompatibilityReason.None, result.IncompatibilityReason);
             Assert.AreEqual(2, result.EffectiveProtocol);
         }
 
@@ -227,7 +227,7 @@ namespace MXR.SDK.Protocol.Tests {
 
             var result = HandshakeNegotiator.Negotiate(client, server);
 
-            Assert.AreEqual(IncompatibleReason.NoCommonFormat, result.Reason);
+            Assert.AreEqual(IncompatibilityReason.NoCommonFormat, result.IncompatibilityReason);
         }
 
         [Test]
@@ -237,7 +237,7 @@ namespace MXR.SDK.Protocol.Tests {
 
             var result = HandshakeNegotiator.Negotiate(client, server);
 
-            Assert.AreEqual(IncompatibleReason.NoCommonFormat, result.Reason);
+            Assert.AreEqual(IncompatibilityReason.NoCommonFormat, result.IncompatibilityReason);
         }
 
         [Test]
@@ -265,7 +265,7 @@ namespace MXR.SDK.Protocol.Tests {
         [Test]
         public void HandshakeResult_IncompatibleRequiresReason() {
             Assert.Throws<System.ArgumentException>(() =>
-                HandshakeResult.CreateIncompatible(IncompatibleReason.None, "error"));
+                HandshakeResult.CreateIncompatible(IncompatibilityReason.None, "error"));
         }
 
         [Test]

@@ -19,7 +19,7 @@ namespace MXR.SDK.Protocol.Handshake {
     /// <summary>
     /// Why a handshake is incompatible. Tells support which side needs an update.
     /// </summary>
-    public enum IncompatibleReason {
+    public enum IncompatibilityReason {
         /// <summary>
         /// The handshake is compatible.
         /// </summary>
@@ -51,9 +51,9 @@ namespace MXR.SDK.Protocol.Handshake {
         public Compatibility Compatibility { get; }
 
         /// <summary>
-        /// Why the handshake is incompatible; <see cref="IncompatibleReason.None"/> when compatible.
+        /// Why the handshake is incompatible; <see cref="IncompatibilityReason.None"/> when compatible.
         /// </summary>
-        public IncompatibleReason Reason { get; }
+        public IncompatibilityReason IncompatibilityReason { get; }
 
         /// <summary>
         /// Human-readable reason when <see cref="Compatibility"/> is incompatible.
@@ -77,14 +77,14 @@ namespace MXR.SDK.Protocol.Handshake {
 
         HandshakeResult(
             Compatibility compatibility,
-            IncompatibleReason reason,
+            IncompatibilityReason incompatibilityReason,
             string error,
             int effectiveProtocol,
             string selectedFormat,
             IEnvelopeCodec postHelloCodec
         ) {
             Compatibility = compatibility;
-            Reason = reason;
+            IncompatibilityReason = incompatibilityReason;
             Error = error;
             EffectiveProtocol = effectiveProtocol;
             SelectedFormat = selectedFormat;
@@ -109,7 +109,7 @@ namespace MXR.SDK.Protocol.Handshake {
 
             return new HandshakeResult(
                 Compatibility.Compatible,
-                IncompatibleReason.None,
+                IncompatibilityReason.None,
                 null,
                 effectiveProtocol,
                 selectedFormat,
@@ -119,8 +119,8 @@ namespace MXR.SDK.Protocol.Handshake {
         /// <summary>
         /// Creates an incompatible handshake result.
         /// </summary>
-        public static HandshakeResult CreateIncompatible(IncompatibleReason reason, string error) {
-            if (reason == IncompatibleReason.None) {
+        public static HandshakeResult CreateIncompatible(IncompatibilityReason reason, string error) {
+            if (reason == IncompatibilityReason.None) {
                 throw new ArgumentException("An incompatible result needs a reason.", nameof(reason));
             }
 

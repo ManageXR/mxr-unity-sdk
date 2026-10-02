@@ -154,25 +154,25 @@ namespace MXR.SDK.Protocol.Handshake {
             var effectiveProtocol = Math.Min(client.Protocol, server.Protocol);
             if (server.Protocol < server.MinProtocol) {
                 return HandshakeResult.CreateIncompatible(
-                    IncompatibleReason.AdminAppTooOld,
+                    IncompatibilityReason.AdminAppTooOld,
                     $"Admin App hello protocol {server.Protocol} is below its minProtocol {server.MinProtocol}. Update the Admin App.");
             }
 
             if (effectiveProtocol < client.MinProtocol) {
                 return HandshakeResult.CreateIncompatible(
-                    IncompatibleReason.AdminAppTooOld,
+                    IncompatibilityReason.AdminAppTooOld,
                     $"Admin App speaks protocol {server.Protocol}; this SDK requires at least {client.MinProtocol}. Update the Admin App.");
             }
 
             if (effectiveProtocol < server.MinProtocol) {
                 return HandshakeResult.CreateIncompatible(
-                    IncompatibleReason.SdkTooOld,
+                    IncompatibilityReason.SdkTooOld,
                     $"This SDK speaks protocol {client.Protocol}; the Admin App requires at least {server.MinProtocol}. Update the SDK.");
             }
 
             if (!TrySelectFormat(client.Formats, server.Formats, out var selectedFormat, out var postHelloCodec)) {
                 return HandshakeResult.CreateIncompatible(
-                    IncompatibleReason.NoCommonFormat,
+                    IncompatibilityReason.NoCommonFormat,
                     $"No common payload format. SDK offers [{JoinFormats(client.Formats)}]; Admin App offers [{JoinFormats(server.Formats)}].");
             }
 
