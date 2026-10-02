@@ -1,0 +1,20 @@
+name: Protocol tests
+on:
+  pull_request:
+    branches:
+      - v2
+      - master
+  push:
+    branches:
+      - v2
+jobs:
+  test:
+    name: dotnet test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+      - name: Run protocol tests
+        run: dotnet test dotnet/MXR.SDK.Protocol.sln --nologo --configuration Release
