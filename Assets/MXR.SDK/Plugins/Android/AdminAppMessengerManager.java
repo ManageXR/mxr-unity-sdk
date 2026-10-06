@@ -247,6 +247,11 @@ public class AdminAppMessengerManager {
         return sendMessage(AdminAppMessageTypes.LOG_ANALYTICS_EVENT, eventJson);
     }
 
+    public boolean runNetworkTestAsync(boolean forceRerun) {
+        String json = forceRerun ? "{\"forceRerun\":true}" : "{\"forceRerun\":false}";
+        return sendMessage(AdminAppMessageTypes.RUN_NETWORK_TEST, json);
+    }
+
     public boolean sendMessage(int what) {
         return sendMessage(what, null);
     }
