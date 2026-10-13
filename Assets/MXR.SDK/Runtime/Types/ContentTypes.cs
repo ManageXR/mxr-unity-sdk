@@ -265,5 +265,13 @@ namespace MXR.SDK {
         /// The date, in MS, in which a shared app has expired 
         /// </summary>
         public long expirationTimestamp;
+
+        /// <summary>
+        /// How the app is sourced and installed: MANAGED, EXTERNAL or META_HORIZON_STORE.
+        /// Defaults to UNKNOWN when the Admin App omits the field (builds that pre-date it)
+        /// or sends a value this SDK does not recognise. See <see cref="RuntimeAppType"/>.
+        /// </summary>
+        [JsonConverter(typeof(TolerantStringEnumConverter))]
+        public RuntimeAppType appVersionType = RuntimeAppType.UNKNOWN;
     }
 }

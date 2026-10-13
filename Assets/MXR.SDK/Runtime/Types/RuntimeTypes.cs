@@ -728,6 +728,38 @@ namespace MXR.SDK {
     }
 
     /// <summary>
+    /// Discriminates how an app in the runtime settings is sourced and installed.
+    /// Mirrors the Admin App's <c>App.RuntimeAppType</c> and the value mighty-api
+    /// writes to <c>appVersionType</c> on every app in the runtime settings.
+    /// </summary>
+    [Serializable]
+    [JsonConverter(typeof(TolerantStringEnumConverter))]
+    public enum RuntimeAppType {
+        /// <summary>
+        /// The Admin App did not report a type. Either the Admin App build pre-dates
+        /// the <c>appVersionType</c> field or it sent a value this SDK does not know.
+        /// Consumers should treat this as "no information" and keep existing behaviour.
+        /// </summary>
+        UNKNOWN = -1,
+
+        /// <summary>
+        /// An APK uploaded to ManageXR. The Admin App downloads and installs it.
+        /// </summary>
+        MANAGED,
+
+        /// <summary>
+        /// An app registered by package name only. ManageXR never installs it;
+        /// it is present only if it was installed on the device by other means.
+        /// </summary>
+        EXTERNAL,
+
+        /// <summary>
+        /// An app installed by Meta through the Horizon Store managed-app flow.
+        /// </summary>
+        META_HORIZON_STORE
+    }
+
+    /// <summary>
     /// Splash screen settings for the homescreen
     /// Future feature. Currently not supported.
     /// </summary>
