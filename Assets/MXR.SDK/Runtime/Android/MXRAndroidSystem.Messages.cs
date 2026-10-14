@@ -27,6 +27,7 @@ namespace MXR.SDK {
             public const int PREPARE_FOR_TERMINATION = 24000;
             public const int REQUEST_USER_IDENTITY = 26;
             public const int USER_IDENTITY_RESPONSE = 26000;
+            public const int NETWORK_TEST_RESULTS = 30000;
         }
 
         private void OnMessageFromAdminApp(int what, string json) {
@@ -75,6 +76,9 @@ namespace MXR.SDK {
                     break;
                 case AdminAppMessageTypes.REQUEST_USER_IDENTITY:
                     HandleUserIdentityRequest(json);
+                    break;
+                case AdminAppMessageTypes.NETWORK_TEST_RESULTS:
+                    HandleNetworkTestResults(json);
                     break;
                 default:
                     LogIfEnabled(LogType.Warning, $"Unknown message type received: {what}");
@@ -245,6 +249,15 @@ namespace MXR.SDK {
                 LogIfEnabled(LogType.Error, $"JSON deserialization error in HandleCastingCode: {ex.Message}");
             } catch (Exception ex) {
                 LogIfEnabled(LogType.Error, $"Unexpected error in HandleCastingCode: {ex.GetType().Name}: {ex.Message}");
+            }
+        }
+
+        private void HandleNetworkTestResults(string json) {
+            try {
+                OnNetworkTestResults?.Invoke(json);
+                LogIfEnabled(LogType.Log, "NetworkTestResults received.");
+            } catch (Exception ex) {
+                LogIfEnabled(LogType.Error, $"Exception in OnNetworkTestResults event: {ex.GetType().Name}: {ex.Message}");
             }
         }
 

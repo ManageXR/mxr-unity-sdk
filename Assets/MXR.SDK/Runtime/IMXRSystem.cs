@@ -139,6 +139,12 @@ namespace MXR.SDK {
         /// </summary>
         event Action OnTerminationNotification;
 
+        /// <summary>
+        /// Event fired when network test results are received from the admin app.
+        /// Payload is the raw JSON string containing SSID, test results, and CDN speed.
+        /// </summary>
+        event Action<string> OnNetworkTestResults;
+
         /// <summary>Fired when the Admin App asks the Home Screen to collect a self-reported identity.</summary>
         event Action<UserIdentityRequest> OnUserIdentityRequest;
 
@@ -301,6 +307,13 @@ namespace MXR.SDK {
         /// A response will be received via the <see cref="OnCastingCodeStatusChanged"/> event.
         /// </summary>
         void RequestCastingCode();
+
+        /// <summary>
+        /// Requests the admin app to run network connectivity tests.
+        /// Results are received via the <see cref="OnNetworkTestResults"/> event.
+        /// </summary>
+        /// <param name="forceRerun">If true, bypasses cached results and runs fresh tests</param>
+        void RunNetworkTest(bool forceRerun = false);
 
         /// <summary>
         /// Stops a currently active casting session.
