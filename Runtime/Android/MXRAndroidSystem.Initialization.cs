@@ -39,6 +39,7 @@ namespace MXR.SDK {
 
                 if (InitFromFile(filePath)) {
                     LogIfEnabled(LogType.Log, "Initialized RuntimeSettingsSummary using external json file. ");
+                    RepairCacheFile(_cachedRuntimeSettingsSummaryPath, lastRuntimeSettingsSummaryJSON);
                     return;
                 }
             }
@@ -131,6 +132,7 @@ namespace MXR.SDK {
 
                 if (InitFromFile(filePath)) {
                     LogIfEnabled(LogType.Log, "Initialized DeviceStatus using external json file. ");
+                    RepairCacheFile(_cachedDeviceStatusPath, lastDeviceStatusJSON);
                     return;
                 }
             }
@@ -161,6 +163,21 @@ namespace MXR.SDK {
 
             LogIfEnabled(LogType.Log, "Invoking RefreshDeviceStatus to initialize DeviceStatus using MXR Admin App");
             RefreshDeviceStatus();
+        }
+
+        /// <summary>
+        /// Rewrites the cache file at <paramref name="cachePath"/> with <paramref name="contents"/>
+        /// when it holds anything else. The message handlers skip the cache write for a payload
+        /// equal to the one loaded at launch, so a cache that disagrees with the external file
+        /// is brought in line here (ENG-5466).
+        /// </summary>
+        private void RepairCacheFile(string cachePath, string contents) {
+            if (!CacheFile.Differs(cachePath, contents)) {
+                return;
+            }
+
+            LogIfEnabled(LogType.Log, $"Rewriting cache file {cachePath} from external json file.");
+            AtomicWriteAllText(cachePath, contents);
         }
 
         private bool DeserializeFromFile<T>(string filePath, out string contents, out T value) {
