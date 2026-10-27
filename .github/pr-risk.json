@@ -1,0 +1,40 @@
+{
+  "highRisk": [
+    {
+      "name": "Admin App IPC",
+      "paths": [
+        "Assets/MXR.SDK/Plugins/Android/**",
+        "Assets/MXR.SDK/Runtime/Android/**",
+        "!**/Tests/**"
+      ]
+    },
+    {
+      "name": "Wire types and public API",
+      "paths": [
+        "Assets/MXR.SDK/Runtime/Types/**",
+        "Assets/MXR.SDK/Runtime/IMXRSystem.cs",
+        "Assets/MXR.SDK/Runtime/MXRManager.cs",
+        "Assets/MXR.SDK/**/*.asmdef",
+        "!**/Tests/**"
+      ]
+    },
+    {
+      "name": "Startup and storage paths",
+      "paths": [
+        "Assets/MXR.SDK/Runtime/Utils/**",
+        "!**/Tests/**"
+      ]
+    },
+    {
+      "name": "Package release",
+      "paths": [
+        "Assets/MXR.SDK/package.json",
+        "!**/Tests/**"
+      ]
+    }
+  ],
+  "sizeExclude": [
+    "*.meta",
+    "packages-lock.json"
+  ]
+}
