@@ -1,0 +1,18 @@
+name: PR Risk Label
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, edited]
+  # Chomper posts a `chomper:reviewed` marker comment; re-classify so the Chomper line updates (ENG-5763).
+  issue_comment:
+    types: [created, edited]
+jobs:
+  pr-risk:
+    if: github.event_name == 'pull_request' || (github.event.issue.pull_request && contains(github.event.comment.body, 'chomper:reviewed'))
+    # No concurrency here: the shared workflow owns group pr-risk-<PR>, and a caller in the same group deadlocks.
+    uses: ManageXR/mighty-actions/.github/workflows/pr-risk.yml@main
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+      statuses: write
+      id-token: write
