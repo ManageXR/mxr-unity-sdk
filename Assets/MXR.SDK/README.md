@@ -109,6 +109,25 @@ __1.__ [__Package Visibilty__](https://developer.android.com/training/package-vi
 This is for querying information about other apps installed on the device. Since the MXR SDK heavily relies on the ManageXR Admin App (installed by the Device Setup Tool), granting this permission is critical. To do this, add the `QUERY_ALL_PACKAGES` to your manifest:  
 `<uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />`
 
+The package also ships `AdminAppQueries.androidlib`, which merges a `<queries>` list of Admin App package names into the app manifest. If that library does not merge, paste the same list into `Assets/Plugins/Android/AndroidManifest.xml`:
+
+```xml
+<queries>
+    <package android:name="com.mightyimmersion.mightyplatform.adminapp.dev" />
+    <package android:name="com.mightyimmersion.mightyplatform.adminapp.dev.nohome" />
+    <package android:name="com.mightyimmersion.mightyplatform.adminapp.dev.pico" />
+    <package android:name="com.mightyimmersion.mightyplatform.adminapp.dev.pico2" />
+    <package android:name="com.mightyimmersion.mightyplatform.adminapp.prod" />
+    <package android:name="com.mightyimmersion.mightyplatform.adminapp.prod.nohome" />
+    <package android:name="com.mightyimmersion.mightyplatform.adminapp.prod.pico" />
+    <package android:name="com.mightyimmersion.mightyplatform.adminapp.prod.pico2" />
+    <package android:name="com.mightyimmersion.mightyplatform.adminapp.axr" />
+    <package android:name="com.mightyimmersion.mightyplatform.adminapp.axr.nohome" />
+    <package android:name="com.mightyimmersion.mightyplatform.adminapp.axr.pico" />
+    <package android:name="com.mightyimmersion.mightyplatform.adminapp.axr.pico2" />
+</queries>
+```
+
 __2.__ [__External Storage Manager__](https://developer.android.com/reference/android/Manifest.permission#MANAGE_EXTERNAL_STORAGE)  
 This allows the SDK to access external files on the device. The SDK needs to access external files created by the ManageXR Admin App to function properly. 
 The ManageXR Admin App stores files in the `MightyImmersion` directory in the SD card root that requires this permission. 

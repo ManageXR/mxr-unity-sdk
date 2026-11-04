@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.mxr.unity.sdk.adminappqueries">
+    <!-- Android 11+ hides other apps unless they are named here.
+         These are the Admin App ids NativeUtils will bind. Preload builds are excluded. -->
+    <queries>
+        <package android:name="com.mightyimmersion.mightyplatform.adminapp.dev" />
+        <package android:name="com.mightyimmersion.mightyplatform.adminapp.dev.nohome" />
+        <package android:name="com.mightyimmersion.mightyplatform.adminapp.dev.pico" />
+        <package android:name="com.mightyimmersion.mightyplatform.adminapp.dev.pico2" />
+        <package android:name="com.mightyimmersion.mightyplatform.adminapp.prod" />
+        <package android:name="com.mightyimmersion.mightyplatform.adminapp.prod.nohome" />
+        <package android:name="com.mightyimmersion.mightyplatform.adminapp.prod.pico" />
+        <package android:name="com.mightyimmersion.mightyplatform.adminapp.prod.pico2" />
+        <package android:name="com.mightyimmersion.mightyplatform.adminapp.axr" />
+        <package android:name="com.mightyimmersion.mightyplatform.adminapp.axr.nohome" />
+        <package android:name="com.mightyimmersion.mightyplatform.adminapp.axr.pico" />
+        <package android:name="com.mightyimmersion.mightyplatform.adminapp.axr.pico2" />
+    </queries>
+</manifest>
