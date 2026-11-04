@@ -19,6 +19,8 @@ namespace MXR.SDK.Transport {
     /// <see cref="TryReadNext"/> yields each later ack, snapshot, push, or close.
     /// </summary>
     public sealed class SocketSession : IDisposable {
+        const string TAG = "SocketSession";
+
         // Same close reasons as the Admin App SocketIpcTransport.
         internal const string Epipe = "epipe";
         internal const string Io = "io";
@@ -180,6 +182,37 @@ namespace MXR.SDK.Transport {
 
             next = OnFrame(((FrameRead.Decoded)read).Body);
             return true;
+        }
+
+        /// <summary>
+        /// Handshakes, subscribes to the three state channels, and reads until the socket closes.
+        /// </summary>
+        public void Run(Action<string> log) {
+            if (log == null) {
+                throw new ArgumentNullException(nameof(log));
+            }
+
+            try {
+                var handshake = Handshake();
+                if (handshake.Compatibility != Compatibility.Compatible) {
+                    log(TAG + " incompatible " + handshake.Error);
+                    return;
+                }
+
+                Subscribe(StateChannelNames.RuntimeSettings);
+                Subscribe(StateChannelNames.DeviceStatus);
+                Subscribe(StateChannelNames.DeviceData);
+
+                SessionEvent next;
+                while (TryReadNext(out next)) {
+                    Log(log, next);
+                    if (next.Kind == SessionEventKind.Closed || next.Kind == SessionEventKind.Incompatible) {
+                        return;
+                    }
+                }
+            } catch (Exception ex) {
+                log(TAG + " " + ex.Message);
+            }
         }
 
         /// <summary>
@@ -468,6 +501,35 @@ namespace MXR.SDK.Transport {
             } catch (JsonException) {
                 return false;
             }
+        }
+
+        static void Log(Action<string> log, SessionEvent next) {
+            if (next.Kind == SessionEventKind.Snapshot) {
+                log(TAG + " snapshot " + next.Channel + " " + GetString(next.Payload));
+                return;
+            }
+
+            if (next.Kind == SessionEventKind.Push) {
+                log(TAG + " push " + next.Channel + " " + GetString(next.Payload));
+                return;
+            }
+
+            if (next.Kind == SessionEventKind.Closed) {
+                log(TAG + " closed " + next.Error);
+                return;
+            }
+
+            if (next.Kind == SessionEventKind.ChannelFailed || next.Kind == SessionEventKind.Incompatible) {
+                log(TAG + " " + next.Kind + " " + next.Channel + " " + next.Error);
+            }
+        }
+
+        static string GetString(byte[] payload) {
+            if (payload == null || payload.Length == 0) {
+                return "";
+            }
+
+            return Encoding.UTF8.GetString(payload);
         }
 
         static string FormatChannelError(ErrorPayload error) {
