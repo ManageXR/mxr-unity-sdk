@@ -15,8 +15,11 @@
     <Compile Include="../../Assets/MXR.SDK/Runtime/Transport/ILibc.cs" />
     <Compile Include="../../Assets/MXR.SDK/Runtime/Transport/LibcSocketStream.cs" />
     <Compile Include="../../Assets/MXR.SDK/Runtime/Transport/FrameReader.cs" />
+    <Compile Include="../../Assets/MXR.SDK/Runtime/Transport/SocketSession.cs" />
+    <Compile Include="../../Assets/MXR.SDK/Runtime/Transport/SocketSessionTypes.cs" />
     <Compile Include="../../Assets/MXR.SDK/Tests/Transport/LibcSocketStreamTests.cs" />
     <Compile Include="../../Assets/MXR.SDK/Tests/Transport/FrameReaderTests.cs" />
+    <Compile Include="../../Assets/MXR.SDK/Tests/Transport/SocketSessionTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../MXR.SDK.Protocol/MXR.SDK.Protocol.csproj" />
