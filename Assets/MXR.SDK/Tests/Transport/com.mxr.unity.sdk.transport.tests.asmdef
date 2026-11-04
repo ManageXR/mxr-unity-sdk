@@ -1,7 +1,8 @@
 {
     "name": "com.mxr.unity.sdk.transport.tests",
     "references": [
-        "com.mxr.unity.sdk"
+        "com.mxr.unity.sdk",
+        "com.mxr.unity.sdk.protocol"
     ],
     "includePlatforms": [
         "Editor"
