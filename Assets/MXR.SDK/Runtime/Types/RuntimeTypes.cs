@@ -832,7 +832,7 @@ namespace MXR.SDK {
 
         /// <summary>
         /// How precisely the device location is collected: "off", "approximate" or "precise".
-        /// Null means location is collected.
+        /// Null means precise.
         /// </summary>
         public string location;
     }

@@ -38,12 +38,15 @@ namespace MXR.SDK.Tests {
         }
 
         [Test]
-        public void DataCollection_WifiNetworkNameFalse_ReadsAsFalse() {
-            var summary = Deserialize(
-                "{\"organization\":{\"dataCollection\":{\"wifiNetworkName\":false,\"location\":\"approximate\"}}}");
+        public void DataCollection_ExplicitValues_ReadFromContractKeys() {
+            var summary = Deserialize("{\"organization\":{\"dataCollection\":{\"ipAddress\":false," +
+                "\"macAddress\":true,\"wifiNetworkName\":false,\"location\":\"approximate\"}}}");
 
-            Assert.AreEqual(false, summary.organization.dataCollection.wifiNetworkName);
-            Assert.AreEqual("approximate", summary.organization.dataCollection.location);
+            var dataCollection = summary.organization.dataCollection;
+            Assert.AreEqual(false, dataCollection.ipAddress);
+            Assert.AreEqual(true, dataCollection.macAddress);
+            Assert.AreEqual(false, dataCollection.wifiNetworkName);
+            Assert.AreEqual("approximate", dataCollection.location);
         }
 
         [Test]
