@@ -37,6 +37,32 @@ namespace MXR.SDK.Tests {
             Assert.IsFalse(summary.IsQuickBoundarySetupEnabled);
         }
 
+        [Test]
+        public void DataCollection_ExplicitValues_ReadFromContractKeys() {
+            var summary = Deserialize("{\"organization\":{\"dataCollection\":{\"ipAddress\":false," +
+                "\"macAddress\":true,\"wifiNetworkName\":false,\"location\":\"approximate\"}}}");
+
+            var dataCollection = summary.organization.dataCollection;
+            Assert.AreEqual(false, dataCollection.ipAddress);
+            Assert.AreEqual(true, dataCollection.macAddress);
+            Assert.AreEqual(false, dataCollection.wifiNetworkName);
+            Assert.AreEqual("approximate", dataCollection.location);
+        }
+
+        [Test]
+        public void DataCollection_Absent_IsNull() {
+            var summary = Deserialize("{\"organization\":{\"id\":\"org\"}}");
+
+            Assert.IsNull(summary.organization.dataCollection);
+        }
+
+        [Test]
+        public void DataCollection_MissingKey_IsNull() {
+            var summary = Deserialize("{\"organization\":{\"dataCollection\":{\"ipAddress\":false}}}");
+
+            Assert.IsNull(summary.organization.dataCollection.wifiNetworkName);
+        }
+
         private static RuntimeSettingsSummary Deserialize(string json) =>
             JsonConvert.DeserializeObject<RuntimeSettingsSummary>(json);
     }
