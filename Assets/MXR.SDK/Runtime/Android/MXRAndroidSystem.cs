@@ -82,6 +82,7 @@ namespace MXR.SDK {
         public event Action<LaunchMXRHomeScreenCommandData> OnLaunchMXRHomeScreenCommand;
         public event Action OnHomeScreenStateRequest;
         public event Action OnTerminationNotification;
+        public event Action<string> OnNetworkTestResults;
         public event Action<UserIdentityRequest> OnUserIdentityRequest;
 
         private string lastWifiNetworksJSON = string.Empty;
@@ -451,6 +452,16 @@ namespace MXR.SDK {
             } else {
                 LogIfEnabled(LogType.Warning,
                     "RequestCastingCode ignored. System is not available (not bound to messenger.");
+            }
+        }
+
+        public void RunNetworkTest(bool forceRerun = false) {
+            if (_messenger.IsBoundToService) {
+                LogIfEnabled(LogType.Log, "RunNetworkTest called. Invoking over JNI: runNetworkTestAsync");
+                _messenger.Call<bool>("runNetworkTestAsync", forceRerun);
+            } else {
+                LogIfEnabled(LogType.Warning,
+                    "RunNetworkTest ignored. System is not available (not bound to messenger.");
             }
         }
 
