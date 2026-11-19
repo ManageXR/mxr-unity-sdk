@@ -801,6 +801,40 @@ namespace MXR.SDK {
         /// The name of the organization
         /// </summary>
         public string name;
+
+        /// <summary>
+        /// The data types the organization collects from its devices.
+        /// Null when the Admin App did not send it, which means every data type is collected.
+        /// </summary>
+        public DataCollectionSettings dataCollection;
+    }
+
+    /// <summary>
+    /// The data types an organization collects from its devices.
+    /// A null field means the data type is collected. Only an explicit false turns off a boolean field.
+    /// </summary>
+    [Serializable]
+    public class DataCollectionSettings {
+        /// <summary>
+        /// Whether the device IP address is collected
+        /// </summary>
+        public bool? ipAddress;
+
+        /// <summary>
+        /// Whether the device MAC address is collected
+        /// </summary>
+        public bool? macAddress;
+
+        /// <summary>
+        /// Whether the Wi-Fi network name (SSID) is collected
+        /// </summary>
+        public bool? wifiNetworkName;
+
+        /// <summary>
+        /// How precisely the device location is collected: "off", "approximate" or "precise".
+        /// Null means precise.
+        /// </summary>
+        public string location;
     }
 
     /// <summary>
