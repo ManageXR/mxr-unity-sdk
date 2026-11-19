@@ -57,10 +57,14 @@ namespace MXR.SDK.Tests {
         }
 
         [Test]
-        public void DataCollection_MissingKey_IsNull() {
-            var summary = Deserialize("{\"organization\":{\"dataCollection\":{\"ipAddress\":false}}}");
+        public void DataCollection_MissingKeys_AreNull() {
+            var summary = Deserialize("{\"organization\":{\"dataCollection\":{}}}");
 
-            Assert.IsNull(summary.organization.dataCollection.wifiNetworkName);
+            var dataCollection = summary.organization.dataCollection;
+            Assert.IsNull(dataCollection.ipAddress);
+            Assert.IsNull(dataCollection.macAddress);
+            Assert.IsNull(dataCollection.wifiNetworkName);
+            Assert.IsNull(dataCollection.location);
         }
 
         private static RuntimeSettingsSummary Deserialize(string json) =>
